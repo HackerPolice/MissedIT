@@ -16,7 +16,6 @@
 enum class DamagePrediction : int {
 	justDamage = 0,
 	damage,
-
 };
 
 enum class EnemySelectionType : int {
@@ -24,11 +23,18 @@ enum class EnemySelectionType : int {
 	CLosestToCrosshair,
 };
 
+enum class DesireBones : int {
+	BONE_HEAD = 0,
+	UPPER_CHEST,
+	MIDDLE_CHEST,
+	LOWER_CHEST,
+	BONE_HIP,
+	LOWER_BODY,
+};
 enum class DrawingBackend : int {
     SURFACE = 0,
     IMGUI,
-
-    NUMBER_OF_TYPES
+    NUMBER_OF_TYPES,
 };
 
 enum class SmoothType : int
@@ -71,7 +77,7 @@ enum class ChamsType : int
 	GIB_GLASS,
 	Dog_Class,
 	CHAMS_FLAT,
-	FLAT,
+	Achivements,
 	NONE,
 };
 
@@ -192,6 +198,7 @@ enum class AntiAimRealType_Y : int
 	NONE,
 	Static,
 	Jitter,
+	Randome,
 };
 
 enum class AntiAimFakeType_y : int
@@ -199,6 +206,7 @@ enum class AntiAimFakeType_y : int
 	NONE,
 	Static,
 	Jitter,
+	Randome,
 };
 
 enum class AntiAimType_X : int
@@ -255,7 +263,8 @@ struct AimbotWeapon_t
 		 autoAimRealDistance,
 		 autoSlow,
 		 predEnabled,
-		 scopeControlEnabled;
+		 scopeControlEnabled,
+		 TriggerBot;
 	int engageLockTTR = 700;
 	Bone bone = BONE_HEAD;
 	SmoothType smoothType = SmoothType::SLOW_END;
@@ -324,7 +333,8 @@ struct AimbotWeapon_t
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
 			this->autoAimRealDistance == another.autoAimRealDistance &&
-			this->scopeControlEnabled == another.scopeControlEnabled;
+			this->scopeControlEnabled == another.scopeControlEnabled &&
+			this->TriggerBot == another.TriggerBot;
 	}
 } const defaultSettings{};
 
@@ -339,40 +349,30 @@ struct RagebotWeapon_t
 		 autoScopeEnabled,
 		 autoSlow,
 		 scopeControlEnabled,
-		 HitChanceOverwrriteEnable,
 		 DoubleFire;
-	float RagebotautoAimFov = 180.f,
-		  autoWallValue = 10.0f,
-		  visibleDamage = 50.f,
-		  HitChance = 20.f,
-		  HitchanceOverwrriteValue = 1.f;
+	float MinDamage = 50.f,
+		  HitChance = 20.f;
 	DamagePrediction DmagePredictionType = DamagePrediction::damage;
 	EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
-	bool desiredBones[31];
+	bool desireBones[6];
 	
 
 	bool operator == (const RagebotWeapon_t& Ragebotanother) const
 	{
-		for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-		{
-			if( this->desiredBones[bone] != Ragebotanother.desiredBones[bone] )
+		for (int bone = 0; bone <= 5; bone++) // static bones
+			if( this->desireBones[bone] != Ragebotanother.desireBones[bone] )
 				return false;
-		}
 
 		return this->silent == Ragebotanother.silent &&
 			this->friendly == Ragebotanother.friendly &&
 			this->closestBone == Ragebotanother.closestBone &&
-			this->RagebotautoAimFov == Ragebotanother.RagebotautoAimFov &&
 			this->autoPistolEnabled == Ragebotanother.autoPistolEnabled &&
 			this->autoShootEnabled == Ragebotanother.autoShootEnabled &&
 			this->autoScopeEnabled == Ragebotanother.autoScopeEnabled &&
 			this->HitChanceEnabled == Ragebotanother.HitChanceEnabled &&
-			this->autoWallValue == Ragebotanother.autoWallValue &&
-			this->visibleDamage == Ragebotanother.visibleDamage &&
+			this->MinDamage == Ragebotanother.MinDamage &&
 			this->autoSlow == Ragebotanother.autoSlow &&
 			this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 
-			this->HitChanceOverwrriteEnable == Ragebotanother.HitChanceOverwrriteEnable &&
-			this->HitchanceOverwrriteValue == Ragebotanother.HitchanceOverwrriteValue &&
 			this->HitChance == Ragebotanother.HitChance && 
 			this->DmagePredictionType == Ragebotanother.DmagePredictionType && 
 			this->enemySelectionType == Ragebotanother.enemySelectionType && 
@@ -555,6 +555,7 @@ namespace Settings
                                           false, false, false, false, false, // left leg
                                           false, false, false, false, false  // right leg
             };
+			
             inline bool engageLock = false;
             inline bool engageLockTR = false; // Target Reacquisition ( re-target after getting a kill when spraying ).
             inline int engageLockTTR = 700; // Time to Target Reacquisition in ms
@@ -670,7 +671,7 @@ namespace Settings
 
 	namespace Ragebot
 	{
-		inline float visibleDamage = 50.f;
+		inline float MinDamage = 50.f;
 		inline bool enabled = false;
         inline bool silent = false;
         inline bool friendly = false;
@@ -682,18 +683,7 @@ namespace Settings
 		namespace AutoAim
 		{
 			inline bool enabled = false;
-            inline float fov = 180.0f;
-            inline bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
-                                          true, true, true, true, true, true, true, // left arm
-                                          true, true, true, true, true, true, true, // right arm
-                                          true, true, true, true, true, // left leg
-                                          true, true, true, true, true  // right leg
-            };
-		}
-
-		namespace AutoWall
-		{
-			inline float value = 15.0f;
+			inline bool desireBones[] = {true, true, true, true, true, true};
 		}
 
 		namespace AutoPistol
@@ -735,6 +725,11 @@ namespace Settings
 			inline bool enable = false;
 		}
 
+		namespace backTrack
+		{
+			inline bool enabled = false;
+		}
+
 		inline std::unordered_map<ItemDefinitionIndex, RagebotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
@@ -746,6 +741,11 @@ namespace Settings
 	{
 		inline bool enabled = false;
 		inline ButtonCode_t key = ButtonCode_t::KEY_LALT;
+
+		namespace Magnet
+		{
+			inline bool enabled = false;
+		}
 
 		namespace Filters
 		{
@@ -763,7 +763,7 @@ namespace Settings
 
 		namespace RandomDelay
 		{
-			inline bool enabled = true;
+			inline bool enabled = false;
 			inline int lowBound = 20; // in ms
 			inline int highBound = 35;// in ms
 			inline int lastRoll = 0;
@@ -797,6 +797,7 @@ namespace Settings
 		namespace LegitAntiAim 
 		{
 			inline bool enable = false;
+			inline bool OverWatchProof = true;
 			inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
 			inline bool inverted = false;
 			inline float RealPercentage = 30.f;
@@ -831,7 +832,6 @@ namespace Settings
 	namespace Resolver
 	{
 		inline bool resolveAll = false;
-		inline bool resolverNumbus = false;
 	}
 
 	namespace ESP

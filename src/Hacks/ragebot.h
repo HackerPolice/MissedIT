@@ -25,11 +25,8 @@ namespace Ragebot {
 
 void Ragebot::UpdateValues()
 {
-    if (!Settings::Ragebot::enabled)
+    if (!Settings::Ragebot::enabled || !engine->IsInGame())
       return;
-      
-	  if (!engine->IsInGame())
-		  return;
 		
     C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer->GetAlive())
@@ -48,23 +45,19 @@ void Ragebot::UpdateValues()
 
     Settings::Ragebot::silent = currentWeaponSetting.silent;
     Settings::Ragebot::friendly = currentWeaponSetting.friendly;
-    Settings::Ragebot::AutoAim::fov = currentWeaponSetting.RagebotautoAimFov;
     Settings::Ragebot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;
     Settings::Ragebot::AutoShoot::enabled = currentWeaponSetting.autoShootEnabled;
     Settings::Ragebot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
     Settings::Ragebot::HitChance::enabled = currentWeaponSetting.HitChanceEnabled;
     Settings::Ragebot::HitChance::value = currentWeaponSetting.HitChance;
-    Settings::Ragebot::HitChanceOverwrride::enable = currentWeaponSetting.HitChanceOverwrriteEnable;
-    Settings::Ragebot::HitChanceOverwrride::value = currentWeaponSetting.HitchanceOverwrriteValue;
-    Settings::Ragebot::AutoWall::value = currentWeaponSetting.autoWallValue;
-    Settings::Ragebot::visibleDamage = currentWeaponSetting.visibleDamage;
+    Settings::Ragebot::MinDamage = currentWeaponSetting.MinDamage;
     Settings::Ragebot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
     Settings::Ragebot::ScopeControl::enabled = currentWeaponSetting.scopeControlEnabled;
   	Settings::Ragebot::damagePrediction = currentWeaponSetting.DmagePredictionType;
 	  Settings::Ragebot::enemySelectionType = currentWeaponSetting.enemySelectionType;
-
-    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-		  Settings::Ragebot::AutoAim::desiredBones[bone] = currentWeaponSetting.desiredBones[bone];
+    
+    for (int bone = 0; bone < 6; bone++)
+		  Settings::Ragebot::AutoAim::desireBones[bone] = currentWeaponSetting.desireBones[bone];
 }
 
 

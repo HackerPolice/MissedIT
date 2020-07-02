@@ -99,8 +99,8 @@ static void RegisterTicks()
 
 void LagComp::CreateMove(CUserCmd *cmd)
 {
-	// if (!Settings::LagComp::enabled)
-	// 	return;
+	if (!Settings::Ragebot::backTrack::enabled)
+		return;
 
 	RemoveInvalidTicks();
 	RegisterTicks();

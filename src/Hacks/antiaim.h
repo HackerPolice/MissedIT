@@ -15,8 +15,7 @@ namespace AntiAim
     {
         inline bool alignBack = false, 
                     alignRight = false, 
-                    alignLeft = false,
-                    Bpressed = false;
+                    alignLeft = false;
     }
     
     inline bool bSend = true;

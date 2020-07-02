@@ -17,9 +17,9 @@
 	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
-	const char* chamsTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "NONE"  };
-	const char* ArmsTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "None" };
-	const char* WeaponTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "None" };
+	const char* chamsTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "Achivements","NONE"  };
+	const char* ArmsTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "Achivements", "None" };
+	const char* WeaponTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat","Achivements", "None" };
 	const char* SmokeTypes[] = { "Wireframe", "None" };
     const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
 	const char* SkyBoxes[] = {

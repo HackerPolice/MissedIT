@@ -28,25 +28,24 @@
 #include "../Hacks/lagcomp.h"
 
 bool CreateMove::sendPacket = true;
-QAngle CreateMove::lastTickViewAngles = QAngle(0, 0, 0);
+QAngle CreateMove::lastTickViewAngles = QAngle(0);
 
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 
-static void RandomMethod(CUserCmd *cmd)
+static void RandomMethod(CUserCmd *cmd, bool *sendPacket)
 {
 	PredictionSystem::StartPrediction(cmd);
 	Legitbot::CreateMove(cmd);
 	// auto ragebot = std::async(std::launch::async, Ragebot::CreateMove, cmd);
 	Ragebot::CreateMove(cmd);
+	Triggerbot::CreateMove(cmd);
 	LagComp::CreateMove(cmd);
 	AutoKnife::CreateMove(cmd);
 	// auto antiaim = std::async(std::launch::async, Ragebot::CreateMove, cmd);
-    AntiAim::CreateMove(cmd);
 	FakeLag::CreateMove(cmd);
-	ESP::CreateMove(cmd);
-	TracerEffect::CreateMove(cmd);
-	RagdollGravity::CreateMove(cvar);
-	PredictionSystem::EndPrediction();
+    AntiAim::CreateMove(cmd);
+
+	*sendPacket = CreateMove::sendPacket;
 }
 bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
@@ -74,16 +73,21 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
 
-		std::async(std::launch::async, RandomMethod, cmd); // Actions
-
+		std::async(std::launch::async, RandomMethod, cmd, sendPacket); // Actions
+		// RandomMethod(cmd);
+		
+		ESP::CreateMove(cmd);
+		TracerEffect::CreateMove(cmd);
+		RagdollGravity::CreateMove(cvar);
+		PredictionSystem::EndPrediction();
+		
 		EdgeJump::PostPredictionCreateMove(cmd);
 		NoFall::PostPredictionCreateMove(cmd);
 
-        *sendPacket = CreateMove::sendPacket;
+        // *sendPacket = CreateMove::sendPacket;
 
-        if (CreateMove::sendPacket) {
+        if (CreateMove::sendPacket)
             CreateMove::lastTickViewAngles = cmd->viewangles;
-        }
 	}
 
 	return false;

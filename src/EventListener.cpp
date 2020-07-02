@@ -12,7 +12,6 @@
 #include "interfaces.h"
 #include "SDK/IGameEvent.h"
 #include "settings.h"
-#include "Hacks/resolverNimbus.h"
 
 EventListener::EventListener(std::vector<const char*> events)
 {
@@ -36,10 +35,8 @@ void EventListener::FireGameEvent(IGameEvent* event)
     Eventlog::FireGameEvent(event);
     NameStealer::FireGameEvent(event);
     
-    if (Settings::Resolver::resolverNumbus)
-        ResolverNimbus::FireGameEvent(event);
-    else if (Settings::Resolver::resolveAll)
-        Resolver::FireGameEvent(event);
+    
+    Resolver::FireGameEvent(event);
 
     Spammer::FireGameEvent(event);
     ValveDSCheck::FireGameEvent(event);

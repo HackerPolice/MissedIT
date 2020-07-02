@@ -18,6 +18,7 @@ static void RageAntiAIm()
         "NONE",
         "Static",
         "Jitter",
+        "Random",
     };
 
     const char* RageAntiAimType[] = {

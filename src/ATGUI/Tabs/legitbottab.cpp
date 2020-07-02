@@ -8,6 +8,8 @@
 #include "../atgui.h"
 #include "../Windows/configs.h"
 #include "../Windows/colors.h"
+#include "../../Hacks/legitbot.h"
+#include "triggerbottab.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
@@ -63,6 +65,7 @@ static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
 static bool scopeControlEnabled = false;
+static bool TriggerBot = false;
 
 void UI::ReloadWeaponSettings()
 {
@@ -115,9 +118,12 @@ void UI::ReloadWeaponSettings()
 	autoSlow = Settings::Legitbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Legitbot::weapons.at(index).predEnabled;
 	scopeControlEnabled = Settings::Legitbot::weapons.at(index).scopeControlEnabled;
+	TriggerBot = Settings::Legitbot::weapons.at(index).TriggerBot;
 
 	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 		desiredBones[bone] = Settings::Legitbot::weapons.at(index).desiredBones[bone];
+
+	Legitbot::UpdateValues();
 }
 
 void UI::UpdateWeaponSettings()
@@ -155,7 +161,7 @@ void UI::UpdateWeaponSettings()
 			.autoSlow = autoSlow,
 			.predEnabled = predEnabled,
 			.scopeControlEnabled = scopeControlEnabled,
-
+			.TriggerBot = TriggerBot,
 			.engageLockTTR = engageLockTTR,
 			.bone = bone,
 			.smoothType = smoothType,
@@ -186,7 +192,9 @@ void UI::UpdateWeaponSettings()
 	{
 		Settings::Legitbot::weapons.erase(currentWeapon);
 		UI::ReloadWeaponSettings();
+		return;
 	}
+	Legitbot::UpdateValues();
 }
 
 void Legitbot::RenderTab()
@@ -238,7 +246,6 @@ void Legitbot::RenderTab()
 		ImGui::ListBoxFooter();
 	}
 	
-
 	ImGui::NextColumn();
 	{
 		for (int i = 0; i < 6; i++)
@@ -430,94 +437,72 @@ void Legitbot::RenderTab()
 			}
 			// END of Smooth type Selection
 
-			ImGui::Columns(1, nullptr, false);
-			{
-				ImGui::Spacing(); ImGui::Spacing();
+			if ( ImGui::Checkbox(XORSTR("Trigger Bot"), &TriggerBot) )
+				UI::UpdateWeaponSettings();
+			ImGui::Checkbox(XORSTR("Magnet"), &Settings::Triggerbot::Magnet::enabled);
+			/*
+			ImGui::Text(XORSTR("Keybind"));
+				ImGui::Separator();
+				ImGui::Columns(2, nullptr, true);
+				{
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::Text(XORSTR("Trigger Key"));
+				}
+				ImGui::NextColumn();
+				{
+					UI::KeyBindButton(&Settings::Triggerbot::key);
+				}
+				*/
+			ImGui::Spacing();
+			ImGui::Checkbox(XORSTR("Randome Delay"), &Settings::Triggerbot::RandomDelay::enabled);
+
+			if (Settings::Triggerbot::RandomDelay::enabled)
+			{	
+				ImGui::SameLine();
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat(XORSTR("##AUTOWALLDMG"), &MinDamage, 0, 100, XORSTR("Min Damage: %.0f")))
-					UI::UpdateWeaponSettings();
+				if (ImGui::BeginCombo(XORSTR("##RandomeDelay"), XORSTR("Random Min Max")))
+				{
+				
+					if( Settings::Triggerbot::RandomDelay::lastRoll != 0 )
+						ImGui::Text(XORSTR("Last delay: %dms"), Settings::Triggerbot::RandomDelay::lastRoll);
+					ImGui::Text(XORSTR("Minimum ms"));
+					ImGui::SliderInt(XORSTR("##TRIGGERRANDOMLOW"), &Settings::Triggerbot::RandomDelay::lowBound, 5, 220);
+					if( Settings::Triggerbot::RandomDelay::lowBound >= Settings::Triggerbot::RandomDelay::highBound )
+						Settings::Triggerbot::RandomDelay::highBound = Settings::Triggerbot::RandomDelay::lowBound + 1;
+					ImGui::Text(XORSTR("Maximum ms"));
+					ImGui::SliderInt(XORSTR("##TRIGGERRANDOMHIGH"), &Settings::Triggerbot::RandomDelay::highBound, (Settings::Triggerbot::RandomDelay::lowBound+1), 225);
+			
+					ImGui::EndCombo();
+				}
 				ImGui::PopItemWidth();
 			}
 
-			// SHOOT ASSIST FEATURES
-
-			ImGui::Spacing(); ImGui::Spacing();
-
-			ImGui::Columns(2, nullptr, false);
-			{
-
-				if (ImGui::Checkbox(XORSTR("Shoot Assist(Beta)"), &shootassist))
-				{
-					autoAimEnabled = true;
-					UI::UpdateWeaponSettings();
-				}
+			ImGui::Spacing();
+ 			ImGui::Checkbox(XORSTR("Auto Knife"), &Settings::AutoKnife::enabled);
+			ImGui::SameLine();
+ 			ImGui::PushItemWidth(-1);
+			if ( ImGui::BeginCombo(XORSTR("##FilterAutoKnife"),XORSTR("Filter Auto Knife")) )
+			{	
+				ImGui::Selectable(XORSTR("Enemies Auto Knife"), &Settings::AutoKnife::Filters::enemies, ImGuiSelectableFlags_DontClosePopups);
+ 				ImGui::Selectable(XORSTR("Allies Auto Knife"), &Settings::AutoKnife::Filters::allies, ImGuiSelectableFlags_DontClosePopups);
+				
+				ImGui::EndCombo();
 			}
-			ImGui::NextColumn();
+			ImGui::PopItemWidth();
+			if ( ImGui::BeginCombo(XORSTR("##Filter"),XORSTR("Filter")) )
 			{
-				if (shootassist)
-					ImGui::Text("Suggested Settings");
+				ImGui::Selectable(XORSTR("Enemies"), &Settings::Triggerbot::Filters::enemies, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Walls"), &Settings::Triggerbot::Filters::walls, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Head"), &Settings::Triggerbot::Filters::head, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Chest"), &Settings::Triggerbot::Filters::chest, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Legs"), &Settings::Triggerbot::Filters::legs, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Allies"), &Settings::Triggerbot::Filters::allies, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Smoke check"), &Settings::Triggerbot::Filters::smokeCheck, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Flash check"), &Settings::Triggerbot::Filters::flashCheck, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Stomach"), &Settings::Triggerbot::Filters::stomach, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::Selectable(XORSTR("Arms"), &Settings::Triggerbot::Filters::arms, ImGuiSelectableFlags_DontClosePopups);
+				ImGui::EndCombo();
 			}
-			ImGui::EndColumns();
-			
-			ImGui::Spacing(); ImGui::Spacing();
-
-			
-			if(shootassist) // suggested options with shoot assist
-			{
-				ImGui::Columns(2, nullptr, false);
-				{
-					ImGui::PushItemWidth(-1);
-					if( ImGui::SliderInt(XORSTR("##MinShotFire"), &minShotFire, 1, 20, XORSTR("Min Shot To fire : %.0f")) )
-						UI::UpdateWeaponSettings();
-				
-					ToolTip::Show("Min shot tp fire after the enemy killed to make sure that it is not looking fishy", ImGui::IsItemHoveredRect());
-					ImGui::PopItemWidth();
-
-					if (ImGui::Checkbox(XORSTR("Smoke Check"), &smokeCheck))
-						UI::UpdateWeaponSettings();
-
-					if (ImGui::Checkbox(XORSTR("Flash Check"), &flashCheck))
-						UI::UpdateWeaponSettings();
-				
-				}			
-				ImGui::NextColumn();
-				{
-					ImGui::Checkbox((XORSTR("No Aim Punch")), &Settings::View::NoAimPunch::enabled);
-					ToolTip::Show("Suggested features with Auto Shoot But turn it on only when your legitBot perfectly configured\n Otherwise you can caught in overwathc", ImGui::IsItemHoveredRect());
-
-					if(ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
-						UI::UpdateWeaponSettings();
-
-					ToolTip::Show("Suggested features with Auto Shoot But turn it on only when your legitBot perfectly configured\n Otherwise you can caught in overwathc", ImGui::IsItemHoveredRect());
-					if (ImGui::Checkbox(XORSTR("Distance-Based FOV"), &autoAimRealDistance))
-						UI::UpdateWeaponSettings();
-					
-				}
-				ImGui::EndColumns();
-				ImGui::Columns(1, nullptr, false);
-				{
-					ImGui::Spacing(); ImGui::Spacing();
-				
-					if ( ImGui::Checkbox(XORSTR("Hitchance Enable"), &hitchanceEnaled) ) 
-						UI::UpdateWeaponSettings();
-					
-					ImGui::SameLine();
-					ImGui::PushItemWidth(-1);
-					if( ImGui::SliderFloat(XORSTR("##HitChance"), &hitchance, 0.f, 100.f ,XORSTR("HitChance value : %.0f ")))
-						UI::UpdateWeaponSettings();
-					ImGui::PopItemWidth();
-				}
-				ImGui::Spacing(); ImGui::Spacing();
-				ImGui::Columns(1, nullptr, false);
-				{
-					ImGui::PushItemWidth(-1);
-					if(ImGui::SliderInt(XORSTR("##Shot Delay"), &shotDelay, 0, 200, XORSTR("Shot Delay : %.3f ms")))
-						UI::UpdateWeaponSettings();
-					ImGui::PopItemWidth();
-				}
-			}				
-			ToolTip::Show("Automatically Aim aim and shoot when \n when player in Under Your fov area", ImGui::IsItemHoveredRect());
-			//END SHoot Assist Feature
 		}
 		ImGui::EndChild();
 	}
@@ -529,6 +514,15 @@ void Legitbot::RenderTab()
 
 		ImGui::BeginChild(XORSTR("COL2"), ImVec2(0, 0), false);
 		{
+
+			ImGui::Columns(1, nullptr, false);
+			{
+				ImGui::PushItemWidth(-1);
+				if (ImGui::SliderFloat(XORSTR("##AUTOWALLDMG"), &MinDamage, 0, 100, XORSTR("Min Damage: %.0f")))
+					UI::UpdateWeaponSettings();
+				ImGui::PopItemWidth();
+			}
+			ImGui::Spacing(); ImGui::Spacing();
 			ImGui::Columns(2, nullptr, false);
 			{
 				if (ImGui::Checkbox(XORSTR("Aimkey Only"), &aimkeyOnly))
@@ -595,8 +589,6 @@ void Legitbot::RenderTab()
 					UI::UpdateWeaponSettings();
 				if (ImGui::Checkbox(XORSTR("Prediction"), &predEnabled))
 					UI::UpdateWeaponSettings();
-				if (ImGui::Checkbox(XORSTR("No Shoot"), &noShootEnabled))
-					UI::UpdateWeaponSettings();
 
 				switch (currentWeapon)
 				{
@@ -614,8 +606,6 @@ void Legitbot::RenderTab()
 					default:
 						if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled))
 							UI::UpdateWeaponSettings();
-						if (ImGui::Checkbox(XORSTR("Scope Control"), &scopeControlEnabled))
-							UI::UpdateWeaponSettings();
 				}
 
 				if (ImGui::Checkbox(XORSTR("Ignore Jump (Self)"), &ignoreJumpEnabled))
@@ -625,12 +615,13 @@ void Legitbot::RenderTab()
 			}
 
 			if (ImGui::Checkbox(XORSTR("Auto Slow"), &autoSlow))
-			{
 				UI::UpdateWeaponSettings();
-			}
+			
+			ImGui::Checkbox(XORSTR("Back Track"), &Settings::Ragebot::backTrack::enabled);
 			
 			ImGui::Columns(1, nullptr, false);
 			ImGui::Spacing(); ImGui::Spacing();
+
 			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Legitbot::weapons.find(currentWeapon) != Settings::Legitbot::weapons.end())
 			{
 				if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0)))
@@ -640,8 +631,20 @@ void Legitbot::RenderTab()
 				}
 			}
 			ImGui::EndChild();
+			/*
+			ImGui::BeginChild(XORSTR("TRIG1"), ImVec2(0, 0), true);
+			{
+				*/
+				
+/*
+				ImGui::EndChild();
+			}
+			*/
 		}
 	}
 	
+	ImGui::EndColumns();
+	
 }
+
 

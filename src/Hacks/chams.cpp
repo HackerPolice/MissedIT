@@ -12,7 +12,9 @@
 IMaterial* materialChamsFlat;
 IMaterial* materialChamsFlatIgnorez;
 IMaterial *WhiteAdditive,*WhiteAdditiveIgnoreZ,
-			 *PredictionGlass, *FbiGlass, *CrystalClear, *GibGlass, *DogClass;
+			 *PredictionGlass, *PredictionGlassIgnoreZ,
+			 *FbiGlass, *CrystalClear, *GibGlass, *DogClass,
+			 *achivements, *achivementsIgnoreZ;
 IMaterial* materialChamsWeapons;
 
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
@@ -60,7 +62,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 			break;
 		case ChamsType::PREDICTION_GLASS :
 			visible_material = PredictionGlass;
-			hidden_material = materialChamsFlatIgnorez;
+			hidden_material = PredictionGlassIgnoreZ;
 			break;
 		case ChamsType::FBI_GLASS :
 			visible_material = FbiGlass;
@@ -81,6 +83,10 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 		case ChamsType::CHAMS_FLAT:
 			visible_material = materialChamsFlat;
 			hidden_material = materialChamsFlatIgnorez;
+			break;
+		case ChamsType::Achivements :
+			visible_material = achivements;
+			hidden_material = achivementsIgnoreZ;
 			break;
 		case ChamsType::NONE :
 			return;
@@ -317,15 +323,20 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		materialChamsFlatIgnorez = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);
 		
 		WhiteAdditive = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true);;
-		WhiteAdditiveIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);;
+		WhiteAdditiveIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);
 		
 		//Materials
-		PredictionGlass = material->FindMaterial("models/inventory_items/cologne_prediction/cologne_prediction_glass", TEXTURE_GROUP_VGUI);
+		PredictionGlass = material->FindMaterial("csgo/materials/glowOverlay", TEXTURE_GROUP_VGUI);
+		PredictionGlassIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/achievements/glow"), true, true, true, true, true);
+		// PredictionGlass = material->FindMaterial("models/inventory_items/trophy_majors/gloss", TEXTURE_GROUP_VGUI);
 		FbiGlass = material->FindMaterial("models/player/ct_fbi/ct_fbi_glass", TEXTURE_GROUP_VGUI);
 		CrystalClear = material->FindMaterial("models/inventory_items/trophy_majors/crystal_clear", TEXTURE_GROUP_VGUI);
 		GibGlass = material->FindMaterial("models/gibs/glass/glass", TEXTURE_GROUP_VGUI);
 		DogClass = material->FindMaterial("models/inventory_items/dogtags/dogtags_outline", TEXTURE_GROUP_VGUI);
 		materialChamsWeapons = material->FindMaterial("models/gibs/glass/glass", TEXTURE_GROUP_VGUI);
+		
+		achivements = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/achievements/glow"), false, false, true, true, true);
+		achivementsIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/achievements/glow"), true, true, true, true, true);
 		materialsCreated = true;
 		
 	}

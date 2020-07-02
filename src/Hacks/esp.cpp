@@ -599,8 +599,8 @@ static void DrawAutoWall(C_BasePlayer *player) {
 		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
 			continue;
 
-		Autowall::FireBulletData data;
-		int damage = (int)Autowall::GetDamage( bone3D, !Settings::Legitbot::friendly, data );
+		AutoWall::FireBulletData data;
+		int damage = (int)AutoWall::GetDamage( bone3D, !Settings::Legitbot::friendly, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
@@ -647,9 +647,9 @@ static void DrawAutoWall(C_BasePlayer *player) {
 	headPoints[10].y -= bbox->radius * 0.80f;
 
 
-	Autowall::FireBulletData data;
+	AutoWall::FireBulletData data;
 	for ( int i = 0; i < 11; i++ ) {
-		int damage = (int)Autowall::GetDamage( headPoints[i], !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( headPoints[i], !Settings::Legitbot::friendly, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 
@@ -885,7 +885,6 @@ static void DrawPlayerText( C_BasePlayer* player, C_BasePlayer* localplayer, int
 		Draw::AddText( x + w + boxSpacing, ( y + ( i * ( textSize.y + 2 ) ) ), stringsToShow[i].c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 	}
 }
-
 
 static void DrawPlayer(C_BasePlayer* player)
 {
