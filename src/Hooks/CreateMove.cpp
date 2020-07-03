@@ -34,6 +34,7 @@ typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 
 static void RandomMethod(CUserCmd *cmd, bool *sendPacket)
 {
+	
 	PredictionSystem::StartPrediction(cmd);
 	Legitbot::CreateMove(cmd);
 	// auto ragebot = std::async(std::launch::async, Ragebot::CreateMove, cmd);
@@ -43,7 +44,7 @@ static void RandomMethod(CUserCmd *cmd, bool *sendPacket)
 	AutoKnife::CreateMove(cmd);
 	// auto antiaim = std::async(std::launch::async, Ragebot::CreateMove, cmd);
 	FakeLag::CreateMove(cmd);
-    AntiAim::CreateMove(cmd);
+	AntiAim::CreateMove(cmd);
 
 	*sendPacket = CreateMove::sendPacket;
 }
@@ -73,7 +74,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
 
-		std::async(std::launch::async, RandomMethod, cmd, sendPacket); // Actions
+		auto temp = std::async(std::launch::async, RandomMethod, cmd, sendPacket); // Actions
 		// RandomMethod(cmd);
 		
 		ESP::CreateMove(cmd);

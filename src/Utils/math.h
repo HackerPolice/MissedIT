@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../SDK/vector.h"
 #include "../SDK/VMatrix.h"
 #include "../SDK/IInputSystem.h"

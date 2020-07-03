@@ -20,6 +20,7 @@ static bool silent = false;
 static bool friendly = false;
 static bool closestBone = false;
 static bool desireBones[] = {true, true, true, true, true, true};
+static bool desiredMultiBones[] = {true, true, true, true, true, true};
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
@@ -53,7 +54,11 @@ void UI::ReloadRageWeaponSettings()
 	enemySelectionType = Settings::Ragebot::weapons.at(index).enemySelectionType;
 
 	for (int BONE = 0; BONE < 6; BONE++)
-		desireBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];;
+	{
+		desireBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];
+		desiredMultiBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];
+	}
+		
 
 	Ragebot::UpdateValues();
 }
@@ -81,8 +86,11 @@ void UI::UpdateRageWeaponSettings()
 	};
 
 
-	for (int BONE = 0; BONE < 6; BONE++)
+	for (int BONE = 0; BONE < 6; BONE++){
 		settings.desireBones[BONE] = desireBones[BONE];
+		settings.desiredMultiBones[BONE] = desiredMultiBones[BONE];
+	}
+		
 
 	Settings::Ragebot::weapons.at(currentWeapon) = settings;
 
@@ -196,6 +204,23 @@ void RagebotTab::RenderTab()
 				if (ImGui::Selectable(XORSTR("HIP"), &desireBones[(int)DesireBones::BONE_HIP], ImGuiSelectableFlags_DontClosePopups))
 					UI::UpdateRageWeaponSettings();
 				if (ImGui::Selectable(XORSTR("LOWER BODY"), &desireBones[(int)DesireBones::LOWER_BODY], ImGuiSelectableFlags_DontClosePopups))
+					UI::UpdateRageWeaponSettings();
+				
+				ImGui::EndCombo();
+			}
+			if ( ImGui::BeginCombo(XORSTR("##MultiBONESELECTION"), XORSTR("SELECT Multi Points")) )
+			{
+				if ( ImGui::Selectable(XORSTR("HEAD"), &desiredMultiBones[(int)DesireBones::BONE_HEAD], ImGuiSelectableFlags_DontClosePopups) )
+					UI::UpdateRageWeaponSettings();
+				if (ImGui::Selectable(XORSTR("UPPER CHEST"), &desiredMultiBones[(int)DesireBones::UPPER_CHEST], ImGuiSelectableFlags_DontClosePopups))
+					UI::UpdateRageWeaponSettings();
+				if (ImGui::Selectable(XORSTR("MIDDLE CHEST"), &desiredMultiBones[(int)DesireBones::MIDDLE_CHEST], ImGuiSelectableFlags_DontClosePopups))
+					UI::UpdateRageWeaponSettings();
+				if (ImGui::Selectable(XORSTR("LOWER CHEST"), &desiredMultiBones[(int)DesireBones::LOWER_CHEST], ImGuiSelectableFlags_DontClosePopups))
+					UI::UpdateRageWeaponSettings();
+				if (ImGui::Selectable(XORSTR("HIP"), &desiredMultiBones[(int)DesireBones::BONE_HIP], ImGuiSelectableFlags_DontClosePopups))
+					UI::UpdateRageWeaponSettings();
+				if (ImGui::Selectable(XORSTR("LOWER BODY"), &desiredMultiBones[(int)DesireBones::LOWER_BODY], ImGuiSelectableFlags_DontClosePopups))
 					UI::UpdateRageWeaponSettings();
 				
 				ImGui::EndCombo();

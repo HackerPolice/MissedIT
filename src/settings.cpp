@@ -240,7 +240,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
     RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")] = (int)i.second.enemySelectionType;
 
     for (int bone = 0; bone <= 5; bone++)
-	    RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone] = i.second.desireBones[bone];
+    {
+        RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone] = i.second.desireBones[bone];
+        RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone] = i.second.desiredMultiBones[bone];
+    }
+	    
 
 
 #undef RageweaponSetting
@@ -876,7 +880,11 @@ void Settings::LoadConfig(std::string path)
     GetVal(RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")], (int*)&weapon.enemySelectionType);
 
 	    for (int bone = 0; bone < 6; bone++)
-	        weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
+        {
+            weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
+            weapon.desiredMultiBones[bone] = RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone].asBool();
+        }
+	        
 	    
         Settings::Ragebot::weapons.at(weaponID) = weapon;
     }

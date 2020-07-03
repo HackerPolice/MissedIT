@@ -588,6 +588,7 @@ static void DrawBoneMap( C_BasePlayer* player ) {
 }
 
 static void DrawAutoWall(C_BasePlayer *player) {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
 	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
 	for( int i = 0; i < 31; i++ )
 	{
@@ -600,7 +601,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 			continue;
 
 		AutoWall::FireBulletData data;
-		int damage = (int)AutoWall::GetDamage( bone3D, !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( bone3D,localplayer, !Settings::Legitbot::friendly, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
@@ -649,7 +650,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 
 	AutoWall::FireBulletData data;
 	for ( int i = 0; i < 11; i++ ) {
-		int damage = (int)AutoWall::GetDamage( headPoints[i], !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( headPoints[i],localplayer, !Settings::Legitbot::friendly, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 

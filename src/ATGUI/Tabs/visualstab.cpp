@@ -162,13 +162,6 @@ static void FilterAlise()
 
 void Visuals::RenderTab()
 {
-	const char* Filter[] = {
-		"Enemies",
-		"Local Player",
-		"Alise",
-		"Fish",
-		"Chicken",
-	};
 	float itemWidth = ImGui::GetWindowWidth();
 
 	// Backend For Visuals

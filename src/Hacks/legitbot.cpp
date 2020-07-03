@@ -221,7 +221,7 @@ static Vector GetClosestSpot( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePl
 		Vector bone3D = enemy->GetBonePosition(boneID);
 
 		AutoWall::FireBulletData data;
-		float boneDamage = AutoWall::GetDamage(bone3D, !Settings::Legitbot::friendly, data);
+		float boneDamage = AutoWall::GetDamage(bone3D,localPlayer, !Settings::Legitbot::friendly, data);
 		if (boneDamage < Settings::Legitbot::minDamage) 
 			continue;
 
@@ -419,25 +419,6 @@ static void Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim)
 	angle = viewAngles + toChange;
 }
 
-/*
- * Hitchance Source from NanoScence
- */
-static bool hitchance(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon)
-{
-	float hitchance = 101;
-	activeWeapon->UpdateAccuracyPenalty();
-	if (activeWeapon)
-	{
-		float inaccuracy = activeWeapon->GetInaccuracy();
-		if (inaccuracy == 0) inaccuracy = 0.0000001;
-		inaccuracy = 1 / inaccuracy;
-		hitchance = inaccuracy;
-		
-		return hitchance >= (Settings::Legitbot::ShootAssist::Hitchance::value * 1.5);
-	}
-	return true;
-}
-
 static void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 {
 	if (!Settings::Legitbot::AutoCrouch::enabled)
@@ -550,6 +531,7 @@ static bool CanShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon
 
 	return true;
 }
+
 void Legitbot::CreateMove(CUserCmd* cmd)
 {
 

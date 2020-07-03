@@ -355,13 +355,19 @@ struct RagebotWeapon_t
 	DamagePrediction DmagePredictionType = DamagePrediction::damage;
 	EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
 	bool desireBones[6];
+	bool desiredMultiBones[6];
 	
 
 	bool operator == (const RagebotWeapon_t& Ragebotanother) const
 	{
 		for (int bone = 0; bone <= 5; bone++) // static bones
+		{
 			if( this->desireBones[bone] != Ragebotanother.desireBones[bone] )
 				return false;
+			if( this->desiredMultiBones[bone] != Ragebotanother.desiredMultiBones[bone] )
+				return false;
+		}
+			
 
 		return this->silent == Ragebotanother.silent &&
 			this->friendly == Ragebotanother.friendly &&
@@ -684,6 +690,7 @@ namespace Settings
 		{
 			inline bool enabled = false;
 			inline bool desireBones[] = {true, true, true, true, true, true};
+			inline bool desiredMultiBones[] = {true, true, true, true, true, true};
 		}
 
 		namespace AutoPistol

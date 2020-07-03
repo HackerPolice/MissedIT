@@ -67,11 +67,16 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			if (lbyDelta < 35)
 				return;
 
-			if (player->GetEyeAngles()->x > 87.f)
+			if (player->GetEyeAngles()->x == 89.f || player->GetEyeAngles()->x == 36000088.0f)
 			{
-				static float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 
-				if (player->GetVelocity().Length() < 10.0f)
+				static Vector oldOrigin = localplayer->GetAbsOrigin();
+				Vector velocity = (localplayer->GetVecOrigin()-oldOrigin) * (1.f/globalVars->interval_per_tick);
+				oldOrigin = localplayer->GetAbsOrigin();
+				const float &speed  = velocity.Length();
+
+				if (speed < 10.0f)
 				{
 					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
 															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f)

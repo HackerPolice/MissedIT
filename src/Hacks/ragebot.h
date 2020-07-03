@@ -56,8 +56,11 @@ void Ragebot::UpdateValues()
   	Settings::Ragebot::damagePrediction = currentWeaponSetting.DmagePredictionType;
 	  Settings::Ragebot::enemySelectionType = currentWeaponSetting.enemySelectionType;
     
-    for (int bone = 0; bone < 6; bone++)
-		  Settings::Ragebot::AutoAim::desireBones[bone] = currentWeaponSetting.desireBones[bone];
+    for (int bone = 0; bone < 6; bone++){
+      Settings::Ragebot::AutoAim::desireBones[bone] = currentWeaponSetting.desireBones[bone];
+      Settings::Ragebot::AutoAim::desiredMultiBones[bone] = currentWeaponSetting.desiredMultiBones[bone];
+    }
+		  
 }
 
 

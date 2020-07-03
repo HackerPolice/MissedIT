@@ -1,9 +1,5 @@
 #include "autowall.h"
 
-#include "legitbot.h"
-#include "../Utils/math.h"
-#include "../Utils/entity.h"
-#include "../interfaces.h"
 
 static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
@@ -235,13 +231,13 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, A
 	return false;
 }
 
-int AutoWall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& fData)
+int AutoWall::GetDamage(const Vector& point,C_BasePlayer* player, bool teamCheck, FireBulletData& fData)
 {
 	
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	
+	if (!player)
 		return -1;
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 	if (!activeWeapon)
 		return -1;
 
@@ -255,8 +251,8 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& fDa
 	Vector dst = point;
 	int damage = 0.f;
 	FireBulletData data;
-	data.src = localplayer->GetEyePosition();
-	data.filter.pSkip = localplayer;
+	data.src = player->GetEyePosition();
+	data.filter.pSkip = player;
 
 	QAngle angles = Math::CalcAngle(data.src, dst);
 	Math::AngleVectors(angles, data.direction);

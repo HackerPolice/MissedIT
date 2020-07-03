@@ -1,0 +1,3 @@
+/mnt/entertainment/projects/csgo/MissedIT-Testing/CMakeFiles/rebuild_cache.dir
+/mnt/entertainment/projects/csgo/MissedIT-Testing/CMakeFiles/edit_cache.dir
+/mnt/entertainment/projects/csgo/MissedIT-Testing/CMakeFiles/MissedIT.dir
