@@ -518,36 +518,19 @@ static void AutoShoot(C_BasePlayer* localplayer, C_BasePlayer* player, C_BaseCom
 	}
 }
 
-static bool CanShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon)
-{
-	if (!localplayer)
-		return false;
-	if (!localplayer->GetAlive())
-		return false;
-	if (!activeweapon)
-		return false;
-	if (!activeweapon->GetInReload())
-		return false;
-
-	return true;
-}
-
 void Legitbot::CreateMove(CUserCmd* cmd)
 {
-
 	if(!Settings::Legitbot::enabled)
-		return; 		
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+		return; 
 
-	if (!CanShoot(localplayer, activeWeapon))
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
 		return;
 
-	if (Legitbot::prevWeapon != (ItemDefinitionIndex)*activeWeapon->GetItemDefinitionIndex())
-	{
-		Legitbot::prevWeapon = (ItemDefinitionIndex)*activeWeapon->GetItemDefinitionIndex();
-		Legitbot::UpdateValues();
-	}
+	Legitbot::UpdateValues();
 
 	QAngle oldAngle;
 	engine->GetViewAngles(oldAngle);
@@ -571,9 +554,10 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	float bestDamage = float(0);
 
 	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, localplayer, !Settings::Legitbot::AutoWall::enabled, &bestSpot, &bestDamage);
-
+	cvar->ConsoleDPrintf(XORSTR("In Legit Bot\n"));
 	if (player)
 	{
+		cvar->ConsoleDPrintf(XORSTR("Found Player\n"));
          // Conditions if AimKeyOnly enabled
         if (Settings::Legitbot::aimkeyOnly)
 			shouldAim = AimKeyOnly(cmd);

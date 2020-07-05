@@ -106,7 +106,8 @@ static void FilterLocalPlayer()
 	ImGui::Columns(2, nullptr, false);
 	{
 		ImGui::Checkbox(XORSTR("Box"), &Settings::ESP::FilterLocalPlayer::Boxes::enabled);
-		ImGui::Checkbox(XORSTR("Chams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
+		ImGui::Checkbox(XORSTR("FakeChams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
+		ImGui::Checkbox(XORSTR("RealChams"), &Settings::ESP::FilterLocalPlayer::RealChams::enabled);
 		ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::FilterLocalPlayer::HelthBar::enabled);
 		ImGui::Checkbox(XORSTR("Tracers"), &Settings::ESP::FilterLocalPlayer::Tracers::enabled);
 		
@@ -116,7 +117,8 @@ static void FilterLocalPlayer()
 	{
 		ImGui::PushItemWidth(-1);
 		ImGui::Combo(XORSTR("##BOXTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
-		ImGui::Combo(XORSTR("##CHAMSTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+		ImGui::Combo(XORSTR("##FakeCHAMSTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+		ImGui::Combo(XORSTR("##RealCHAMSTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::RealChams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
 		ImGui::Combo(XORSTR("##BARTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::HelthBar::type, BarTypes, IM_ARRAYSIZE(BarTypes));
 		ImGui::Combo(XORSTR("##TRACERTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 		ImGui::PopItemWidth();
@@ -126,6 +128,7 @@ static void FilterLocalPlayer()
 	{
 		ImGui::Checkbox(XORSTR("Player Info"), &Settings::ESP::FilterLocalPlayer::playerInfo::enabled);
 		ImGui::Checkbox(XORSTR("Skeleton"), &Settings::ESP::FilterLocalPlayer::Skeleton::enabled);
+		
 		ImGui::Checkbox(XORSTR("Glow"), &Settings::ESP::Glow::enabled);
 	}
 }

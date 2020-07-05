@@ -56,7 +56,7 @@ void UI::ReloadRageWeaponSettings()
 	for (int BONE = 0; BONE < 6; BONE++)
 	{
 		desireBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];
-		desiredMultiBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];
+		desiredMultiBones[BONE] = Settings::Ragebot::weapons.at(index).desiredMultiBones[BONE];
 	}
 		
 

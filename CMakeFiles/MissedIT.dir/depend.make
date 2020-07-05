@@ -2277,8 +2277,10 @@ CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o: src/interfaces.h
 CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o: src/offsets.h
 CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o: src/settings.h
 
+CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Hacks/autowall.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Hacks/fakelag.cpp
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Hacks/fakelag.h
+CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Hacks/legitbot.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Hooks/hooks.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/ImGUI/imconfig.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/ImGUI/imgui.h
@@ -2326,6 +2328,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/checksum_md5.h
@@ -2338,6 +2341,8 @@ CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/panorama/PanoramaUIEngi
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/panorama/types.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Utils/entity.h
+CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Utils/util_items.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Utils/util_sdk.h
@@ -3489,6 +3494,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o: src/settings.h
 
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/autowall.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/backtrack.h
+CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/fakelag.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/legitbot.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/ragebot.cpp
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/ragebot.h

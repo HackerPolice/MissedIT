@@ -231,9 +231,8 @@ enum class AntiAimType : int
 
 enum class RageAntiAimType : int
 {
-	NONE,
-	FakeArroundReal,
-	RealArroundFake,
+	DefaultRage,
+	FreeStand,
 };
 struct AimbotWeapon_t
 {
@@ -360,7 +359,7 @@ struct RagebotWeapon_t
 
 	bool operator == (const RagebotWeapon_t& Ragebotanother) const
 	{
-		for (int bone = 0; bone <= 5; bone++) // static bones
+		for (int bone = 0; bone < 6; bone++) // static bones
 		{
 			if( this->desireBones[bone] != Ragebotanother.desireBones[bone] )
 				return false;
@@ -688,14 +687,8 @@ namespace Settings
 
 		namespace AutoAim
 		{
-			inline bool enabled = false;
 			inline bool desireBones[] = {true, true, true, true, true, true};
 			inline bool desiredMultiBones[] = {true, true, true, true, true, true};
-		}
-
-		namespace AutoPistol
-		{
-			inline bool enabled = false;
 		}
 
 		namespace AutoShoot
@@ -798,7 +791,7 @@ namespace Settings
 			inline float JitterPercent = 30.f;
 			inline bool atTheTarget = false;
 			inline bool SendReal = false;
-			inline RageAntiAimType Type = RageAntiAimType::RealArroundFake;
+			inline RageAntiAimType Type = RageAntiAimType::DefaultRage;
         }
 
 		namespace LegitAntiAim 
@@ -1009,6 +1002,11 @@ namespace Settings
             	inline ColorVar grenadeColor = ImColor(96, 125, 139, 255);
            	 	inline ColorVar defuserColor = ImColor(49, 27, 146, 255);
             	inline ColorVar chickenColor = ImColor(255, 193, 7, 255);
+			}
+			namespace RealChams
+			{
+				inline bool enabled = false;
+				inline ChamsType type = ChamsType::WHITE_ADDTIVE;
 			}
 			namespace Skeleton
 			{

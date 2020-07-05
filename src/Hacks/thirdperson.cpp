@@ -20,8 +20,9 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		input->m_fCameraInThirdPerson = false;
 		return;
 	}
-
-	if(localplayer->GetAlive() && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot())
+	C_BasePlayer* spectate = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+	
+	if( ( localplayer->GetAlive() && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot() ))
 	{
 		/* Code For Toggle
 			if (inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson) && buttonToggle == false)
@@ -42,7 +43,6 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 			buttonToggle = false;
 		
 		// END
-
 		if (Settings::ThirdPerson::toggled)
 		{
 			QAngle viewAngles;
@@ -70,6 +70,25 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		}
 		
 	}
+	// else if ( spectate ){
+	// 		QAngle viewAngles;
+	// 		engine->GetViewAngles(viewAngles);
+	// 		trace_t tr;
+	// 		Ray_t traceRay;
+	// 		Vector eyePos = spectate->GetEyePosition();
+
+	// 		Vector camOff = Vector(cos(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
+	// 						   		sin(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
+	// 						   		sin(DEG2RAD(-viewAngles.x)) * Settings::ThirdPerson::distance);
+
+	// 		traceRay.Init(eyePos, (eyePos - camOff));
+	// 		CTraceFilter traceFilter;
+	// 		traceFilter.pSkip = localplayer;
+	// 		trace->TraceRay(traceRay, MASK_SOLID, &traceFilter, &tr);
+
+    //    	 	input->m_fCameraInThirdPerson = true;
+	// 		input->m_vecCameraOffset = eyePos + Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
+	// }
 	else if(input->m_fCameraInThirdPerson)
 	{
 		input->m_fCameraInThirdPerson = false;
@@ -89,7 +108,10 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::enabled && input->m_fCameraInThirdPerson)
 		{
 			if (Settings::AntiAim::RageAntiAim::enable || Settings::AntiAim::LegitAntiAim::enable)
-				*localplayer->GetVAngles() = AntiAim::realAngle;
+			{
+					*localplayer->GetVAngles() = AntiAim::fakeAngle;
+			}
+				// *localplayer->GetVAngles() = AntiAim::realAngle;
 		}
 	}
 }

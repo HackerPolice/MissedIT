@@ -56,18 +56,13 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			player_data_Nimbus.push_back(std::pair<C_BasePlayer *, QAngle>(player, *player->GetEyeAngles()));
 
-			/*
-			cvar->ConsoleColorPrintf(ColorRGBA(64, 0, 255, 255), XORSTR("\n[Nimbus] "));
-			cvar->ConsoleDPrintf("Debug log here!");
-			*/
-
 			// Tanner is a sex bomb, also thank you Stacker for helping us out!
 			float lbyDelta = fabsf(NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y));
 
 			if (lbyDelta < 35)
 				return;
 
-			if (player->GetEyeAngles()->x == 89.f || player->GetEyeAngles()->x == 36000088.0f)
+			if ( abs(player->GetEyeAngles()->x) > 65.f)
 			{
 				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 
@@ -91,6 +86,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			}
 			else
 				player->GetEyeAngles()->y += *player->GetLowerBodyYawTarget();
+
+			// player->GetEyeAngles()->y += static_cast<float>(static_cast<float>(rand()) / static_cast<float>(RAND_MAX/50.f)); 
 		}
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)

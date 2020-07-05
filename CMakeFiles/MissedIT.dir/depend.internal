@@ -2278,8 +2278,10 @@ CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/offsets.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/settings.h
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autowall.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/hooks.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imconfig.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imgui.h
@@ -2327,6 +2329,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -2339,6 +2342,8 @@ CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/panorama/types.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/entity.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_sdk.h
@@ -3490,6 +3495,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autowall.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/backtrack.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/ragebot.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/ragebot.h

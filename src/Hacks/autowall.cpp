@@ -30,10 +30,10 @@ void AutoWall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon
 		if (hitgroup == HitGroups::HITGROUP_HEAD)
 		{
 			if (enemy->HasHelmet())
-				current_damage *= weapon_armor_ratio * 0.6f;
+				current_damage *= weapon_armor_ratio * 0.5f;
 		}
 		else
-			current_damage *= weapon_armor_ratio * 0.6f;
+			current_damage *= weapon_armor_ratio * 0.5f;
 	}
 }
 
@@ -200,11 +200,11 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, A
 		// TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
 
 		Ray_t ray;
-		ray.Init(data.src, end);
+		ray.Init(data.src, end + data.direction * 40.f);
 
 		trace->TraceRay(ray, MASK_SHOT, &data.filter, &data.enter_trace);
 
-		// TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
+		// TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
 
 		if (data.enter_trace.fraction == 1.0f)
 			break;
@@ -233,10 +233,9 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, A
 
 int AutoWall::GetDamage(const Vector& point,C_BasePlayer* player, bool teamCheck, FireBulletData& fData)
 {
-	
-	
 	if (!player)
 		return -1;
+	
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 	if (!activeWeapon)
 		return -1;
@@ -245,7 +244,6 @@ int AutoWall::GetDamage(const Vector& point,C_BasePlayer* player, bool teamCheck
 	{
 		if (AutoWall::SimulateFireBullet(activeWeapon, teamCheck, fData))
 			return (int)fData.current_damage;
-		return -1.f;
 	}
 	
 	Vector dst = point;

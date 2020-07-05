@@ -285,51 +285,55 @@ bool ESP::WorldToScreen( const Vector &origin, ImVec2 * const screen ) {
 static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* entity, BoxType& boxtype ) {
  
 	if ( boxtype == BoxType::FRAME_2D ) {
-		int VertLine = w / 3;
-		int HorzLine = h / 3;
+		int VertLine = w;
+		int HorzLine = h;
 		int squareLine = std::min( VertLine, HorzLine );
 
 		// top-left corner / color
-		Draw::AddRect( x, y, x + squareLine, y + 1, color );
-		Draw::AddRect( x, y, x + 1, y + squareLine, color );
+		Draw::AddLine(x,y,x,y+h, color);
+		// Draw::AddRect( x, y, x + squareLine, y + 1, color );
+		// Draw::AddRect( x, y, x + 1, y + squareLine, color );
 
 
 
 		// top-left corner / missing edges
-		Draw::AddRect( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
-		Draw::AddRect( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddLine(x,y,x+w,y, color);
+		// Draw::AddRect( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
+		// Draw::AddRect( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// top-right corner / color
-		Draw::AddRect( x + w - squareLine, y, x + w, y + 1, color );
-		Draw::AddRect( x + w - 1, y, x + w, y + squareLine, color );
+		Draw::AddLine(x+w,y+h,x+w,y, color);
+		// Draw::AddRect( x + w - squareLine, y, x + w, y + 1, color );
+		// Draw::AddRect( x + w - 1, y, x + w, y + squareLine, color );
 
 
 
 		// top-right corner / missing edges
-		Draw::AddRect( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
-		Draw::AddRect( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddLine(x+w,y+h,x,y+h, color);
+		// Draw::AddRect( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
+		// Draw::AddRect( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-left corner / color
-		Draw::AddRect( x, y + h - 1, x + squareLine, y + h, color );
-		Draw::AddRect( x, y + h - squareLine, x + 1, y + h, color );
+		// Draw::AddRect( x, y + h - 1, x + squareLine, y + h, color );
+		// Draw::AddRect( x, y + h - squareLine, x + 1, y + h, color );
 
 
 
 		// bottom-left corner / missing edges
-		Draw::AddRect( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		Draw::AddRect( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+		// Draw::AddRect( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		// Draw::AddRect( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-right corner / color
-		Draw::AddRect( x + w - squareLine, y + h - 1, x + w, y + h, color );
-		Draw::AddRect( x + w - 1, y + h - squareLine, x + w, y + h, color );
+		// Draw::AddRect( x + w - squareLine, y + h - 1, x + w, y + h, color );
+		// Draw::AddRect( x + w - 1, y + h - squareLine, x + w, y + h, color );
 
 
 		// bottom-right corner / missing edges
-		Draw::AddRect( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		Draw::AddRect( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+		// Draw::AddRect( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		// Draw::AddRect( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 	} else if ( boxtype == BoxType::FLAT_2D ) {
 		int VertLine = ( int ) ( w * 0.33f );
 		int HorzLine = ( int ) ( h * 0.33f );
@@ -910,6 +914,7 @@ static void DrawPlayer(C_BasePlayer* player)
 
 	if ( !Entity::IsTeamMate(player, localplayer) ) // mean the entity is enemy
 	{
+
 		if (Settings::ESP::FilterEnemy::Boxes::enabled ) // Drawing the box arround player
 			DrawBox(playerColor, x, y, w, h, player, Settings::ESP::FilterEnemy::Boxes::type);
 		
@@ -954,31 +959,19 @@ static void DrawPlayer(C_BasePlayer* player)
 	{
 		if (Settings::ESP::FilterLocalPlayer::Boxes::enabled )
 			DrawBox(playerColor, x, y, w, h, player, Settings::ESP::FilterLocalPlayer::Boxes::type);
-		
 		if (Settings::ESP::FilterLocalPlayer::HelthBar::enabled) // Drawing the helth bar
 			DrawPlayerHealthBars(player, x, y, w, h, playerColor, Settings::ESP::FilterLocalPlayer::HelthBar::type);
-		
 		if ( Settings::ESP::FilterLocalPlayer::Tracers::enabled ) // Drawing tracers
 			DrawTracer(player, Settings::ESP::FilterLocalPlayer::Tracers::type);
-		
 		if ( Settings::ESP::FilterLocalPlayer::Skeleton::enabled ) // Drawing Skeliton Bitch Fuzion is god
 			DrawSkeleton(player, localplayer);
-		
 		if (Settings::ESP::FilterLocalPlayer::HeadDot::enabled) // Draw the head dot white indicate to kneck sry :P
 			DrawHeaddot(player);
-		
 		/* Checks various Text Settings */
 		if (Settings::ESP::FilterLocalPlayer::playerInfo::enabled && Settings::ThirdPerson::toggled)
 			DrawPlayerText( player, localplayer, x, y, w, h );
-		
 	}
-	// if (Settings::ESP::Sprite::enabled)
-    //     DrawSprite(x, y, w, h, player);
-	// This is brocken xd
-	// if (Settings::ESP::BulletTracers::enabled)
-	// 	DrawBulletTrace(player);
-	// else if (!Entity::IsTeamMate(player, localplayer) && Settings::ESP::FilterEnemy::BulletTracers::enabled);
-	// 	DrawBulletTrace(player);
+	
 	if (Settings::Debug::AutoWall::debugView)
 		DrawAutoWall(player);
 

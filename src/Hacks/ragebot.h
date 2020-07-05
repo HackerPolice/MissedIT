@@ -14,7 +14,8 @@ namespace Ragebot {
     inline bool shouldAim = false;
     extern std::vector<int64_t> friends;
     extern int targetAimbot;
-    inline int TotalShoots, ShotHitted;
+    inline int prevDamage;
+    inline Vector prevBestSpot;
     inline C_BasePlayer *LockedEnemy;
     inline ItemDefinitionIndex prevWeapon = ItemDefinitionIndex::INVALID;
 
@@ -45,7 +46,6 @@ void Ragebot::UpdateValues()
 
     Settings::Ragebot::silent = currentWeaponSetting.silent;
     Settings::Ragebot::friendly = currentWeaponSetting.friendly;
-    Settings::Ragebot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;
     Settings::Ragebot::AutoShoot::enabled = currentWeaponSetting.autoShootEnabled;
     Settings::Ragebot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
     Settings::Ragebot::HitChance::enabled = currentWeaponSetting.HitChanceEnabled;

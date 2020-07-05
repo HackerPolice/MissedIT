@@ -163,91 +163,89 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
     for (auto i : Settings::Legitbot::weapons)
     {
-// TODO this is kind of a hack and i'm too tired to find a better way to do this
-// yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
-// in C++ and weird shit
-#define weaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
-	weaponSetting[XORSTR("Silent")] = i.second.silent;
-	weaponSetting[XORSTR("Friendly")] = i.second.friendly;
-	weaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
-	weaponSetting[XORSTR("engageLock")] = i.second.engageLock;
-	weaponSetting[XORSTR("engageLockTR")] = i.second.engageLockTR;
-	weaponSetting[XORSTR("engageLockTTR")] = i.second.engageLockTTR;
-	weaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
-	weaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
-	weaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
-	weaponSetting[XORSTR("Smooth")][XORSTR("Enabled")] = i.second.smoothEnabled;
-	weaponSetting[XORSTR("Smooth")][XORSTR("Amount")] = i.second.smoothAmount;
-	weaponSetting[XORSTR("Smooth")][XORSTR("Type")] = (int)i.second.smoothType;
-	weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")] = i.second.smoothSaltEnabled;
-	weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")] = i.second.smoothSaltMultiplier;
-	weaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
-	weaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
-	weaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
-	weaponSetting[XORSTR("ShootAssist")][XORSTR("Enable")] = i.second.shootassist;
-	weaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
-	weaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
-	weaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
-	weaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
-	weaponSetting[XORSTR("RCS")][XORSTR("Enabled")] = i.second.rcsEnabled;
-	weaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")] = i.second.rcsAlwaysOn;
-	weaponSetting[XORSTR("RCS")][XORSTR("AmountX")] = i.second.rcsAmountX;
-	weaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
-	weaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
-	weaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-	weaponSetting[XORSTR("NoShoot")][XORSTR("Enabled")] = i.second.noShootEnabled;
-	weaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
-	weaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
-	weaponSetting[XORSTR("SmokeCheck")][XORSTR("Enabled")] = i.second.smokeCheck;
-	weaponSetting[XORSTR("FlashCheck")][XORSTR("Enabled")] = i.second.flashCheck;
-	weaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
-	weaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
-	weaponSetting[XORSTR("shotDelay")][XORSTR("value")] = i.second.shotDelay;
-	weaponSetting[XORSTR("minShotFire")][XORSTR("value")] = i.second.minShotFire;
-	weaponSetting[XORSTR("AutoWall")][XORSTR("Enabled")] = i.second.autoWallEnabled;
-	weaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.MinDamage;
-	weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
-	weaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
-	weaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
-	weaponSetting[XORSTR("AutoAim")][XORSTR("RealDistance")] = i.second.autoAimRealDistance;
-    weaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
+    // TODO this is kind of a hack and i'm too tired to find a better way to do this
+    // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
+    // in C++ and weird shit
+    #define weaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
+	    weaponSetting[XORSTR("Silent")] = i.second.silent;
+	    weaponSetting[XORSTR("Friendly")] = i.second.friendly;
+	    weaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
+	    weaponSetting[XORSTR("engageLock")] = i.second.engageLock;
+	    weaponSetting[XORSTR("engageLockTR")] = i.second.engageLockTR;
+	    weaponSetting[XORSTR("engageLockTTR")] = i.second.engageLockTTR;
+	    weaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
+	    weaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
+	    weaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
+	    weaponSetting[XORSTR("Smooth")][XORSTR("Enabled")] = i.second.smoothEnabled;
+	    weaponSetting[XORSTR("Smooth")][XORSTR("Amount")] = i.second.smoothAmount;
+	    weaponSetting[XORSTR("Smooth")][XORSTR("Type")] = (int)i.second.smoothType;
+	    weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")] = i.second.smoothSaltEnabled;
+	    weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")] = i.second.smoothSaltMultiplier;
+	    weaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
+	    weaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
+	    weaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
+	    weaponSetting[XORSTR("ShootAssist")][XORSTR("Enable")] = i.second.shootassist;
+	    weaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
+	    weaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
+	    weaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
+	    weaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
+	    weaponSetting[XORSTR("RCS")][XORSTR("Enabled")] = i.second.rcsEnabled;
+	    weaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")] = i.second.rcsAlwaysOn;
+	    weaponSetting[XORSTR("RCS")][XORSTR("AmountX")] = i.second.rcsAmountX;
+    	weaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
+    	weaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
+    	weaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
+    	weaponSetting[XORSTR("NoShoot")][XORSTR("Enabled")] = i.second.noShootEnabled;
+    	weaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
+	    weaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
+	    weaponSetting[XORSTR("SmokeCheck")][XORSTR("Enabled")] = i.second.smokeCheck;
+	    weaponSetting[XORSTR("FlashCheck")][XORSTR("Enabled")] = i.second.flashCheck;
+    	weaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
+	    weaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
+    	weaponSetting[XORSTR("shotDelay")][XORSTR("value")] = i.second.shotDelay;
+	    weaponSetting[XORSTR("minShotFire")][XORSTR("value")] = i.second.minShotFire;
+	    weaponSetting[XORSTR("AutoWall")][XORSTR("Enabled")] = i.second.autoWallEnabled;
+	    weaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.MinDamage;
+    	weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
+	    weaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
+	    weaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
+	    weaponSetting[XORSTR("AutoAim")][XORSTR("RealDistance")] = i.second.autoAimRealDistance;
+        weaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
 	
-	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-	    weaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
+	    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
+	        weaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
 
-#undef weaponSetting
+    #undef weaponSetting
     }
 
     for (auto i : Settings::Ragebot::weapons)
     {
-// TODO this is kind of a hack and i'm too tired to find a better way to do this
-// yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
-// in C++ and weird shit
-#define RageweaponSetting settings[XORSTR("Ragebot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
-	RageweaponSetting[XORSTR("Silent")] = i.second.silent;
-	RageweaponSetting[XORSTR("Friendly")] = i.second.friendly;
-	RageweaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
-	RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
-	RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
-	RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-	RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.HitChanceEnabled;
-	RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
-    RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
-	RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
-	RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
-	RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
-    RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")] = (int)i.second.DmagePredictionType;
-    RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")] = (int)i.second.enemySelectionType;
+    // TODO this is kind of a hack and i'm too tired to find a better way to do this
+    // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
+    // in C++ and weird shit
+    #define RageweaponSetting settings[XORSTR("Ragebot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
+	    RageweaponSetting[XORSTR("Silent")] = i.second.silent;
+	    RageweaponSetting[XORSTR("Friendly")] = i.second.friendly;
+	    RageweaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
+	    RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
+	    RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
+	    RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
+	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.HitChanceEnabled;
+	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
+        RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
+	    RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
+	    RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
+	    RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
+        RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")] = (int)i.second.DmagePredictionType;
+        RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")] = (int)i.second.enemySelectionType;
 
-    for (int bone = 0; bone <= 5; bone++)
-    {
-        RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone] = i.second.desireBones[bone];
-        RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone] = i.second.desiredMultiBones[bone];
-    }
-	    
-
-
-#undef RageweaponSetting
+        for (int bone = 0; bone < 6; bone++)
+        {
+            RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone] = i.second.desireBones[bone];
+            RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone] = i.second.desiredMultiBones[bone];
+        }
+	
+    #undef RageweaponSetting
     }
 
     settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
@@ -377,7 +375,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     // For Enemy
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Boxes")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::Boxes::enabled;
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Boxes")][XORSTR("type")] = (int)Settings::ESP::FilterEnemy::Boxes::type;
-    settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::Skeleton::enabled;
+    settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::Skeleton::enabled;
     LoadColor(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("ally_color")], Settings::ESP::FilterEnemy::Skeleton::allyColor);
     LoadColor(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("enemy_color")], Settings::ESP::FilterEnemy::Skeleton::enemyColor);
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("HelthBar")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::HelthBar::enabled;
@@ -390,7 +388,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
     // For LocalPlayer
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Boxes")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::Boxes::enabled;
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Boxes")][XORSTR("type")] = (int)Settings::ESP::FilterLocalPlayer::Boxes::type;
-    settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::Skeleton::enabled;
+    settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::Skeleton::enabled;
+    settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("FakeAngle")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::RealChams::enabled;
     LoadColor(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("ally_color")], Settings::ESP::FilterLocalPlayer::Skeleton::allyColor);
     LoadColor(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("enemy_color")], Settings::ESP::FilterLocalPlayer::Skeleton::enemyColor);
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Bars")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::HelthBar::enabled;
@@ -404,7 +403,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     // For Alise
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Boxes::enabled;
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::Boxes::type;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::Skeleton::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Skeleton::enabled;
     LoadColor(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("ally_color")], Settings::ESP::FilterAlise::Skeleton::allyColor);
     LoadColor(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enemy_color")], Settings::ESP::FilterAlise::Skeleton::enemyColor);
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("enabled")] = Settings::ESP::FilterAlise::HelthBar::enabled;
@@ -432,7 +431,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Enemy")][XORSTR("type")] = (int)Settings::ESP::FilterEnemy::Chams::type;
     // For Local Player
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::Chams::enabled;
-    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("type")] = (int)Settings::ESP::FilterLocalPlayer::Chams::type;
+    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Fake")] = (int)Settings::ESP::FilterLocalPlayer::Chams::type;
+    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Real")] = (int)Settings::ESP::FilterLocalPlayer::RealChams::type;
     // For Alise
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Chams::enabled;
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::Chams::type;
@@ -879,11 +879,11 @@ void Settings::LoadConfig(std::string path)
     GetVal(RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")], (int*)&weapon.DmagePredictionType);
     GetVal(RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")], (int*)&weapon.enemySelectionType);
 
-	    for (int bone = 0; bone < 6; bone++)
-        {
-            weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
-            weapon.desiredMultiBones[bone] = RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone].asBool();
-        }
+	for (int bone = 0; bone < 6; bone++)
+    {
+        weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
+        weapon.desiredMultiBones[bone] = RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone].asBool();
+    }
 	        
 	    
         Settings::Ragebot::weapons.at(weaponID) = weapon;
@@ -1020,7 +1020,7 @@ void Settings::LoadConfig(std::string path)
     // For Enemy
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::Boxes::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Boxes")][XORSTR("type")], (int*)&Settings::ESP::FilterEnemy::Boxes::type);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::Skeleton::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::Skeleton::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("ally_color")], &Settings::ESP::FilterEnemy::Skeleton::allyColor);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Skeleton")][XORSTR("enemy_color")], &Settings::ESP::FilterEnemy::Skeleton::enemyColor);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("HelthBar")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::HelthBar::enabled);
@@ -1032,7 +1032,8 @@ void Settings::LoadConfig(std::string path)
     // For LocalPlayer
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::Boxes::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Boxes")][XORSTR("type")], (int*)&Settings::ESP::FilterLocalPlayer::Boxes::type);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::Skeleton::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::Skeleton::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("FakeAngle")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::RealChams::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("ally_color")], &Settings::ESP::FilterLocalPlayer::Skeleton::allyColor);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Skeleton")][XORSTR("enemy_color")], &Settings::ESP::FilterLocalPlayer::Skeleton::enemyColor);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("HelthBar")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::HelthBar::enabled);
@@ -1044,7 +1045,7 @@ void Settings::LoadConfig(std::string path)
     //For Alise
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Boxes::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::Boxes::type);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::Skeleton::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Skeleton::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("ally_color")], &Settings::ESP::FilterAlise::Skeleton::allyColor);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enemy_color")], &Settings::ESP::FilterAlise::Skeleton::enemyColor);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("HelthBar")][XORSTR("enabled")], &Settings::ESP::FilterAlise::HelthBar::enabled);
@@ -1065,7 +1066,8 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Enemy")][XORSTR("type")], (int*)&Settings::ESP::FilterEnemy::Chams::type);
     // For Local Player
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::Chams::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("type")], (int*)&Settings::ESP::FilterLocalPlayer::Chams::type);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Fake")], (int*)&Settings::ESP::FilterLocalPlayer::Chams::type);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Real")], (int*)&Settings::ESP::FilterLocalPlayer::RealChams::type);
     // For Alise
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Chams::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::Chams::type);
