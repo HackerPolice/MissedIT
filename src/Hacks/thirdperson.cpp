@@ -20,7 +20,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		input->m_fCameraInThirdPerson = false;
 		return;
 	}
-	C_BasePlayer* spectate = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+	// C_BasePlayer* spectate = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 	
 	if( ( localplayer->GetAlive() && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot() ))
 	{
@@ -107,9 +107,9 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 
 		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::enabled && input->m_fCameraInThirdPerson)
 		{
-			if (Settings::AntiAim::RageAntiAim::enable || Settings::AntiAim::LegitAntiAim::enable)
+			if (Settings::AntiAim::RageAntiAim::enable)
 			{
-					*localplayer->GetVAngles() = AntiAim::fakeAngle;
+				*localplayer->GetVAngles() = AntiAim::realAngle;
 			}
 				// *localplayer->GetVAngles() = AntiAim::realAngle;
 		}

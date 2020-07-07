@@ -7,6 +7,7 @@
 #include "../Utils/math.h"
 #include "../settings.h"
 #include "../interfaces.h"
+#include "lagcomp.h"
 #include "../Hooks/hooks.h"
 
 #include <thread>
@@ -54,11 +55,8 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 
 	switch (chamsType)
 	{
-		case ChamsType::WHITE_ADDTIVE :
-			visible_material = WhiteAdditive;
-			hidden_material = materialChamsFlatIgnorez;
-			break;
 		case ChamsType::WIREFRAME :
+		case ChamsType::WHITE_ADDTIVE :
 			visible_material = WhiteAdditive;
 			hidden_material = materialChamsFlatIgnorez;
 			break;
@@ -143,7 +141,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 	}
 
 	modelRender->ForcedMaterialOverride(visible_material);
-	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+	// modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
 
 static void DrawFake(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
@@ -216,10 +214,9 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	color *= 0.45f;
 
 	Fake_meterial->ColorModulate(fake_color);
-	Fake_meterial->AlphaModulate(Settings::ESP::Chams::FakeColor.Color(entity).Value.w);
 
 	static matrix3x4_t fakeBoneMatrix[128];
-	const float &fakeangle = AntiAim::realAngle.y - AntiAim::fakeAngle.y;
+	const float &fakeangle = AntiAim::fakeAngle.y - AntiAim::realAngle.y ;
 	static Vector OutPos;
 	if ( !(globalVars->tickcount%10) )
 	{
@@ -245,13 +242,100 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	modelRender->ForcedMaterialOverride(Fake_meterial);
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, fakeBoneMatrix);	
 	modelRender->ForcedMaterialOverride(nullptr);
-	pCustomBoneToWorld = fakeBoneMatrix;
-	// for (int i = 0; i < 128; i++)
-	// {
-	// 	std::thread([&](){;}).join();
-	// }
 }
 
+/*
+static void DrawBackTrack(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
+{
+
+	if (!Settings::Ragebot::LagComp::enabled)
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->GetAlive())
+		return;
+	
+	matrix3x4_t fakeBoneMatrix[128];
+	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
+	
+	if (!entity
+		|| entity->GetDormant()
+		|| !entity->GetAlive()
+		|| entity != localplayer
+		|| Entity::IsTeamMate(entity, localplayer))
+		return;
+
+	for (auto &&Tick : LagComp::lagCompTicks)
+	{
+		for (auto &record : Tick.records)
+		{
+			if (record.entity == entity)
+			{
+				for (int i = 0; i < 128; i++)
+					fakeBoneMatrix[i] = record.bone_matrix[i];
+				break;
+			}
+				
+		}
+	}
+
+	IMaterial* Fake_meterial = WhiteAdditive;
+	ChamsType chamsType = ChamsType::NONE;
+	/*
+	switch (Settings::ESP::FilterLocalPlayer::RealChams::type)
+	{
+		case ChamsType::WHITE_ADDTIVE :
+			Fake_meterial = WhiteAdditive;
+			break;
+		case ChamsType::WIREFRAME :
+			Fake_meterial = WhiteAdditive;
+			break;
+		case ChamsType::PREDICTION_GLASS :
+			Fake_meterial = PredictionGlass;
+			break;
+		case ChamsType::FBI_GLASS :
+			Fake_meterial = FbiGlass;
+			break;
+		case ChamsType::CRYSTAL_CLEAR :
+			Fake_meterial = CrystalClear;
+			break;
+		case ChamsType::GIB_GLASS :
+			Fake_meterial = GibGlass;
+			break;
+		case ChamsType::Dog_Class :
+			Fake_meterial = DogClass;
+			break;
+		case ChamsType::CHAMS_FLAT:
+			Fake_meterial = materialChamsFlat;
+			break;
+		case ChamsType::Achivements :
+			Fake_meterial = achivements;
+			break;
+		case ChamsType::NONE :
+			return;
+		default :
+			return;
+		
+	}
+	Fake_meterial->AlphaModulate(1.0f);
+	/*
+	 * Testing for chams in fake angle 
+	 * Hope for best
+	Color fake_color = Color::FromImColor(Settings::ESP::Chams::FakeColor.Color(entity));
+	Color color = fake_color;
+	color *= 0.45f;
+
+	Fake_meterial->ColorModulate(fake_color);
+	Fake_meterial->AlphaModulate(Settings::ESP::Chams::FakeColor.Color(entity).Value.w);
+
+	if (entity->GetImmune())
+		Fake_meterial->AlphaModulate(0.5f);
+
+	modelRender->ForcedMaterialOverride(Fake_meterial);
+	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, fakeBoneMatrix);	
+	modelRender->ForcedMaterialOverride(nullptr);
+}
+*/
 static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 {
 	if (!Settings::ESP::Chams::Weapon::enabled)
@@ -383,8 +467,8 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 
 	if (modelName.find(XORSTR("models/player")) != std::string::npos)
 	{
-		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	}
 		
 	else if (modelName.find(XORSTR("arms")) != std::string::npos)

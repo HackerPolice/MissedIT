@@ -62,8 +62,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			if (lbyDelta < 35)
 				return;
 
-			if ( abs(player->GetEyeAngles()->x) > 65.f)
-			{
+			// if ( abs(player->GetEyeAngles()->x) > 65.f)
+			// {
 				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 
 				static Vector oldOrigin = localplayer->GetAbsOrigin();
@@ -73,19 +73,19 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 				if (speed < 10.0f)
 				{
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
+					player->GetAnimState()->goalFeetYaw = trueDelta < 0
 															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f)
 															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f) - player->GetEyeAngles()->y;
 				}
 				else
 				{
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
+					player->GetAnimState()->goalFeetYaw = trueDelta < 0
 															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f)
 															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f) - player->GetEyeAngles()->y;
 				}
-			}
-			else
-				player->GetEyeAngles()->y += *player->GetLowerBodyYawTarget();
+			// }
+			// else
+			// 	player->GetEyeAngles()->y += *player->GetLowerBodyYawTarget();
 
 			// player->GetEyeAngles()->y += static_cast<float>(static_cast<float>(rand()) / static_cast<float>(RAND_MAX/50.f)); 
 		}

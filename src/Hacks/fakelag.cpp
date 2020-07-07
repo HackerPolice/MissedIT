@@ -7,7 +7,7 @@
 #include "../Utils/math.h"
 #include "autowall.h"
 
-int ticksMax = 100;
+int ticksMax = 16;
 
 static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 {
@@ -65,12 +65,14 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetFlags() & FL_ONGROUND && Settings::FakeLag::adaptive)
 		return;
 
-	 C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 
-	static Vector oldorigin;
-	if (CreateMove::sendPacket)
-		oldorigin = localplayer->GetAbsOrigin();
-
+	static Vector oldorigin = localplayer->GetAbsOrigin();
+	if (cmd->buttons & IN_ATTACK)
+	{
+		CreateMove::sendPacket = true;
+		return;
+	}
 	if (FakeLag::ticks >= ticksMax)
 	{
 		CreateMove::sendPacket = true;
@@ -96,33 +98,22 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		}
 		else
 		{
-			C_BasePlayer* target = GetClosestEnemy(cmd);
-			AutoWall::FireBulletData data;
-			if (!target)
-				CreateMove::sendPacket = FakeLag::ticks < 100 - Settings::FakeLag::value;
-			else if (cmd->buttons & IN_ATTACK && activeWeapon->GetNextPrimaryAttack() >= globalVars->curtime)
-			{
-				CreateMove::sendPacket = true;
-				FakeLag::ticks = 0;
-			}
-			else if (AutoWall::GetDamage(target->GetBonePosition(CONST_BONE_HEAD), localplayer, true, data) > 0 && !(cmd->buttons & IN_ATTACK))
-				CreateMove::sendPacket = FakeLag::ticks < 100 - Settings::FakeLag::value;
-			else
-				CreateMove::sendPacket = FakeLag::ticks < 100 - Settings::FakeLag::value;
+			// if ((cmd->buttons & IN_ATTACK) && activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
+			// {
+			// 	CreateMove::sendPacket = true;
+			// }
+			// else
+				CreateMove::sendPacket = FakeLag::ticks < 16 - Settings::FakeLag::value;
 		}
-		// else
-		// 	CreateMove::sendPacket = ticks < 100 - Settings::FakeLag::value;
 	}
 	
 	if (CreateMove::sendPacket)
 	{
-		if ( cmd->forwardmove || cmd->sidemove)
-			oldorigin = localplayer->GetAbsOrigin();
-	}
-	else {
-		oldorigin += (localplayer->GetVelocity().Length() * globalVars->interval_per_tick) * 1.5;
+		// cmd->tick_count += Settings::FakeLag::value;
+		oldorigin = localplayer->GetAbsOrigin();
+		oldorigin += (localplayer->GetVelocity().Length() * globalVars->interval_per_tick * Settings::FakeLag::value);
 		localplayer->SetAbsOrigin( &oldorigin );
 	}
-		 
+
 	FakeLag::ticks++;
 }

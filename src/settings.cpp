@@ -40,7 +40,7 @@ void GetVal(Json::Value& config, bool* setting)
 void GetVal(Json::Value& config, float* setting)
 {
     if (config.isNull())
-	return;
+	    return;
 
     *setting = config.asFloat();
 }
@@ -251,7 +251,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
     settings[XORSTR("Ragebot")][XORSTR("AutoShoot")][XORSTR("velocityCheck")] = Settings::Ragebot::AutoShoot::velocityCheck;
     settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
-    settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")] = Settings::Ragebot::backTrack::enabled;
+    settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")] = Settings::Ragebot::LagComp::enabled;
     
     settings[XORSTR("Triggerbot")][XORSTR("enabled")] = Settings::Triggerbot::enabled;
 	settings[XORSTR("Triggerbot")][XORSTR("key")] = Util::GetButtonName(Settings::Triggerbot::key);
@@ -893,7 +893,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("Legitbot")][XORSTR("enabled")], &Settings::Legitbot::enabled);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("enabled")], &Settings::Ragebot::enabled);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")], &Settings::Ragebot::AutoCrouch::enable);
-    GetVal(settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")], &Settings::Ragebot::backTrack::enabled);
+    GetVal(settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")], &Settings::Ragebot::LagComp::enabled);
 
     GetVal(settings[XORSTR("Triggerbot")][XORSTR("enabled")], &Settings::Triggerbot::enabled);
 	GetButtonCode(settings[XORSTR("Triggerbot")][XORSTR("key")], &Settings::Triggerbot::key);

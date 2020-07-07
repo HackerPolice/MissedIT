@@ -58,15 +58,15 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
 		PredictionSystem::StartPrediction(cmd);
+		
+		FakeLag::CreateMove(cmd);
 		Legitbot::CreateMove(cmd);
 		Ragebot::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
-		LagComp::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
-		FakeLag::CreateMove(cmd);
+		LagComp::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
 
-	
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);
 		RagdollGravity::CreateMove(cvar);
@@ -76,7 +76,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		NoFall::PostPredictionCreateMove(cmd);
 
         *sendPacket = CreateMove::sendPacket;
-
+		// cmd->tick_count = CreateMove::tickCount;
         if (CreateMove::sendPacket)
             CreateMove::lastTickViewAngles = cmd->viewangles;
 	}

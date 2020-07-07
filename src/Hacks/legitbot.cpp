@@ -7,6 +7,7 @@
 #include "../Utils/bonemaps.h"
 #include "../settings.h"
 #include "../interfaces.h"
+#include "../Hooks/hooks.h"
 
 #include <stdio.h>
 #include <string>
@@ -521,13 +522,12 @@ static void AutoShoot(C_BasePlayer* localplayer, C_BasePlayer* player, C_BaseCom
 void Legitbot::CreateMove(CUserCmd* cmd)
 {
 	if(!Settings::Legitbot::enabled)
-		return; 
-
+		return;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon)
+	if (!activeWeapon || activeWeapon->GetInReload())
 		return;
 
 	Legitbot::UpdateValues();
@@ -554,16 +554,13 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	float bestDamage = float(0);
 
 	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, localplayer, !Settings::Legitbot::AutoWall::enabled, &bestSpot, &bestDamage);
-	cvar->ConsoleDPrintf(XORSTR("In Legit Bot\n"));
+
 	if (player)
 	{
-		cvar->ConsoleDPrintf(XORSTR("Found Player\n"));
-         // Conditions if AimKeyOnly enabled
         if (Settings::Legitbot::aimkeyOnly)
 			shouldAim = AimKeyOnly(cmd);
 		else if( (cmd->buttons & IN_ATTACK) || Settings::Triggerbot::Magnet::enabled)
 			shouldAim = true;
-
 		Settings::Debug::AutoAim::target = bestSpot; // For Debug showing aimspot.
 
 		if (shouldAim)

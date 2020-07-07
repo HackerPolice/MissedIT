@@ -196,15 +196,15 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, A
 
 		Vector end = data.src + data.direction * data.trace_length_remaining;
 
-		// data.enter_trace
-		// TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
+		// data.enter_trace;
+		TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
 
 		Ray_t ray;
 		ray.Init(data.src, end + data.direction * 40.f);
 
 		trace->TraceRay(ray, MASK_SHOT, &data.filter, &data.enter_trace);
 
-		// TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
+		TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
 
 		if (data.enter_trace.fraction == 1.0f)
 			break;
@@ -233,18 +233,12 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, A
 
 int AutoWall::GetDamage(const Vector& point,C_BasePlayer* player, bool teamCheck, FireBulletData& fData)
 {
-	if (!player)
+	if (!player || !player->GetAlive())
 		return -1;
 	
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
-	if (!activeWeapon)
+	if (!activeWeapon || activeWeapon->GetInReload())
 		return -1;
-
-	if (fData.current_damage > 0)
-	{
-		if (AutoWall::SimulateFireBullet(activeWeapon, teamCheck, fData))
-			return (int)fData.current_damage;
-	}
 	
 	Vector dst = point;
 	int damage = 0.f;

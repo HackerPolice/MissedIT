@@ -8,14 +8,23 @@
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IGameEvent.h"
 #include "../interfaces.h"
+#include "../Utils/bonemaps.h"
+#include "../Utils/entity.h"
+#include "../Utils/math.h"
+#include "../Utils/xorstring.h"
+#include "backtrack.h"
+#include "fakelag.h"
+#include "../Hooks/hooks.h"
 
 namespace Ragebot {
 
-    inline bool shouldAim = false;
+    inline bool shouldAim = false,
+                shouldSlow = false,
+                doubleTap = false;
     extern std::vector<int64_t> friends;
     extern int targetAimbot;
-    inline int prevDamage;
     inline Vector prevBestSpot;
+    inline int prevDamage = 0, dtTick_Count = 0, dtTick_Need = 0;
     inline C_BasePlayer *LockedEnemy;
     inline ItemDefinitionIndex prevWeapon = ItemDefinitionIndex::INVALID;
 

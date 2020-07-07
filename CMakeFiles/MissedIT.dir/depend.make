@@ -226,7 +226,10 @@ CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ATGUI/Tabs/ragebott
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ATGUI/Tabs/ragebottab.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ATGUI/atgui.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ATGUI/tooltip.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Hacks/backtrack.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Hacks/fakelag.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Hacks/ragebot.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Hooks/hooks.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ImGUI/imconfig.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ImGUI/imgui.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/ImGUI/imgui_internal.h
@@ -275,6 +278,7 @@ CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/checksum_md5.h
@@ -288,6 +292,9 @@ CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/panorama/types.
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/ColorPickerButton.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/bonemaps.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/entity.h
+CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/util_items.h
 CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o: src/Utils/util_sdk.h
@@ -842,7 +849,9 @@ CMakeFiles/MissedIT.dir/src/ATGUI/tooltip.cpp.o: src/Utils/xorstring.h
 
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/EventListener.cpp
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/EventListener.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/backtrack.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/eventlog.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/fakelag.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/hitmarkers.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/legitbot.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/namestealer.h
@@ -851,6 +860,7 @@ CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/resolver.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/skinchanger.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/spammer.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hacks/valvedscheck.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Hooks/hooks.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/ImGUI/imconfig.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/ImGUI/imgui.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/CBaseClientState.h
@@ -897,6 +907,7 @@ CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/checksum_md5.h
@@ -909,11 +920,15 @@ CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/panorama/PanoramaUIEngi
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/panorama/types.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/bonemaps.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/entity.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/recvproxyhook.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/util_items.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/util_sdk.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/vmt.h
+CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/Utils/xorstring.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/interfaces.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/offsets.h
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o: src/settings.h
@@ -1108,6 +1123,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/checksum_md5.h
@@ -1120,6 +1136,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/panorama/PanoramaUIEngi
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/panorama/types.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/Utils/vmt.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/interfaces.h
 CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/offsets.h
@@ -1127,6 +1144,8 @@ CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o: src/offsets.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/antiaim.cpp
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/antiaim.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/autowall.h
+CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/backtrack.h
+CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/fakelag.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/legitbot.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/ragebot.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Hacks/valvedscheck.h
@@ -1190,12 +1209,14 @@ CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/SDK/panorama/PanoramaUIEngi
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/SDK/panorama/types.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/bonemaps.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/entity.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/util_items.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/util_sdk.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/vmt.h
+CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/Utils/xorstring.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/interfaces.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/offsets.h
 CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o: src/settings.h
@@ -1713,6 +1734,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/bhop.cpp.o: src/settings.h
 CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/Hacks/antiaim.h
 CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/Hacks/chams.cpp
 CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/Hacks/chams.h
+CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/Hacks/lagcomp.h
 CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/Hacks/thirdperson.h
 CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/Hooks/hooks.h
 CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o: src/ImGUI/imconfig.h
@@ -2787,6 +2809,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.o: src/settings.h
 CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/Hacks/autowall.h
 CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/Hacks/legitbot.cpp
 CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/Hacks/legitbot.h
+CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/Hooks/hooks.h
 CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/ImGUI/imconfig.h
 CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/ImGUI/imgui.h
 CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o: src/SDK/CBaseClientState.h
@@ -3492,12 +3515,15 @@ CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o: src/interfaces.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o: src/offsets.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o: src/settings.h
 
+CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/antiaim.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/autowall.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/backtrack.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/fakelag.h
+CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/lagcomp.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/legitbot.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/ragebot.cpp
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hacks/ragebot.h
+CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/Hooks/hooks.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/ImGUI/imconfig.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/ImGUI/imgui.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o: src/SDK/CBaseClientState.h
@@ -4434,6 +4460,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/autoblock.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/autodefuse.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/autoknife.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/autostrafe.h
+CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/backtrack.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/bhop.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/edgejump.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hacks/esp.h
@@ -4499,6 +4526,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/checksum_md5.h
@@ -4511,15 +4539,19 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/panorama/PanoramaUIE
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/panorama/types.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/bonemaps.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/entity.h
+CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/util_items.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/util_sdk.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/vmt.h
+CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Utils/xorstring.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/interfaces.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/offsets.h
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/settings.h
 
+CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Hacks/antiaim.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Hacks/chams.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Hacks/esp.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Hooks/DrawModelExecute.cpp
@@ -4570,6 +4602,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/checksum_md5.h
@@ -4582,6 +4615,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/panorama/Panor
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/panorama/types.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Utils/MemoryProtection.h
+CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Utils/util_items.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Utils/util_sdk.h
@@ -4779,6 +4813,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/IVPanel.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/KeyValues.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/Materialsystem_config.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/SDK.h
+CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/VMatrix.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/Valve/tier1/utldelegateimpl.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/bitbuf.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/checksum_md5.h
@@ -4792,6 +4827,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/panorama/types
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/SDK/vector.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Utils/MemoryProtection.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Utils/entity.h
+CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Utils/math.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Utils/recvproxyhook.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Utils/util.h
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Utils/util_items.h

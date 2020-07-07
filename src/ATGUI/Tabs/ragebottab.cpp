@@ -13,7 +13,7 @@
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static DamagePrediction damagePrediction = DamagePrediction::justDamage;
-static EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
+static EnemySelectionType enemySelectionType = EnemySelectionType::BestDamage;
 
 //static bool enabled = false;
 static bool silent = false;
@@ -331,7 +331,7 @@ void RagebotTab::RenderTab()
 				}
 					
 				ImGui::Checkbox(XORSTR("Auto Crouch"), &Settings::Ragebot::AutoCrouch::enable);
-            
+				ImGui::Checkbox(XORSTR("LagCom"), &Settings::Ragebot::LagComp::enabled);
 			}
 			// END of other Settings
 			

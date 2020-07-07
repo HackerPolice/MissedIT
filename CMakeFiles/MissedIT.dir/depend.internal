@@ -227,7 +227,10 @@ CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ATGUI/Tabs/ragebottab.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ATGUI/atgui.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ATGUI/tooltip.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/backtrack.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/ragebot.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/hooks.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imconfig.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imgui.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imgui_internal.h
@@ -276,6 +279,7 @@ CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -289,6 +293,9 @@ CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/ColorPickerButton.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/bonemaps.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/entity.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_sdk.h
@@ -843,7 +850,9 @@ CMakeFiles/MissedIT.dir/src/ATGUI/tooltip.cpp.o
 CMakeFiles/MissedIT.dir/src/EventListener.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/EventListener.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/EventListener.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/backtrack.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/eventlog.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/hitmarkers.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/namestealer.h
@@ -852,6 +861,7 @@ CMakeFiles/MissedIT.dir/src/EventListener.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/skinchanger.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/spammer.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/valvedscheck.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/hooks.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imconfig.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imgui.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/CBaseClientState.h
@@ -898,6 +908,7 @@ CMakeFiles/MissedIT.dir/src/EventListener.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -910,11 +921,15 @@ CMakeFiles/MissedIT.dir/src/EventListener.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/panorama/types.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/bonemaps.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/entity.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/recvproxyhook.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_sdk.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/vmt.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/xorstring.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/interfaces.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/offsets.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/settings.h
@@ -1109,6 +1124,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -1121,6 +1137,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/animfix.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/panorama/types.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/vmt.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/interfaces.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/offsets.h
@@ -1128,6 +1145,8 @@ CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/antiaim.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/antiaim.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autowall.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/backtrack.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/ragebot.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/valvedscheck.h
@@ -1191,12 +1210,14 @@ CMakeFiles/MissedIT.dir/src/Hacks/antiaim.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/panorama/types.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/bonemaps.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/entity.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_sdk.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/vmt.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/xorstring.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/interfaces.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/offsets.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/settings.h
@@ -1714,6 +1735,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/chams.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/antiaim.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/chams.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/chams.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/lagcomp.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/thirdperson.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/hooks.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imconfig.h
@@ -2788,6 +2810,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autowall.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/hooks.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imconfig.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imgui.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/CBaseClientState.h
@@ -3493,12 +3516,15 @@ CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/offsets.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/settings.h
 CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/antiaim.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autowall.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/backtrack.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/fakelag.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/lagcomp.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/legitbot.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/ragebot.cpp
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/ragebot.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/hooks.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imconfig.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/imgui.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/CBaseClientState.h
@@ -4435,6 +4461,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autodefuse.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autoknife.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/autostrafe.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/backtrack.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/bhop.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/edgejump.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/esp.h
@@ -4500,6 +4527,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -4512,15 +4540,19 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/panorama/types.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/bonemaps.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/entity.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_sdk.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/vmt.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/xorstring.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/interfaces.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/offsets.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/settings.h
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/antiaim.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/chams.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hacks/esp.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Hooks/DrawModelExecute.cpp
@@ -4571,6 +4603,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -4583,6 +4616,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/panorama/types.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_sdk.h
@@ -4780,6 +4814,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/KeyValues.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Materialsystem_config.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/SDK.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/VMatrix.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/Valve/tier1/utldelegateimpl.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/bitbuf.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/checksum_md5.h
@@ -4793,6 +4828,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/SDK/vector.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/MemoryProtection.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/entity.h
+ /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/math.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/recvproxyhook.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util.h
  /mnt/entertainment/projects/csgo/MissedIT-Testing/src/Utils/util_items.h

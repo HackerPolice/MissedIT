@@ -617,8 +617,6 @@ void Legitbot::RenderTab()
 			if (ImGui::Checkbox(XORSTR("Auto Slow"), &autoSlow))
 				UI::UpdateWeaponSettings();
 			
-			ImGui::Checkbox(XORSTR("Back Track"), &Settings::Ragebot::backTrack::enabled);
-			
 			ImGui::Columns(1, nullptr, false);
 			ImGui::Spacing(); ImGui::Spacing();
 

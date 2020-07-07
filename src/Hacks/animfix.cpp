@@ -1,23 +1,20 @@
 #include "animfix.h"
 
+#include "../Utils/math.h"
+
 void AnimFix::FrameStageNotify(ClientFrameStage_t stage)
 {
     if (!engine->IsInGame())
         return;
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-    if (!localplayer)
+    if (!localplayer || !localplayer->GetAlive())
         return;
 
-    CCSGOAnimState* animation = localplayer->GetAnimState();
+    CCSGOAnimState* animstate = localplayer->GetAnimState();
 
-    if (!animation)
+    if (!animstate)
         return;
+ 
 
-    if (stage == ClientFrameStage_t::FRAME_RENDER_START)
-    {
-        float old_curtime = globalVars->curtime;
-        float old_frametime = globalVars->frametime;
-         
-    }
 }

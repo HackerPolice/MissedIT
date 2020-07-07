@@ -43,11 +43,6 @@ int AutoKnife::GetKnifeDamageDone(C_BasePlayer* localplayer, C_BasePlayer* playe
 
 int AutoKnife::GetKnife2DamageDone(C_BasePlayer* localplayer, C_BasePlayer* player)
 {
-	//damage: unarmored/armored
-	//leftclick: 39/33
-	//rightclick: 55/65
-	//backstab leftclick: 90/76
-	//backstab rightclick: 180/153
 	bool backstab = IsPlayerBehind(localplayer, player);
 	int armor = player->GetArmor();
 	if (!backstab)
@@ -71,9 +66,6 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 	if (!Settings::AutoKnife::enabled && !Settings::Ragebot::enabled)
 		return;
 
-	if (!inputSystem->IsButtonDown(Settings::Triggerbot::key) && Settings::AutoKnife::onKey)
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
@@ -81,7 +73,7 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon)
 		return;
-
+		
 	ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
 	if (!Util::Items::IsKnife(itemDefinitionIndex) && itemDefinitionIndex != ItemDefinitionIndex::WEAPON_TASER)
 		return;
@@ -120,10 +112,7 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 		|| player->GetImmune())
 		return;
 
-	if (!Entity::IsTeamMate(player, localplayer) && !Settings::AutoKnife::Filters::enemies)
-		return;
-
-	if (Entity::IsTeamMate(player, localplayer) && !Settings::AutoKnife::Filters::allies)
+	if (Entity::IsTeamMate(player, localplayer))
 		return;
 
 	float playerDistance = localplayer->GetVecOrigin().DistTo(player->GetVecOrigin());
@@ -153,4 +142,18 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 			}
 		}
 	}
+	
+	viewAngles = Math::CalcAngle(localplayer->GetEyePosition(), player->GetEyePosition());
+	if (cmd->buttons & IN_ATTACK || cmd->buttons & IN_ATTACK2){
+		cmd->viewangles =viewAngles;
+		QAngle oldAngle;
+    	engine->GetViewAngles(oldAngle);
+		float oldForward = cmd->forwardmove;
+   		float oldSideMove = cmd->sidemove;
+		if (Settings::AntiAim::RageAntiAim::enable)
+			Math::CorrectMovement(oldAngle, cmd, oldForward*-1, oldSideMove*-1);
+		else 
+			Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
+	}
+		
 }
