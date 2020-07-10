@@ -500,8 +500,6 @@ enum class EClassIds : int
 	SporeTrail,
 };
 
-typedef int Bone;
-
 // These bones are the same on all CSGO models.
 enum
 {
@@ -513,12 +511,12 @@ enum
     CONST_BONE_HEAD = 8,
 };
 
+typedef int Bone;
 // This is a custom enum for the desired bones.
 // Does not match the csgo models, use the bonemaps instead.
 enum
 {
 	BONE_INVALID = -1,
-
 	BONE_PELVIS = 0,
 	BONE_HIP,
 	BONE_LOWER_SPINAL_COLUMN,
@@ -528,23 +526,23 @@ enum
 	BONE_HEAD,
 
 	BONE_LEFT_COLLARBONE,
-    BONE_RIGHT_COLLARBONE,
-	BONE_LEFT_SHOULDER,
-    BONE_RIGHT_SHOULDER,
+    BONE_RIGHT_COLLARBONE = 14,
+	BONE_LEFT_SHOULDER = 8,
+    BONE_RIGHT_SHOULDER = 15,
 
-	BONE_LEFT_ARMPIT,
-    BONE_RIGHT_ARMPIT,
-	BONE_LEFT_BICEP,
-    BONE_RIGHT_BICEP,
-	BONE_LEFT_ELBOW,
-    BONE_RIGHT_ELBOW,
+	BONE_LEFT_ARMPIT = 9,
+    BONE_RIGHT_ARMPIT = 16,
+	BONE_LEFT_BICEP = 10,
+    BONE_RIGHT_BICEP = 17,
+	BONE_LEFT_ELBOW = 11,
+    BONE_RIGHT_ELBOW = 18,
 
-	BONE_LEFT_FOREARM,
+	BONE_LEFT_FOREARM = 12,
 	BONE_LEFT_WRIST,
-	BONE_RIGHT_FOREARM,
+	BONE_RIGHT_FOREARM = 19,
 	BONE_RIGHT_WRIST,
 
-	BONE_LEFT_BUTTCHEEK,
+	BONE_LEFT_BUTTCHEEK = 21,
 	BONE_LEFT_THIGH,
 	BONE_LEFT_KNEE,
 	BONE_LEFT_ANKLE,

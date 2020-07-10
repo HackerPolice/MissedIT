@@ -1,7 +1,7 @@
 #include <iomanip>
 
 #include "esp.h"
-#include "autowall.h"
+#include "AimBot/autowall.h"
 #include "../fonts.h"
 #include "../settings.h"
 #include "../interfaces.h"
@@ -287,7 +287,6 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 	if ( boxtype == BoxType::FRAME_2D ) {
 		int VertLine = w;
 		int HorzLine = h;
-		int squareLine = std::min( VertLine, HorzLine );
 
 		// top-left corner / color
 		Draw::AddLine(x,y,x,y+h, color);
@@ -510,6 +509,7 @@ static void DrawBulletTrace( C_BasePlayer* player ) {
 	if ( debugOverlay->ScreenPosition( src3D, src ) || debugOverlay->ScreenPosition( tr.endpos, dst ) )
 		return;
 
+	// debugOverlay->DrawPill()
 	Draw::AddLine( src.x, src.y, dst.x, dst.y, ESP::GetESPPlayerColor( player, true ) );
 	Draw::AddRectFilled( ( int ) ( dst.x - 3 ), ( int ) ( dst.y - 3 ), 6, 6, ESP::GetESPPlayerColor( player, false ) );
 }
@@ -605,7 +605,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 			continue;
 
 		AutoWall::FireBulletData data;
-		int damage = (int)AutoWall::GetDamage( bone3D,localplayer, !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( bone3D,localplayer, true, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
@@ -654,7 +654,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 
 	AutoWall::FireBulletData data;
 	for ( int i = 0; i < 11; i++ ) {
-		int damage = (int)AutoWall::GetDamage( headPoints[i],localplayer, !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( headPoints[i],localplayer, true, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 
@@ -1401,7 +1401,7 @@ static void DrawGlow()
 
 static void DrawFOVCrosshair()
 {
-	if (!Settings::ESP::FOVCrosshair::enabled)
+	if (!Settings::ESP::FOVCrosshair::enabled || !Settings::Legitbot::enabled)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -1412,37 +1412,8 @@ static void DrawFOVCrosshair()
 		return;
 
 	float radius;
-	if (Settings::Legitbot::AutoAim::realDistance)
-	{
-		Vector src3D, dst3D, forward;
-		trace_t tr;
-		Ray_t ray;
-		CTraceFilter filter;
-
-		QAngle angles = viewanglesBackup;
-		Math::AngleVectors(angles, forward);
-		filter.pSkip = localplayer;
-		src3D = localplayer->GetEyePosition();
-		dst3D = src3D + (forward * 8192);
-
-		ray.Init(src3D, dst3D);
-		trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
-
-		QAngle leftViewAngles = QAngle(angles.x, angles.y - 90.f, 0.f);
-		Math::NormalizeAngles(leftViewAngles);
-		Math::AngleVectors(leftViewAngles, forward);
-		forward *= Settings::Legitbot::AutoAim::fov * 5.f;
-
-		Vector maxAimAt = tr.endpos + forward;
-
-		Vector max2D;
-		if (debugOverlay->ScreenPosition(maxAimAt, max2D))
-			return;
-
-		radius = fabsf(Paint::engineWidth / 2 - max2D.x);
-	}
-	else
-		radius = ((Settings::Legitbot::AutoAim::fov / OverrideView::currentFOV) * Paint::engineWidth) / 2;
+	
+	radius = ((Settings::Legitbot::AutoAim::fov / OverrideView::currentFOV) * Paint::engineWidth) / 2;
 
 	radius = std::min(radius, (((180.f / OverrideView::currentFOV) * Paint::engineWidth) / 2)); // prevents a big radius (CTD).
 

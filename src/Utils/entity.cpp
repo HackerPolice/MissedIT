@@ -130,6 +130,7 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 	}
 	return false;
 }
+
 bool Entity::IsSpotVisibleThroughEnemies(C_BasePlayer *player, Vector spot, float fov, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());

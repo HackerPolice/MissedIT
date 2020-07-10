@@ -17,7 +17,6 @@ void Hooks::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		Chams::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
 
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-
 	modelRender->ForcedMaterialOverride(nullptr);
 
 	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())

@@ -6,7 +6,7 @@
 #include "../../Utils/xorstring.h"
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
-#include "../../Hacks/ragebot.h"
+#include "../../Hacks/AimBot/ragebot.h"
 #include "../../Utils/ColorPickerButton.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
@@ -304,8 +304,6 @@ void RagebotTab::RenderTab()
 						break;
 				}
 				/*
-				if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
-					UI::UpdateRageWeaponSettings();
 				if (ImGui::Checkbox(XORSTR("Double Fire"), &doubleFire))
 					UI::UpdateRageWeaponSettings();
 				*/
@@ -332,6 +330,8 @@ void RagebotTab::RenderTab()
 					
 				ImGui::Checkbox(XORSTR("Auto Crouch"), &Settings::Ragebot::AutoCrouch::enable);
 				ImGui::Checkbox(XORSTR("LagCom"), &Settings::Ragebot::LagComp::enabled);
+				if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
+					UI::UpdateRageWeaponSettings();
 			}
 			// END of other Settings
 			

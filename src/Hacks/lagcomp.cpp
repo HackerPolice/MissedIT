@@ -77,6 +77,8 @@ void LagComp::CreateMove(CUserCmd *cmd)
 		float fov = 180.0f;
 
 		int tickcount = 0;
+		Vector absOrigin;
+		C_BasePlayer* entity = nullptr;
 		bool has_target = false;
 
 		for (auto &&Tick : LagComp::lagCompTicks)
@@ -89,12 +91,18 @@ void LagComp::CreateMove(CUserCmd *cmd)
 				{
 					fov = tmpFOV;
 					tickcount = Tick.tickCount;
+					absOrigin = record.origin;
+					entity = record.entity;
 					has_target = true;
 				}
 			}
 		}
 
 		if (has_target)
+		{
 			cmd->tick_count = tickcount;
+			entity->SetAbsOrigin( &absOrigin );
+		}
+			
 	}
 }

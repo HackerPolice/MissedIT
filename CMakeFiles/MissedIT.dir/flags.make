@@ -7,11 +7,11 @@ C_FLAGS = -O3 -DNDEBUG -fPIC
 
 C_DEFINES = -DMissedIT_EXPORTS
 
-C_INCLUDES = -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/examples -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/examples/libs -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/examples/libs/gl3w 
+C_INCLUDES = -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples/libs -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples/libs/gl3w 
 
 CXX_FLAGS =  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC   -std=gnu++17
 
 CXX_DEFINES = -DMissedIT_EXPORTS
 
-CXX_INCLUDES = -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/examples -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/examples/libs -I/mnt/entertainment/projects/csgo/MissedIT-Testing/src/ImGUI/examples/libs/gl3w 
+CXX_INCLUDES = -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples/libs -I/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples/libs/gl3w 
 

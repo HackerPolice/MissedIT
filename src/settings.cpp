@@ -168,11 +168,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     // in C++ and weird shit
     #define weaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
 	    weaponSetting[XORSTR("Silent")] = i.second.silent;
-	    weaponSetting[XORSTR("Friendly")] = i.second.friendly;
-	    weaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
-	    weaponSetting[XORSTR("engageLock")] = i.second.engageLock;
-	    weaponSetting[XORSTR("engageLockTR")] = i.second.engageLockTR;
-	    weaponSetting[XORSTR("engageLockTTR")] = i.second.engageLockTTR;
+	    weaponSetting[XORSTR("AutoShoot")] = i.second.autoShoot;
 	    weaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
 	    weaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
 	    weaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
@@ -184,7 +180,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	    weaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
 	    weaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
 	    weaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
-	    weaponSetting[XORSTR("ShootAssist")][XORSTR("Enable")] = i.second.shootassist;
 	    weaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
 	    weaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
 	    weaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
@@ -195,21 +190,13 @@ void Settings::LoadDefaultsOrSave(std::string path)
     	weaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
     	weaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
     	weaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-    	weaponSetting[XORSTR("NoShoot")][XORSTR("Enabled")] = i.second.noShootEnabled;
     	weaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
 	    weaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
-	    weaponSetting[XORSTR("SmokeCheck")][XORSTR("Enabled")] = i.second.smokeCheck;
-	    weaponSetting[XORSTR("FlashCheck")][XORSTR("Enabled")] = i.second.flashCheck;
     	weaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
 	    weaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
-    	weaponSetting[XORSTR("shotDelay")][XORSTR("value")] = i.second.shotDelay;
-	    weaponSetting[XORSTR("minShotFire")][XORSTR("value")] = i.second.minShotFire;
-	    weaponSetting[XORSTR("AutoWall")][XORSTR("Enabled")] = i.second.autoWallEnabled;
 	    weaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.MinDamage;
     	weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
 	    weaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
-	    weaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
-	    weaponSetting[XORSTR("AutoAim")][XORSTR("RealDistance")] = i.second.autoAimRealDistance;
         weaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
 	
 	    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
@@ -786,34 +773,23 @@ void Settings::LoadConfig(std::string path)
 
 	    AimbotWeapon_t weapon = {
 	        .silent = weaponSetting[XORSTR("Silent")].asBool(),
-	        .friendly = weaponSetting[XORSTR("Friendly")].asBool(),
-	        .closestBone = weaponSetting[XORSTR("ClosestBone")].asBool(),
-	        .engageLock = weaponSetting[XORSTR("engageLock")].asBool(),
-	        .engageLockTR = weaponSetting[XORSTR("engageLockTR")].asBool(),
+	        .autoShoot = weaponSetting[XORSTR("AutoShoot")].asBool(),
 	        .aimkeyOnly = weaponSetting[XORSTR("AimKeyOnly")].asBool(),
 	        .smoothEnabled = weaponSetting[XORSTR("Smooth")][XORSTR("Enabled")].asBool(),
 	        .smoothSaltEnabled = weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")].asBool(),
 	        .errorMarginEnabled = weaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")].asBool(),
 	        .autoAimEnabled = weaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")].asBool(),
-	        .shootassist = weaponSetting[XORSTR("ShootAssist")][XORSTR("Enable")].asBool(),
 	        .aimStepEnabled = weaponSetting[XORSTR("AimStep")][XORSTR("Enabled")].asBool(),
 	        .rcsEnabled = weaponSetting[XORSTR("RCS")][XORSTR("Enabled")].asBool(),
 	        .rcsAlwaysOn = weaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")].asBool(),
 	        .hitchanceEnaled = weaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
 	        .autoPistolEnabled = weaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
 	        .autoScopeEnabled = weaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
-	        .noShootEnabled = weaponSetting[XORSTR("NoShoot")][XORSTR("Enabled")].asBool(),
 	        .ignoreJumpEnabled = weaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")].asBool(),
 	        .ignoreEnemyJumpEnabled = weaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")].asBool(),
-	        .smokeCheck = weaponSetting[XORSTR("SmokeCheck")][XORSTR("Enabled")].asBool(),
-	        .flashCheck = weaponSetting[XORSTR("FlashCheck")][XORSTR("Enabled")].asBool(),
-	        .autoWallEnabled = weaponSetting[XORSTR("AutoWall")][XORSTR("Enabled")].asBool(),
-	        .autoAimRealDistance = weaponSetting[XORSTR("AutoAim")][XORSTR("RealDistance")].asBool(),
 	        .autoSlow = weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")].asBool(),
 	        .predEnabled = weaponSetting[XORSTR("Prediction")][XORSTR("enabled")].asBool(),
-	        .scopeControlEnabled = weaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")].asBool(),
             .TriggerBot = weaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")].asBool(),
-	        .engageLockTTR = weaponSetting[XORSTR("engageLockTTR")].asInt(),
 	        .bone = weaponSetting[XORSTR("TargetBone")].asInt(),
 	        .smoothType = (SmoothType)weaponSetting[XORSTR("Smooth")][XORSTR("Type")].asInt(),
 	        .aimkey = Util::GetButtonCode(weaponSetting[XORSTR("AimKey")].asCString()),
@@ -827,8 +803,6 @@ void Settings::LoadConfig(std::string path)
 	        .rcsAmountY = weaponSetting[XORSTR("RCS")][XORSTR("AmountY")].asFloat(),
 	        .MinDamage = weaponSetting[XORSTR("MinDamage")][XORSTR("Value")].asFloat(),
 	        .hitchance = weaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
-	        .shotDelay = weaponSetting[XORSTR("shotDelay")][XORSTR("value")].asInt(),
-	        .minShotFire = weaponSetting[XORSTR("minShotFire")][XORSTR("value")].asInt(),
 	    };
 
 	    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)

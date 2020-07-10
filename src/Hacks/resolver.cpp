@@ -21,7 +21,6 @@ static float NormalizeAsYaw(float flAngle)
 		else
 			flAngle -= 360.f * revolutions;
 	}
-
 	return flAngle;
 }
 
@@ -61,33 +60,166 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			if (lbyDelta < 35)
 				return;
+			if (player->GetFlags() & IN_ATTACK)	
+				continue;
 
-			// if ( abs(player->GetEyeAngles()->x) > 65.f)
-			// {
+			if ( fabs(player->GetEyeAngles()->x) > 65.f && fabs(player->GetEyeAngles()->x) < 90.f)
+			{
 				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-
-				static Vector oldOrigin = localplayer->GetAbsOrigin();
-				Vector velocity = (localplayer->GetVecOrigin()-oldOrigin) * (1.f/globalVars->interval_per_tick);
-				oldOrigin = localplayer->GetAbsOrigin();
-				const float &speed  = velocity.Length();
-
-				if (speed < 10.0f)
+				if (player->GetFlags() & FL_DUCKING)
 				{
-					player->GetAnimState()->goalFeetYaw = trueDelta < 0
-															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f)
-															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f) - player->GetEyeAngles()->y;
+					float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+
+					if (player->GetVelocity().Length() < 10.0f)
+					{
+						if (trueDelta < 0)
+						{
+							// player->GetAnimState()->goalFeetYaw = 
+							player->GetEyeAngles()->y = player->GetEyeAngles()->y + (fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.8) );
+						}
+						else if (trueDelta > 0)
+						{
+							// player->GetAnimState()->goalFeetYaw = 
+							player->GetEyeAngles()->y = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.8) ) - player->GetEyeAngles()->y;
+						}
+					}	
+					else
+					{
+						float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+					
+						if (trueDelta < 0)
+						{
+							// player->GetAnimState()->goalFeetYaw = 
+							player->GetEyeAngles()->y = player->GetEyeAngles()->y + (fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.7));
+						}
+						else if (trueDelta > 0)
+						{
+							// player->GetAnimState()->goalFeetYaw = 
+							player->GetEyeAngles()->y = fabs(-AntiAim::GetMaxDelta(player->GetAnimState())*0.7) - player->GetEyeAngles()->y;
+						}
+					}
+				}			
+			
+				else if (player->GetVelocity().Length() < 10.0f)
+				{
+					if (trueDelta <= 0)
+					{
+						float prevYW = player->GetEyeAngles()->y;
+						// player->GetAnimState()->goalFeetYaw;
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = player->GetEyeAngles()->y + (fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.7));
+						// player->GetAnimState()->goalFeetYaw = 
+						// player->GetEyeAngles()->y = prevYW + static_cast<float>(static_cast<float>(std::rand())/static_cast<float>(RAND_MAX/fabs(prevYW-player->GetAnimState()->goalFeetYaw)));
+					}
+					else if (trueDelta > 0)
+					{
+						float prevYW = player->GetEyeAngles()->y;
+						// player->GetAnimState()->goalFeetYaw;
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.7f) - player->GetEyeAngles()->y;
+						// player->GetAnimState()->goalFeetYaw = 
+						// player->GetEyeAngles()->y = prevYW - static_cast<float>(static_cast<float>(std::rand())/static_cast<float>(RAND_MAX/fabs(prevYW-player->GetAnimState()->goalFeetYaw)));
+					}
+					// else 
+					// {
+					// 	static bool bFlip = false;
+					// 	bFlip = bFlip;
+					// 	if (bFlip)
+					// 		// player->GetAnimState()->goalFeetYaw = 
+					// 		player->GetEyeAngles()->y = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.2) ) - player->GetEyeAngles()->y;
+					// 	else
+					// 		player->GetAnimState()->goalFeetYaw = (
+					// 			 fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.2) ) - player->GetEyeAngles()->y;
+					// }
 				}
 				else
 				{
-					player->GetAnimState()->goalFeetYaw = trueDelta < 0
-															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f)
-															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f) - player->GetEyeAngles()->y;
+					float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+					
+					if (trueDelta < 0)
+					{
+						float prevYW = player->GetEyeAngles()->y;
+						// player->GetAnimState()->goalFeetYaw;
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = player->GetEyeAngles()->y + (fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.3));
+						// player->GetAnimState()->goalFeetYaw = 
+						// player->GetEyeAngles()->y = prevYW + static_cast<float>(static_cast<float>(std::rand())/static_cast<float>(RAND_MAX/fabs(prevYW-player->GetAnimState()->goalFeetYaw)));
+					}
+					else if (trueDelta > 0)
+					{
+						float prevYW = player->GetEyeAngles()->y;
+						// player->GetAnimState()->goalFeetYaw;
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.3f) - player->GetEyeAngles()->y;
+						// player->GetAnimState()->goalFeetYaw = 
+						// player->GetEyeAngles()->y = prevYW = static_cast<float>(static_cast<float>(std::rand())/static_cast<float>(RAND_MAX/fabs(prevYW-player->GetAnimState()->goalFeetYaw)));
+					}
+					// else 
+					// {
+					// 	static bool bFlip = false;
+					// 	bFlip = bFlip;
+					// 	if (bFlip)
+					// 		player->GetAnimState()->goalFeetYaw = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.2) ) - player->GetEyeAngles()->y;
+					// 	else
+					// 		player->GetAnimState()->goalFeetYaw = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.2) ) - player->GetEyeAngles()->y;
+					// }
 				}
-			// }
-			// else
-			// 	player->GetEyeAngles()->y += *player->GetLowerBodyYawTarget();
+			}
+			else
+			{
+				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+				if (player->GetFlags() & FL_DUCKING)
+				{
+					float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+					if (trueDelta <= 0)
+					{
+						player->GetAnimState()->goalFeetYaw += (fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.1) );
+					}
+					else if (trueDelta > 0)
+					{
+						player->GetAnimState()->goalFeetYaw -= player->GetEyeAngles()->y;
+					}
+				}
+				else if (player->GetVelocity().Length() < 10.0f)
+				{
+					if (trueDelta <= 0)
+					{
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = player->GetEyeAngles()->y + (fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.6) );
+					}
+					else if (trueDelta > 0)
+					{
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.6) ) - player->GetEyeAngles()->y;
+					}
+					// else 
+					// {
+					// 	player->GetAnimState()->goalFeetYaw = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.2) ) - player->GetEyeAngles()->y;	
+					// }
+					
+				}
+				else
+				{
+					float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+					if (trueDelta <= 0)
+					{
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = player->GetEyeAngles()->y + (fabs(AntiAim::GetMaxDelta(player->GetAnimState())));
+					}
+					else if (trueDelta > 0)
+					{
+						// player->GetAnimState()->goalFeetYaw = 
+						player->GetEyeAngles()->y = fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.4f) - player->GetEyeAngles()->y;
+					}
+					// else 
+					// {
+					// 	static bool bFlip = false;
+						
+					// 	player->GetAnimState()->goalFeetYaw = ( fabs(AntiAim::GetMaxDelta(player->GetAnimState())*0.1) ) - player->GetEyeAngles()->y;	
+					// }
+				}
+			}
 
-			// player->GetEyeAngles()->y += static_cast<float>(static_cast<float>(rand()) / static_cast<float>(RAND_MAX/50.f)); 
 		}
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
@@ -116,5 +248,5 @@ void Resolver::FireGameEvent(IGameEvent *event)
 	if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
 		return;
 
-	Resolver::Players.clear();
+	player_data_Nimbus.clear();
 }

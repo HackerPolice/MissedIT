@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/entertainment/projects/csgo/MissedIT-Testing
+# Install script for directory: /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/entertainment/projects/csgo/MissedIT-Testing/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

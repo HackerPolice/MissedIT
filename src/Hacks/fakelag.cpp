@@ -5,53 +5,9 @@
 #include "../Hooks/hooks.h"
 #include "../Utils/entity.h"
 #include "../Utils/math.h"
-#include "autowall.h"
+#include "AimBot/autowall.h"
 
 int ticksMax = 16;
-
-static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
-{
-    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-	C_BasePlayer* closestPlayer = nullptr;
-	Vector pVecTarget = localplayer->GetEyePosition();
-	QAngle viewAngles;
-		engine->GetViewAngles(viewAngles);
-	float prevFOV = 0.f;
-
-	for (int i = engine->GetMaxClients(); i > 1; i--)
-	{
-		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
-
-		if (!player
-	    	|| player == localplayer
-	    	|| player->GetDormant()
-	    	|| !player->GetAlive()
-	    	|| player->GetImmune())
-	    	continue;
-
-		if (!Settings::Ragebot::friendly && Entity::IsTeamMate(player, localplayer))
-	   	 	continue;
-
-		Vector cbVecTarget = player->GetAbsOrigin();
-		
-		
-		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
-		
-		if (prevFOV == 0.f)
-		{
-			prevFOV = cbFov;
-			closestPlayer = player;
-		}
-		else if ( cbFov < prevFOV )
-		{
-			return player;
-		}
-		else 
-			break;
-	}
-	return closestPlayer;
-}
-
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
@@ -62,17 +18,11 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
-	if (localplayer->GetFlags() & FL_ONGROUND && Settings::FakeLag::adaptive)
+	if ( !(localplayer->GetFlags() & FL_ONGROUND) && Settings::FakeLag::adaptive)
 		return;
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 
 	static Vector oldorigin = localplayer->GetAbsOrigin();
-	if (cmd->buttons & IN_ATTACK)
-	{
-		CreateMove::sendPacket = true;
-		return;
-	}
+
 	if (FakeLag::ticks >= ticksMax)
 	{
 		CreateMove::sendPacket = true;
@@ -98,22 +48,17 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		}
 		else
 		{
-			// if ((cmd->buttons & IN_ATTACK) && activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
-			// {
-			// 	CreateMove::sendPacket = true;
-			// }
-			// else
-				CreateMove::sendPacket = FakeLag::ticks < 16 - Settings::FakeLag::value;
+			CreateMove::sendPacket = FakeLag::ticks < 16 - Settings::FakeLag::value;
 		}
 	}
 	
 	if (CreateMove::sendPacket)
 	{
-		// cmd->tick_count += Settings::FakeLag::value;
 		oldorigin = localplayer->GetAbsOrigin();
-		oldorigin += (localplayer->GetVelocity().Length() * globalVars->interval_per_tick * Settings::FakeLag::value);
+		localplayer->GetAnimState()->origin = (localplayer->GetVelocity().Length() * globalVars->interval_per_tick * Settings::FakeLag::value);
 		localplayer->SetAbsOrigin( &oldorigin );
 	}
+	
 
 	FakeLag::ticks++;
 }

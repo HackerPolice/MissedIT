@@ -15,10 +15,10 @@
 #include "../Hacks/edgejump.h"
 #include "../Hacks/autoblock.h"
 #include "../Hacks/predictionsystem.h"
-#include "../Hacks/ragebot.h"
-#include "../Hacks/legitbot.h"
+#include "../Hacks/AimBot/ragebot.h"
+#include "../Hacks/AimBot/legitbot.h"
 #include "../Hacks/triggerbot.h"
-#include "../Hacks/autoknife.h"
+#include "../Hacks/AimBot/autoknife.h"
 #include "../Hacks/antiaim.h"
 #include "../Hacks/fakelag.h"
 #include "../Hacks/esp.h"
@@ -58,13 +58,13 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
 		PredictionSystem::StartPrediction(cmd);
-		
+	
+		Triggerbot::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
+		LagComp::CreateMove(cmd);
 		Legitbot::CreateMove(cmd);
 		Ragebot::CreateMove(cmd);
-		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
-		LagComp::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
 
 		ESP::CreateMove(cmd);

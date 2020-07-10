@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/entertainment/projects/csgo/MissedIT-Testing
+CMAKE_SOURCE_DIR = /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/entertainment/projects/csgo/MissedIT-Testing
+CMAKE_BINARY_DIR = /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/entertainment/projects/csgo/MissedIT-Testing/CMakeFiles /mnt/entertainment/projects/csgo/MissedIT-Testing/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/entertainment/projects/csgo/MissedIT-Testing/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -636,6 +636,114 @@ src/GUI/gui.cpp.s:
 	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/GUI/gui.cpp.s
 .PHONY : src/GUI/gui.cpp.s
 
+src/Hacks/AimBot/autoknife.o: src/Hacks/AimBot/autoknife.cpp.o
+
+.PHONY : src/Hacks/AimBot/autoknife.o
+
+# target to build an object file
+src/Hacks/AimBot/autoknife.cpp.o:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autoknife.cpp.o
+.PHONY : src/Hacks/AimBot/autoknife.cpp.o
+
+src/Hacks/AimBot/autoknife.i: src/Hacks/AimBot/autoknife.cpp.i
+
+.PHONY : src/Hacks/AimBot/autoknife.i
+
+# target to preprocess a source file
+src/Hacks/AimBot/autoknife.cpp.i:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autoknife.cpp.i
+.PHONY : src/Hacks/AimBot/autoknife.cpp.i
+
+src/Hacks/AimBot/autoknife.s: src/Hacks/AimBot/autoknife.cpp.s
+
+.PHONY : src/Hacks/AimBot/autoknife.s
+
+# target to generate assembly for a file
+src/Hacks/AimBot/autoknife.cpp.s:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autoknife.cpp.s
+.PHONY : src/Hacks/AimBot/autoknife.cpp.s
+
+src/Hacks/AimBot/autowall.o: src/Hacks/AimBot/autowall.cpp.o
+
+.PHONY : src/Hacks/AimBot/autowall.o
+
+# target to build an object file
+src/Hacks/AimBot/autowall.cpp.o:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autowall.cpp.o
+.PHONY : src/Hacks/AimBot/autowall.cpp.o
+
+src/Hacks/AimBot/autowall.i: src/Hacks/AimBot/autowall.cpp.i
+
+.PHONY : src/Hacks/AimBot/autowall.i
+
+# target to preprocess a source file
+src/Hacks/AimBot/autowall.cpp.i:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autowall.cpp.i
+.PHONY : src/Hacks/AimBot/autowall.cpp.i
+
+src/Hacks/AimBot/autowall.s: src/Hacks/AimBot/autowall.cpp.s
+
+.PHONY : src/Hacks/AimBot/autowall.s
+
+# target to generate assembly for a file
+src/Hacks/AimBot/autowall.cpp.s:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autowall.cpp.s
+.PHONY : src/Hacks/AimBot/autowall.cpp.s
+
+src/Hacks/AimBot/legitbot.o: src/Hacks/AimBot/legitbot.cpp.o
+
+.PHONY : src/Hacks/AimBot/legitbot.o
+
+# target to build an object file
+src/Hacks/AimBot/legitbot.cpp.o:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/legitbot.cpp.o
+.PHONY : src/Hacks/AimBot/legitbot.cpp.o
+
+src/Hacks/AimBot/legitbot.i: src/Hacks/AimBot/legitbot.cpp.i
+
+.PHONY : src/Hacks/AimBot/legitbot.i
+
+# target to preprocess a source file
+src/Hacks/AimBot/legitbot.cpp.i:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/legitbot.cpp.i
+.PHONY : src/Hacks/AimBot/legitbot.cpp.i
+
+src/Hacks/AimBot/legitbot.s: src/Hacks/AimBot/legitbot.cpp.s
+
+.PHONY : src/Hacks/AimBot/legitbot.s
+
+# target to generate assembly for a file
+src/Hacks/AimBot/legitbot.cpp.s:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/legitbot.cpp.s
+.PHONY : src/Hacks/AimBot/legitbot.cpp.s
+
+src/Hacks/AimBot/ragebot.o: src/Hacks/AimBot/ragebot.cpp.o
+
+.PHONY : src/Hacks/AimBot/ragebot.o
+
+# target to build an object file
+src/Hacks/AimBot/ragebot.cpp.o:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/ragebot.cpp.o
+.PHONY : src/Hacks/AimBot/ragebot.cpp.o
+
+src/Hacks/AimBot/ragebot.i: src/Hacks/AimBot/ragebot.cpp.i
+
+.PHONY : src/Hacks/AimBot/ragebot.i
+
+# target to preprocess a source file
+src/Hacks/AimBot/ragebot.cpp.i:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/ragebot.cpp.i
+.PHONY : src/Hacks/AimBot/ragebot.cpp.i
+
+src/Hacks/AimBot/ragebot.s: src/Hacks/AimBot/ragebot.cpp.s
+
+.PHONY : src/Hacks/AimBot/ragebot.s
+
+# target to generate assembly for a file
+src/Hacks/AimBot/ragebot.cpp.s:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/AimBot/ragebot.cpp.s
+.PHONY : src/Hacks/AimBot/ragebot.cpp.s
+
 src/Hacks/angleindicator.o: src/Hacks/angleindicator.cpp.o
 
 .PHONY : src/Hacks/angleindicator.o
@@ -825,33 +933,6 @@ src/Hacks/autodefuse.cpp.s:
 	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autodefuse.cpp.s
 .PHONY : src/Hacks/autodefuse.cpp.s
 
-src/Hacks/autoknife.o: src/Hacks/autoknife.cpp.o
-
-.PHONY : src/Hacks/autoknife.o
-
-# target to build an object file
-src/Hacks/autoknife.cpp.o:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autoknife.cpp.o
-.PHONY : src/Hacks/autoknife.cpp.o
-
-src/Hacks/autoknife.i: src/Hacks/autoknife.cpp.i
-
-.PHONY : src/Hacks/autoknife.i
-
-# target to preprocess a source file
-src/Hacks/autoknife.cpp.i:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autoknife.cpp.i
-.PHONY : src/Hacks/autoknife.cpp.i
-
-src/Hacks/autoknife.s: src/Hacks/autoknife.cpp.s
-
-.PHONY : src/Hacks/autoknife.s
-
-# target to generate assembly for a file
-src/Hacks/autoknife.cpp.s:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autoknife.cpp.s
-.PHONY : src/Hacks/autoknife.cpp.s
-
 src/Hacks/autostrafe.o: src/Hacks/autostrafe.cpp.o
 
 .PHONY : src/Hacks/autostrafe.o
@@ -878,33 +959,6 @@ src/Hacks/autostrafe.s: src/Hacks/autostrafe.cpp.s
 src/Hacks/autostrafe.cpp.s:
 	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autostrafe.cpp.s
 .PHONY : src/Hacks/autostrafe.cpp.s
-
-src/Hacks/autowall.o: src/Hacks/autowall.cpp.o
-
-.PHONY : src/Hacks/autowall.o
-
-# target to build an object file
-src/Hacks/autowall.cpp.o:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autowall.cpp.o
-.PHONY : src/Hacks/autowall.cpp.o
-
-src/Hacks/autowall.i: src/Hacks/autowall.cpp.i
-
-.PHONY : src/Hacks/autowall.i
-
-# target to preprocess a source file
-src/Hacks/autowall.cpp.i:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autowall.cpp.i
-.PHONY : src/Hacks/autowall.cpp.i
-
-src/Hacks/autowall.s: src/Hacks/autowall.cpp.s
-
-.PHONY : src/Hacks/autowall.s
-
-# target to generate assembly for a file
-src/Hacks/autowall.cpp.s:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/autowall.cpp.s
-.PHONY : src/Hacks/autowall.cpp.s
 
 src/Hacks/bhop.o: src/Hacks/bhop.cpp.o
 
@@ -1338,33 +1392,6 @@ src/Hacks/lagcomp.cpp.s:
 	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.s
 .PHONY : src/Hacks/lagcomp.cpp.s
 
-src/Hacks/legitbot.o: src/Hacks/legitbot.cpp.o
-
-.PHONY : src/Hacks/legitbot.o
-
-# target to build an object file
-src/Hacks/legitbot.cpp.o:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.o
-.PHONY : src/Hacks/legitbot.cpp.o
-
-src/Hacks/legitbot.i: src/Hacks/legitbot.cpp.i
-
-.PHONY : src/Hacks/legitbot.i
-
-# target to preprocess a source file
-src/Hacks/legitbot.cpp.i:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.i
-.PHONY : src/Hacks/legitbot.cpp.i
-
-src/Hacks/legitbot.s: src/Hacks/legitbot.cpp.s
-
-.PHONY : src/Hacks/legitbot.s
-
-# target to generate assembly for a file
-src/Hacks/legitbot.cpp.s:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/legitbot.cpp.s
-.PHONY : src/Hacks/legitbot.cpp.s
-
 src/Hacks/materialconfig.o: src/Hacks/materialconfig.cpp.o
 
 .PHONY : src/Hacks/materialconfig.o
@@ -1634,33 +1661,6 @@ src/Hacks/ragdollgravity.s: src/Hacks/ragdollgravity.cpp.s
 src/Hacks/ragdollgravity.cpp.s:
 	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.s
 .PHONY : src/Hacks/ragdollgravity.cpp.s
-
-src/Hacks/ragebot.o: src/Hacks/ragebot.cpp.o
-
-.PHONY : src/Hacks/ragebot.o
-
-# target to build an object file
-src/Hacks/ragebot.cpp.o:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.o
-.PHONY : src/Hacks/ragebot.cpp.o
-
-src/Hacks/ragebot.i: src/Hacks/ragebot.cpp.i
-
-.PHONY : src/Hacks/ragebot.i
-
-# target to preprocess a source file
-src/Hacks/ragebot.cpp.i:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.i
-.PHONY : src/Hacks/ragebot.cpp.i
-
-src/Hacks/ragebot.s: src/Hacks/ragebot.cpp.s
-
-.PHONY : src/Hacks/ragebot.s
-
-# target to generate assembly for a file
-src/Hacks/ragebot.cpp.s:
-	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/ragebot.cpp.s
-.PHONY : src/Hacks/ragebot.cpp.s
 
 src/Hacks/recoilcrosshair.o: src/Hacks/recoilcrosshair.cpp.o
 
@@ -3294,6 +3294,18 @@ help:
 	@echo "... src/GUI/gui.o"
 	@echo "... src/GUI/gui.i"
 	@echo "... src/GUI/gui.s"
+	@echo "... src/Hacks/AimBot/autoknife.o"
+	@echo "... src/Hacks/AimBot/autoknife.i"
+	@echo "... src/Hacks/AimBot/autoknife.s"
+	@echo "... src/Hacks/AimBot/autowall.o"
+	@echo "... src/Hacks/AimBot/autowall.i"
+	@echo "... src/Hacks/AimBot/autowall.s"
+	@echo "... src/Hacks/AimBot/legitbot.o"
+	@echo "... src/Hacks/AimBot/legitbot.i"
+	@echo "... src/Hacks/AimBot/legitbot.s"
+	@echo "... src/Hacks/AimBot/ragebot.o"
+	@echo "... src/Hacks/AimBot/ragebot.i"
+	@echo "... src/Hacks/AimBot/ragebot.s"
 	@echo "... src/Hacks/angleindicator.o"
 	@echo "... src/Hacks/angleindicator.i"
 	@echo "... src/Hacks/angleindicator.s"
@@ -3315,15 +3327,9 @@ help:
 	@echo "... src/Hacks/autodefuse.o"
 	@echo "... src/Hacks/autodefuse.i"
 	@echo "... src/Hacks/autodefuse.s"
-	@echo "... src/Hacks/autoknife.o"
-	@echo "... src/Hacks/autoknife.i"
-	@echo "... src/Hacks/autoknife.s"
 	@echo "... src/Hacks/autostrafe.o"
 	@echo "... src/Hacks/autostrafe.i"
 	@echo "... src/Hacks/autostrafe.s"
-	@echo "... src/Hacks/autowall.o"
-	@echo "... src/Hacks/autowall.i"
-	@echo "... src/Hacks/autowall.s"
 	@echo "... src/Hacks/bhop.o"
 	@echo "... src/Hacks/bhop.i"
 	@echo "... src/Hacks/bhop.s"
@@ -3372,9 +3378,6 @@ help:
 	@echo "... src/Hacks/lagcomp.o"
 	@echo "... src/Hacks/lagcomp.i"
 	@echo "... src/Hacks/lagcomp.s"
-	@echo "... src/Hacks/legitbot.o"
-	@echo "... src/Hacks/legitbot.i"
-	@echo "... src/Hacks/legitbot.s"
 	@echo "... src/Hacks/materialconfig.o"
 	@echo "... src/Hacks/materialconfig.i"
 	@echo "... src/Hacks/materialconfig.s"
@@ -3405,9 +3408,6 @@ help:
 	@echo "... src/Hacks/ragdollgravity.o"
 	@echo "... src/Hacks/ragdollgravity.i"
 	@echo "... src/Hacks/ragdollgravity.s"
-	@echo "... src/Hacks/ragebot.o"
-	@echo "... src/Hacks/ragebot.i"
-	@echo "... src/Hacks/ragebot.s"
 	@echo "... src/Hacks/recoilcrosshair.o"
 	@echo "... src/Hacks/recoilcrosshair.i"
 	@echo "... src/Hacks/recoilcrosshair.s"

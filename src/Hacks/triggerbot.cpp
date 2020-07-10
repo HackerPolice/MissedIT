@@ -1,11 +1,12 @@
 #include "triggerbot.h"
-#include "autowall.h"
+#include "AimBot/autowall.h"
 
 #include "../settings.h"
 #include "../interfaces.h"
 #include "../Utils/math.h"
 #include "../Utils/entity.h"
 
+static bool shouldShoot = false;
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::Triggerbot::enabled)
@@ -21,20 +22,38 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::flashCheck && localplayer->IsFlashed())
 		return;
 
+
+	
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
-
-
 	static int localMin = Settings::Triggerbot::RandomDelay::lowBound;
 	static int localMax = Settings::Triggerbot::RandomDelay::highBound;
 	static int randomDelay = localMin + rand() % (localMax - localMin);
+
+	oldTimeStamp = timeStamp;
+	timeStamp = currentTime_ms;
 
 	if( localMin != Settings::Triggerbot::RandomDelay::lowBound || localMax != Settings::Triggerbot::RandomDelay::highBound ) // Done in case Low/high bounds change before the next triggerbot shot.
 	{
 		localMin = Settings::Triggerbot::RandomDelay::lowBound;
 		localMax = Settings::Triggerbot::RandomDelay::highBound;
 		randomDelay = localMin + rand() % (localMax - localMin);
+	}
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+
+	if (shouldShoot && currentTime_ms - oldTimeStamp > randomDelay)
+	{
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+			cmd->buttons |= IN_ATTACK2;
+		else if ( !(cmd->buttons & IN_ATTACK) ){
+			shouldShoot = false;
+			cmd->buttons |= IN_ATTACK;
+		}
+			
+		timeStamp = oldTimeStamp;
+		return;
 	}
 
 
@@ -120,8 +139,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::smokeCheck && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
 		return;
 
-	
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon || activeWeapon->GetAmmo() == 0)
 		return;
 
@@ -134,33 +151,31 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			cmd->buttons |= IN_ATTACK2;
 			return; // will go to the next tick
 	    }
+
+	if ( !Legitbot::canShoot(cmd, localplayer, activeWeapon))
+		return;
+
 	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
 	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
 		return;
 
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
+	
+	if (Settings::Triggerbot::RandomDelay::enabled && currentTime_ms - oldTimeStamp < randomDelay)
 	{
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons &= ~IN_ATTACK2;
-		else
-			cmd->buttons &= ~IN_ATTACK;
+		timeStamp = oldTimeStamp;
+		shouldShoot = true;
+		return;
 	}
-	else
-	{
-		if (Settings::Triggerbot::RandomDelay::enabled && currentTime_ms - oldTimeStamp < randomDelay)
-		{
-			timeStamp = oldTimeStamp;
-			return;
-		}
 
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons |= IN_ATTACK2;
-		else if ( !(cmd->buttons & IN_ATTACK) )
-			cmd->buttons |= IN_ATTACK;
-		if(Settings::Triggerbot::RandomDelay::enabled)
-			Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+	shouldShoot = false;
+	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+		cmd->buttons |= IN_ATTACK2;
+	else if ( !(cmd->buttons & IN_ATTACK) )
+		cmd->buttons |= IN_ATTACK;
+	if(Settings::Triggerbot::RandomDelay::enabled)
+		Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
 
-		randomDelay = localMin + rand() % (localMax - localMin);
-	}
+	randomDelay = localMin + rand() % (localMax - localMin);
+
 	timeStamp = currentTime_ms;
 }
