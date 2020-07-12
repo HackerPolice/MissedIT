@@ -26,6 +26,8 @@
 #include "../Hacks/nofall.h"
 #include "../Hacks/ragdollgravity.h"
 #include "../Hacks/lagcomp.h"
+#include "../Hacks/fakeduck.h"
+#include "../Hacks/resolver.h"
 
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
@@ -43,6 +45,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
         bool *sendPacket = ((*(bool **)rbp) - (int)24);
+		
         CreateMove::sendPacket = true;
 
 		/* run code that affects movement before prediction */
@@ -58,7 +61,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
 		PredictionSystem::StartPrediction(cmd);
-	
+
+		Resolver::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
 		LagComp::CreateMove(cmd);
@@ -66,6 +70,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Ragebot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
+		// FakeDuck::CreateMove(cmd);
 
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);
@@ -75,10 +80,11 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		EdgeJump::PostPredictionCreateMove(cmd);
 		NoFall::PostPredictionCreateMove(cmd);
 
-        *sendPacket = CreateMove::sendPacket;
 		// cmd->tick_count = CreateMove::tickCount;
         if (CreateMove::sendPacket)
             CreateMove::lastTickViewAngles = cmd->viewangles;
+
+		*sendPacket = CreateMove::sendPacket;
 	}
 
 	return false;

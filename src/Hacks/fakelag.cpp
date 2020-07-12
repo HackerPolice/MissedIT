@@ -7,7 +7,9 @@
 #include "../Utils/math.h"
 #include "AimBot/autowall.h"
 
-int ticksMax = 16;
+#include <float.h>
+
+int ticksMax = 100;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
@@ -46,9 +48,13 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 
 			CreateMove::sendPacket = FakeLag::ticks < 16 - packetsToChoke;
 		}
+		else if (cmd->sidemove > 3 || cmd->sidemove < -3)
+		{
+			CreateMove::sendPacket = !(cmd->tick_count%16);
+		}
 		else
 		{
-			CreateMove::sendPacket = FakeLag::ticks < 16 - Settings::FakeLag::value;
+			CreateMove::sendPacket = !(cmd->tick_count%Settings::FakeLag::value);
 		}
 	}
 	
@@ -57,7 +63,10 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		oldorigin = localplayer->GetAbsOrigin();
 		localplayer->GetAnimState()->origin = (localplayer->GetVelocity().Length() * globalVars->interval_per_tick * Settings::FakeLag::value);
 		localplayer->SetAbsOrigin( &oldorigin );
+		// cmd->forwardmove = FLT_MAX;
+		// cmd->sidemove = FLT_MAX;
 	}
+	
 	
 
 	FakeLag::ticks++;

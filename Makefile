@@ -1203,6 +1203,33 @@ src/Hacks/eventlog.cpp.s:
 	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.s
 .PHONY : src/Hacks/eventlog.cpp.s
 
+src/Hacks/fakeduck.o: src/Hacks/fakeduck.cpp.o
+
+.PHONY : src/Hacks/fakeduck.o
+
+# target to build an object file
+src/Hacks/fakeduck.cpp.o:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o
+.PHONY : src/Hacks/fakeduck.cpp.o
+
+src/Hacks/fakeduck.i: src/Hacks/fakeduck.cpp.i
+
+.PHONY : src/Hacks/fakeduck.i
+
+# target to preprocess a source file
+src/Hacks/fakeduck.cpp.i:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.i
+.PHONY : src/Hacks/fakeduck.cpp.i
+
+src/Hacks/fakeduck.s: src/Hacks/fakeduck.cpp.s
+
+.PHONY : src/Hacks/fakeduck.s
+
+# target to generate assembly for a file
+src/Hacks/fakeduck.cpp.s:
+	$(MAKE) -f CMakeFiles/MissedIT.dir/build.make CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.s
+.PHONY : src/Hacks/fakeduck.cpp.s
+
 src/Hacks/fakelag.o: src/Hacks/fakelag.cpp.o
 
 .PHONY : src/Hacks/fakelag.o
@@ -3357,6 +3384,9 @@ help:
 	@echo "... src/Hacks/eventlog.o"
 	@echo "... src/Hacks/eventlog.i"
 	@echo "... src/Hacks/eventlog.s"
+	@echo "... src/Hacks/fakeduck.o"
+	@echo "... src/Hacks/fakeduck.i"
+	@echo "... src/Hacks/fakeduck.s"
 	@echo "... src/Hacks/fakelag.o"
 	@echo "... src/Hacks/fakelag.i"
 	@echo "... src/Hacks/fakelag.s"

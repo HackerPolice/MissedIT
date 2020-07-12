@@ -30,7 +30,21 @@ void MainThread()
 
     cvar->ConsoleDPrintf(XORSTR("Loading...\n"));
 
-	Hooker::FindSetNamedSkybox();
+	
+	Hooker::FindSendClanTag();
+	Hooker::FindPrediction();
+	Hooker::FindSetLocalPlayerReady();
+	Hooker::FindSurfaceDrawing();
+	Hooker::FindGetLocalClient();
+	Hooker::FindLineGoesThroughSmoke();
+	Hooker::FindInitKeyValues();
+    Hooker::FindPanelArrayOffset();
+    Hooker::FindPlayerAnimStateOffset();
+    Hooker::FindPlayerAnimOverlayOffset();
+	Hooker::FindSequenceActivity();
+    Hooker::FindAbsFunctions();
+    Hooker::FindItemSystem();
+    Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
 	Hooker::FindSDLInput();
 	Hooker::FindIClientMode();
@@ -40,21 +54,9 @@ void MainThread()
 	Hooker::FindPlayerResource();
 	Hooker::FindGameRules();
 	Hooker::FindRankReveal();
-	Hooker::FindSendClanTag();
-	Hooker::FindPrediction();
-	Hooker::FindSetLocalPlayerReady();
-	Hooker::FindSurfaceDrawing();
-	Hooker::FindGetLocalClient();
-	Hooker::FindLineGoesThroughSmoke();
-	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
 	Hooker::FindOverridePostProcessingDisable();
-    Hooker::FindPanelArrayOffset();
-    Hooker::FindPlayerAnimStateOffset();
-    Hooker::FindPlayerAnimOverlayOffset();
-	Hooker::FindSequenceActivity();
-    Hooker::FindAbsFunctions();
-    Hooker::FindItemSystem();
+    
 
     SDL2::HookSwapWindow();
     SDL2::HookPollEvent();
@@ -62,14 +64,14 @@ void MainThread()
     Offsets::GetNetVarOffsets();
     Fonts::SetupFonts();
 
-    
+    clientModeVMT = new VMT(clientMode);
+    clientModeVMT->HookVM(Hooks::OverrideView, 19);
+    clientModeVMT->HookVM(Hooks::CreateMove, 25);
+
     engineVGuiVMT = new VMT(engineVGui);
     engineVGuiVMT->HookVM(Hooks::Paint, 15);
     engineVGuiVMT->ApplyVMT();
 
-    clientModeVMT = new VMT(clientMode);
-    clientModeVMT->HookVM(Hooks::OverrideView, 19);
-    clientModeVMT->HookVM(Hooks::CreateMove, 25);
     // clientModeVMT->HookVM(Hooks::CreateMove2, 27);
     clientModeVMT->HookVM(Hooks::ShouldDrawCrosshair, 29);
     clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
@@ -79,11 +81,6 @@ void MainThread()
     clientVMT->HookVM(Hooks::LevelInitPostEntity, 6);
     clientVMT->HookVM(Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
-
-    materialVMT = new VMT(material);
-    materialVMT->HookVM(Hooks::OverrideConfig, 21);
-    materialVMT->HookVM(Hooks::BeginFrame, 42);
-	materialVMT->ApplyVMT();
 
     gameEventsVMT = new VMT(gameEvents);
 	gameEventsVMT->HookVM(Hooks::FireEventClientSide, 10);
@@ -101,20 +98,25 @@ void MainThread()
     soundVMT = new VMT(sound);
     soundVMT->HookVM( Hooks::EmitSound2, 6);
     soundVMT->ApplyVMT();
+    
+    materialVMT = new VMT(material);
+    materialVMT->HookVM(Hooks::OverrideConfig, 21);
+    materialVMT->HookVM(Hooks::BeginFrame, 42);
+	materialVMT->ApplyVMT();
 
     modelRenderVMT = new VMT(modelRender);
     modelRenderVMT->HookVM(Hooks::DrawModelExecute, 21);
     modelRenderVMT->ApplyVMT();
 
-    panelVMT = new VMT(panel);
-    panelVMT->HookVM(Hooks::PaintTraverse, 42);
-    panelVMT->ApplyVMT();
-
     viewRenderVMT = new VMT(viewRender);
     viewRenderVMT->HookVM(Hooks::RenderView, 6 );
     viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 42);
     viewRenderVMT->ApplyVMT();
-    
+
+    panelVMT = new VMT(panel);
+    panelVMT->HookVM(Hooks::PaintTraverse, 42);
+    panelVMT->ApplyVMT();
+
     surfaceVMT = new VMT(surface);
     surfaceVMT->HookVM(Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();

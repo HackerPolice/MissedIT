@@ -2,16 +2,18 @@
 
 #include "../SDK/IGameEvent.h"
 #include "../SDK/definitions.h"
+#include "DefaultHeader.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace Resolver
 {
 
-extern std::vector<int64_t> Players;
+    extern std::vector<int64_t> Players;
 
-//Hooks
-void FrameStageNotify(ClientFrameStage_t stage); // This is where the resolver happens.
-void FireGameEvent(IGameEvent *event);			 // Strangely, I never see this getting called.
+    //Hooks
+    void FrameStageNotify(ClientFrameStage_t stage); // This is where the resolver happens.
+    void FireGameEvent(IGameEvent *event);			 // Strangely, I never see this getting called.
+    void CreateMove(CUserCmd*);
 
 } // namespace Resolver

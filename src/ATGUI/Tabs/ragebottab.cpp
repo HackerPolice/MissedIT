@@ -60,15 +60,15 @@ void UI::ReloadRageWeaponSettings()
 	}
 		
 
-	Ragebot::UpdateValues();
+	// Ragebot::UpdateValues();
 }
 
 void UI::UpdateRageWeaponSettings()
 {
 	if (Settings::Ragebot::weapons.find(currentWeapon) == Settings::Ragebot::weapons.end() && Settings::Ragebot::enabled)
-		Settings::Ragebot::weapons[currentWeapon] = RagebotWeapon_t();
+		Settings::Ragebot::weapons[currentWeapon] = RageWeapon_t();
 
-	RagebotWeapon_t settings = {
+	RageWeapon_t settings = {
 			.silent = silent,
 			.friendly = friendly,
 			.closestBone = closestBone,
@@ -102,7 +102,7 @@ void UI::UpdateRageWeaponSettings()
 		return;
 	}
 
-	Ragebot::UpdateValues();
+	// Ragebot::UpdateValues();
 }
 
 void RagebotTab::RenderTab()

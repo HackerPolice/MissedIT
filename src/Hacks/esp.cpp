@@ -1447,7 +1447,7 @@ static void DrawSpread()
         }
     }
     if ( Settings::ESP::Spread::spreadLimit ) {
-        float cone = Settings::Legitbot::ShootAssist::Hitchance::value;
+        float cone = Settings::Legitbot::Hitchance::value;
         if ( cone > 0.0f ) {
             float radius = ( cone * Paint::engineHeight ) / 1.5f;
             Draw::AddRect( ( ( Paint::engineWidth / 2 ) - radius ), ( Paint::engineHeight / 2 ) - radius + 1,
@@ -1484,14 +1484,14 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 
 void ESP::Paint()
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer || !localplayer->GetAlive())
+		return;
+
 	if (!Settings::ESP::enabled && !inputSystem->IsButtonDown(Settings::ESP::key))
 		return;
 
 	if (!engine->IsInGame())
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
 		return;
 
 	for (int i = 1; i < entityList->GetHighestEntityIndex(); i++)
@@ -1596,6 +1596,10 @@ void ESP::Paint()
 
 void ESP::DrawModelExecute()
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer || !localplayer->GetAlive())
+		return;
+
 	if (!Settings::ESP::enabled)
 		return;
 

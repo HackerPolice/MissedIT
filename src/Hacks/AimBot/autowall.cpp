@@ -5,19 +5,24 @@ static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
 	switch (iHitGroup)
 	{
+		case HitGroups::HITGROUP_GENERIC:
+			return 0.5f;
 		case HitGroups::HITGROUP_HEAD:
-			return 4.0f;
+			return 2.0f;
 		case HitGroups::HITGROUP_CHEST:
+			return 0.5f;
 		case HitGroups::HITGROUP_LEFTARM:
 		case HitGroups::HITGROUP_RIGHTARM:
-			return 1.0f;
+			return 0.5f;
 		case HitGroups::HITGROUP_STOMACH:
-			return 1.25f;
+			return 0.75f;
 		case HitGroups::HITGROUP_LEFTLEG:
 		case HitGroups::HITGROUP_RIGHTLEG:
-			return 0.75f;
+			return 0.375f;
+		case HitGroups::HITGROUP_GEAR:
+			return 0.5;
 		default:
-			return 1.0f;
+			break;
 	}
 }
 
@@ -30,10 +35,10 @@ void AutoWall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon
 		if (hitgroup == HitGroups::HITGROUP_HEAD)
 		{
 			if (enemy->HasHelmet())
-				current_damage *= weapon_armor_ratio * 0.5f;
+				current_damage *= weapon_armor_ratio;
 		}
 		else
-			current_damage *= weapon_armor_ratio * 0.5f;
+			current_damage *= weapon_armor_ratio;
 	}
 }
 
@@ -230,7 +235,7 @@ bool AutoWall::SimulateFireBullet(C_BasePlayer* localplayer, C_BaseCombatWeapon*
 	return false;
 }
 
-int AutoWall::GetDamage(const Vector& point, C_BasePlayer* player, bool teamCheck, FireBulletData& fData)
+int AutoWall::GetDamage(Vector& point, C_BasePlayer* player, bool teamCheck, FireBulletData& fData)
 {
 	if (!player || !player->GetAlive())
 		return -1;

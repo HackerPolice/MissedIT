@@ -39,6 +39,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/MissedIT.dir/src/Hacks/edgejump.cpp.o"
   "CMakeFiles/MissedIT.dir/src/Hacks/esp.cpp.o"
   "CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o"
+  "CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o"
   "CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o"
   "CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o"
   "CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o"

@@ -21,7 +21,7 @@ namespace AutoWall
 		int penetrate_count = 0;
 	};
 
-	int GetDamage(const Vector& vecPoint,C_BasePlayer* player, bool teamCheck, FireBulletData& fData);
+	int GetDamage(Vector& vecPoint,C_BasePlayer* player, bool teamCheck, FireBulletData& fData);
 	void ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float& current_damage);
 	bool SimulateFireBullet(C_BasePlayer* localplayer, C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data);
 }

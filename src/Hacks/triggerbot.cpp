@@ -7,6 +7,30 @@
 #include "../Utils/entity.h"
 
 static bool shouldShoot = false;
+
+static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon)
+{
+	if(!localplayer || !localplayer->GetAlive() )
+		return false;
+	if (!activeWeapon || activeWeapon->GetInReload())
+		return false;
+	if (!Settings::Legitbot::Hitchance::enabled)
+	{
+		if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) >= (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) )
+			return true;
+		else
+			return false;
+	}
+	
+	activeWeapon->UpdateAccuracyPenalty();
+	float hitchance = activeWeapon->GetInaccuracy();
+	// hitchance = activeWeapon->GetInaccuracy();
+	if (hitchance == 0) hitchance = 0.0000001;
+	hitchance = 1/(hitchance);
+	
+	return hitchance >= (Settings::Legitbot::Hitchance::value*2);
+}
+
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::Triggerbot::enabled)
@@ -152,7 +176,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			return; // will go to the next tick
 	    }
 
-	if ( !Legitbot::canShoot(cmd, localplayer, activeWeapon))
+	if ( !canShoot(cmd, localplayer, activeWeapon))
 		return;
 
 	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();

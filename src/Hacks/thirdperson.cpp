@@ -72,25 +72,6 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		}
 		
 	}
-	else if ( spectate && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot() && Settings::ThirdPerson::toggled ){
-			QAngle viewAngles = *spectate->GetVAngles();
-			// engine->GetViewAngles(viewAngles);
-			trace_t tr;
-			Ray_t traceRay;
-			Vector eyePos = spectate->GetEyePosition();
-
-			Vector camOff = Vector(cos(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
-							   		sin(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
-							   		sin(DEG2RAD(-viewAngles.x)) * Settings::ThirdPerson::distance);
-
-			traceRay.Init(eyePos, (eyePos - camOff));
-			CTraceFilter traceFilter;
-			traceFilter.pSkip = spectate;
-			trace->TraceRay(traceRay, MASK_SOLID, &traceFilter, &tr);
-
-       	 	input->m_fCameraInThirdPerson = true; 
-			input->m_vecCameraOffset = eyePos + Vector(Settings::ThirdPerson::distance, Settings::ThirdPerson::distance, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
-	}
 	else if(input->m_fCameraInThirdPerson)
 	{
 		input->m_fCameraInThirdPerson = false;
@@ -109,7 +90,9 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 
 		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::toggled && input->m_fCameraInThirdPerson)
 		{
-			if (Settings::AntiAim::RageAntiAim::enable || Settings::AntiAim::LegitAntiAim::enable)
+			if (Settings::AntiAim::RageAntiAim::enable )
+				*localplayer->GetVAngles() = AntiAim::realAngle;
+			else if ( Settings::AntiAim::LegitAntiAim::enable)
 				*localplayer->GetVAngles() = AntiAim::realAngle;
 		}
 	}

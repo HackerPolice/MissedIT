@@ -48,8 +48,8 @@ static bool ignoreJumpEnabled = false;
 static bool ignoreEnemyJumpEnabled = false;
 static bool hitchanceEnaled = false;
 static float hitchance = 100.f;
-static int minShotFire = 6;
-static float MinDamage = 10.f;
+static float mindamagevalue = 10.f;
+static bool mindamage = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
 static bool TriggerBot = false;
@@ -89,25 +89,24 @@ void UI::ReloadWeaponSettings()
 	ignoreEnemyJumpEnabled = Settings::Legitbot::weapons.at(index).ignoreEnemyJumpEnabled;
 	hitchanceEnaled = Settings::Legitbot::weapons.at(index).hitchanceEnaled;
 	hitchance = Settings::Legitbot::weapons.at(index).hitchance;
-	MinDamage = Settings::Legitbot::weapons.at(index).MinDamage;
+	mindamage = Settings::Legitbot::weapons.at(index).mindamage;
+	mindamagevalue = Settings::Legitbot::weapons.at(index).minDamagevalue;
 	autoSlow = Settings::Legitbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Legitbot::weapons.at(index).predEnabled;
 	TriggerBot = Settings::Legitbot::weapons.at(index).TriggerBot;
 
 	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 		desiredBones[bone] = Settings::Legitbot::weapons.at(index).desiredBones[bone];
-
-	Legitbot::UpdateValues();
 }
 
 void UI::UpdateWeaponSettings()
 {
 	if (Settings::Legitbot::weapons.find(currentWeapon) == Settings::Legitbot::weapons.end() && Settings::Legitbot::enabled)
 	{
-		Settings::Legitbot::weapons[currentWeapon] = AimbotWeapon_t();
+		Settings::Legitbot::weapons[currentWeapon] = LegitWeapon_t();
 	}
 
-	AimbotWeapon_t settings = {
+	LegitWeapon_t settings = {
 			.silent = silent,
 			.autoShoot = autoShootEnabled,
 			.aimkeyOnly = aimkeyOnly,
@@ -126,6 +125,7 @@ void UI::UpdateWeaponSettings()
 			.autoSlow = autoSlow,
 			.predEnabled = predEnabled,
 			.TriggerBot = TriggerBot,
+			.mindamage = mindamage,
 			.bone = bone,
 			.smoothType = smoothType,
 			.aimkey = aimkey,
@@ -137,7 +137,7 @@ void UI::UpdateWeaponSettings()
 			.aimStepMax = aimStepMax,
 			.rcsAmountX = rcsAmountX,
 			.rcsAmountY = rcsAmountY,
-			.MinDamage = MinDamage,
+			.minDamagevalue = mindamagevalue,
 			.hitchance = hitchance,
 	};
 
@@ -155,7 +155,6 @@ void UI::UpdateWeaponSettings()
 		UI::ReloadWeaponSettings();
 		return;
 	}
-	Legitbot::UpdateValues();
 }
 
 void Legitbot::RenderTab()
@@ -393,18 +392,16 @@ void Legitbot::RenderTab()
 			{
 				ImGui::Columns(2, nullptr, false);
 				{
-					if (ImGui::Selectable(XORSTR("Smoothing"), &smoothEnabled, ImGuiSelectableFlags_DontClosePopups))
-						UI::UpdateWeaponSettings();
+					if (ImGui::Selectable(XORSTR("Smoothing"), &smoothEnabled, ImGuiSelectableFlags_DontClosePopups))	
+						{UI::UpdateWeaponSettings();}
 
-						ImGui::Spacing();
-					if (ImGui::Selectable(XORSTR("Smooth Salting"), &smoothSaltEnabled, ImGuiSelectableFlags_DontClosePopups))
-						UI::UpdateWeaponSettings();
+					ImGui::Spacing();
+					if (ImGui::Selectable(XORSTR("Smooth Salting"), &smoothSaltEnabled, ImGuiSelectableFlags_DontClosePopups))	
+						{UI::UpdateWeaponSettings();}
 
-						ImGui::Spacing();
-					if (ImGui::Selectable(XORSTR("Error Margin"), &errorMarginEnabled, ImGuiSelectableFlags_DontClosePopups))
-						UI::UpdateWeaponSettings();
-
-				
+					ImGui::Spacing();
+					if (ImGui::Selectable(XORSTR("Error Margin"), &errorMarginEnabled, ImGuiSelectableFlags_DontClosePopups))	
+						{UI::UpdateWeaponSettings();}
 				}
 				ImGui::NextColumn();
 				{
@@ -447,7 +444,10 @@ void Legitbot::RenderTab()
 			ImGui::Columns(1, nullptr, false);
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat(XORSTR("##AUTOWALLDMG"), &MinDamage, 0, 100, XORSTR("Min Damage: %.0f")))
+				if (ImGui::Checkbox(XORSTR("##MINDAMAGEENEBLED"), &mindamage))
+					{UI::UpdateWeaponSettings();}
+				ImGui::SameLine();
+				if (ImGui::SliderFloat(XORSTR("##MINDAMAGE"), &mindamagevalue, 0, 100, XORSTR("Min Damage: %.0f")))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}

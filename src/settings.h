@@ -76,6 +76,8 @@ enum class ChamsType : int
 	BUBBLE,
 	GOLD,
 	Achivements,
+	Snowflake,
+	Testing,
 	NONE,
 };
 
@@ -212,7 +214,7 @@ enum class RageAntiAimType : int
 	FreeStand,
 };
 
-struct AimbotWeapon_t
+struct LegitWeapon_t
 {
 	bool silent,
 		 autoShoot,
@@ -231,7 +233,8 @@ struct AimbotWeapon_t
 		 ignoreEnemyJumpEnabled,
 		 autoSlow,
 		 predEnabled,
-		 TriggerBot;
+		 TriggerBot,
+		 mindamage;
 	Bone bone = BONE_HEAD;
 	SmoothType smoothType = SmoothType::SLOW_END;
 	ButtonCode_t aimkey = ButtonCode_t ::MOUSE_MIDDLE;
@@ -243,11 +246,11 @@ struct AimbotWeapon_t
 		  aimStepMax = 35.0f,
 		  rcsAmountX = 2.0f,
 		  rcsAmountY = 2.0f,
-		  MinDamage = 10.0f,
+		  minDamagevalue = 10.0f,
 		  hitchance = 20;
 	bool desiredBones[31];
 
-	bool operator == (const AimbotWeapon_t& another) const
+	bool operator == (const LegitWeapon_t& another) const
 	{
 		for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 		{
@@ -283,11 +286,12 @@ struct AimbotWeapon_t
 			this->hitchance == another.hitchance &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
-			this->TriggerBot == another.TriggerBot;
+			this->TriggerBot == another.TriggerBot &&
+			this->mindamage == another.mindamage;
 	}
 } const defaultSettings{};
 
-struct RagebotWeapon_t
+struct RageWeapon_t
 {
 	bool silent,
 		 friendly,
@@ -307,7 +311,7 @@ struct RagebotWeapon_t
 	bool desiredMultiBones[6];
 	
 
-	bool operator == (const RagebotWeapon_t& Ragebotanother) const
+	bool operator == (const RageWeapon_t& Ragebotanother) const
 	{
 		for (int bone = 0; bone < 6; bone++) // static bones
 		{
@@ -471,11 +475,15 @@ namespace Settings
 	{
 		inline bool enabled = false;
         inline bool silent = false;
-		inline float minDamage = 10.f;
         inline Bone bone = BONE_HEAD;
         inline ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
         inline bool aimkeyOnly = false;
 
+		namespace MinDamage
+		{
+			inline bool enabled = false;
+			inline float value = 10.f;
+		}
 		namespace Smooth
 		{
 			inline bool enabled = false;
@@ -488,17 +496,15 @@ namespace Settings
                 inline float multiplier = 0.0f;
 			}
 		}
-
 		namespace ErrorMargin
 		{
 			inline bool enabled = false;
 			inline float value = 0.0f;
 		}
-
 		namespace AutoAim
 		{
 			inline bool enabled = false;
-            inline float fov = 15.f;
+            inline float fov = 30.f;
             inline bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
                                           true, true, true, true, true, true, true, // left arm
                                           true, true, true, true, true, true, true, // right arm
@@ -506,34 +512,17 @@ namespace Settings
                                           true, true, true, true, true  // right leg
             };
 		}
-
-		namespace ShootAssist
+		namespace Hitchance
 		{
 			inline bool enabled = false;
-
-			namespace ShotDelay
-			{
-				inline float Value = 100.f;
-			}	
-			namespace MinShotFire
-			{
-				inline int value = 6;
-			} // namespace MinShotFire
-
-			namespace Hitchance
-			{
-				inline bool enabled = false;
-				inline float value = 20;
-			}
+			inline float value = 20;
 		}
-
 		namespace AimStep
 		{
 			inline bool enabled = false;
 			inline float min = 25.0f;
 			inline float max = 35.0f;
 		}
-
 		namespace RCS
 		{
 			inline bool enabled = false;
@@ -541,44 +530,37 @@ namespace Settings
 			inline float valueX = 2.0f;
 			inline float valueY = 2.0f;
 		}
-
 		namespace AutoPistol
 		{
 			inline bool enabled = false;
 		}
-
 		namespace AutoShoot
 		{
 			inline bool enabled = false;
 			inline bool autoscope = false;
 		}
-
 		namespace AutoCrouch
 		{
 			inline bool enabled = false;
 		}
-
 		namespace AutoSlow
 		{
 			inline bool enabled = false;
 		}
-
 		namespace IgnoreJump
 		{
 			inline bool enabled = false;
 		}
-
 		namespace IgnoreEnemyJump
 		{
 			inline bool enabled = false;
 		}
-
 		namespace Prediction
 		{
 			inline bool enabled = false;
 		}
 
-		inline std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
+		inline std::unordered_map<ItemDefinitionIndex, LegitWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, defaultSettings },
         };
 	}
@@ -639,7 +621,7 @@ namespace Settings
 			inline bool enabled = false;
 		}
 
-		inline std::unordered_map<ItemDefinitionIndex, RagebotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
+		inline std::unordered_map<ItemDefinitionIndex, RageWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
 	}

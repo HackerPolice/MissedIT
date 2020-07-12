@@ -47,6 +47,7 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_che
 	return tr.m_pEntityHit == player;
 
 }
+
 bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -87,13 +88,10 @@ bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool sm
 	return (tr.m_pEntityHit==player || tr.fraction >= 0.98f);
 }
 
-bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, bool smoke_check)
+bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
-		return false;
-
-	if (player == localplayer || player->GetDormant())
 		return false;
 
 	if (!localplayer->GetAlive())
@@ -104,6 +102,10 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 		if (!localplayer)
 			return false;
 	}
+
+	if (player == localplayer || player->GetDormant() || !player->GetAlive() || !player)
+		return false;
+
 
 	Vector e_vecHead = player->GetBonePosition(bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
@@ -131,7 +133,7 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 	return false;
 }
 
-bool Entity::IsSpotVisibleThroughEnemies(C_BasePlayer *player, Vector spot, float fov, bool smoke_check)
+bool Entity::IsSpotVisibleThroughEnemies(C_BasePlayer *player, Vector spot, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)

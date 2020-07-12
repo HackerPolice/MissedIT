@@ -18,7 +18,8 @@ IMaterial	*materialChamsFlat,// FLAT
 			*achivements, //
 			*bubble, 
 			*snowflake,
-			*gold;
+			*gold,
+			*testing;
 
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 
@@ -26,8 +27,6 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 {
 	using namespace Settings::ESP;
 	if ( !Settings::ESP::Chams::enabled && !FilterEnemy::Chams::enabled && !FilterLocalPlayer::Chams::enabled)
-		return;
-	if (!Settings::ThirdPerson::toggled && Settings::ThirdPerson::enabled)
 		return;
 		
 	ChamsType chamsType = ChamsType::NONE;
@@ -47,7 +46,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 	else if (!Entity::IsTeamMate(entity, localplayer) && FilterEnemy::Chams::enabled)
 		chamsType = Settings::ESP::FilterEnemy::Chams::type;
 
-	else if ( entity == localplayer && FilterLocalPlayer::RealChams::enabled)
+	else if ( entity == localplayer && FilterLocalPlayer::RealChams::enabled && Settings::ThirdPerson::toggled && Settings::ThirdPerson::enabled)
 		chamsType = FilterLocalPlayer::Chams::type;
 	else
 		return;
@@ -181,8 +180,8 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 
 	if (entity->GetImmune())
 		Fake_meterial->AlphaModulate(0.5f);
-	else if (localplayer->GetVelocity().Length() != 0)
-		Fake_meterial->AlphaModulate(0.2f);
+	// else if (localplayer->GetVelocity().Length() != 0)
+	// 	Fake_meterial->AlphaModulate(0.5f);
 	else
 		Fake_meterial->AlphaModulate(1.f);
 	
@@ -200,7 +199,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	const float &fakeangle = AntiAim::fakeAngle.y-AntiAim::realAngle.y ;
 	static Vector OutPos;
 
-	if ( !(globalVars->tickcount%15) )
+	if ( !(globalVars->tickcount%4) )
 	{
 		for (int i = 0; i < 128; i++)
 		{
@@ -275,7 +274,7 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 	if (!Settings::ESP::Chams::Arms::enabled)
 		return;
 
-	if (Settings::ThirdPerson::toggled)
+	if (Settings::ThirdPerson::toggled && Settings::ThirdPerson::enabled)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
@@ -302,6 +301,12 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 		case ChamsType::Achivements:
 			mat = achivements;
 			break;
+		case ChamsType::Snowflake :
+			mat = snowflake;
+			break;
+		case ChamsType::Testing :
+			mat = testing;
+			break;
 		case ChamsType::NONE :
 			break;
 		default :
@@ -324,6 +329,10 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	if (!engine->IsInGame())
 		return;
 
+	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer || !localplayer->GetAlive())
+		return;
+		
 	if (!Settings::ESP::enabled)
 		return;
 
@@ -346,6 +355,8 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		bubble = material->FindMaterial("effects/bubble", TEXTURE_GROUP_VGUI);
 		
 		gold = material->FindMaterial("models/inventory_items/trophy_majors/gold", TEXTURE_GROUP_VGUI);
+
+		testing = material->FindMaterial("vgui/motd_bg", TEXTURE_GROUP_VGUI);
 		
 		materialsCreated = true;
 		

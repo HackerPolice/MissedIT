@@ -15,3 +15,11 @@
 #include "backtrack.h"
 #include "fakelag.h"
 #include "../Hooks/hooks.h"
+#include "AimBot/autowall.h"
+#include "antiaim.h"
+#include "lagcomp.h"
+
+#include <thread>
+#include <future>
+#include <iostream>
+#include <stdlib.h>

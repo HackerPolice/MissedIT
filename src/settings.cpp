@@ -166,43 +166,44 @@ void Settings::LoadDefaultsOrSave(std::string path)
     // TODO this is kind of a hack and i'm too tired to find a better way to do this
     // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
     // in C++ and weird shit
-    #define weaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
-	    weaponSetting[XORSTR("Silent")] = i.second.silent;
-	    weaponSetting[XORSTR("AutoShoot")] = i.second.autoShoot;
-	    weaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
-	    weaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
-	    weaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
-	    weaponSetting[XORSTR("Smooth")][XORSTR("Enabled")] = i.second.smoothEnabled;
-	    weaponSetting[XORSTR("Smooth")][XORSTR("Amount")] = i.second.smoothAmount;
-	    weaponSetting[XORSTR("Smooth")][XORSTR("Type")] = (int)i.second.smoothType;
-	    weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")] = i.second.smoothSaltEnabled;
-	    weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")] = i.second.smoothSaltMultiplier;
-	    weaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
-	    weaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
-	    weaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
-	    weaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
-	    weaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
-	    weaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
-	    weaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
-	    weaponSetting[XORSTR("RCS")][XORSTR("Enabled")] = i.second.rcsEnabled;
-	    weaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")] = i.second.rcsAlwaysOn;
-	    weaponSetting[XORSTR("RCS")][XORSTR("AmountX")] = i.second.rcsAmountX;
-    	weaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
-    	weaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
-    	weaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-    	weaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
-	    weaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
-    	weaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
-	    weaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
-	    weaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.MinDamage;
-    	weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
-	    weaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
-        weaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
+    #define LegitweaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
+	    LegitweaponSetting[XORSTR("Silent")] = i.second.silent;
+	    LegitweaponSetting[XORSTR("AutoShoot")] = i.second.autoShoot;
+	    LegitweaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
+	    LegitweaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
+	    LegitweaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
+	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Enabled")] = i.second.smoothEnabled;
+	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Amount")] = i.second.smoothAmount;
+	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Type")] = (int)i.second.smoothType;
+	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")] = i.second.smoothSaltEnabled;
+	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")] = i.second.smoothSaltMultiplier;
+	    LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
+	    LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
+	    LegitweaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
+	    LegitweaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
+	    LegitweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
+	    LegitweaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
+	    LegitweaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
+	    LegitweaponSetting[XORSTR("RCS")][XORSTR("Enabled")] = i.second.rcsEnabled;
+	    LegitweaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")] = i.second.rcsAlwaysOn;
+	    LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountX")] = i.second.rcsAmountX;
+    	LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
+    	LegitweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
+    	LegitweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
+    	LegitweaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
+	    LegitweaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
+    	LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
+	    LegitweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
+    	LegitweaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
+	    LegitweaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
+        LegitweaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
+        LegitweaponSetting[XORSTR("MinDamage")][XORSTR("enabled")] = i.second.mindamage;
+        LegitweaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.minDamagevalue;
 	
 	    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-	        weaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
+	        LegitweaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
 
-    #undef weaponSetting
+    #undef LegitweaponSetting
     }
 
     for (auto i : Settings::Ragebot::weapons)
@@ -754,7 +755,7 @@ void Settings::LoadConfig(std::string path)
     for (Json::ValueIterator itr = settings[XORSTR("Legitbot")][XORSTR("weapons")].begin(); itr != settings[XORSTR("Legitbot")][XORSTR("weapons")].end(); itr++)
     {
 	    std::string weaponDataKey = itr.key().asString();
-	    auto weaponSetting = settings[XORSTR("Legitbot")][XORSTR("weapons")][weaponDataKey];
+	    auto LegitweaponSetting = settings[XORSTR("Legitbot")][XORSTR("weapons")][weaponDataKey];
 
 	    // XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
 	    // XXX We can't use GetOrdinal() since the key type is a string...
@@ -769,44 +770,45 @@ void Settings::LoadConfig(std::string path)
 	    }
 
 	    if (Settings::Legitbot::weapons.find(weaponID) == Settings::Legitbot::weapons.end())
-	        Settings::Legitbot::weapons[weaponID] = AimbotWeapon_t();
+	        Settings::Legitbot::weapons[weaponID] = LegitWeapon_t();
 
-	    AimbotWeapon_t weapon = {
-	        .silent = weaponSetting[XORSTR("Silent")].asBool(),
-	        .autoShoot = weaponSetting[XORSTR("AutoShoot")].asBool(),
-	        .aimkeyOnly = weaponSetting[XORSTR("AimKeyOnly")].asBool(),
-	        .smoothEnabled = weaponSetting[XORSTR("Smooth")][XORSTR("Enabled")].asBool(),
-	        .smoothSaltEnabled = weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")].asBool(),
-	        .errorMarginEnabled = weaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")].asBool(),
-	        .autoAimEnabled = weaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")].asBool(),
-	        .aimStepEnabled = weaponSetting[XORSTR("AimStep")][XORSTR("Enabled")].asBool(),
-	        .rcsEnabled = weaponSetting[XORSTR("RCS")][XORSTR("Enabled")].asBool(),
-	        .rcsAlwaysOn = weaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")].asBool(),
-	        .hitchanceEnaled = weaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
-	        .autoPistolEnabled = weaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
-	        .autoScopeEnabled = weaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
-	        .ignoreJumpEnabled = weaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")].asBool(),
-	        .ignoreEnemyJumpEnabled = weaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")].asBool(),
-	        .autoSlow = weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")].asBool(),
-	        .predEnabled = weaponSetting[XORSTR("Prediction")][XORSTR("enabled")].asBool(),
-            .TriggerBot = weaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")].asBool(),
-	        .bone = weaponSetting[XORSTR("TargetBone")].asInt(),
-	        .smoothType = (SmoothType)weaponSetting[XORSTR("Smooth")][XORSTR("Type")].asInt(),
-	        .aimkey = Util::GetButtonCode(weaponSetting[XORSTR("AimKey")].asCString()),
-	        .smoothAmount = weaponSetting[XORSTR("Smooth")][XORSTR("Amount")].asFloat(),
-	        .smoothSaltMultiplier = weaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")].asFloat(),
-	        .errorMarginValue = weaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")].asFloat(),
-	        .LegitautoAimFov = weaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")].asFloat(),
-	        .aimStepMin = weaponSetting[XORSTR("AimStep")][XORSTR("min")].asFloat(),
-	        .aimStepMax = weaponSetting[XORSTR("AimStep")][XORSTR("max")].asFloat(),
-	        .rcsAmountX = weaponSetting[XORSTR("RCS")][XORSTR("AmountX")].asFloat(),
-	        .rcsAmountY = weaponSetting[XORSTR("RCS")][XORSTR("AmountY")].asFloat(),
-	        .MinDamage = weaponSetting[XORSTR("MinDamage")][XORSTR("Value")].asFloat(),
-	        .hitchance = weaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
+	    LegitWeapon_t weapon = {
+	        .silent = LegitweaponSetting[XORSTR("Silent")].asBool(),
+	        .autoShoot = LegitweaponSetting[XORSTR("AutoShoot")].asBool(),
+	        .aimkeyOnly = LegitweaponSetting[XORSTR("AimKeyOnly")].asBool(),
+	        .smoothEnabled = LegitweaponSetting[XORSTR("Smooth")][XORSTR("Enabled")].asBool(),
+	        .smoothSaltEnabled = LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")].asBool(),
+	        .errorMarginEnabled = LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")].asBool(),
+	        .autoAimEnabled = LegitweaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")].asBool(),
+	        .aimStepEnabled = LegitweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")].asBool(),
+	        .rcsEnabled = LegitweaponSetting[XORSTR("RCS")][XORSTR("Enabled")].asBool(),
+	        .rcsAlwaysOn = LegitweaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")].asBool(),
+	        .hitchanceEnaled = LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
+	        .autoPistolEnabled = LegitweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
+	        .autoScopeEnabled = LegitweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
+	        .ignoreJumpEnabled = LegitweaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")].asBool(),
+	        .ignoreEnemyJumpEnabled = LegitweaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")].asBool(),
+	        .autoSlow = LegitweaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")].asBool(),
+	        .predEnabled = LegitweaponSetting[XORSTR("Prediction")][XORSTR("enabled")].asBool(),
+            .TriggerBot = LegitweaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")].asBool(),
+            .mindamage = LegitweaponSetting[XORSTR("MinDamage")][XORSTR("enabled")].asBool(),
+	        .bone = LegitweaponSetting[XORSTR("TargetBone")].asInt(),
+	        .smoothType = (SmoothType)LegitweaponSetting[XORSTR("Smooth")][XORSTR("Type")].asInt(),
+	        .aimkey = Util::GetButtonCode(LegitweaponSetting[XORSTR("AimKey")].asCString()),
+	        .smoothAmount = LegitweaponSetting[XORSTR("Smooth")][XORSTR("Amount")].asFloat(),
+	        .smoothSaltMultiplier = LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")].asFloat(),
+	        .errorMarginValue = LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")].asFloat(),
+	        .LegitautoAimFov = LegitweaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")].asFloat(),
+	        .aimStepMin = LegitweaponSetting[XORSTR("AimStep")][XORSTR("min")].asFloat(),
+	        .aimStepMax = LegitweaponSetting[XORSTR("AimStep")][XORSTR("max")].asFloat(),
+	        .rcsAmountX = LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountX")].asFloat(),
+	        .rcsAmountY = LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountY")].asFloat(),
+	        .minDamagevalue = LegitweaponSetting[XORSTR("MinDamage")][XORSTR("Value")].asFloat(),
+	        .hitchance = LegitweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
 	    };
 
 	    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-	        weapon.desiredBones[bone] = weaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone].asBool();
+	        weapon.desiredBones[bone] = LegitweaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone].asBool();
 	    Settings::Legitbot::weapons.at(weaponID) = weapon;
     }
 
@@ -816,50 +818,48 @@ void Settings::LoadConfig(std::string path)
 
     for (Json::ValueIterator itr = settings[XORSTR("Ragebot")][XORSTR("weapons")].begin(); itr != settings[XORSTR("Ragebot")][XORSTR("weapons")].end(); itr++)
     {
-	std::string RageweaponDataKey = itr.key().asString();
-	auto RageweaponSetting = settings[XORSTR("Ragebot")][XORSTR("weapons")][RageweaponDataKey];
+	    std::string RageweaponDataKey = itr.key().asString();
+	    auto RageweaponSetting = settings[XORSTR("Ragebot")][XORSTR("weapons")][RageweaponDataKey];
 
-	// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
-	// XXX We can't use GetOrdinal() since the key type is a string...
-	ItemDefinitionIndex weaponID;
-	try
-	{
-	    weaponID = (ItemDefinitionIndex)std::stoi(RageweaponDataKey);
-	}
-	catch (std::invalid_argument&) // Not a number
-	{
-	    weaponID = Util::Items::GetItemIndex(RageweaponDataKey);
-	}
+	    // XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
+	    // XXX We can't use GetOrdinal() since the key type is a string...
+	    ItemDefinitionIndex weaponID;
+	    try
+	    {
+	        weaponID = (ItemDefinitionIndex)std::stoi(RageweaponDataKey);
+	    }
+	    catch (std::invalid_argument&) // Not a number
+	    {
+	        weaponID = Util::Items::GetItemIndex(RageweaponDataKey);
+	    }
 
-	// loading ragebot default
-	if (Settings::Ragebot::weapons.find(weaponID) == Settings::Ragebot::weapons.end())
-	    Settings::Ragebot::weapons[weaponID] = RagebotWeapon_t();
+	    // loading ragebot default
+	    if (Settings::Ragebot::weapons.find(weaponID) == Settings::Ragebot::weapons.end())
+	        Settings::Ragebot::weapons[weaponID] = RageWeapon_t();
 
-	RagebotWeapon_t weapon = {
-	    .silent = RageweaponSetting[XORSTR("Silent")].asBool(),
-	    .friendly = RageweaponSetting[XORSTR("Friendly")].asBool(),
-	    .closestBone = RageweaponSetting[XORSTR("ClosestBone")].asBool(),
-	    .HitChanceEnabled = RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
-	    .autoPistolEnabled = RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
-	    .autoShootEnabled = RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")].asBool(),
-	    .autoScopeEnabled = RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
-	    .autoSlow = RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")].asBool(),
-	    .scopeControlEnabled = RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")].asBool(),
-		.DoubleFire = RageweaponSetting[XORSTR("Prediction")][XORSTR("Enabled")].asBool(),
-        .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
-	    .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
-    };
-    // Getting value like this because can't find anyother way convert value from json to enum
-    GetVal(RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")], (int*)&weapon.DmagePredictionType);
-    GetVal(RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")], (int*)&weapon.enemySelectionType);
+	    RageWeapon_t weapon = {
+	        .silent = RageweaponSetting[XORSTR("Silent")].asBool(),
+	        .friendly = RageweaponSetting[XORSTR("Friendly")].asBool(),
+	        .closestBone = RageweaponSetting[XORSTR("ClosestBone")].asBool(),
+	        .HitChanceEnabled = RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
+	        .autoPistolEnabled = RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
+	        .autoShootEnabled = RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")].asBool(),
+	        .autoScopeEnabled = RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
+	        .autoSlow = RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")].asBool(),
+	        .scopeControlEnabled = RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")].asBool(),
+		    .DoubleFire = RageweaponSetting[XORSTR("Prediction")][XORSTR("Enabled")].asBool(),
+            .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
+	        .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
+        };
+        // Getting value like this because can't find anyother way convert value from json to enum
+        GetVal(RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")], (int*)&weapon.DmagePredictionType);
+        GetVal(RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")], (int*)&weapon.enemySelectionType);
 
-	for (int bone = 0; bone < 6; bone++)
-    {
-        weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
-        weapon.desiredMultiBones[bone] = RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone].asBool();
-    }
-	        
-	    
+	    for (int bone = 0; bone < 6; bone++)
+        {
+            weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
+            weapon.desiredMultiBones[bone] = RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone].asBool();
+        } 
         Settings::Ragebot::weapons.at(weaponID) = weapon;
     }
 

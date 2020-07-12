@@ -577,9 +577,22 @@ CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/eventlog.cpp -o CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.s
 
+CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o: CMakeFiles/MissedIT.dir/flags.make
+CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o: src/Hacks/fakeduck.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/fakeduck.cpp
+
+CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/fakeduck.cpp > CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.i
+
+CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/fakeduck.cpp -o CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.s
+
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o: src/Hacks/fakelag.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/fakelag.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.i: cmake_force
@@ -592,7 +605,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o: src/Hacks/fovchanger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/fovchanger.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.i: cmake_force
@@ -605,7 +618,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o: src/Hacks/grenadehelper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/grenadehelper.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.i: cmake_force
@@ -618,7 +631,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.o: src/Hacks/grenadeprediction.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/grenadeprediction.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.i: cmake_force
@@ -631,7 +644,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.o: src/Hacks/hitmarkers.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/hitmarkers.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.i: cmake_force
@@ -644,7 +657,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.o: src/Hacks/jumpthrow.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/jumpthrow.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.i: cmake_force
@@ -657,7 +670,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.o: src/Hacks/lagcomp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/lagcomp.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.i: cmake_force
@@ -670,7 +683,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/lagcomp.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.o: src/Hacks/materialconfig.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/materialconfig.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.i: cmake_force
@@ -683,7 +696,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.o: src/Hacks/namechanger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/namechanger.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.i: cmake_force
@@ -696,7 +709,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.o: src/Hacks/namestealer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/namestealer.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.i: cmake_force
@@ -709,7 +722,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.o: src/Hacks/noduckcooldown.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/noduckcooldown.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.i: cmake_force
@@ -722,7 +735,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.o: src/Hacks/nofall.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/nofall.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.i: cmake_force
@@ -735,7 +748,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.o: src/Hacks/noflash.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/noflash.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.i: cmake_force
@@ -748,7 +761,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.o: src/Hacks/nosmoke.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/nosmoke.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.i: cmake_force
@@ -761,7 +774,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.o: src/Hacks/predictionsystem.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/predictionsystem.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.i: cmake_force
@@ -774,7 +787,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.o: src/Hacks/radar.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/radar.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.i: cmake_force
@@ -787,7 +800,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o: src/Hacks/ragdollgravity.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/ragdollgravity.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.i: cmake_force
@@ -800,7 +813,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.o: src/Hacks/recoilcrosshair.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/recoilcrosshair.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.i: cmake_force
@@ -813,7 +826,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.o: src/Hacks/resolver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/resolver.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.i: cmake_force
@@ -826,7 +839,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/resolver.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.o: src/Hacks/showranks.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/showranks.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.i: cmake_force
@@ -839,7 +852,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.o: src/Hacks/skinchanger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/skinchanger.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.i: cmake_force
@@ -852,7 +865,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.o: src/Hacks/skybox.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/skybox.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.i: cmake_force
@@ -865,7 +878,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.o: src/Hacks/snipercrosshair.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/snipercrosshair.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.i: cmake_force
@@ -878,7 +891,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.o: src/Hacks/spammer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/spammer.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.i: cmake_force
@@ -891,7 +904,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.o: src/Hacks/thirdperson.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/thirdperson.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.i: cmake_force
@@ -904,7 +917,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.o: src/Hacks/tracereffect.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/tracereffect.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.i: cmake_force
@@ -917,7 +930,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.o: src/Hacks/triggerbot.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/triggerbot.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.i: cmake_force
@@ -930,7 +943,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/triggerbot.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.o: src/Hacks/valvedscheck.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/valvedscheck.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.i: cmake_force
@@ -943,7 +956,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/valvedscheck.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.o: src/Hacks/view.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/view.cpp
 
 CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.i: cmake_force
@@ -956,7 +969,7 @@ CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.o: src/Hooks/BeginFrame.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/BeginFrame.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.i: cmake_force
@@ -969,7 +982,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o: src/Hooks/CreateMove.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/CreateMove.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.i: cmake_force
@@ -982,7 +995,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o: src/Hooks/DrawModelExecute.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/DrawModelExecute.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.i: cmake_force
@@ -995,7 +1008,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.o: src/Hooks/EmitSound.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/EmitSound.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.i: cmake_force
@@ -1008,7 +1021,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.o: src/Hooks/FireEventClientSide.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/FireEventClientSide.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.i: cmake_force
@@ -1021,7 +1034,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o: src/Hooks/FrameStageNotify.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/FrameStageNotify.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.i: cmake_force
@@ -1034,7 +1047,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.o: src/Hooks/GetViewModelFOV.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/GetViewModelFOV.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.i: cmake_force
@@ -1047,7 +1060,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.o: src/Hooks/LevelInitPostEntity.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/LevelInitPostEntity.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.i: cmake_force
@@ -1060,7 +1073,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.o: src/Hooks/OnScreenSizeChanged.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/OnScreenSizeChanged.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.i: cmake_force
@@ -1073,7 +1086,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.o: src/Hooks/OverrideConfig.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/OverrideConfig.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.i: cmake_force
@@ -1086,7 +1099,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.o: src/Hooks/OverrideView.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/OverrideView.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.i: cmake_force
@@ -1099,7 +1112,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.o: src/Hooks/Paint.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/Paint.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.i: cmake_force
@@ -1112,7 +1125,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.o: src/Hooks/PaintTraverse.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/PaintTraverse.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.i: cmake_force
@@ -1125,7 +1138,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.o: src/Hooks/PumpWindowsMessageLoop.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/PumpWindowsMessageLoop.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.i: cmake_force
@@ -1138,7 +1151,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.o: src/Hooks/RenderSmokePostViewmodel.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/RenderSmokePostViewmodel.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.i: cmake_force
@@ -1151,7 +1164,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.o: src/Hooks/RenderView.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/RenderView.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.i: cmake_force
@@ -1164,7 +1177,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.o: src/Hooks/SetKeyCodeState.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/SetKeyCodeState.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.i: cmake_force
@@ -1177,7 +1190,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.o: src/Hooks/SetMouseCodeState.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/SetMouseCodeState.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.i: cmake_force
@@ -1190,7 +1203,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.o: src/Hooks/ShouldDrawCrosshair.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building CXX object CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/ShouldDrawCrosshair.cpp
 
 CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.i: cmake_force
@@ -1203,7 +1216,7 @@ CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.o: src/ImGUI/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/imgui.cpp
 
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.i: cmake_force
@@ -1216,7 +1229,7 @@ CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.o: src/ImGUI/imgui_demo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/imgui_demo.cpp
 
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.i: cmake_force
@@ -1229,7 +1242,7 @@ CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.o: src/ImGUI/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/imgui_draw.cpp
 
 CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.i: cmake_force
@@ -1242,7 +1255,7 @@ CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/MissedIT.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/MissedIT.cpp.o: src/MissedIT.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building CXX object CMakeFiles/MissedIT.dir/src/MissedIT.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building CXX object CMakeFiles/MissedIT.dir/src/MissedIT.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/MissedIT.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/MissedIT.cpp
 
 CMakeFiles/MissedIT.dir/src/MissedIT.cpp.i: cmake_force
@@ -1255,7 +1268,7 @@ CMakeFiles/MissedIT.dir/src/MissedIT.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.o: src/Utils/ColorPickerButton.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/ColorPickerButton.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.i: cmake_force
@@ -1268,7 +1281,7 @@ CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.o: src/Utils/MemoryProtection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/MemoryProtection.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.i: cmake_force
@@ -1281,7 +1294,7 @@ CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.o: src/Utils/bonemaps.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_96) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/bonemaps.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.i: cmake_force
@@ -1294,7 +1307,7 @@ CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.o: src/Utils/draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_96) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_97) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/draw.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.i: cmake_force
@@ -1307,7 +1320,7 @@ CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.o: src/Utils/entity.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_97) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_98) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/entity.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.i: cmake_force
@@ -1320,7 +1333,7 @@ CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/math.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/math.cpp.o: src/Utils/math.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_98) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/math.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_99) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/math.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/math.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/math.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/math.cpp.i: cmake_force
@@ -1333,7 +1346,7 @@ CMakeFiles/MissedIT.dir/src/Utils/math.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.o: src/Utils/netvarmanager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_99) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/netvarmanager.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.i: cmake_force
@@ -1346,7 +1359,7 @@ CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.o: src/Utils/patternfinder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_101) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/patternfinder.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.i: cmake_force
@@ -1359,7 +1372,7 @@ CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.o: src/Utils/skins.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_101) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_102) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/skins.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.i: cmake_force
@@ -1372,7 +1385,7 @@ CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/util.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/util.cpp.o: src/Utils/util.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_102) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/util.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_103) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/util.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/util.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/util.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/util.cpp.i: cmake_force
@@ -1385,7 +1398,7 @@ CMakeFiles/MissedIT.dir/src/Utils/util.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.o: src/Utils/util_items.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_103) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_104) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/util_items.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.i: cmake_force
@@ -1398,7 +1411,7 @@ CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.o: src/Utils/util_sdk.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_104) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_105) "Building CXX object CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/util_sdk.cpp
 
 CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.i: cmake_force
@@ -1411,7 +1424,7 @@ CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/config.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/config.cpp.o: src/config.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_105) "Building CXX object CMakeFiles/MissedIT.dir/src/config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_106) "Building CXX object CMakeFiles/MissedIT.dir/src/config.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/config.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/config.cpp
 
 CMakeFiles/MissedIT.dir/src/config.cpp.i: cmake_force
@@ -1424,7 +1437,7 @@ CMakeFiles/MissedIT.dir/src/config.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/fonts.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/fonts.cpp.o: src/fonts.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_106) "Building CXX object CMakeFiles/MissedIT.dir/src/fonts.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_107) "Building CXX object CMakeFiles/MissedIT.dir/src/fonts.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/fonts.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/fonts.cpp
 
 CMakeFiles/MissedIT.dir/src/fonts.cpp.i: cmake_force
@@ -1437,7 +1450,7 @@ CMakeFiles/MissedIT.dir/src/fonts.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/hooker.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/hooker.cpp.o: src/hooker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_107) "Building CXX object CMakeFiles/MissedIT.dir/src/hooker.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_108) "Building CXX object CMakeFiles/MissedIT.dir/src/hooker.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/hooker.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/hooker.cpp
 
 CMakeFiles/MissedIT.dir/src/hooker.cpp.i: cmake_force
@@ -1450,7 +1463,7 @@ CMakeFiles/MissedIT.dir/src/hooker.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/interfaces.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/interfaces.cpp.o: src/interfaces.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_108) "Building CXX object CMakeFiles/MissedIT.dir/src/interfaces.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_109) "Building CXX object CMakeFiles/MissedIT.dir/src/interfaces.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/interfaces.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/interfaces.cpp
 
 CMakeFiles/MissedIT.dir/src/interfaces.cpp.i: cmake_force
@@ -1463,7 +1476,7 @@ CMakeFiles/MissedIT.dir/src/interfaces.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.o: src/json/jsoncpp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_109) "Building CXX object CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_110) "Building CXX object CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/json/jsoncpp.cpp
 
 CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.i: cmake_force
@@ -1476,7 +1489,7 @@ CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/offsets.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/offsets.cpp.o: src/offsets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_110) "Building CXX object CMakeFiles/MissedIT.dir/src/offsets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_111) "Building CXX object CMakeFiles/MissedIT.dir/src/offsets.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/offsets.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/offsets.cpp
 
 CMakeFiles/MissedIT.dir/src/offsets.cpp.i: cmake_force
@@ -1489,7 +1502,7 @@ CMakeFiles/MissedIT.dir/src/offsets.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/sdlhook.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/sdlhook.cpp.o: src/sdlhook.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_111) "Building CXX object CMakeFiles/MissedIT.dir/src/sdlhook.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_112) "Building CXX object CMakeFiles/MissedIT.dir/src/sdlhook.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/sdlhook.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/sdlhook.cpp
 
 CMakeFiles/MissedIT.dir/src/sdlhook.cpp.i: cmake_force
@@ -1502,7 +1515,7 @@ CMakeFiles/MissedIT.dir/src/sdlhook.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/settings.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/settings.cpp.o: src/settings.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_112) "Building CXX object CMakeFiles/MissedIT.dir/src/settings.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_113) "Building CXX object CMakeFiles/MissedIT.dir/src/settings.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/settings.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/settings.cpp
 
 CMakeFiles/MissedIT.dir/src/settings.cpp.i: cmake_force
@@ -1515,7 +1528,7 @@ CMakeFiles/MissedIT.dir/src/settings.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/shortcuts.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/shortcuts.cpp.o: src/shortcuts.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_113) "Building CXX object CMakeFiles/MissedIT.dir/src/shortcuts.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_114) "Building CXX object CMakeFiles/MissedIT.dir/src/shortcuts.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/shortcuts.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/shortcuts.cpp
 
 CMakeFiles/MissedIT.dir/src/shortcuts.cpp.i: cmake_force
@@ -1528,7 +1541,7 @@ CMakeFiles/MissedIT.dir/src/shortcuts.cpp.s: cmake_force
 
 CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.o: src/ImGUI/examples/imgui_impl_opengles3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_114) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_115) "Building CXX object CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.o -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples/imgui_impl_opengles3.cpp
 
 CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.i: cmake_force
@@ -1541,7 +1554,7 @@ CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.s: cmake_for
 
 CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o: CMakeFiles/MissedIT.dir/flags.make
 CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o: src/ImGUI/examples/libs/gl3w/GL/gl3w.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_115) "Building C object CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_116) "Building C object CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o   -c /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/ImGUI/examples/libs/gl3w/GL/gl3w.c
 
 CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.i: cmake_force
@@ -1594,6 +1607,7 @@ MissedIT_OBJECTS = \
 "CMakeFiles/MissedIT.dir/src/Hacks/edgejump.cpp.o" \
 "CMakeFiles/MissedIT.dir/src/Hacks/esp.cpp.o" \
 "CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o" \
+"CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o" \
 "CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o" \
 "CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o" \
 "CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o" \
@@ -1713,6 +1727,7 @@ libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/dlights.cpp.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/edgejump.cpp.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/esp.cpp.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o
+libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/fakeduck.cpp.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/fakelag.cpp.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o
@@ -1790,7 +1805,7 @@ libMissedIT.so: CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.
 libMissedIT.so: CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o
 libMissedIT.so: CMakeFiles/MissedIT.dir/build.make
 libMissedIT.so: CMakeFiles/MissedIT.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_116) "Linking CXX shared library libMissedIT.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/CMakeFiles --progress-num=$(CMAKE_PROGRESS_117) "Linking CXX shared library libMissedIT.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MissedIT.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

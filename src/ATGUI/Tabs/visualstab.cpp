@@ -25,6 +25,8 @@
 									"BUBBLE",
 									"GOLD",
 									"Achivements",
+									"Snowflake",
+									"testing",
 									"NONE",
 								};
 
