@@ -1,10 +1,4 @@
 #include "triggerbot.h"
-#include "AimBot/autowall.h"
-
-#include "../settings.h"
-#include "../interfaces.h"
-#include "../Utils/math.h"
-#include "../Utils/entity.h"
 
 static bool shouldShoot = false;
 

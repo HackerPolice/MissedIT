@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../SDK/IInputSystem.h"
+#include "../DefaultHeader.hpp"
+
 
 namespace Triggerbot
 {

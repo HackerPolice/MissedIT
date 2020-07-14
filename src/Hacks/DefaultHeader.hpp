@@ -13,18 +13,12 @@
 #include "../SDK/IClientEntity.h"
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IGameEvent.h"
-#include "../SDK/IInputSystem.h"
-#include "../SDK/IGameEvent.h"
 #include "../SDK/definitions.h"
 //Utilities
 #include "../Utils/bonemaps.h"
 #include "../Utils/entity.h"
-#include "../Utils/math.h"
-#include "../Utils/xorstring.h"
 #include "../Utils/xorstring.h"
 #include "../Utils/math.h"
-#include "../Utils/entity.h"
-#include "../Utils/bonemaps.h"
 
 //Hacks
 #include "AimBot/autowall.h"
