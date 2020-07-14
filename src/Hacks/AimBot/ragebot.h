@@ -13,6 +13,10 @@ namespace Ragebot {
         Vector lockedSpot = Vector(0);
     };
 
+    inline Vector localEye = Vector(0),
+    	 BestSpot = Vector(0);
+    inline int BestDamage = 0;
+
     inline bool shouldAim = false,
                 shouldSlow = false,
                 doubleTap = false;

@@ -530,8 +530,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
 			continue;
 
-		AutoWall::FireBulletData data;
-		int damage = (int)AutoWall::GetDamage( bone3D, true, data );
+		int damage = (int)AutoWall::GetDamage( bone3D, true);
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
@@ -577,10 +576,8 @@ static void DrawAutoWall(C_BasePlayer *player) {
 	headPoints[9].y += bbox->radius * 0.80f;
 	headPoints[10].y -= bbox->radius * 0.80f;
 
-
-	AutoWall::FireBulletData data;
 	for ( int i = 0; i < 11; i++ ) {
-		int damage = (int)AutoWall::GetDamage( headPoints[i], true, data );
+		int damage = (int)AutoWall::GetDamage( headPoints[i], true);
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 
