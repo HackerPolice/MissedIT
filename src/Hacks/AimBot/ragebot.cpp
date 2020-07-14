@@ -154,12 +154,32 @@ static void GetDamageAndSpots(C_BasePlayer* player, C_BasePlayer* localplayer, V
 
 	int boneID = -1;
 
+	auto HitboxHead([&](int BoneID){
+		Vector bone3D = Vector(0);
+		int bestDamage = 0;
+		if (desiredMultiBones[i]) BestMultiPointHEADDamage(player, boneID, bestDamage, bone3D, boneMatrix);
+		else 
+		{
+			bone3D = player->GetBonePosition(BoneID);
+			AutoWall::FireBulletData data;
+			bestDamage = AutoWall::GetDamage(bone3D, localplayer, true, data);
+		} 
+
+		if (bestDamage > Damage)
+		{
+			Spot = bone3D;
+			Damage = bestDamage;
+		}
+
+	});
 	switch ((DesireBones)i)
 	{
 		case DesireBones::BONE_HEAD:
 			boneID = (*modelType).at(BONE_HEAD);
 			if ( playerHelth <= 90  )
 				boneID = (*modelType).at(BONE_NECK);
+			
+			HitboxHead(boneID); // lamda expression because again creating a new method is going to make the source code mess :p
 			break;
 		case DesireBones::UPPER_CHEST:
 			boneID = (*modelType).at(BONE_UPPER_SPINAL_COLUMN);
@@ -219,20 +239,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, C_BasePlayer* localplayer, V
 			if (bestDamage >= 40)
 				return;
 		}
-	}
-	else if ( boneID == (*modelType).at(BONE_HEAD) && desiredMultiBones[i])
-	{
-		Vector bone3D = player->GetBonePosition(boneID);
-		AutoWall::FireBulletData data;
-		int bestDamage = AutoWall::GetDamage(bone3D, localplayer, true, data);
-
-		if ( bestDamage >= 90)
-		{
-			Damage = bestDamage;
-			Spot = bone3D;
-			return;
-		}
-		BestMultiPointHEADDamage(player, boneID, Damage, Spot, boneMatrix);
 	}
 	else if ( boneID == (*modelType).at(BONE_UPPER_SPINAL_COLUMN) && desiredMultiBones[i])
 	{
@@ -395,7 +401,7 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 	const std::unordered_map<int, int>* modelType = BoneMaps::GetModelTypeBoneMap(player);
 
 	static matrix3x4_t boneMatrix[128];
-	player->SetupBones(boneMatrix, 128, 0x100, 0);
+		player->SetupBones(boneMatrix, 128, 0x100, 0);
 
 	if (Settings::Ragebot::damagePrediction == DamagePrediction::damage)
 	{
@@ -476,7 +482,8 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd,C_BasePlayer* localpl
 	}
 	
 	C_BasePlayer* clossestEnemy = nullptr;
-	for (int i = engine->GetMaxClients(); i >= 0 ; i--)
+	static const int &maxClient = engine->GetMaxClients();
+	for (int i = maxClient; i >= 0 ; i--)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
@@ -543,7 +550,8 @@ static C_BasePlayer* GetBestEnemyAndSpot(CUserCmd* cmd,C_BasePlayer* localplayer
 	}
 	
 	C_BasePlayer* clossestEnemy = nullptr;
-	for (int i = 0; i <= engine->GetMaxClients(); i++)
+	static const int &maxClient = engine->GetMaxClients();
+	for (int i = 0; i <= maxClient; i++)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
@@ -597,22 +605,13 @@ static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapo
     Math::AngleVectors(angle, &forward, &right, &up);
 
     int hitCount = 0;
-    int NeededHits = static_cast<int>(200.f * (Settings::Ragebot::HitChance::value / 200.f));
+    int NeededHits =  (int)GetPercentVal(255, Settings::Ragebot::HitChance::value);
 
     activeWeapon->UpdateAccuracyPenalty();
-    float weap_spread = activeWeapon->GetSpread();
-    float weap_inaccuracy = activeWeapon->GetInaccuracy();
+    static const float &weap_spread = activeWeapon->GetSpread();
+    static const float &weap_inaccuracy = activeWeapon->GetInaccuracy();
 
-    for (int i = 0; i < 200; i++) {
-		
-		if (!localplayer || !localplayer->GetAlive())
-			return false;
-
-		if (!activeWeapon || activeWeapon->GetInReload())
-			return false;
-
-		if (!enemy || !enemy->GetAlive())
-			return false;
+    for (int i = 0; i < 255; i++) {
 
         float b = static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/ (2.0 * (float)M_PI)));
         float spread = weap_spread * static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/1.0));
@@ -645,10 +644,10 @@ static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapo
         if (tr.m_pEntityHit == enemy)
             hitCount++;
 
-        if (static_cast<int>((static_cast<float>(hitCount) / 200.f) * 100.f) >= Settings::Ragebot::HitChance::value)
+        if (static_cast<int>((static_cast<float>(hitCount) / 255.f) * 100.f) >= Settings::Ragebot::HitChance::value)
 			return true;
 
-		if ((200.f - i + hitCount) < NeededHits)
+		if ((255.f - i + hitCount) < NeededHits)
 			return false;
     }
 
