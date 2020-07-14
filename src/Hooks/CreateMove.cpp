@@ -44,7 +44,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
         uintptr_t* rbp;
 		
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
-        bool *sendPacket = ((*(bool **)rbp) - (int)24);
+        bool *sendPacket = ((*(bool **)rbp) - 0x18);
 		
         CreateMove::sendPacket = true;
 

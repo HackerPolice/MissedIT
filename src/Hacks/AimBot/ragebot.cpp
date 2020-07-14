@@ -158,32 +158,22 @@ static void GetDamageAndSpots(C_BasePlayer* player, C_BasePlayer* localplayer, V
 	{
 		case DesireBones::BONE_HEAD:
 			boneID = (*modelType).at(BONE_HEAD);
-			if ( playerHelth <= 90 || (player->GetVAngles()->x == 89.f) )
+			if ( playerHelth <= 90  )
 				boneID = (*modelType).at(BONE_NECK);
 			break;
 		case DesireBones::UPPER_CHEST:
-			if ( Damage >= 80)
-				return;
 			boneID = (*modelType).at(BONE_UPPER_SPINAL_COLUMN);
 			break;
 		case DesireBones::MIDDLE_CHEST:
-			if ( Damage >= 80)
-				return;
 			boneID = (*modelType).at(BONE_MIDDLE_SPINAL_COLUMN);
 			break;
 		case DesireBones::LOWER_CHEST:
-			if ( Damage >= 80)
-				return;
 			boneID = (*modelType).at(BONE_LOWER_SPINAL_COLUMN);
 			break;
 		case DesireBones::BONE_HIP:
-			if ( Damage > 40)
-				return;
 			boneID = (*modelType).at(BONE_HIP);
 			break;
 		case DesireBones::LOWER_BODY:
-			if ( Damage > 40)
-				return;
 			boneID = BONE_PELVIS;
 			break;
 	}
@@ -405,12 +395,13 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 	const std::unordered_map<int, int>* modelType = BoneMaps::GetModelTypeBoneMap(player);
 
 	static matrix3x4_t boneMatrix[128];
-	if ( !player->SetupBones(boneMatrix, 128, 0x100, 0) )
-		return;
+	player->SetupBones(boneMatrix, 128, 0x100, 0);
 
 	if (Settings::Ragebot::damagePrediction == DamagePrediction::damage)
 	{
 		int i = 0;
+		if (playerHelth <= 80 )
+		 	i = 1;
 		while ( i <= 5)
 		{
 			GetDamageAndSpots(player, localplayer, spot, damage, playerHelth, i, modelType, boneMatrix);
@@ -433,6 +424,8 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 	else if (Settings::Ragebot::damagePrediction == DamagePrediction::justDamage)
 	{	
 		int i = 0;
+
+		if (player)
 		while ( i <= 5)
 		{
 			GetDamageAndSpots(player, localplayer, spot, damage, playerHelth, i, modelType, boneMatrix);
@@ -939,8 +932,8 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 		lockedEnemy.bestDamage = bestDamage;
 		Settings::Debug::AutoAim::target = bestSpot;
 
-		VelocityExtrapolate(player, localEye);
-		VelocityExtrapolate(player, bestSpot);
+		// VelocityExtrapolate(player, localEye);
+		// VelocityExtrapolate(player, bestSpot);
 
 		RagebotAutoShoot(player, localplayer, activeWeapon, cmd, bestSpot, angle, oldForward, oldSideMove);
     	RagebotAutoR8(player, localplayer, activeWeapon, cmd, bestSpot, angle, oldForward, oldSideMove);
@@ -949,7 +942,9 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 		if (cmd->buttons & IN_ATTACK)
 		{
 			angle = Math::CalcAngle(localEye, bestSpot);
-			CreateMove::sendPacket = false;
+			cmd->tick_count--;
+			// cmd->tick_count = TIME_TO_TICKS(0.1);
+			CreateMove::sendPacket = true;
 		}
     }
 	else{
@@ -967,6 +962,21 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     FixMouseDeltas(cmd, player, angle, oldAngle);
     cmd->viewangles = angle;
 
+	// if ( cmd->buttons & IN_ATTACK)
+	// {
+	// 	static int tick_count = 7;
+	// 	static int sinceUse = 0;
+
+	// 	CBaseClientState* clientstate;
+	// 	if (sinceUse < 3) {
+	// 		cmd->tick_count = *(int*)(*(unsigned int*) localplayer->GetSimulationTime() + tick_count) + TIME_TO_TICKS(10 / 100.0f);
+	// 		// m_nTickbaseShift = TIME_TO_TICKS(Config.ragebot.time/100.0f);
+	// 		sinceUse++;
+	// 	}
+	// 	else {
+	// 		sinceUse = 0;
+	// 	}
+	// }
 	if (!Settings::Ragebot::silent)
 		engine->SetViewAngles(cmd->viewangles);
 

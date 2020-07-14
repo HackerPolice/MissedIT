@@ -773,22 +773,23 @@ void DoLegitAntiAim(C_BasePlayer *const localplayer, QAngle& angle, bool& bSend,
     {
         if (inverted){
             if (AntiAim::bSend) {
-                AntiAim::fakeAngle.y = localplayer->GetAnimState()->goalFeetYaw += GetPercentVal(maxDelta/2, RealPercentage);
+                AntiAim::fakeAngle.y = *localplayer->GetLowerBodyYawTarget() = angle.y + GetPercentVal(maxDelta, RealPercentage);
                 // AntiAim::fakeAngle = angle.y += GetPercentVal(maxDelta/2, RealPercentage);
             }else {
-                AntiAim::realAngle.y = localplayer->GetAnimState()->goalFeetYaw -= GetPercentVal(maxDelta/2, RealPercentage);
+                AntiAim::realAngle.y = *localplayer->GetLowerBodyYawTarget() = angle.y - GetPercentVal(maxDelta, RealPercentage);
                 // AntiAim::realAngle.y = angle.y -= GetPercentVal(maxDelta/2, RealPercentage);
                 // LBYBREAK(AntiAim::fakeAngle.y);
             }
         }else {
             if (AntiAim::bSend) {
-                AntiAim::fakeAngle.y = localplayer->GetAnimState()->goalFeetYaw -= GetPercentVal(maxDelta/2, RealPercentage);
+                AntiAim::fakeAngle.y = *localplayer->GetLowerBodyYawTarget() = angle.y - GetPercentVal(maxDelta, RealPercentage);
                 // AntiAim::fakeAngle = angle.y += GetPercentVal(maxDelta/2, RealPercentage);
             }else {
-                AntiAim::realAngle.y = localplayer->GetAnimState()->goalFeetYaw += GetPercentVal(maxDelta/2, RealPercentage);
+                AntiAim::realAngle.y = *localplayer->GetLowerBodyYawTarget() = angle.y + GetPercentVal(maxDelta, RealPercentage);
                 // AntiAim::realAngle.y = angle.y -= GetPercentVal(maxDelta/2, RealPercentage);
                 // LBYBREAK(AntiAim::fakeAngle.y);
             }
+            LBYBREAK(AntiAim::fakeAngle.y);
         }
     }
 }
@@ -948,7 +949,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         oldSideMove = bFlip ? oldSideMove -3 : oldSideMove +3;
         
     }
-    else if (oldSideMove < 3 || oldSideMove > -3)
+    else if ( (oldSideMove < 3 || oldSideMove > -3) && localplayer->GetFlags() & FL_ONGROUND)
     {
         static bool bFlip = false;
         bFlip = !bFlip;

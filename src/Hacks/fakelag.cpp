@@ -46,9 +46,9 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 			else
 				packetsToChoke = 0;
 
-			CreateMove::sendPacket = FakeLag::ticks < 16 - packetsToChoke;
+			CreateMove::sendPacket = !(cmd->tick_count%packetsToChoke);
 		}
-		else if (cmd->sidemove > 3 || cmd->sidemove < -3)
+		else if (cmd->sidemove > 2 || cmd->sidemove < -2)
 		{
 			CreateMove::sendPacket = !(cmd->tick_count%16);
 		}
@@ -60,14 +60,17 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	
 	if (CreateMove::sendPacket)
 	{
-		oldorigin = localplayer->GetAbsOrigin();
-		localplayer->GetAnimState()->origin = (localplayer->GetVelocity().Length() * globalVars->interval_per_tick * Settings::FakeLag::value);
 		localplayer->SetAbsOrigin( &oldorigin );
+		oldorigin = localplayer->GetAbsOrigin();
 		// cmd->forwardmove = FLT_MAX;
 		// cmd->sidemove = FLT_MAX;
 	}
+	else
+	{
+		oldorigin = (localplayer->GetVelocity().Length() * globalVars->interval_per_tick);
+		localplayer->SetAbsOrigin( &oldorigin );
+	}
 	
 	
-
 	FakeLag::ticks++;
 }

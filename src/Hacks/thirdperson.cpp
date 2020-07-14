@@ -64,6 +64,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 
        	 	input->m_fCameraInThirdPerson = true;
 			input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
+			
 		}
 		else
 		{
@@ -90,9 +91,7 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 
 		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::toggled && input->m_fCameraInThirdPerson)
 		{
-			if (Settings::AntiAim::RageAntiAim::enable )
-				*localplayer->GetVAngles() = AntiAim::realAngle;
-			else if ( Settings::AntiAim::LegitAntiAim::enable)
+			if (Settings::AntiAim::RageAntiAim::enable || Settings::AntiAim::LegitAntiAim::enable)
 				*localplayer->GetVAngles() = AntiAim::realAngle;
 		}
 	}

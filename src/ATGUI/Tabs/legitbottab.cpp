@@ -293,19 +293,19 @@ void Legitbot::RenderTab()
 				}
 			}
 				
-			/*
 			ImGui::Text(XORSTR("Keybind"));
-				ImGui::Separator();
-				ImGui::Columns(2, nullptr, true);
-				{
-					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-					ImGui::Text(XORSTR("Trigger Key"));
-				}
-				ImGui::NextColumn();
-				{
-					UI::KeyBindButton(&Settings::Triggerbot::key);
-				}
-				*/
+			ImGui::Separator();
+			ImGui::Columns(2, nullptr, true);
+			{
+				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+				ImGui::Text(XORSTR("Trigger Key"));
+			}
+			ImGui::NextColumn();
+			{
+				UI::KeyBindButton(&Settings::Triggerbot::key);
+			}
+			ImGui::EndColumns();
+			
 			ImGui::Spacing();
 			ImGui::Checkbox(XORSTR("Randome Delay"), &Settings::Triggerbot::RandomDelay::enabled);
 

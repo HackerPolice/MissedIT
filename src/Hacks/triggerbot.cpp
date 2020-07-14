@@ -33,11 +33,11 @@ static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapo
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::Triggerbot::enabled)
+	if (!Settings::Triggerbot::enabled && !Settings::Ragebot::enabled)
 		return;
 
-	// if (!inputSystem->IsButtonDown(Settings::Triggerbot::key) && Settings::Triggerbot::)
-	// 	return;
+	if (!inputSystem->IsButtonDown(Settings::Triggerbot::key) && !Settings::Ragebot::enabled)
+		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
@@ -46,8 +46,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::flashCheck && localplayer->IsFlashed())
 		return;
 
-
-	
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;

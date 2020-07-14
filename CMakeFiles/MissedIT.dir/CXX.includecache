@@ -54,6 +54,14 @@ vector
 cstdint
 -
 
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/AimBot/ragebot.cpp
+ragebot.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/AimBot/ragebot.h
+
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/AimBot/ragebot.h
+../DefaultHeader.hpp
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/DefaultHeader.hpp
+
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/DefaultHeader.hpp
 vector
 -
@@ -100,6 +108,30 @@ iostream
 stdlib.h
 -
 
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/antiaim.cpp
+antiaim.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/antiaim.h
+../Hacks/AimBot/legitbot.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/AimBot/legitbot.h
+../Hacks/AimBot/autowall.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/AimBot/autowall.h
+../../Utils/xorstring.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/Utils/xorstring.h
+../settings.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/settings.h
+../Hooks/hooks.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/hooks.h
+../Utils/math.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/math.h
+../Utils/entity.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/entity.h
+../interfaces.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/interfaces.h
+valvedscheck.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/valvedscheck.h
+AimBot/ragebot.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/AimBot/ragebot.h
+
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/antiaim.h
 ../SDK/IInputSystem.h
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/SDK/IInputSystem.h
@@ -138,33 +170,9 @@ deque
 vector
 -
 
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/resolver.cpp
-resolver.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/resolver.h
-../Utils/entity.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/entity.h
-../Utils/math.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/math.h
-../Utils/xorstring.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Utils/xorstring.h
-../interfaces.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/interfaces.h
-../settings.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/settings.h
-antiaim.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/antiaim.h
-
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/resolver.h
+/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/valvedscheck.h
 ../SDK/IGameEvent.h
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/SDK/IGameEvent.h
-../SDK/definitions.h
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/SDK/definitions.h
-DefaultHeader.hpp
-/mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hacks/DefaultHeader.hpp
-cstdint
--
-vector
--
 
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/Hooks/hooks.h
 ../SDK/SDK.h
@@ -601,4 +609,6 @@ SDK/definitions.h
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/SDK/definitions.h
 SDK/Materialsystem_config.h
 /mnt/entertainment/projects/csgo/MissedIT-Versions/MissedIT-alfa/src/SDK/Materialsystem_config.h
+
+src/Utils/xorstring.h
 

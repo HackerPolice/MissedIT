@@ -24,10 +24,10 @@ enum class EnemySelectionType : int {
 };
 
 enum class DesireBones : int {
-	MIDDLE_CHEST = 0,
+	BONE_HEAD = 0,
 	UPPER_CHEST,
+	MIDDLE_CHEST,
 	LOWER_CHEST,
-	BONE_HEAD,
 	BONE_HIP,
 	LOWER_BODY,
 };

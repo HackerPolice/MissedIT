@@ -3,6 +3,11 @@
 // source from nimbus bcz i am lezy xd
 std::vector<LagComp::LagCompTickInfo> LagComp::lagCompTicks;
 
+#define TICK_INTERVAL globalVars->interval_per_tick
+
+
+#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
+
 static void RemoveInvalidTicks()
 {
 	auto &records = LagComp::lagCompTicks;
@@ -90,7 +95,7 @@ void LagComp::CreateMove(CUserCmd *cmd)
 				if (tmpFOV < fov)
 				{
 					fov = tmpFOV;
-					tickcount = Tick.tickCount;
+					tickcount = TIME_TO_TICKS(record.entity->GetSimulationTime());
 					absOrigin = record.origin;
 					entity = record.entity;
 					has_target = true;
