@@ -567,49 +567,7 @@ namespace Settings
 
 	namespace Ragebot
 	{
-		inline float MinDamage = 50.f;
 		inline bool enabled = false;
-        inline bool silent = false;
-        inline bool friendly = false;
-		inline bool DoubleFire = false;
-
-		inline DamagePrediction damagePrediction = DamagePrediction::damage;
-		inline EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
-
-		namespace AutoAim
-		{
-			inline bool desireBones[] = {true, true, true, true, true, true};
-			inline bool desiredMultiBones[] = {true, true, true, true, true, true};
-		}
-
-		namespace AutoShoot
-		{
-			inline bool enabled = false;
-			inline bool velocityCheck = false;
-			inline bool autoscope = false;
-		}
-
-		namespace AutoSlow
-		{
-			inline bool enabled = false;
-		}
-
-		namespace HitChance
-		{
-			inline bool enabled = false;
-			inline float value = 20.f;
-		}
-
-		namespace HitChanceOverwrride 
-		{
-			inline bool enable = false;
-			inline float value = 1.0f;
-		}
-
-		namespace ScopeControl
-		{
-			inline bool enabled = false;
-		}
 
 		namespace AutoCrouch
 		{
@@ -625,9 +583,7 @@ namespace Settings
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
 	}
-
-
-
+	
 	namespace Triggerbot
 	{
 		inline bool enabled = false;

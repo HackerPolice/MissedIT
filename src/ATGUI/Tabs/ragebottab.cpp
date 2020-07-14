@@ -170,13 +170,8 @@ void RagebotTab::RenderTab()
 			{
 				if (ImGui::Checkbox(XORSTR("Auto Shoot"), &autoShootEnabled))
 					UI::UpdateRageWeaponSettings();
-				
-				ImGui::Checkbox(XORSTR("Velocity Check"), &Settings::Ragebot::AutoShoot::velocityCheck);
-				
 				if (ImGui::Checkbox(XORSTR("AutoSlow"), &autoSlow))
 					UI::UpdateRageWeaponSettings();
-
-				ImGui::Spacing();
 				if( ImGui::Checkbox(XORSTR("Hit Chance"), &HitChanceEnabled) )
 					UI::UpdateRageWeaponSettings();
 				ImGui::SameLine();

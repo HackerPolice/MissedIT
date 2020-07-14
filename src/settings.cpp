@@ -237,7 +237,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
     }
 
     settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
-    settings[XORSTR("Ragebot")][XORSTR("AutoShoot")][XORSTR("velocityCheck")] = Settings::Ragebot::AutoShoot::velocityCheck;
     settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
     settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")] = Settings::Ragebot::LagComp::enabled;
     

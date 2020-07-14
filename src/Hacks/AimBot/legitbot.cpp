@@ -129,7 +129,7 @@ static void GetClosestSpot(C_BasePlayer* localPlayer, C_BasePlayer* enemy, Vecto
 			continue;
 		}
 		AutoWall::FireBulletData data;
-		float boneDamage = AutoWall::GetDamage(bone3D,localPlayer, true, data);
+		float boneDamage = AutoWall::GetDamage(bone3D, true, data);
 
 		if (boneDamage >= 70 && i >= BONE_HEAD)
 			break;

@@ -1,5 +1,9 @@
 #include "autowall.h"
 
+#include "legitbot.h"
+#include "../Utils/math.h"
+#include "../Utils/entity.h"
+#include "../interfaces.h"
 
 static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
@@ -21,7 +25,7 @@ static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 	}
 }
 
-void AutoWall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float& current_damage)
+static void ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float& current_damage)
 {
 	current_damage *= GetHitgroupDamageMultiplier(hitgroup);
 
@@ -30,10 +34,10 @@ void AutoWall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon
 		if (hitgroup == HitGroups::HITGROUP_HEAD)
 		{
 			if (enemy->HasHelmet())
-				current_damage *= weapon_armor_ratio * 0.5;
+				current_damage *= weapon_armor_ratio * 0.5f;
 		}
 		else
-			current_damage *= weapon_armor_ratio * 0.5;
+			current_damage *= weapon_armor_ratio * 0.5f;
 	}
 }
 
@@ -181,8 +185,9 @@ static void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C
 	trace->TraceRay(ray, mask, &filter, ptr);
 }
 
-bool AutoWall::SimulateFireBullet(C_BasePlayer* localplayer, C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
+static bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	CCSWeaponInfo* weaponInfo = pWeapon->GetCSWpnData();
 
 	data.penetrate_count = 4;
@@ -195,7 +200,7 @@ bool AutoWall::SimulateFireBullet(C_BasePlayer* localplayer, C_BaseCombatWeapon*
 
 		Vector end = data.src + data.direction * data.trace_length_remaining;
 
-		// data.enter_trace;
+		// data.enter_trace
 		TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
 
 		Ray_t ray;
@@ -214,11 +219,10 @@ bool AutoWall::SimulateFireBullet(C_BasePlayer* localplayer, C_BaseCombatWeapon*
 			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
 
 			C_BasePlayer* player = (C_BasePlayer*) data.enter_trace.m_pEntityHit;
-			
 			if (teamCheck && Entity::IsTeamMate(player, localplayer))
 				return false;
 
-			AutoWall::ScaleDamage(data.enter_trace.hitgroup, player, weaponInfo->GetWeaponArmorRatio(), data.current_damage);
+			ScaleDamage(data.enter_trace.hitgroup, player, weaponInfo->GetWeaponArmorRatio(), data.current_damage);
 
 			return true;
 		}
@@ -230,20 +234,14 @@ bool AutoWall::SimulateFireBullet(C_BasePlayer* localplayer, C_BaseCombatWeapon*
 	return false;
 }
 
-int AutoWall::GetDamage(Vector& point, C_BasePlayer* player, bool teamCheck, FireBulletData& fData)
+int AutoWall::GetDamage(const Vector& point, bool teamCheck, AutoWall::FireBulletData& fData)
 {
-	if (!player || !player->GetAlive())
-		return -1;
-	
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
-	if (!activeWeapon || activeWeapon->GetInReload())
-		return -1;
-	
+	float damage = 0.f;
 	Vector dst = point;
-	int damage = 0.f;
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	FireBulletData data;
-	data.src = player->GetEyePosition();
-	data.filter.pSkip = player;
+	data.src = localplayer->GetEyePosition();
+	data.filter.pSkip = localplayer;
 
 	QAngle angles = Math::CalcAngle(data.src, dst);
 	Math::AngleVectors(angles, data.direction);
@@ -251,10 +249,14 @@ int AutoWall::GetDamage(Vector& point, C_BasePlayer* player, bool teamCheck, Fir
     Vector tmp = data.direction;
     data.direction = tmp.Normalize();
 
-	if (AutoWall::SimulateFireBullet(player, activeWeapon, teamCheck, data))
-		damage = static_cast<int>(data.current_damage);
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
+		return -1.0f;
 
-	// fData = data;
+	if (SimulateFireBullet(activeWeapon, teamCheck, data))
+		damage = data.current_damage;
+
+	fData = data;
 
 	return damage;
 }

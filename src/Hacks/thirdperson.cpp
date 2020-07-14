@@ -21,7 +21,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		input->m_fCameraInThirdPerson = false;
 		return;
 	}
-	C_BasePlayer* spectate = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+	
 	if ( inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson) && !buttonToggle)
 	{
 		buttonToggle = true;

@@ -24,7 +24,3 @@ namespace Ragebot {
     void CreateMove(CUserCmd*);
     void FireGameEvent(IGameEvent* event);
 }
-
-
-
-

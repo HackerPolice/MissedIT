@@ -285,54 +285,15 @@ bool ESP::WorldToScreen( const Vector &origin, ImVec2 * const screen ) {
 static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* entity, BoxType& boxtype ) {
  
 	if ( boxtype == BoxType::FRAME_2D ) {
-		int VertLine = w;
-		int HorzLine = h;
-
 		// top-left corner / color
 		Draw::AddLine(x,y,x,y+h, color);
-		// Draw::AddRect( x, y, x + squareLine, y + 1, color );
-		// Draw::AddRect( x, y, x + 1, y + squareLine, color );
-
-
-
 		// top-left corner / missing edges
 		Draw::AddLine(x,y,x+w,y, color);
-		// Draw::AddRect( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
-		// Draw::AddRect( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
-
-
 		// top-right corner / color
 		Draw::AddLine(x+w,y+h,x+w,y, color);
-		// Draw::AddRect( x + w - squareLine, y, x + w, y + 1, color );
-		// Draw::AddRect( x + w - 1, y, x + w, y + squareLine, color );
-
-
-
 		// top-right corner / missing edges
 		Draw::AddLine(x+w,y+h,x,y+h, color);
-		// Draw::AddRect( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
-		// Draw::AddRect( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
-
-		// bottom-left corner / color
-		// Draw::AddRect( x, y + h - 1, x + squareLine, y + h, color );
-		// Draw::AddRect( x, y + h - squareLine, x + 1, y + h, color );
-
-
-
-		// bottom-left corner / missing edges
-		// Draw::AddRect( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		// Draw::AddRect( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
-
-
-		// bottom-right corner / color
-		// Draw::AddRect( x + w - squareLine, y + h - 1, x + w, y + h, color );
-		// Draw::AddRect( x + w - 1, y + h - squareLine, x + w, y + h, color );
-
-
-		// bottom-right corner / missing edges
-		// Draw::AddRect( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		// Draw::AddRect( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 	} else if ( boxtype == BoxType::FLAT_2D ) {
 		int VertLine = ( int ) ( w * 0.33f );
 		int HorzLine = ( int ) ( h * 0.33f );
@@ -442,17 +403,6 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 }*/
 }
 
-/* Not using anymore
-static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
-	if ( Settings::ESP::Sprite::type == SpriteType::SPRITE_TUX ) {
-		static Texture sprite(tux_rgba, tux_width, tux_height);
-
-		sprite.Draw(x, y, ((float)h/tux_height)*tux_width, h);
-	}
-	// TODO: Handle other sprites
-}
-*/
-
 static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color ) {
 	int x, y, w, h;
 	if ( !GetBox( entity, x, y, w, h ) )
@@ -488,30 +438,6 @@ static void DrawSkeleton( C_BasePlayer* player, C_BasePlayer* localplayer ) {
 		Draw::AddLine( vBonePos1.x, vBonePos1.y, vBonePos2.x, vBonePos2.y, Entity::IsTeamMate(player, localplayer) ? Settings::ESP::Skeleton::allyColor.Color() : Settings::ESP::Skeleton::enemyColor.Color());
 	
 	}
-}
-
-static void DrawBulletTrace( C_BasePlayer* player ) {
-	Vector src3D, dst3D, forward;
-	Vector src, dst;
-	trace_t tr;
-	Ray_t ray;
-	CTraceFilter filter;
-
-	Math::AngleVectors( *player->GetEyeAngles(), forward );
-	filter.pSkip = player;
-	src3D = player->GetEyePosition();
-	dst3D = src3D + ( forward * 8192 );
-
-	ray.Init( src3D, dst3D );
-
-	trace->TraceRay( ray, MASK_SHOT, &filter, &tr );
-
-	if ( debugOverlay->ScreenPosition( src3D, src ) || debugOverlay->ScreenPosition( tr.endpos, dst ) )
-		return;
-
-	// debugOverlay->DrawPill()
-	Draw::AddLine( src.x, src.y, dst.x, dst.y, ESP::GetESPPlayerColor( player, true ) );
-	Draw::AddRectFilled( ( int ) ( dst.x - 3 ), ( int ) ( dst.y - 3 ), 6, 6, ESP::GetESPPlayerColor( player, false ) );
 }
 
 static void DrawTracer( C_BasePlayer* player, TracerType& tracerType ) {
@@ -592,7 +518,7 @@ static void DrawBoneMap( C_BasePlayer* player ) {
 }
 
 static void DrawAutoWall(C_BasePlayer *player) {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+
 	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
 	for( int i = 0; i < 31; i++ )
 	{
@@ -605,7 +531,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 			continue;
 
 		AutoWall::FireBulletData data;
-		int damage = (int)AutoWall::GetDamage( bone3D,localplayer, true, data );
+		int damage = (int)AutoWall::GetDamage( bone3D, true, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
@@ -654,7 +580,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 
 	AutoWall::FireBulletData data;
 	for ( int i = 0; i < 11; i++ ) {
-		int damage = (int)AutoWall::GetDamage( headPoints[i],localplayer, true, data );
+		int damage = (int)AutoWall::GetDamage( headPoints[i], true, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 
