@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../SDK/IClientEntity.h"
-#include "../../SDK/IInputSystem.h"
+#include "../DefaultHeader.hpp"
+
 
 namespace AutoKnife
 {

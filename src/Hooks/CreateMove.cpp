@@ -17,7 +17,7 @@
 #include "../Hacks/predictionsystem.h"
 #include "../Hacks/AimBot/ragebot.h"
 #include "../Hacks/AimBot/legitbot.h"
-#include "../Hacks/triggerbot.h"
+#include "../Hacks/AimBot/triggerbot.h"
 #include "../Hacks/AimBot/autoknife.h"
 #include "../Hacks/antiaim.h"
 #include "../Hacks/fakelag.h"

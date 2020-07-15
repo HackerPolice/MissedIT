@@ -1,10 +1,5 @@
 #include "autowall.h"
 
-#include "legitbot.h"
-#include "../Utils/math.h"
-#include "../Utils/entity.h"
-#include "../interfaces.h"
-
 static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
 	switch (iHitGroup)

@@ -89,7 +89,7 @@ static void BestMultiPointDamage(C_BasePlayer* player, int &BoneIndex, int& Dama
 
 	// 0 - center 1 - left, 2 - right, 3 - back
 	Vector center = Spot;
-	Vector points[4] = { center,center,center, center };
+	Vector points[4] = { center,center,center,center };
 
     points[1].x += bbox->radius * 0.75f; // morph each point.
 	points[2].x -= bbox->radius * 0.75f;
@@ -117,8 +117,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 {
 	if (!player || !player->GetAlive() || !currentSetting.desireBones[i])
 		return;
-
-	int boneID = -1;
 
 	auto HitboxHead([&](int BoneID){
 		Spot = player->GetBonePosition(BoneID);
@@ -157,7 +155,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	
 	auto MiddleSpine([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
@@ -192,7 +189,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	
 	auto LowerSpine([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
@@ -226,7 +222,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	
 	auto HipHitbox([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
@@ -260,7 +255,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	
 	auto PelvisHitbox([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
@@ -297,13 +291,14 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	
 	auto DefaultHitbox([&](int BoneID){
 		Spot = player->GetBonePosition(BoneID);
 		Damage = AutoWall::GetDamage(Spot, true);
 	});
 
-	switch ((DesireBones)i)
+	int boneID = -1;
+
+	switch (static_cast<DesireBones>(i))
 	{
 		case DesireBones::BONE_HEAD:
 			boneID = (*modelType).at(BONE_HEAD);
@@ -347,10 +342,9 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 
 static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer, Vector& Spot, int& Damage,const RageWeapon_t& currSettings)
 {	
-	if (!player || !player->GetAlive())
+	if (!player || !localplayer || !player->GetAlive() || !localplayer->GetAlive())
 		return;
-	if (!localplayer || !localplayer->GetAlive())
-		return;
+		
 	// Atleast Now Total Bones we are caring of
 	Vector spot = Vector(0);
 	int damage = 0.f;
@@ -358,18 +352,17 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 	int playerHelth = player->GetHealth();
 	const std::unordered_map<int, int>* modelType = BoneMaps::GetModelTypeBoneMap(player);
 
-	static matrix3x4_t boneMatrix[128];
-		player->SetupBones(boneMatrix, 128, 0x100, 0);
+	// static matrix3x4_t boneMatrix[128];
+	// 	player->SetupBones(boneMatrix, 128, 0x100, 0);
 
 	if (currSettings.DmagePredictionType == DamagePrediction::damage)
 	{
 		int i = 0;
 		if (playerHelth <= 80 )
 		 	i = 1;
-		while ( i <= 5)
+		while ( i < 6)
 		{
 			GetDamageAndSpots(player, spot, damage, playerHelth, i, modelType, currSettings);
-			cvar->ConsoleDPrintf(XORSTR("Cal Damage %f \n"), damage);	
 			if (damage >= playerHelth)
 			{
 				Damage = damage;
@@ -390,7 +383,7 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 		int i = 0;
 
 		if (player)
-		while ( i <= 5)
+		while ( i < 6)
 		{
 			GetDamageAndSpots(player, spot, damage, playerHelth, i, modelType, currSettings);
 				
@@ -420,8 +413,10 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 	Vector bestSpot = Vector(0);
 	int bestDamage = 0;
 
-	if (lockedEnemy.player && lockedEnemy.player->GetAlive() && !lockedEnemy.player->GetDormant() && !lockedEnemy.player->GetImmune())
+	while (lockedEnemy.player)
 	{
+		if ( !lockedEnemy.player->GetAlive() && lockedEnemy.player->GetDormant() && lockedEnemy.player->GetImmune() )
+			break;
 		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
 		if (bestDamage >= lockedEnemy.player->GetHealth())
 		{
@@ -437,6 +432,7 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 		}
 
 		lockedEnemy.player = nullptr;
+		break;
 	}
 	
 	C_BasePlayer* clossestEnemy = nullptr;
@@ -663,7 +659,6 @@ static void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activ
 		return;
 	}
 
-	// cvar->ConsoleDPrintf(XORSTR("IN AutoSlow Mode\n"));
 	QAngle ViewAngle;
 		engine->GetViewAngles(ViewAngle);
 	static Vector oldOrigin = localplayer->GetAbsOrigin();
@@ -671,26 +666,26 @@ static void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activ
 	oldOrigin = localplayer->GetAbsOrigin();
 	float speed  = velocity.Length();
 		
-	if(speed > 15.f)
-	{
-		QAngle dir;
-		Math::VectorAngles(velocity, dir);
-		dir.y = ViewAngle.y - dir.x;
+	// if(speed > 15.f)
+	// {
+	// 	QAngle dir;
+	// 	Math::VectorAngles(velocity, dir);
+	// 	dir.y = ViewAngle.y - dir.x;
 		
-		Vector NewMove = Vector(0);
-		Math::AngleVectors(dir, NewMove);
-		auto max = std::max(forrwordMove, sideMove);
-		auto mult = 450.f/max;
-		NewMove *= -mult;
+	// 	Vector NewMove = Vector(0);
+	// 	Math::AngleVectors(dir, NewMove);
+	// 	auto max = std::max(forrwordMove, sideMove);
+	// 	auto mult = 450.f/max;
+	// 	NewMove *= -mult;
 			
-		forrwordMove = NewMove.x;
-		sideMove = NewMove.y;
-	}
-	else 
-	{	
+	// 	forrwordMove = NewMove.x;
+	// 	sideMove = NewMove.y;
+	// }
+	// else 
+	// {	
 		forrwordMove = 0.f;
 		sideMove = 0.f;
-	}
+	// }
 	
 	cmd->buttons |= IN_WALK;
 	Ragebot::shouldSlow = true;

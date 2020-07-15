@@ -466,10 +466,6 @@ static void DrawAimbotSpot( ) {
 		Settings::Debug::AutoAim::target = {0,0,0};
 		return;
 	}
-	if ( !Settings::Legitbot::AutoAim::enabled || !Settings::Legitbot::enabled ){
-		Settings::Debug::AutoAim::target = {0,0,0};
-		return;
-	}
 	if ( Settings::Debug::AutoAim::target.IsZero() )
 		return;
 
@@ -1331,12 +1327,9 @@ static void DrawFOVCrosshair()
 	if (!localplayer->GetAlive())
 		return;
 
-	if (Settings::Legitbot::AutoAim::fov > OverrideView::currentFOV)
-		return;
-
 	float radius;
 	
-	radius = ((Settings::Legitbot::AutoAim::fov / OverrideView::currentFOV) * Paint::engineWidth) / 2;
+	// radius = ((Settings::Legitbot::AutoAim::fov / OverrideView::currentFOV) * Paint::engineWidth) / 2;
 
 	radius = std::min(radius, (((180.f / OverrideView::currentFOV) * Paint::engineWidth) / 2)); // prevents a big radius (CTD).
 
@@ -1367,15 +1360,6 @@ static void DrawSpread()
             Draw::AddRect( ( ( Paint::engineWidth / 2 ) - radius ), ( Paint::engineHeight / 2 ) - radius + 1,
                                ( Paint::engineWidth / 2 ) + radius + 1, ( Paint::engineHeight / 2 ) + radius + 2,
                                Settings::ESP::Spread::color.Color() );
-        }
-    }
-    if ( Settings::ESP::Spread::spreadLimit ) {
-        float cone = Settings::Legitbot::Hitchance::value;
-        if ( cone > 0.0f ) {
-            float radius = ( cone * Paint::engineHeight ) / 1.5f;
-            Draw::AddRect( ( ( Paint::engineWidth / 2 ) - radius ), ( Paint::engineHeight / 2 ) - radius + 1,
-                               ( Paint::engineWidth / 2 ) + radius + 1, ( Paint::engineHeight / 2 ) + radius + 2 ,
-                               Settings::ESP::Spread::spreadLimitColor.Color() );
         }
     }
 }

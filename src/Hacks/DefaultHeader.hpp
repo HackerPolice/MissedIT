@@ -14,6 +14,9 @@
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IGameEvent.h"
 #include "../SDK/definitions.h"
+#include "../../SDK/vector.h"
+#include "../../SDK/IEngineTrace.h"
+
 //Utilities
 #include "../Utils/bonemaps.h"
 #include "../Utils/entity.h"
@@ -22,11 +25,12 @@
 
 //Hacks
 #include "AimBot/autowall.h"
+#include "AimBot/legitbot.h"
 #include "backtrack.h"
 #include "fakelag.h"
+#include "antiaim.h"
+#include "lagcomp.h"
 
 #include "../settings.h"
 #include "../interfaces.h"
 #include "../Hooks/hooks.h"
-#include "antiaim.h"
-#include "lagcomp.h"

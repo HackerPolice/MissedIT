@@ -180,10 +180,8 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 
 	if (entity->GetImmune())
 		Fake_meterial->AlphaModulate(0.5f);
-	// else if (localplayer->GetVelocity().Length() != 0)
-	// 	Fake_meterial->AlphaModulate(0.5f);
 	else
-		Fake_meterial->AlphaModulate(1.f);
+		Fake_meterial->AlphaModulate(0.8f);
 	
 	/*
 	 * Testing for chams in fake angle 
@@ -196,7 +194,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	Fake_meterial->ColorModulate(fake_color);
 
 	static matrix3x4_t fakeBoneMatrix[128];
-	const float &fakeangle = AntiAim::fakeAngle.y-AntiAim::realAngle.y ;
+	float fakeangle = AntiAim::fakeAngle.y-AntiAim::realAngle.y ;
 	static Vector OutPos;
 
 	if ( !(globalVars->tickcount%4) )

@@ -163,8 +163,6 @@ void Legitbot::RenderTab()
 	const char* smoothTypes[] = { "Slow Near End", "Constant Speed", "Fast Near End" };
 	static char filterWeapons[32];
 
-	
-
 	ImGui::Columns(3, nullptr, false);
 	{
 		ImGui::SetColumnOffset(1, 200);
@@ -291,20 +289,18 @@ void Legitbot::RenderTab()
 					ImGui::Selectable(XORSTR("Arms"), &Settings::Triggerbot::Filters::arms, ImGuiSelectableFlags_DontClosePopups);
 					ImGui::EndCombo();
 				}
+
+				ImGui::Columns(2, nullptr, false);
+				{
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::Text(XORSTR("Trigger Key"));
+				}
+				ImGui::NextColumn();
+				{
+					UI::KeyBindButton(&Settings::Triggerbot::key);
+				}
+				ImGui::EndColumns();
 			}
-				
-			ImGui::Text(XORSTR("Keybind"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, true);
-			{
-				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-				ImGui::Text(XORSTR("Trigger Key"));
-			}
-			ImGui::NextColumn();
-			{
-				UI::KeyBindButton(&Settings::Triggerbot::key);
-			}
-			ImGui::EndColumns();
 			
 			ImGui::Spacing();
 			ImGui::Checkbox(XORSTR("Randome Delay"), &Settings::Triggerbot::RandomDelay::enabled);
@@ -363,7 +359,6 @@ void Legitbot::RenderTab()
 				
 				if ( aimStepEnabled )
 				{
-					ImGui::SameLine();
 					ImGui::Columns(2, nullptr, false);
 					{
 						ImGui::PushItemWidth(-1);
@@ -378,7 +373,6 @@ void Legitbot::RenderTab()
 							UI::UpdateWeaponSettings();
 						ImGui::PopItemWidth();
 					}
-					ImGui::Spacing();
 				}
 			}
 
@@ -520,15 +514,6 @@ void Legitbot::RenderTab()
 				}
 			}
 			ImGui::EndChild();
-			/*
-			ImGui::BeginChild(XORSTR("TRIG1"), ImVec2(0, 0), true);
-			{
-				*/
-				
-/*
-				ImGui::EndChild();
-			}
-			*/
 		}
 	}
 	

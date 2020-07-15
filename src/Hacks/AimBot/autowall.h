@@ -1,11 +1,6 @@
 #pragma once
 
-#include "../../SDK/vector.h"
-#include "../../SDK/IEngineTrace.h"
-#include "legitbot.h"
-#include "../../Utils/math.h"
-#include "../../Utils/entity.h"
-#include "../../interfaces.h"
+#include "../DefaultHeader.hpp"
 
 namespace AutoWall
 {

@@ -1,10 +1,5 @@
 #include "autoknife.h"
 
-#include "../../settings.h"
-#include "../../Utils/math.h"
-#include "../../Utils/entity.h"
-#include "../../interfaces.h"
-
 bool AutoKnife::IsPlayerBehind(C_BasePlayer* localplayer, C_BasePlayer* player)
 {
 	Vector toTarget = (localplayer->GetVecOrigin() - player->GetVecOrigin()).Normalize();

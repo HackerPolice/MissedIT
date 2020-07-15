@@ -2,13 +2,14 @@
 
 static bool shouldShoot = false;
 
-static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon)
+static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const LegitWeapon_t currentSettings)
 {
 	if(!localplayer || !localplayer->GetAlive() )
 		return false;
 	if (!activeWeapon || activeWeapon->GetInReload())
 		return false;
-	if (!Settings::Legitbot::Hitchance::enabled)
+
+	if (!currentSettings.hitchanceEnaled)
 	{
 		if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) >= (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) )
 			return true;
@@ -22,7 +23,7 @@ static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapo
 	if (hitchance == 0) hitchance = 0.0000001;
 	hitchance = 1/(hitchance);
 	
-	return hitchance >= (Settings::Legitbot::Hitchance::value*2);
+	return hitchance >= (currentSettings.hitchance*2);
 }
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
@@ -30,12 +31,21 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!Settings::Triggerbot::enabled && !Settings::Ragebot::enabled)
 		return;
 
-	if (!inputSystem->IsButtonDown(Settings::Triggerbot::key) && !Settings::Ragebot::enabled)
+	if (!inputSystem->IsButtonDown(Settings::Triggerbot::key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon || activeWeapon->GetInReload())
+		return;
+
+	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
+	if (Settings::Legitbot::weapons.find(*activeWeapon->GetItemDefinitionIndex()) != Settings::Legitbot::weapons.end())
+		index = *activeWeapon->GetItemDefinitionIndex();
+	const LegitWeapon_t& currentWeaponSetting = Settings::Legitbot::weapons.at(index);
 
 	if (Settings::Triggerbot::Filters::flashCheck && localplayer->IsFlashed())
 		return;
@@ -56,8 +66,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		localMax = Settings::Triggerbot::RandomDelay::highBound;
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 
 	if (shouldShoot && currentTime_ms - oldTimeStamp > randomDelay)
 	{
@@ -88,7 +96,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::walls)
 	{
 		AutoWall::FireBulletData data;
-		if (AutoWall::GetDamage(traceEnd, !Settings::Triggerbot::Filters::allies, data) == 0.0f)
+		if (!AutoWall::GetDamage(traceEnd, !Settings::Triggerbot::Filters::allies, data))
 			return;
 
 		tr = data.enter_trace;
@@ -161,14 +169,14 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
 	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_KNIFE || itemDefinitionIndex >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 		return;
-	if (Settings::Legitbot::AutoShoot::autoscope)
+	if (currentWeaponSetting.autoScopeEnabled)
 	    if (Util::Items::IsScopeable(*activeWeapon->GetItemDefinitionIndex()) && !localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) )
 	    {
 			cmd->buttons |= IN_ATTACK2;
 			return; // will go to the next tick
 	    }
 
-	if ( !canShoot(cmd, localplayer, activeWeapon))
+	if ( !canShoot(cmd, localplayer, activeWeapon, currentWeaponSetting))
 		return;
 
 	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();

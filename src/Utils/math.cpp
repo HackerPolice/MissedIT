@@ -13,10 +13,9 @@ void Math::SinCos(float radians, float *sine, float *cosine)
 	*cosine = __cosr;
 }
 
-float Math::float_rand( float min, float max ) // thanks foo - https://stackoverflow.com/questions/13408990/how-to-generate-random-float-number-in-c :^)
+float Math::float_rand( float min, float max ) 
 {
-	float scale = rand() / (float) RAND_MAX; /* [0, 1.0] */
-	return min + scale * ( max - min );      /* [min, max] */
+	return (float) ( min + static_cast<float>( static_cast<float>(rand()) / static_cast<float>(RAND_MAX/(max-min))) );      /* [min, max] */
 }
 
 void Math::AngleVectors(const QAngle &angles, Vector& forward)
@@ -101,7 +100,6 @@ void Math::AngleVectors( const Vector& angles, Vector* forward, Vector* right, V
 		up->z = cr * cp;
 	}
 }
-
 
 void Math::NormalizeAngles(QAngle& angle)
 {

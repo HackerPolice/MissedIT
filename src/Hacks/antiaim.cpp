@@ -826,8 +826,13 @@ void DoManuaAntiAim(C_BasePlayer* localplayer, QAngle& angle)
 
 bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon, CUserCmd* cmd)
 {
+
+    ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
+	if (Settings::Legitbot::weapons.find(*activeweapon->GetItemDefinitionIndex()) != Settings::Legitbot::weapons.end())
+		index = *activeweapon->GetItemDefinitionIndex();
+	const LegitWeapon_t& currentWeaponSetting = Settings::Legitbot::weapons.at(index);
     
-    if (Settings::Legitbot::AimStep::enabled && Legitbot::aimStepInProgress)
+    if (currentWeaponSetting.aimStepEnabled && Legitbot::aimStepInProgress)
         return false;
     
     if (activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)

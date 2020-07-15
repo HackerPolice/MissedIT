@@ -474,88 +474,8 @@ namespace Settings
 	namespace Legitbot
 	{
 		inline bool enabled = false;
-        inline bool silent = false;
-        inline Bone bone = BONE_HEAD;
-        inline ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
-        inline bool aimkeyOnly = false;
 
-		namespace MinDamage
-		{
-			inline bool enabled = false;
-			inline float value = 10.f;
-		}
-		namespace Smooth
-		{
-			inline bool enabled = false;
-            inline float value = 0.5f;
-            inline SmoothType type = SmoothType::SLOW_END;
-
-			namespace Salting
-			{
-				inline bool enabled = false;
-                inline float multiplier = 0.0f;
-			}
-		}
-		namespace ErrorMargin
-		{
-			inline bool enabled = false;
-			inline float value = 0.0f;
-		}
-		namespace AutoAim
-		{
-			inline bool enabled = false;
-            inline float fov = 30.f;
-            inline bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
-                                          true, true, true, true, true, true, true, // left arm
-                                          true, true, true, true, true, true, true, // right arm
-                                          true, true, true, true, true, // left leg
-                                          true, true, true, true, true  // right leg
-            };
-		}
-		namespace Hitchance
-		{
-			inline bool enabled = false;
-			inline float value = 20;
-		}
-		namespace AimStep
-		{
-			inline bool enabled = false;
-			inline float min = 25.0f;
-			inline float max = 35.0f;
-		}
-		namespace RCS
-		{
-			inline bool enabled = false;
-			inline bool always_on = false;
-			inline float valueX = 2.0f;
-			inline float valueY = 2.0f;
-		}
-		namespace AutoPistol
-		{
-			inline bool enabled = false;
-		}
-		namespace AutoShoot
-		{
-			inline bool enabled = false;
-			inline bool autoscope = false;
-		}
 		namespace AutoCrouch
-		{
-			inline bool enabled = false;
-		}
-		namespace AutoSlow
-		{
-			inline bool enabled = false;
-		}
-		namespace IgnoreJump
-		{
-			inline bool enabled = false;
-		}
-		namespace IgnoreEnemyJump
-		{
-			inline bool enabled = false;
-		}
-		namespace Prediction
 		{
 			inline bool enabled = false;
 		}
