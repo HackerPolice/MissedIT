@@ -233,6 +233,9 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck)
 {
 	Vector dst = point;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if ( !localplayer || !localplayer->GetAlive())
+		return -1;
+		
 	FireBulletData data;
 	data.src = localplayer->GetEyePosition();
 	data.filter.pSkip = localplayer;
@@ -258,6 +261,9 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& fda
 	int damage = -1;
 	Vector dst = point;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+
+	if (!localplayer || !localplayer->GetAlive())
+		return -1;
 	FireBulletData data;
 	data.src = localplayer->GetEyePosition();
 	data.filter.pSkip = localplayer;
@@ -269,6 +275,35 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& fda
     data.direction = tmp.Normalize();
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
+		return -1;
+
+	if (SimulateFireBullet(activeWeapon, teamCheck, data))
+		damage = data.current_damage;
+
+	fdata = data;
+	
+	return damage;
+}
+
+int AutoWall::GetDamage(C_BasePlayer* player, const Vector& point, bool teamCheck, FireBulletData& fdata)
+{
+	int damage = -1;
+	Vector dst = point;
+	if (!player || !player->GetAlive())
+		return -1;
+
+	FireBulletData data;
+	data.src = player->GetEyePosition();
+	data.filter.pSkip = player;
+
+	QAngle angles = Math::CalcAngle(data.src, dst);
+	Math::AngleVectors(angles, data.direction);
+
+    Vector tmp = data.direction;
+    data.direction = tmp.Normalize();
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 	if (!activeWeapon)
 		return -1.0f;
 

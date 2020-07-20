@@ -7,8 +7,7 @@
 #define PI_F (3.14)
 #define absolute(x) ( x = x < 0 ? x * -1 : x)
 #define TICK_INTERVAL globalVars->interval_per_tick
-
-
+#define RandomeFloat(x) (static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/x)))
 #define TIME_TO_TICKS( dt )	( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
 #define NormalizeNo(x) (x = (x < 0) ? ( x * -1) : x )
 
@@ -23,7 +22,7 @@ static QAngle RCSLastPunch = QAngle(0);
 
 static Ragebot::enemy lockedEnemy;
 
-static void BestMultiPointHEADDamage(C_BasePlayer* player, int BoneIndex, int& Damage, Vector& Spot)
+static void BestMultiPointHEADDamage(C_BasePlayer* player, int &BoneIndex, int& Damage, Vector& Spot)
 {
 	if (!player || !player->GetAlive())
 		return;
@@ -44,7 +43,7 @@ static void BestMultiPointHEADDamage(C_BasePlayer* player, int BoneIndex, int& D
 	// 0 - center, 1 - skullcap,
 	// 2 - leftear, 3 - rightear, 4 - backofhead
 	Vector center = Spot;
-	Vector points[] = {center,center,center,center,center};
+	Vector points[5] = {center,center,center,center,center};
 
 	points[1].y -= bbox->radius * 0.65f;
 	points[1].z += bbox->radius * 0.90f;
@@ -91,9 +90,9 @@ static void BestMultiPointDamage(C_BasePlayer* player, int &BoneIndex, int& Dama
 	Vector center = Spot;
 	Vector points[4] = { center,center,center,center };
 
-    points[1].x += bbox->radius * 0.75f; // morph each point.
-	points[2].x -= bbox->radius * 0.75f;
-	points[3].y -= bbox->radius * 0.75f;
+    points[1].x += bbox->radius * 0.95f; // morph each point.
+	points[2].x -= bbox->radius * 0.95f;
+	points[3].y -= bbox->radius * 0.95f;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -358,8 +357,6 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 	if (currSettings.DmagePredictionType == DamagePrediction::damage)
 	{
 		int i = 0;
-		if (playerHelth <= 80 )
-		 	i = 1;
 		while ( i < 6)
 		{
 			GetDamageAndSpots(player, spot, damage, playerHelth, i, modelType, currSettings);
@@ -405,6 +402,55 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 
 }
 
+/*
+* To find the closesnt enemy to reduce the calculation time and increase performace
+* Original Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) 
+*/
+static C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer)
+{
+	if (!localplayer || !localplayer->GetAlive()) return nullptr;
+
+	C_BasePlayer* closestPlayer = nullptr;
+	Vector pVecTarget = localplayer->GetEyePosition();
+	QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+	float prevFOV = 0.f;
+
+	int maxClient = engine->GetMaxClients();
+
+	for (int i = maxClient; i > 0; i--)
+	{
+		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
+
+		if (!player
+	    	|| player == localplayer
+	    	|| player->GetDormant()
+	    	|| !player->GetAlive()
+	    	|| player->GetImmune())
+	    	continue;
+
+		if (Entity::IsTeamMate(player, localplayer))
+	   	 	continue;
+
+		Vector cbVecTarget = player->GetEyePosition();
+		if (Entity::IsSpotVisible(player, cbVecTarget));
+		
+		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
+	
+		if ( cbFov < prevFOV || prevFOV == 0.f)
+		{
+			prevFOV = cbFov;
+			closestPlayer = player;
+		}
+	}
+	return closestPlayer;
+}
+
+/*
+ * Logic is simple as that we look for clossest enemt to your crosshair first 
+ * then check for him first else cheking for other fellos 
+ * though it can be costly sometimes but can be usefull in most of the cases
+ */
 static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const RageWeapon_t& currSettings)
 {
 	if (!localplayer || !localplayer->GetAlive())
@@ -415,29 +461,37 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 
 	while (lockedEnemy.player)
 	{
-		if ( !lockedEnemy.player->GetAlive() && lockedEnemy.player->GetDormant() && lockedEnemy.player->GetImmune() )
+		if ( !lockedEnemy.player->GetAlive() || lockedEnemy.player->GetDormant() || lockedEnemy.player->GetImmune() )
 			break;
 		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
-		if (bestDamage >= lockedEnemy.player->GetHealth())
+		if (bestDamage >= lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
 		{
 			Ragebot::BestDamage = bestDamage;
 			Ragebot::BestSpot = bestSpot;
 			return lockedEnemy.player;
 		}
-		else if (bestDamage >= currSettings.MinDamage)
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return lockedEnemy.player;
-		}
-
 		lockedEnemy.player = nullptr;
 		break;
 	}
 	
-	C_BasePlayer* clossestEnemy = nullptr;
-	static const int &maxClient = engine->GetMaxClients();
-	for (int i = maxClient; i >= 0 ; i--)
+	C_BasePlayer* clossestEnemy = GetClosestEnemy(localplayer);
+
+	if (clossestEnemy)
+	{
+		if (clossestEnemy->GetAlive() || !clossestEnemy->GetDormant() || !clossestEnemy->GetImmune())
+		{
+			GetBestSpotAndDamage(clossestEnemy,localplayer, bestSpot, bestDamage, currSettings);
+		
+			if (bestDamage >= clossestEnemy->GetHealth() || bestDamage > Ragebot::BestDamage)
+			{
+				Ragebot::BestDamage = bestDamage;
+				Ragebot::BestSpot = bestSpot;
+				return clossestEnemy;
+			}	
+		}
+	}
+	int maxClient = engine->GetMaxClients();
+	for (int i = maxClient; i > 0 ; i--)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
@@ -445,7 +499,8 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 			player == localplayer || 
 			player->GetDormant() || 
 			!player->GetAlive() || 
-			player->GetImmune())
+			player->GetImmune() ||
+			player == clossestEnemy)
 			continue;
 
 		if (Entity::IsTeamMate(player, localplayer)) // Checking for Friend If any it will continue to next player
@@ -471,6 +526,10 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 	return clossestEnemy;
 }
 
+/*
+ * This player finding technique is bit slow because it look over all the fellos and there damages
+ * it can cause fps drop too but usefull when someone try to kill you from behind if only they miss though
+ */
 static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWeapon_t& currSettings)
 {
 	if (!localplayer || !localplayer->GetAlive())
@@ -479,30 +538,26 @@ static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWea
 	Vector bestSpot = Vector(0);
 	int bestDamage = 0;
 
-	if (lockedEnemy.player && lockedEnemy.player->GetAlive() && !lockedEnemy.player->GetDormant() && !lockedEnemy.player->GetImmune())
+	while (lockedEnemy.player )
 	{
+		if (!lockedEnemy.player->GetAlive() || lockedEnemy.player->GetDormant() || lockedEnemy.player->GetImmune())
+			break;
 		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
-		if (bestDamage >= lockedEnemy.player->GetHealth())
+		if (bestDamage >= lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
 		{
 			Ragebot::BestDamage = bestDamage;
 			Ragebot::BestSpot = bestSpot;
 			return lockedEnemy.player;
 		}
-		else if (bestDamage >= currSettings.MinDamage)
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return lockedEnemy.player;
-		}
-
 		lockedEnemy.player = nullptr;
 		lockedEnemy.bestDamage = 0;
 		lockedEnemy.lockedSpot = Vector(0);
+		break;
 	}
 	
 	C_BasePlayer* clossestEnemy = nullptr;
-	static const int &maxClient = engine->GetMaxClients();
-	for (int i = 0; i <= maxClient; i++)
+	int maxClient = engine->GetMaxClients();
+	for (int i = 0; i <= maxClient; ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
@@ -539,7 +594,6 @@ static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWea
 
 static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings)
 {
-	
 	if (!localplayer || !localplayer->GetAlive())
 		return false;
 
@@ -564,10 +618,11 @@ static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapo
 
     for (int i = 0; i < 255; i++) {
     	// RandomSeed(i + 1); // if we can't calculate spread like game does, then at least use same functions XD
-        float b = static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/ (2.0 * (float)M_PI)));
-        float spread = weap_spread * static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/1.0));
-        float d = static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/1.0));
-        float inaccuracy = weap_inaccuracy * static_cast<float>( static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX/1.0));
+        static float val1 = (2.0 * (float)M_PI);
+		float b = RandomeFloat(val1);
+        float spread = weap_spread * RandomeFloat(1.0f);
+        float d = RandomeFloat(1.0f);
+        float inaccuracy = weap_inaccuracy * RandomeFloat(1.0f);
 
         Vector spreadView((cos(b) * inaccuracy) + (cos(d) * spread), (sin(b) * inaccuracy) + (sin(d) * spread), 0), direction;
 
@@ -595,12 +650,14 @@ static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapo
         if (tr.m_pEntityHit == enemy)
             hitCount++;
 
-        if (static_cast<int>((static_cast<float>(hitCount) / 255.f) * 100.f) >= currentSettings.HitChance)
-			return true;
+        
 
 		if ((255 - i + hitCount) < NeededHits)
 			return false;
     }
+
+	if (static_cast<int>((static_cast<float>(hitCount) / 255.f) * 100.f) >= currentSettings.HitChance)
+		return true;
 
     return false;
 }
@@ -726,9 +783,7 @@ static void RagebotAutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_
 {
     if (!currentSettings.autoShootEnabled)
 		return;
-	if (!localplayer || !localplayer->GetAlive())
-		return;
-	if (!activeWeapon || activeWeapon->GetInReload())
+	if (!activeWeapon || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
 		return;
     CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
     if (weaponType == CSWeaponType::WEAPONTYPE_KNIFE || weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
@@ -738,18 +793,14 @@ static void RagebotAutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_
 		
 	if ( canShoot(cmd, localplayer, activeWeapon, bestspot, player, currentSettings) )
 	{
+		Ragebot::shouldAim = false;
 		if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
-		{
-			Ragebot::shouldAim = false;
 			cmd->buttons &= ~IN_ATTACK;
-		}
 		else if ( !(cmd->buttons & IN_ATTACK) )
-		{
-			Ragebot::shouldAim = true;
 			cmd->buttons |= IN_ATTACK;
-		}
 		return;
 	}
+	Ragebot::shouldAim = true;
 	RagebotAutoSlow(localplayer, activeWeapon, cmd, forrwordMove, sideMove, angle, currentSettings);
 		
 }
@@ -850,6 +901,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	}
 	
 	RagebotNoRecoil(angle, cmd, localplayer, activeWeapon, currentWeaponSetting);
+	
     Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 

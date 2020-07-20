@@ -123,6 +123,13 @@ void Math::NormalizeYaw( float& yaw ) {
 		yaw += 360.0f;
 }
 
+float Math::ClampYaw(float val)
+{
+	while (val < 0) val += 360.0f;
+	while (val > 360.0f) val -= 360.0f;
+	return val;
+}
+
 void Math::ClampAngles(QAngle& angle)
 {
 	if (angle.y > 180.0f)

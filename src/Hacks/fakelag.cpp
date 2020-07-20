@@ -9,7 +9,7 @@
 
 #include <float.h>
 
-int ticksMax = 100;
+int ticksMax = 60;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
@@ -48,27 +48,25 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 
 			CreateMove::sendPacket = !(cmd->tick_count%packetsToChoke);
 		}
-		else if (cmd->sidemove > 2 || cmd->sidemove < -2)
+		else if ( (cmd->sidemove > 2 || cmd->sidemove < -2) && cmd->forwardmove == 0)
 		{
-			CreateMove::sendPacket = !(cmd->tick_count%16);
+			FakeLag::ticks = 0;
+			CreateMove::sendPacket = FakeLag::ticks <= 60 ? false : true;
 		}
 		else
 		{
-			CreateMove::sendPacket = !(cmd->tick_count%Settings::FakeLag::value);
+			CreateMove::sendPacket = FakeLag::ticks <= Settings::FakeLag::value ? false : true;
 		}
 	}
 	
 	if (CreateMove::sendPacket)
 	{
+		FakeLag::ticks = 0;
+		oldorigin = (localplayer->GetVelocity().Length2D() * globalVars->interval_per_tick);
 		localplayer->SetAbsOrigin( &oldorigin );
 		oldorigin = localplayer->GetAbsOrigin();
 		// cmd->forwardmove = FLT_MAX;
 		// cmd->sidemove = FLT_MAX;
-	}
-	else
-	{
-		oldorigin = (localplayer->GetVelocity().Length() * globalVars->interval_per_tick);
-		localplayer->SetAbsOrigin( &oldorigin );
 	}
 	
 	

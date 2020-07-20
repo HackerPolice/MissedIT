@@ -13,8 +13,9 @@
 #include "../Tabs/skinstab.h"
 #include "../Tabs/modelstab.h"
 
-#include "colors.h"
 #include "configs.h"
+
+#define GetPercentVal(val, percent) (val * (percent/100.f))
 
 bool Main::showWindow = true;
 
@@ -42,9 +43,6 @@ static void Buttons()
 			ImGui::PushItemWidth(-1);
 			if (ImGui::Button(XORSTR("Config"), ImVec2( ImGui::GetWindowSize().x, 50) ) )
 				Configs::showWindow = !Configs::showWindow;
-
-			if (ImGui::Button(XORSTR("COLOR PICKER"), ImVec2( ImGui::GetWindowSize().x, 50) ) )
-				Colors::showWindow = !Colors::showWindow;
 
 			ImGui::PopItemWidth();
 		}
@@ -83,7 +81,7 @@ void Main::RenderWindow()
 
 	ImVec2 temp = ImGui::GetWindowSize();
 	
-	if (ImGui::Begin(XORSTR("##MissedIt"), &Main::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiConfigFlags_NoMouseCursorChange ) )
+	if (ImGui::Begin(XORSTR("##MissedIt"), &Main::showWindow, ImGuiWindowFlags_NoCollapse /*| ImGuiWindowFlags_NoMove*/ | ImGuiWindowFlags_NoScrollbar /*| ImGuiWindowFlags_NoResize*/ | ImGuiWindowFlags_NoTitleBar | ImGuiConfigFlags_NoMouseCursorChange ) )
 	{
 		Settings::UI::Windows::Main::open = true;
 
@@ -102,54 +100,69 @@ void Main::RenderWindow()
 				"Misc",	
 		};
 
-		for (int i = 0; i < IM_ARRAYSIZE(tabs); i++)
+		ImGui::Columns(2, nullptr, false);
 		{
-			int distance = i == page ? 0 : i > page ? i - page : page - i;
+			float ButtonsXSize = ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs)-9;
+			ImGui::SetColumnOffset(1, ButtonsXSize);
+			for (int i = 0; i < IM_ARRAYSIZE(tabs); i++)
+			{
+				int distance = i == page ? 0 : i > page ? i - page : page - i;
 
-			ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
+				ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
 					Settings::UI::mainColor.Color().Value.x - (distance * 0.035f),
 					Settings::UI::mainColor.Color().Value.y - (distance * 0.035f),
 					Settings::UI::mainColor.Color().Value.z - (distance * 0.035f),
 					Settings::UI::mainColor.Color().Value.w
-			);
+				);
 
-			if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs) - 9, 0)))
-				page = i;
+				if (ImGui::Button(tabs[i], ImVec2( ButtonsXSize, 0)))
+					page = i;
 
-			ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::accentColor.Color();
+				ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::accentColor.Color();
 
-			if (i < IM_ARRAYSIZE(tabs) - 1)
-				ImGui::SameLine();
+				// if (i < IM_ARRAYSIZE(tabs) - 1)
+				// {
+				// 	ImGui::SameLine();
+				// 	ImGui::Dummy(ImVec2(-1,-1));
+				// }
+				
 		}
-
-		ImGui::Columns(1);
-		ImGui::Dummy(ImVec2(0,2));
-		switch (page)
+		}
+		ImGui::NextColumn();
 		{
-			case 0:
-				Legitbot::RenderTab();
-				break;
-			case 1:
-				RagebotTab::RenderTab();
-				break;
-			case 2:
-				HvH::RenderTab();
-				break;
-			case 3:
-				Visuals::RenderTab();
-				break;
-			case 4:
-				Skins::RenderTab();
-				break;
-			case 5:
-				Models::RenderTab();
-				break;
-			case 6:
-				Misc::RenderTab();
-				break;
+			ImGui::BeginChild(XORSTR("COL1"), ImVec2(0, 0), false);
+			{
+				switch (page)
+				{
+				case 0:
+					Legitbot::RenderTab();
+					break;
+				case 1:
+					RagebotTab::RenderTab();
+					break;
+				case 2:
+					HvH::RenderTab();
+					break;
+				case 3:
+					Visuals::RenderTab();
+					break;
+				case 4:
+					Skins::RenderTab();
+					break;
+				case 5:
+					Models::RenderTab();
+					break;
+				case 6:
+					Misc::RenderTab();
+					break;
+				}
+			}
+			ImGui::EndChild();
 		}
 		
+		
 	}
+	ImGui::EndColumns();
 	ImGui::End();
 	
 	Buttons();

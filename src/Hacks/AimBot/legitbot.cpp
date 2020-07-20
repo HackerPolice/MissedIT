@@ -487,7 +487,7 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, localplayer, true, bestSpot, bestDamage, currentWeaponSetting);
 
-	if (player)
+	if (player && bestDamage > 0)
 	{
 		if (currentWeaponSetting.aimkeyOnly)
 			shouldAim = AimKeyOnly(cmd, currentWeaponSetting); 

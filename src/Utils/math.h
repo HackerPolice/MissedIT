@@ -32,4 +32,5 @@ namespace Math {
 	float CalMaxDistance(const Vector &src, const Vector &dest);
 	float CalMaxDistance(const QAngle &src, const Vector &dest);
 	float SquareRoot(const float &x);
+	float ClampYaw (float val);
 }

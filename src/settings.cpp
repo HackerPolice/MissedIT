@@ -276,9 +276,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("enabled")] = Settings::AntiAim::LegitAntiAim::enable;
     settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("togglekey")] = Util::GetButtonName(Settings::AntiAim::LegitAntiAim::InvertKey);
     settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("inverted")] = Settings::AntiAim::LegitAntiAim::inverted;
-    settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("RealPercentage")] = Settings::AntiAim::LegitAntiAim::RealPercentage;
-    settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("RealPercentageInCroutch")] = Settings::AntiAim::LegitAntiAim::RealPercentageInCroutch;
-    settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("OverWatchProof")] = Settings::AntiAim::LegitAntiAim::OverWatchProof;
+    settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("OverWatchProof")] = (int)Settings::AntiAim::LegitAntiAim::legitAAtype;
     // END
 
 	settings[XORSTR("AntiAim")][XORSTR("Yaw")][XORSTR("type")] = (int) Settings::AntiAim::Yaw::typeReal;
@@ -889,6 +887,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("AutoDisable")][XORSTR("no_enemy")], &Settings::AntiAim::AutoDisable::noEnemy);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("AutoDisable")][XORSTR("knife_held")], &Settings::AntiAim::AutoDisable::knifeHeld);
     
+    // Settings for RageAntiAIm
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("enabled")], &Settings::AntiAim::RageAntiAim::enable);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("Fake Percent")], &Settings::AntiAim::RageAntiAim::AntiAImPercent);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("Real Jitter Percent")], &Settings::AntiAim::RageAntiAim::JitterPercent);
@@ -907,13 +906,9 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("inverted")], &Settings::AntiAim::LegitAntiAim::inverted);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("RealPercentage")], &Settings::AntiAim::LegitAntiAim::RealPercentage);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("RealPercentageInCroutch")], &Settings::AntiAim::LegitAntiAim::RealPercentageInCroutch);
-    GetVal(settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("OverWatchProof")], &Settings::AntiAim::LegitAntiAim::OverWatchProof);
-    
-    //GetVal(settings[XORSTR("AntiAim")][XORSTR("Yaw")][XORSTR("enabled")], &Settings::AntiAim::Yaw::enabled);
-	GetVal(settings[XORSTR("AntiAim")][XORSTR("Yaw")][XORSTR("type")], (int*)&Settings::AntiAim::Yaw::typeReal);
-	GetVal(settings[XORSTR("AntiAim")][XORSTR("Yaw")][XORSTR("type_fake")], (int*)&Settings::AntiAim::Yaw::typeFake);
-    //GetVal(settings[XORSTR("AntiAim")][XORSTR("Pitch")][XORSTR("enabled")], &Settings::AntiAim::Pitch::enabled);
-   // GetVal(settings[XORSTR("AntiAim")][XORSTR("Pitch")][XORSTR("type")], (int*)&Settings::AntiAim::Pitch::type);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("Legit AntiAim")][XORSTR("OverWatchProof")], (int*)&Settings::AntiAim::LegitAntiAim::legitAAtype);
+    // End legit Anti aim settings Features
+
     GetVal(settings[XORSTR("AntiAim")][XORSTR("HeadEdge")][XORSTR("enabled")], &Settings::AntiAim::HeadEdge::enabled);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("HeadEdge")][XORSTR("distance")], &Settings::AntiAim::HeadEdge::distance);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("LBYBreaker")][XORSTR("enabled")], &Settings::AntiAim::LBYBreaker::enabled);

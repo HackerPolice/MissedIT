@@ -1,12 +1,12 @@
 #include "lagcomp.h"
 
 // source from nimbus bcz i am lezy xd
-std::vector<LagComp::LagCompTickInfo> LagComp::lagCompTicks;
+// std::vector<LagComp::LagCompTickInfo> LagComp::lagCompTicks;
 
 #define TICK_INTERVAL globalVars->interval_per_tick
 
 
-#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
+#define TIME_TO_TICKS( dt )	( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
 
 static void RemoveInvalidTicks()
 {
@@ -30,10 +30,10 @@ static void RegisterTicks()
 {
 	const auto localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
 	const auto curTick = LagComp::lagCompTicks.insert(LagComp::lagCompTicks.begin(), {globalVars->tickcount, globalVars->curtime});
-	
-	for (int i = engine->GetMaxClients(); i > 1 ; i--)
+	int playerCount = engine->GetMaxClients();
+	for (int i = playerCount; i > 0 ; i--)
 	{
-		const auto player = (C_BasePlayer *)entityList->GetClientEntity(i);
+		auto player = (C_BasePlayer *)entityList->GetClientEntity(i);
 
 		if (!player
 		|| player == localplayer
@@ -47,9 +47,9 @@ static void RegisterTicks()
 
 		record.entity = player;
 		record.origin = player->GetVecOrigin();
-		record.head = player->GetBonePosition(BONE_HEAD);
+		record.head = player->GetBonePosition(CONST_BONE_HEAD);
 
-		if (player->SetupBones(record.bone_matrix, 128, BONE_USED_BY_HITBOX, globalVars->curtime))
+		if (player->SetupBones(record.bone_matrix, 128, 256, globalVars->curtime) )
 			curTick->records.push_back(record);
 	}
 }
@@ -81,7 +81,7 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	{
 		float fov = 180.0f;
 
-		int tickcount = 0;
+		static int tickcount = cmd->tick_count;
 		Vector absOrigin;
 		C_BasePlayer* entity = nullptr;
 		bool has_target = false;
@@ -95,19 +95,16 @@ void LagComp::CreateMove(CUserCmd *cmd)
 				if (tmpFOV < fov)
 				{
 					fov = tmpFOV;
-					tickcount = TIME_TO_TICKS(record.entity->GetSimulationTime());
+					tickcount = TIME_TO_TICKS(record.entity->GetSimulationTime() + LagComp::GetLerpTime());
 					absOrigin = record.origin;
 					entity = record.entity;
 					has_target = true;
+					break;
 				}
 			}
-		}
-
-		if (has_target)
-		{
-			cmd->tick_count = tickcount;
-			entity->SetAbsOrigin( &absOrigin );
+			if (has_target) break;
 		}
 			
+		cmd->tick_count = tickcount;
 	}
 }

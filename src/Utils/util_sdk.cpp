@@ -1069,6 +1069,10 @@ IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool igno
 			"\t\"$model\" \"" + std::to_string(model) + "\"\n"
 			"\t\"$nocull\" \"" + std::to_string(nocull) + "\"\n"
 			"\t\"$halflambert\" \"" + std::to_string(halflambert) + "\"\n"
+			"\t\"$envmap\" \"" + "models/effects/cube_white" + "\"\n"
+			"\t\"$envmaptint\" \"" + "[0 0 1]" + "\"\n"
+			"\t\"$envmapfresnel\" \"" + "0" + "\"\n"
+			"\t\"$envmapfresnelminmaxexp\" \"" + "[0 1 1]" + "\"\n"
 			"}\n" << std::flush;
 
     char randomLetter = 'a' + rand()%26;

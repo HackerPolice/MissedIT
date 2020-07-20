@@ -136,21 +136,19 @@ static void RageAntiAIm()
 
 static void LegitAntiAim()
 {
-    const char* LegitAAType[] = {"OverWatchProof", "Desync"};
+    const char* LegitAAType[] = {"OverWatchProof", "Experimental"};
     /*
     * part where legit anti aim ui constructed
     */
+    // Really nothing much here to add more about
+    ImGui::Spacing();
+    ImGui::PushItemWidth(-1);
     ImGui::Combo(XORSTR("##LegitAAType"), (int*)&Settings::AntiAim::LegitAntiAim::legitAAtype, LegitAAType, IM_ARRAYSIZE(LegitAAType));
     ImGui::Spacing();
     ImGui::Columns(1, nullptr, false);
     ImGui::Text(XORSTR("InvertKey"));
     ImGui::SameLine();
     UI::KeyBindButton(&Settings::AntiAim::LegitAntiAim::InvertKey); 
-    ImGui::Spacing(); ImGui::Spacing(); 
-    ImGui::PushItemWidth(-1); 
-    ImGui::SliderFloat(XORSTR("##RealPercentage"), &Settings::AntiAim::LegitAntiAim::RealPercentage, 0, 100, "Real Percent : %.0f percent" );  
-    ImGui::Spacing();
-    ImGui::SliderFloat(XORSTR("##INCROUTCHREALPERCENTAGE"), &Settings::AntiAim::LegitAntiAim::RealPercentageInCroutch, 0, 100, "Real Percent In Croutch : %.0f percent" ); 
     ImGui::PopItemWidth();
     /*
     * End of legit antiaim

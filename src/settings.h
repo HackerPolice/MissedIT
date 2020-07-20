@@ -77,6 +77,7 @@ enum class ChamsType : int
 	GOLD,
 	Achivements,
 	Snowflake,
+	Velvet,
 	Testing,
 	NONE,
 };
@@ -166,7 +167,7 @@ enum class SpammerType : int
 enum class LegitAAType : int
 {
     OverWatchProof,
-	Desync,
+	Experimental,
 };
 
 enum class AntiAimRealType_Y : int
@@ -396,10 +397,10 @@ namespace Settings
 {
 	namespace UI
 	{
-		inline ColorVar mainColor = ImColor(36, 95, 35, 255 );
-		inline ColorVar bodyColor = ImColor( 56, 67, 78, 182 );
-		inline ColorVar fontColor = ImColor( 255, 255, 255, 195 );
-		inline ColorVar accentColor = ImColor( 113, 128, 129, 255 );
+		inline ColorVar mainColor = ImColor(42, 45, 42, 255 );
+		inline ColorVar bodyColor = ImColor( 0, 0, 0, 245 );
+		inline ColorVar fontColor = ImColor( 238, 224, 224, 154 );
+		inline ColorVar accentColor = ImColor( 0, 171, 178, 255 );
 		inline bool imGuiAliasedLines = false;
 		inline bool imGuiAliasedFill = false;
 
@@ -776,6 +777,11 @@ namespace Settings
 				inline bool enabled = false;
 				inline ChamsType type = ChamsType::WHITEADDTIVE;
 			}
+			namespace Chams
+			{
+				inline bool enabled = false;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
+			}
 			namespace Skeleton
 			{
 				inline bool enabled = false;
@@ -795,12 +801,6 @@ namespace Settings
 			{
 				inline bool enabled = false;
 				inline BoxType type = BoxType::FRAME_2D;
-			}
-
-			namespace Chams
-			{
-				inline bool enabled = false;
-				inline ChamsType type = ChamsType::WHITEADDTIVE;
 			}
 			namespace HelthBar
 			{

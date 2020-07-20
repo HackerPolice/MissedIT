@@ -62,14 +62,16 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		NoFall::PrePredictionCreateMove(cmd);
 		PredictionSystem::StartPrediction(cmd);
 
-		Resolver::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
-		LagComp::CreateMove(cmd);
 		Legitbot::CreateMove(cmd);
 		Ragebot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
+		LagComp::CreateMove(cmd);
+
+		// Resolver::CreateMove(cmd);
+		
 		// FakeDuck::CreateMove(cmd);
 
 		ESP::CreateMove(cmd);

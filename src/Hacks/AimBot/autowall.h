@@ -18,4 +18,5 @@ namespace AutoWall
 
 	int GetDamage(const Vector& vecPoint, bool teamCheck);
 	int GetDamage(const Vector& point, bool teamCheck, FireBulletData& fdata);
+	int GetDamage(C_BasePlayer* player, const Vector& point, bool teamCheck, FireBulletData& fdata);
 }

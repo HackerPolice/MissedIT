@@ -5,7 +5,6 @@
 #include "../settings.h"
 #include "../Utils/xorstring.h"
 
-#include "Windows/colors.h"
 #include "Windows/configs.h"
 #include "Windows/main.h"
 #include "Windows/playerlist.h"
@@ -69,7 +68,6 @@ void UI::SetupWindows()
 		Main::RenderWindow();
 		ImGui::PopStyleVar();
 		Configs::RenderWindow();
-		Colors::RenderWindow();
 	}
 
 	PlayerList::RenderWindow();
