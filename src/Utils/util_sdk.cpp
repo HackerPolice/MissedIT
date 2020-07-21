@@ -1057,7 +1057,17 @@ ButtonCode_t Util::GetButtonCode(std::string buttonName)
 	return ButtonCode_t::BUTTON_CODE_INVALID;
 }
 
-IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert)
+/*
+ * Explaination  -> 
+ * type example -VertexLitGeneric
+ * texture example- VGUI/white_additive
+ * ignorez - it will consider if it work behind wall or not
+ * envmap - secondary meterial - "models/effects/cube_white"
+ * envmaptint kind of how much glow - example - "[1,1,1]"
+ * envmapfresnel don't know what it is just keep it 0
+ * envmapfresnelminmaxexp still donno work with the values - example - "[0,1,2]"
+ */
+IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert,std::string envmap, std::string envmaptint, int envmapfresnel, std::string envmapfresnelminmaxexp )
 {
 	static int matNum = 1;
 	std::stringstream materialData;
@@ -1069,10 +1079,10 @@ IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool igno
 			"\t\"$model\" \"" + std::to_string(model) + "\"\n"
 			"\t\"$nocull\" \"" + std::to_string(nocull) + "\"\n"
 			"\t\"$halflambert\" \"" + std::to_string(halflambert) + "\"\n"
-			"\t\"$envmap\" \"" + "models/effects/cube_white" + "\"\n"
-			"\t\"$envmaptint\" \"" + "[0 0 1]" + "\"\n"
-			"\t\"$envmapfresnel\" \"" + "0" + "\"\n"
-			"\t\"$envmapfresnelminmaxexp\" \"" + "[0 1 1]" + "\"\n"
+			"\t\"$envmap\" \"" + envmap + "\"\n"
+			"\t\"$envmaptint\" \"" + envmaptint + "\"\n"
+			"\t\"$envmapfresnel\" \"" + std::to_string(envmapfresnel) + "\"\n"
+			"\t\"$envmapfresnelminmaxexp\" \"" + envmapfresnelminmaxexp + "\"\n"
 			"}\n" << std::flush;
 
     char randomLetter = 'a' + rand()%26;

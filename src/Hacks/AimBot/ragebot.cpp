@@ -11,9 +11,6 @@
 #define TIME_TO_TICKS( dt )	( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
 #define NormalizeNo(x) (x = (x < 0) ? ( x * -1) : x )
 
-
-
-
 std::vector<int64_t> Ragebot::friends = {};
 std::vector<long> RagebotkillTimes = { 0 }; // the Epoch time from when we kill someone
 
@@ -117,11 +114,11 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 	if (!player || !player->GetAlive() || !currentSetting.desireBones[i])
 		return;
 
-	auto HitboxHead([&](int BoneID){
+	static auto HitboxHead([&](int BoneID){
 		Spot = player->GetBonePosition(BoneID);
 		BestMultiPointHEADDamage(player, BoneID, Damage, Spot);
 	});
-	auto UpperSpine([&](int BoneID){
+	static auto UpperSpine([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
 		BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -154,7 +151,7 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	auto MiddleSpine([&](int BoneID){
+	static auto MiddleSpine([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
 		BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -188,7 +185,7 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	auto LowerSpine([&](int BoneID){
+	static auto LowerSpine([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
 		BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -221,7 +218,7 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	auto HipHitbox([&](int BoneID){
+	static auto HipHitbox([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
 		BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -254,7 +251,7 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	auto PelvisHitbox([&](int BoneID){
+	static auto PelvisHitbox([&](int BoneID){
 
 		Spot = player->GetBonePosition(BoneID);
 		BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -290,7 +287,7 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 				return;
 		}
 	});
-	auto DefaultHitbox([&](int BoneID){
+	static auto DefaultHitbox([&](int BoneID){
 		Spot = player->GetBonePosition(BoneID);
 		Damage = AutoWall::GetDamage(Spot, true);
 	});
@@ -312,7 +309,6 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, i
 			else DefaultHitbox(boneID);
 			break;
 			
-
 		case DesireBones::MIDDLE_CHEST:
 			boneID = (*modelType).at(BONE_MIDDLE_SPINAL_COLUMN);
 			if (currentSetting.desiredMultiBones[i]) MiddleSpine(boneID);
@@ -356,8 +352,8 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 
 	if (currSettings.DmagePredictionType == DamagePrediction::damage)
 	{
-		int i = 0;
-		while ( i < 6)
+		static int i;
+		for (i = 0; i < 6; i++)
 		{
 			GetDamageAndSpots(player, spot, damage, playerHelth, i, modelType, currSettings);
 			if (damage >= playerHelth)
@@ -371,16 +367,13 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 				Damage = damage;
 				Spot = spot;
 			}
-			i++;
 		}	
 	}
 
 	else if (currSettings.DmagePredictionType == DamagePrediction::justDamage)
 	{	
-		int i = 0;
-
-		if (player)
-		while ( i < 6)
+		static int i;
+		for (i = 0; i < 6; i++)
 		{
 			GetDamageAndSpots(player, spot, damage, playerHelth, i, modelType, currSettings);
 				
@@ -396,200 +389,9 @@ static void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer,
 				Spot = spot;
 				return;
 			}
-			i++;
 		}		
 	}
 
-}
-
-/*
-* To find the closesnt enemy to reduce the calculation time and increase performace
-* Original Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) 
-*/
-static C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer)
-{
-	if (!localplayer || !localplayer->GetAlive()) return nullptr;
-
-	C_BasePlayer* closestPlayer = nullptr;
-	Vector pVecTarget = localplayer->GetEyePosition();
-	QAngle viewAngles;
-		engine->GetViewAngles(viewAngles);
-	float prevFOV = 0.f;
-
-	int maxClient = engine->GetMaxClients();
-
-	for (int i = maxClient; i > 0; i--)
-	{
-		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
-
-		if (!player
-	    	|| player == localplayer
-	    	|| player->GetDormant()
-	    	|| !player->GetAlive()
-	    	|| player->GetImmune())
-	    	continue;
-
-		if (Entity::IsTeamMate(player, localplayer))
-	   	 	continue;
-
-		Vector cbVecTarget = player->GetEyePosition();
-		if (Entity::IsSpotVisible(player, cbVecTarget));
-		
-		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
-	
-		if ( cbFov < prevFOV || prevFOV == 0.f)
-		{
-			prevFOV = cbFov;
-			closestPlayer = player;
-		}
-	}
-	return closestPlayer;
-}
-
-/*
- * Logic is simple as that we look for clossest enemt to your crosshair first 
- * then check for him first else cheking for other fellos 
- * though it can be costly sometimes but can be usefull in most of the cases
- */
-static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const RageWeapon_t& currSettings)
-{
-	if (!localplayer || !localplayer->GetAlive())
-		return nullptr;
-	
-	Vector bestSpot = Vector(0);
-	int bestDamage = 0;
-
-	while (lockedEnemy.player)
-	{
-		if ( !lockedEnemy.player->GetAlive() || lockedEnemy.player->GetDormant() || lockedEnemy.player->GetImmune() )
-			break;
-		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
-		if (bestDamage >= lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return lockedEnemy.player;
-		}
-		lockedEnemy.player = nullptr;
-		break;
-	}
-	
-	C_BasePlayer* clossestEnemy = GetClosestEnemy(localplayer);
-
-	if (clossestEnemy)
-	{
-		if (clossestEnemy->GetAlive() || !clossestEnemy->GetDormant() || !clossestEnemy->GetImmune())
-		{
-			GetBestSpotAndDamage(clossestEnemy,localplayer, bestSpot, bestDamage, currSettings);
-		
-			if (bestDamage >= clossestEnemy->GetHealth() || bestDamage > Ragebot::BestDamage)
-			{
-				Ragebot::BestDamage = bestDamage;
-				Ragebot::BestSpot = bestSpot;
-				return clossestEnemy;
-			}	
-		}
-	}
-	int maxClient = engine->GetMaxClients();
-	for (int i = maxClient; i > 0 ; i--)
-	{
-		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
-
-		if (!player || 
-			player == localplayer || 
-			player->GetDormant() || 
-			!player->GetAlive() || 
-			player->GetImmune() ||
-			player == clossestEnemy)
-			continue;
-
-		if (Entity::IsTeamMate(player, localplayer)) // Checking for Friend If any it will continue to next player
-			continue;			
-
-		GetBestSpotAndDamage(player,localplayer, bestSpot, bestDamage, currSettings);
-		
-		if (bestDamage >= player->GetHealth() )
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return player;
-		}	
-		else if (bestDamage > Ragebot::BestDamage){
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			clossestEnemy = player;
-		}
-	}
-	if (Ragebot::BestSpot.IsZero() || Ragebot::BestDamage < currSettings.MinDamage)
-		return nullptr;
-
-	return clossestEnemy;
-}
-
-/*
- * This player finding technique is bit slow because it look over all the fellos and there damages
- * it can cause fps drop too but usefull when someone try to kill you from behind if only they miss though
- */
-static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWeapon_t& currSettings)
-{
-	if (!localplayer || !localplayer->GetAlive())
-		return nullptr;
-	
-	Vector bestSpot = Vector(0);
-	int bestDamage = 0;
-
-	while (lockedEnemy.player )
-	{
-		if (!lockedEnemy.player->GetAlive() || lockedEnemy.player->GetDormant() || lockedEnemy.player->GetImmune())
-			break;
-		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
-		if (bestDamage >= lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return lockedEnemy.player;
-		}
-		lockedEnemy.player = nullptr;
-		lockedEnemy.bestDamage = 0;
-		lockedEnemy.lockedSpot = Vector(0);
-		break;
-	}
-	
-	C_BasePlayer* clossestEnemy = nullptr;
-	int maxClient = engine->GetMaxClients();
-	for (int i = 0; i <= maxClient; ++i)
-	{
-		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
-
-		if (!player || 
-			player == localplayer || 
-			player->GetDormant() || 
-			!player->GetAlive() || 
-			player->GetImmune())
-			continue;
-
-		if (Entity::IsTeamMate(player, localplayer)) // Checking for Friend If any it will continue to next player
-			continue;			
-
-		GetBestSpotAndDamage(player,localplayer, bestSpot, bestDamage, currSettings);
-		
-		if (bestDamage >= player->GetHealth() )
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return player;
-		}	
-		else if (bestDamage > Ragebot::BestDamage){
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			clossestEnemy = player;
-		}
-	}	
-
-	if (Ragebot::BestSpot.IsZero() || Ragebot::BestDamage < currSettings.MinDamage)
-		return nullptr;
-
-	return clossestEnemy;
 }
 
 static bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings)
@@ -822,6 +624,197 @@ static void FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player,QAngle& angle,QAn
     cmd->mousedy = delta.x / (m_pitch * sens * zoomMultiplier);
 }
 
+
+/*
+* To find the closesnt enemy to reduce the calculation time and increase performace
+* Original Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) 
+*/
+static C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer)
+{
+	if (!localplayer || !localplayer->GetAlive()) return nullptr;
+
+	C_BasePlayer* closestPlayer = nullptr;
+	Vector pVecTarget = localplayer->GetEyePosition();
+	QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+	float BestFov = 180.f;
+
+	int maxClient = engine->GetMaxClients();
+
+	for (int i = maxClient; i > 1; i--)
+	{
+		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
+
+		if (!player
+	    	|| player == localplayer
+	    	|| player->GetDormant()
+	    	|| !player->GetAlive()
+	    	|| player->GetImmune())
+	    	continue;
+
+		if (Entity::IsTeamMate(player, localplayer))
+	   	 	continue;
+
+		Vector cbVecTarget = player->GetEyePosition();
+		
+		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
+	
+		if ( cbFov < BestFov)
+		{
+			BestFov = cbFov;
+			closestPlayer = player;
+		}
+	}
+	return closestPlayer;
+}
+
+/*
+ * Logic is simple as that we look for clossest enemt to your crosshair first 
+ * then check for him first else cheking for other fellos 
+ * though it can be costly sometimes but can be usefull in most of the cases
+ */
+static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const RageWeapon_t& currSettings)
+{
+	if (!localplayer || !localplayer->GetAlive())
+		return nullptr;
+	
+	Vector bestSpot = Vector(0);
+	int bestDamage = 0;
+
+	while (lockedEnemy.player)
+	{
+		if ( !lockedEnemy.player->GetAlive() || lockedEnemy.player->GetDormant() || lockedEnemy.player->GetImmune() )
+			break;
+		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
+		if (bestDamage >= lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
+		{
+			Ragebot::BestDamage = bestDamage;
+			Ragebot::BestSpot = bestSpot;
+			return lockedEnemy.player;
+		}
+		lockedEnemy.player = nullptr;
+		break;
+	}
+	
+	C_BasePlayer* clossestEnemy = GetClosestEnemy(localplayer);
+
+	if (clossestEnemy)
+	{
+		if (clossestEnemy->GetAlive() || !clossestEnemy->GetDormant() || !clossestEnemy->GetImmune())
+		{
+			GetBestSpotAndDamage(clossestEnemy,localplayer, bestSpot, bestDamage, currSettings);
+		
+			if (bestDamage >= clossestEnemy->GetHealth() || bestDamage > Ragebot::BestDamage)
+			{
+				Ragebot::BestDamage = bestDamage;
+				Ragebot::BestSpot = bestSpot;
+				return clossestEnemy;
+			}	
+		}
+	}
+	int maxClient = engine->GetMaxClients();
+	for (int i = maxClient; i > 1 ; i--)
+	{
+		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
+
+		if (!player || 
+			player == localplayer || 
+			player->GetDormant() || 
+			!player->GetAlive() || 
+			player->GetImmune() ||
+			player == clossestEnemy)
+			continue;
+
+		if (Entity::IsTeamMate(player, localplayer)) // Checking for Friend If any it will continue to next player
+			continue;			
+
+		GetBestSpotAndDamage(player,localplayer, bestSpot, bestDamage, currSettings);
+		
+		if (bestDamage >= player->GetHealth() )
+		{
+			Ragebot::BestDamage = bestDamage;
+			Ragebot::BestSpot = bestSpot;
+			return player;
+		}	
+		else if (bestDamage > Ragebot::BestDamage){
+			Ragebot::BestDamage = bestDamage;
+			Ragebot::BestSpot = bestSpot;
+			clossestEnemy = player;
+		}
+	}
+	if (Ragebot::BestDamage < currSettings.MinDamage || Ragebot::BestDamage <= 0)
+		return nullptr;
+
+	return clossestEnemy;
+}
+
+/*
+ * This player finding technique is bit slow because it look over all the fellos and there damages
+ * it can cause fps drop too but usefull when someone try to kill you from behind if only they miss though
+ */
+static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWeapon_t& currSettings)
+{
+	if (!localplayer || !localplayer->GetAlive())
+		return nullptr;
+	
+	Vector bestSpot = Vector(0);
+	int bestDamage = 0;
+
+	while (lockedEnemy.player )
+	{
+		if (!lockedEnemy.player->GetAlive() || lockedEnemy.player->GetDormant() || lockedEnemy.player->GetImmune())
+			break;
+		GetBestSpotAndDamage(lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
+		if (bestDamage >= lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
+		{
+			Ragebot::BestDamage = bestDamage;
+			Ragebot::BestSpot = bestSpot;
+			return lockedEnemy.player;
+		}
+		lockedEnemy.player = nullptr;
+		lockedEnemy.bestDamage = 0;
+		lockedEnemy.lockedSpot = Vector(0);
+		break;
+	}
+	
+	C_BasePlayer* clossestEnemy = nullptr;
+	int maxClient = engine->GetMaxClients();
+	for (int i = 1; i <= maxClient; ++i)
+	{
+		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
+
+		if (!player || 
+			player == localplayer || 
+			player->GetDormant() || 
+			!player->GetAlive() || 
+			player->GetImmune())
+			continue;
+
+		if (Entity::IsTeamMate(player, localplayer)) // Checking for Friend If any it will continue to next player
+			continue;			
+
+		GetBestSpotAndDamage(player,localplayer, bestSpot, bestDamage, currSettings);
+		
+		if (bestDamage >= player->GetHealth() )
+		{
+			Ragebot::BestDamage = bestDamage;
+			Ragebot::BestSpot = bestSpot;
+			return player;
+		}	
+		else if (bestDamage > Ragebot::BestDamage){
+			Ragebot::BestDamage = bestDamage;
+			Ragebot::BestSpot = bestSpot;
+			clossestEnemy = player;
+		}
+	}	
+
+	if (Ragebot::BestDamage < currSettings.MinDamage || Ragebot::BestDamage <= 0)
+		return nullptr;
+
+	return clossestEnemy;
+}
+
+
 void Ragebot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Ragebot::enabled)
@@ -875,7 +868,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			break;
 	}
 
-    if (player && Ragebot::BestDamage > 0.f)
+    if (player)
     {
 		lockedEnemy.player = player;
 		lockedEnemy.lockedSpot = Ragebot::BestSpot;
@@ -888,7 +881,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 
 		if (cmd->buttons & IN_ATTACK)
 		{
-			angle = Math::CalcAngle(localEye, Ragebot::BestSpot);
+			angle = Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot);
 			CreateMove::sendPacket = true;
 		}
     }

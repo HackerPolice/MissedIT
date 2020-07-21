@@ -12,14 +12,7 @@
 	
 	const char* chamsTypes[] = { "WHITEADDTIVE",
 									"WIREFRAME",
-									"DogClass",
 									"FLAT",
-									"BUBBLE",
-									"GOLD",
-									"Achivements",
-									"Snowflake",
-									"Velvet",
-									"testing",
 									"NONE",
 								};
 

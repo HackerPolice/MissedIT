@@ -971,11 +971,11 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     else if (Settings::AntiAim::LegitAntiAim::enable) // Responsible for legit anti aim activated when the legit anti aim is enabled
         DoLegitAntiAim(localplayer, angle, AntiAim::bSend, cmd);
 
-    if (fabsf(cmd->sidemove) < 2.0f) {
+    if (fabsf(cmd->sidemove) <= 3.0f) {
         if (cmd->buttons & IN_DUCK)
-            oldSideMove = (cmd->tick_count%2) ? 3.f : -3.f;
+            oldSideMove = (cmd->tick_count%3) ? 3.f : -3.f;
         else
-            oldSideMove = (cmd->tick_count%2) ? 2.f : -2.f;
+            oldSideMove = (cmd->tick_count%3) ? 2.f : -2.f;
     }
     
         

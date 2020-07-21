@@ -183,6 +183,8 @@ static void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C
 static bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->GetAlive()) return false;
+	if (!pWeapon || pWeapon->GetInReload()) return false;
 	CCSWeaponInfo* weaponInfo = pWeapon->GetCSWpnData();
 
 	data.penetrate_count = 4;
@@ -236,7 +238,7 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck)
 	if ( !localplayer || !localplayer->GetAlive())
 		return -1;
 		
-	FireBulletData data;
+	AutoWall::FireBulletData data;
 	data.src = localplayer->GetEyePosition();
 	data.filter.pSkip = localplayer;
 

@@ -33,7 +33,7 @@ namespace LagComp
 
 	void CreateMove(CUserCmd *cmd);
 
-	inline std::vector<LagComp::LagCompTickInfo> lagCompTicks;
+	extern std::vector<LagComp::LagCompTickInfo> lagCompTicks;
 	inline float GetLerpTime();
 	inline bool IsTickValid(float time);
 	// inline void RemoveInvalidTicks();

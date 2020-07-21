@@ -12,7 +12,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 
@@ -21,14 +21,6 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		input->m_fCameraInThirdPerson = false;
 		return;
 	}
-	
-	if ( inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson) && !buttonToggle)
-	{
-		buttonToggle = true;
-		Settings::ThirdPerson::toggled = !Settings::ThirdPerson::toggled;
-	}
-	else if ( !inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson ) && buttonToggle)
-		buttonToggle = false;
 
 	if( ( localplayer->GetAlive() && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot() ))
 	{
@@ -43,7 +35,14 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		* Button Toggel Code :)
 		*/
 		
-		
+		if ( inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson) && !buttonToggle)
+		{
+			buttonToggle = true;
+			Settings::ThirdPerson::toggled = !Settings::ThirdPerson::toggled;
+		}
+		else if ( !inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson ) && buttonToggle)
+			buttonToggle = false;
+
 		// END
 		if (Settings::ThirdPerson::toggled)
 		{

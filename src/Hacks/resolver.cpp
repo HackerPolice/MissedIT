@@ -30,12 +30,12 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 		return;
 
 	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{
-		for (int i = 0; i < engine->GetMaxClients(); ++i)
+		for (int i = 1; i <= engine->GetMaxClients(); ++i)
 		{
 			C_BasePlayer *player = (C_BasePlayer *)entityList->GetClientEntity(i);
 
@@ -52,6 +52,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 				continue;
+
 			/*
 			cvar->ConsoleColorPrintf(ColorRGBA(64, 0, 255, 255), XORSTR("\n[Nimbus] "));
 			cvar->ConsoleDPrintf("Debug log here!");
@@ -60,48 +61,39 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			// Tanner is a sex bomb, also thank you Stacker for helping us out!
 			// float lbyDelta = fabsf(NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y));
 
-			// if (lbyDelta < 35)
-			// 	return;
 			// cvar->ConsoleDPrintf(XORSTR("X Axis : %f\n"), player->GetEyeAngles()->x);
 			if (player->GetEyeAngles()->x < 65.f || player->GetEyeAngles()->x > 90.f)
 			{
 				static float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 
-				if (player->GetVelocity().Length() < 10.0f)
-				{
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
-															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f)
-															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f) - player->GetEyeAngles()->y;
-				}
-				else
-				{
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
-															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f)
-															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f) - player->GetEyeAngles()->y;
-				}
+				if (trueDelta < 30)
+					return;
+				
+				player->GetAnimState()->goalFeetYaw = trueDelta + player->GetEyeAngles()->y;										
 			}
 			else
             {
                 float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-                cvar->ConsoleDPrintf(XORSTR("Resolving YAW"));
+                if (trueDelta < 20)
+					return;
+				// cvar->ConsoleDPrintf(XORSTR("Resolving YAW"));
 				// player->GetEyeAngles()->y += *player->GetLowerBodyYawTarget();
-				if (trueDelta != 0)
-					player->GetEyeAngles()->y += trueDelta;
-				else 
-					player->GetEyeAngles()->y += 57.f;
+				player->GetEyeAngles()->y += trueDelta;
+				// else 
+				// 	player->GetEyeAngles()->y -= 57.f;
             }	
 		}
 	}
-	// else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
-	// {
-	// 	for (unsigned long i = 0; i < player_data.size(); i++)
-	// 	{
-	// 		std::pair<C_BasePlayer *, QAngle> player_aa_data = player_data[i];
-	// 		*player_aa_data.first->GetEyeAngles() = player_aa_data.second;
-	// 	}
+	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
+	{
+		// for (unsigned long i = 0; i < player_data.size(); i++)
+		// {
+		// 	std::pair<C_BasePlayer *, QAngle> player_aa_data = player_data[i];
+		// 	*player_aa_data.first->GetEyeAngles() = player_aa_data.second;
+		// }
 
-	// 	player_data.clear();
-	// }
+		// player_data.clear();
+	}
 }
 
 void Resolver::FireGameEvent(IGameEvent *event)

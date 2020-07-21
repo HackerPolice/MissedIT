@@ -14,12 +14,6 @@
 
 IMaterial	*materialChamsFlat, *materialChamsFlatIgnoreZ, // FLAT
 			*WhiteAdditive, *WhiteAdditiveIgnoreZ, // ADDITIVE
-			*DogClass, *DogClassIgnoreZ,// Love This one Dogglass
-			*achivements, *achivementsIgnoreZ,//
-			*bubble, *bubbleIgnoreZ,
-			*snowflake, *snowflakeIgnoreZ,
-			*gold,	*goldIgnoreZ,
-			*velvet, *velvetIgnoreZ,
 			*testing;
 
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
@@ -83,43 +77,9 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 			visible_material = WhiteAdditive;
 			hidden_material = WhiteAdditiveIgnoreZ;
 			break;
-		case ChamsType::DogClass :
-			visible_material = DogClass;
-			hidden_material = DogClassIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
-			break;
 		case ChamsType::FLAT:
 			visible_material = materialChamsFlat;
 			hidden_material = materialChamsFlatIgnoreZ;
-			break;
-		case ChamsType::BUBBLE:
-			visible_material = bubble;
-			hidden_material = bubbleIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
-			break;
-		case ChamsType::GOLD:
-			visible_material = gold;
-			hidden_material = goldIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
-			break;
-		case ChamsType::Achivements:
-			visible_material = achivements;
-			hidden_material = achivementsIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
-			break;
-		case ChamsType::Snowflake:
-			visible_material = snowflake;
-			hidden_material = snowflakeIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
-			break;
-		case ChamsType::Velvet:
-			visible_material = velvet;
-			hidden_material = velvetIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
-		case ChamsType::Testing:
-			visible_material = testing;
-			hidden_material = snowflakeIgnoreZ;
-			hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
 			break;
 		default :
 			return;	
@@ -215,26 +175,8 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 		case ChamsType::WHITEADDTIVE :
 			Fake_meterial = WhiteAdditive;
 			break;
-		case ChamsType::DogClass :
-			Fake_meterial = DogClass;
-			break;
 		case ChamsType::FLAT:
 			Fake_meterial = materialChamsFlat;
-			break;
-		case ChamsType::BUBBLE:
-			Fake_meterial = bubble;
-			break;
-		case ChamsType::GOLD:
-			Fake_meterial = gold;
-			break;
-		case ChamsType::Achivements:
-			Fake_meterial = achivements;
-			break;
-		case ChamsType::Snowflake:
-			Fake_meterial = snowflake;
-			break;
-		case ChamsType::Velvet:
-			Fake_meterial = velvet;
 			break;
 		default :
 			return;		
@@ -297,25 +239,8 @@ static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 		case ChamsType::WHITEADDTIVE :
 			mat = WhiteAdditive;
 			break;
-		case ChamsType::DogClass :
-			mat = DogClass;
-			break;
 		case ChamsType::FLAT:
 			mat = materialChamsFlat;
-			break;
-		case ChamsType::BUBBLE:
-			mat = bubble;
-			break;
-		case ChamsType::GOLD:
-			mat = gold;
-			break;
-		case ChamsType::Achivements:
-			mat = achivements;
-			break;
-		case ChamsType::NONE :
-			break;
-		case ChamsType::Velvet:
-			mat = velvet;
 			break;
 		default :
 			return;
@@ -345,35 +270,13 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 
 	switch(Settings::ESP::Chams::Arms::type)
 	{
+		case ChamsType::NONE:
 		case ChamsType::WIREFRAME :
 		case ChamsType::WHITEADDTIVE :
 			mat = WhiteAdditive;
 			break;
-		case ChamsType::DogClass :
-			mat = DogClass;
-			break;
 		case ChamsType::FLAT:
 			mat = materialChamsFlat;
-			break;
-		case ChamsType::BUBBLE:
-			mat = bubble;
-			break;
-		case ChamsType::GOLD:
-			mat = gold;
-			break;
-		case ChamsType::Achivements:
-			mat = achivements;
-			break;
-		case ChamsType::Snowflake :
-			mat = snowflake;
-			break;
-		case ChamsType::Testing :
-			mat = testing;
-			break;
-		case ChamsType::NONE :
-			break;
-		case ChamsType::Velvet:
-			mat = velvet;
 			break;
 		default :
 			return;
@@ -408,31 +311,13 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	static bool materialsCreated = false;
 	if (!materialsCreated)
 	{
-		materialChamsFlat = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true);
-		materialChamsFlatIgnoreZ = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);
+		materialChamsFlat = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true, "models/effects/cube_white", "[0 0 1]", 0, "[0 1 1]"  );
+		materialChamsFlatIgnoreZ = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true, XORSTR("models/effects/cube_white"), XORSTR("[1,1,1]"), 0, XORSTR("[0,1,2]"));
 		
-		WhiteAdditive = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true);
-		WhiteAdditiveIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, false, true, true, true);;
+		WhiteAdditive = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, XORSTR("models/effects/cube_white"), XORSTR("[1,1,1]"), 0, XORSTR("[0,1,2]"));
+		WhiteAdditiveIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, false, true, true, true, XORSTR("models/effects/cube_white"), XORSTR("[1,1,1]"), 0, XORSTR("[0,1,2]"));;
 		
-		DogClass = material->FindMaterial("models/inventory_items/dogtags/dogtags_outline", TEXTURE_GROUP_OTHER);
-		DogClassIgnoreZ = material->FindMaterial("models/inventory_items/dogtags/dogtags_outline", TEXTURE_GROUP_OTHER);
-
-		achivements = material->FindMaterial("VGUI/achievements/glow", TEXTURE_GROUP_OTHER);
-		achivementsIgnoreZ = material->FindMaterial("VGUI/achievements/glow", TEXTURE_GROUP_OTHER);
-
-		snowflake = material->FindMaterial("dev/snowflake", TEXTURE_GROUP_OTHER);
-		snowflakeIgnoreZ = material->FindMaterial("dev/snowflake", TEXTURE_GROUP_OTHER);
-
-		bubble = material->FindMaterial("effects/bubble", TEXTURE_GROUP_OTHER);
-		bubbleIgnoreZ = material->FindMaterial("effects/bubble", TEXTURE_GROUP_OTHER);
-
-		gold = material->FindMaterial("models/inventory_items/trophy_majors/gold", TEXTURE_GROUP_OTHER);
-		goldIgnoreZ = material->FindMaterial("models/inventory_items/trophy_majors/gold", TEXTURE_GROUP_OTHER);
-
-		velvet = material->FindMaterial("models/inventory_items/trophy_majors/velvet", TEXTURE_GROUP_OTHER);
-		velvetIgnoreZ = material->FindMaterial("models/inventory_items/trophy_majors/velvet", TEXTURE_GROUP_OTHER);
-		
-		testing = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true);
+		testing = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, XORSTR("models/effects/cube_white"), XORSTR("[1,1,1]"), 0, XORSTR("[0,1,2]"));
 		
 		materialsCreated = true;
 		

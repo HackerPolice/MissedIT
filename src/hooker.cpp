@@ -187,6 +187,7 @@ void Hooker::FindRankReveal()
 // "ClanTagChanged"
 void Hooker::FindSendClanTag()
 {
+	// 
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
 																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x41\x55\x49\x89\xFD\x41\x54\xBF\x48\x00\x00\x00\x49\x89\xF4\x53\x48\x83\xEC\x08\xE8"
                                                                                                 "\x00\x00\x00\x00"
@@ -195,8 +196,7 @@ void Hooker::FindSendClanTag()
                                                                                                 "\x48\x89\xC7\x48\x89\xC3\xE8"
                                                                                                 "\x00\x00\x00\x00"
                                                                                                 "\x48\x8D\x35"
-                                                                                                "\x00\x00\x00\x00"
-                                                                                                "\x4C\x89\xEA"),
+                                                                                                "\x00\x00\x00\x00"),
 																XORSTR("xxxxxxxxxxxxxxxxxxxxxxxxx"
                                                                                "????"
                                                                                "xxx"
@@ -204,8 +204,7 @@ void Hooker::FindSendClanTag()
                                                                                "xxxxxxx"
                                                                                "????"
                                                                                "xxx"
-                                                                               "????"
-                                                                               "xxx" ));
+                                                                               "????" ));
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
 }
@@ -221,7 +220,13 @@ void Hooker::FindViewRender()
 	// 48 8D 0D 0A 9F 46 06    lea     rcx, qword_6B6FB80
 	// 48 8D 3D 63 A0 46 06    lea     rdi, g_ViewRender
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
-										(unsigned char*) XORSTR("\x48\x8D\x3D\x00\x00\x00\x00\x48\x8B\x10\x48\x89\x08\x48\x8D\x05\x00\x00\x00\x00\x48\x89\x05\x00\x00\x00\x00\x48\x89\x15\x00\x00\x00\x00\xE8\x00\x00\x00\x00\xF3"),
+										(unsigned char*) XORSTR("\x48\x8D\x3D\x00\x00\x00\x00"
+																"\x48\x8B\x10"
+																"\x48\x89\x08"
+																"\x48\x8D\x05\x00\x00\x00\x00"
+																"\x48\x89\x05\x00\x00\x00\x00"
+																"\x48\x89\x15\x00\x00\x00\x00"
+																"\xE8\x00\x00\x00\x00\xF3"),
 										XORSTR("xxx????xxxxxxxxx????xxx????xxx????x????x"));
 
 	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address, 3, 7));

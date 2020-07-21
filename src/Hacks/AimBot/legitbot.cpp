@@ -27,61 +27,25 @@ static void VelocityExtrapolate(C_BasePlayer* player, Vector& aimPos, Vector& lo
 	localeye += (player->GetVelocity() * globalVars->interval_per_tick);
 }
 
-static bool IsInFov(C_BasePlayer* player, const int &BoneID)
+static bool IsInFov(C_BasePlayer* localplayer, C_BasePlayer* player,const Vector &spot,const LegitWeapon_t& weaponSettings)
 {
-	if (!player || !player->GetAlive())
-		return false;
-
-	if ( Entity::IsVisibleThroughEnemies(player, BoneID, true) && Entity::IsSpotVisible(player, BoneID, true) )
-		return true;
-	
-	return false;
-}
-
-static C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer, const LegitWeapon_t& currentSettings)
-{
-	if (!localplayer || !localplayer->GetAlive())
-		return nullptr;
-
-	float bestFov = currentSettings.LegitautoAimFov;
+	if (!localplayer || !localplayer->GetAlive()) return false; 
+	if (!player || !player->GetAlive())	return false;
 
 	Vector pVecTarget = localplayer->GetEyePosition();
-	C_BasePlayer* enemy = nullptr;
 	QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
 
-	for (int i = engine->GetMaxClients(); i > 0 ; i--)
-	{
-		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
-
-		if (!player
-	    	|| player == localplayer
-	    	|| player->GetDormant()
-	    	|| !player->GetAlive()
-	    	|| player->GetImmune())
-	    	continue;
-
-		if (Entity::IsTeamMate(player, localplayer))
-	   	 	continue;
-
-		Vector cbVecTarget = player->GetEyePosition();
-		
-		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
-		if (cbFov > bestFov)
-			continue;
-		if (cbFov < bestFov)
-		{
-			bestFov = cbFov;
-			enemy = player;
-		}
-	}
-
-	return enemy;
+	float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, spot) );
+	if (cbFov > weaponSettings.LegitautoAimFov)
+		return false;
+	
+	return true;
 }
 
-static void GetClosestSpot(C_BasePlayer* localPlayer, C_BasePlayer* enemy, Vector &BestSpot, const LegitWeapon_t& currentSettings)
+static void GetClosestSpot(C_BasePlayer* localplayer, C_BasePlayer* enemy, Vector &BestSpot, const LegitWeapon_t& currentSettings)
 {
-	if (!localPlayer || !localPlayer->GetAlive())
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 	if (!enemy || !enemy->GetAlive())
 		return;
@@ -90,11 +54,13 @@ static void GetClosestSpot(C_BasePlayer* localPlayer, C_BasePlayer* enemy, Vecto
 
 	float bestFov = currentSettings.LegitautoAimFov;
 
-	int len = 30;
+	int len = 31;
 	if (currentSettings.mindamage && currentSettings.minDamagevalue >= 70)
 		len = BONE_HEAD;
 	else if (currentSettings.mindamage && currentSettings.minDamagevalue <= 70)
 		len = BONE_RIGHT_ELBOW;
+
+	int PrevDamage = 0;
 
 	for( int i = 0; i < len; i++ )
 	{
@@ -103,43 +69,39 @@ static void GetClosestSpot(C_BasePlayer* localPlayer, C_BasePlayer* enemy, Vecto
 		if( boneID == BONE_INVALID )
 			continue;
 
-		Vector bone3D = enemy->GetBonePosition(boneID);
+		Vector bone3D = enemy->GetBonePosition( boneID );
 
-		if (!IsInFov(enemy, boneID))
-			continue;
 		if (!currentSettings.mindamage)
 		{
-			Vector pVecTarget = localPlayer->GetEyePosition();
+			Vector pVecTarget = localplayer->GetEyePosition();
 			QAngle viewAngles;
 				engine->GetViewAngles(viewAngles);
 
-			Vector cbVecTarget = enemy->GetEyePosition();
+			Vector cbVecTarget = bone3D;
 			float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
 			
-			if (cbFov < 3.f)
-			{
-				BestSpot = BestSpot;
-				return;
-			}
 			if (cbFov < bestFov)
 			{
 				bestFov = cbFov;
-				BestSpot = BestSpot;
+				BestSpot = bone3D;
 			}
 			continue;
 		}
 		
+		if (!IsInFov(localplayer, enemy, bone3D, currentSettings))	continue;
+
 		int boneDamage = AutoWall::GetDamage(bone3D, true);
 
+		if (boneDamage >= enemy->GetHealth())
+			BestSpot = bone3D;
+		else if ( (boneDamage > PrevDamage && boneDamage >= currentSettings.minDamagevalue) )
+		{	
+			BestSpot = bone3D;
+			PrevDamage = boneDamage;
+		}
+		
 		if (boneDamage >= 70 && i >= BONE_HEAD)
 			break;
-		else if (boneDamage <= 40 && i <= BONE_HEAD)
-			break;
-		else if (boneDamage <= currentSettings.minDamagevalue) 
-			continue;
-
-		if (boneDamage > 0.f)
-			BestSpot = bone3D;	
 	}
 }
 
@@ -242,8 +204,6 @@ static bool AutoSlow(C_BasePlayer* player,C_BasePlayer* localplayer, float& forw
 		return false;
 	if ( !activeWeapon || activeWeapon->GetInReload())
 		return false;
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime )
-		return false;
 
 	if (currentSettings.autoScopeEnabled && Util::Items::IsScopeable(*activeWeapon->GetItemDefinitionIndex()) && !localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) && !(cmd->buttons&IN_ATTACK) )
 	{
@@ -253,20 +213,20 @@ static bool AutoSlow(C_BasePlayer* player,C_BasePlayer* localplayer, float& forw
 
 	if (currentSettings.hitchanceEnaled )
 	{
+		cvar->ConsoleDPrintf(XORSTR("slowing Down"));
 		cmd->buttons |= IN_WALK;
 		forward = -forward;
 		sideMove = -sideMove;
 		cmd->upmove = 0;
-		return false;
 	}
-    if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) == (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) ) 
+    else if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) == (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) ) 
     {
         cmd->buttons |= IN_WALK;
 		forward = 0;
 		sideMove = 0;
 		cmd->upmove = 0;
     }
-	
+	cvar->ConsoleDPrintf(XORSTR("In AutoSlow Ending"));
 	return false;
 }
 
@@ -414,34 +374,72 @@ static bool AimKeyOnly (CUserCmd* cmd, const LegitWeapon_t& currentSettings)
         return false;
 }
 
+static C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer, const LegitWeapon_t& currentSettings)
+{
+	if (!localplayer || !localplayer->GetAlive())
+		return nullptr;
+
+	float bestFov = currentSettings.LegitautoAimFov;
+
+	Vector pVecTarget = localplayer->GetEyePosition();
+	C_BasePlayer* enemy = nullptr;
+	QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+
+	int maxClient = engine->GetMaxClients();
+	for (int i = maxClient; i > 1 ; i--)
+	{
+		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
+
+		if (!player
+	    	|| player == localplayer
+	    	|| player->GetDormant()
+	    	|| !player->GetAlive()
+	    	|| player->GetImmune())
+	    	continue;
+
+		if (Entity::IsTeamMate(player, localplayer))
+	   	 	continue;
+
+		Vector cbVecTarget = player->GetEyePosition();
+		
+		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
+		if (cbFov > bestFov)
+			continue;
+	
+		bestFov = cbFov;
+		enemy = player;
+	}
+
+	return enemy;
+}
+
 static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, C_BasePlayer* localplayer, bool visibleCheck, Vector& bestSpot, float& bestDamage, const LegitWeapon_t& currentSettings)
 {
-	if (!localplayer || !localplayer->GetAlive() )
-		return nullptr;
+	C_BasePlayer *player = nullptr;
+	player = GetClosestEnemy(localplayer, currentSettings); // getting the closest enemy to the crosshair
 
-	C_BasePlayer *player = GetClosestEnemy(localplayer, currentSettings); // getting the closest enemy to the crosshair
+	if (!localplayer || !localplayer->GetAlive() )	return nullptr;
+	if ( !player || !player->GetAlive())	return nullptr;
+	if ( localplayer->IsFlashed() )	return nullptr;
 
-	if ( !player || !player->GetAlive())
-		return nullptr;
+	int BoneId = (int)(currentSettings.bone);
+	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
+	BoneId = (*modelType).at(BoneId);
+	Vector bone3d = player->GetBonePosition( BoneId );
 
-	if ( localplayer->IsFlashed() )
-		return nullptr;
-	
-	Vector eVecTarget = player->GetBonePosition( (int)(currentSettings.bone+1) );
-
-	bool IsPriorityBoneInFov = IsInFov( player, (int)(currentSettings.bone+1)  );
+	bool IsPriorityBoneInFov = IsInFov( localplayer, player, bone3d  , currentSettings);
 	
 	if ( !IsPriorityBoneInFov )
-	{
-		GetClosestSpot(localplayer, player, eVecTarget, currentSettings);
-		if( eVecTarget.IsZero())
-			return nullptr;
-	}
+		GetClosestSpot(localplayer, player, bone3d, currentSettings);
 	
-	if ( LineGoesThroughSmoke( localplayer->GetEyePosition( ), eVecTarget, true ) )
+	if ( LineGoesThroughSmoke( localplayer->GetEyePosition( ), bone3d, true ) )
 		return nullptr;
 
-	bestSpot = eVecTarget;
+	bestSpot = bone3d;
+
+	if (AutoWall::GetDamage(bone3d, true) <= 0 || !Entity::IsSpotVisible(player, bone3d))
+		return nullptr;
 
 	return player;
 }
@@ -487,15 +485,15 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, localplayer, true, bestSpot, bestDamage, currentWeaponSetting);
 
-	if (player && bestDamage > 0)
+	if (player)
 	{
+		cvar->ConsoleDPrintf(XORSTR("Player found \n"));
 		if (currentWeaponSetting.aimkeyOnly)
 			shouldAim = AimKeyOnly(cmd, currentWeaponSetting); 
 		else 
 		{
-			if ( !AutoShoot(player, localplayer, activeWeapon, cmd, oldForward, oldSideMove, currentWeaponSetting) )
-				return;
-			shouldAim = (cmd->buttons&IN_ATTACK);
+			if ( AutoShoot(player, localplayer, activeWeapon, cmd, oldForward, oldSideMove, currentWeaponSetting) )
+				shouldAim = (cmd->buttons&IN_ATTACK);
 		}
 			
 		Settings::Debug::AutoAim::target = bestSpot; // For Debug showing aimspot.

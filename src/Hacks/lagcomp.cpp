@@ -8,6 +8,8 @@
 
 #define TIME_TO_TICKS( dt )	( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
 
+std::vector<LagComp::LagCompTickInfo> lagCompTicks;
+
 static void RemoveInvalidTicks()
 {
 	auto &records = LagComp::lagCompTicks;
@@ -81,9 +83,7 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	{
 		float fov = 180.0f;
 
-		static int tickcount = cmd->tick_count;
-		Vector absOrigin;
-		C_BasePlayer* entity = nullptr;
+		int tickcount = cmd->tick_count;
 		bool has_target = false;
 
 		for (auto &&Tick : LagComp::lagCompTicks)
@@ -96,8 +96,6 @@ void LagComp::CreateMove(CUserCmd *cmd)
 				{
 					fov = tmpFOV;
 					tickcount = TIME_TO_TICKS(record.entity->GetSimulationTime() + LagComp::GetLerpTime());
-					absOrigin = record.origin;
-					entity = record.entity;
 					has_target = true;
 					break;
 				}

@@ -71,14 +71,7 @@ enum class ChamsType : int
 {
 	WHITEADDTIVE,
 	WIREFRAME,
-	DogClass,
 	FLAT,
-	BUBBLE,
-	GOLD,
-	Achivements,
-	Snowflake,
-	Velvet,
-	Testing,
 	NONE,
 };
 
