@@ -5,6 +5,7 @@
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IGameEvent.h"
 #include "../SDK/definitions.h"
+#include "../Utils/xorstring.h"
 
 namespace Legitbot
 {
@@ -16,5 +17,4 @@ namespace Legitbot
 	//Hooks
 	void CreateMove(CUserCmd* cmd);
 	void FireGameEvent(IGameEvent* event);
-	void UpdateValues();
 }

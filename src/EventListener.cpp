@@ -26,10 +26,8 @@ EventListener::~EventListener()
 
 void EventListener::FireGameEvent(IGameEvent* event)
 {
-    if(Settings::Legitbot::enabled)
-        Legitbot::FireGameEvent(event);
-    else if (Settings::Ragebot::enabled)
-        Ragebot::FireGameEvent(event);
+    Legitbot::FireGameEvent(event);
+    Ragebot::FireGameEvent(event);
 
     Hitmarkers::FireGameEvent(event);
     Eventlog::FireGameEvent(event);

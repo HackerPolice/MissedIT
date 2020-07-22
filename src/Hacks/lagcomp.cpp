@@ -106,11 +106,10 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	RegisterTicks();
 
 	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
-	C_BaseCombatWeapon *weapon = (C_BaseCombatWeapon *)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
+	C_BaseCombatWeapon *weapon = (C_BaseCombatWeapon *)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!weapon)
 		return;
 
@@ -124,7 +123,7 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	{
 		float fov = 180.0f;
 
-		int tickcount = 0;
+		static int tickcount = cmd->tick_count;
 		bool has_target = false;
 
 		for (auto &&Tick : LagComp::lagCompTicks)
@@ -140,9 +139,10 @@ void LagComp::CreateMove(CUserCmd *cmd)
 					has_target = true;
 				}
 			}
+			if (has_target)	break;
 		}
 
-		if (has_target)
-			cmd->tick_count = tickcount;
+	
+		cmd->tick_count = tickcount;
 	}
 }

@@ -5,13 +5,30 @@
 #include <cstdint>
 #include <vector>
 
+#include "../Utils/entity.h"
+#include "../Utils/math.h"
+#include "../Utils/xorstring.h"
+#include "../interfaces.h"
+#include "../settings.h"
+#include "antiaim.h"
+#include "ragebot.h"
+
 namespace Resolver
 {
 
-extern std::vector<int64_t> Players;
+    struct resolvedPlayers
+    {
+        int PrevTrueDelta = 0;
+        int MissedCount = 0;
+    };
 
-//Hooks
-void FrameStageNotify(ClientFrameStage_t stage); // This is where the resolver happens.
-void FireGameEvent(IGameEvent *event);			 // Strangely, I never see this getting called.
+    inline resolvedPlayers players[100];
+    inline int TargetID = 0;
+    extern std::vector<int64_t> Players;
 
-} // namespace Resolver
+    //Hooks
+    void FrameStageNotify(ClientFrameStage_t stage); // This is where the resolver happens.
+    void FireGameEvent(IGameEvent *event);			 // Strangely, I never see this getting called.
+    void CreateMove(CUserCmd* cmd);
+
+} 

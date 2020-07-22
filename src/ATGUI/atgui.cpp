@@ -69,7 +69,7 @@ void UI::SetupWindows()
 		Main::RenderWindow();
 		ImGui::PopStyleVar();
 		Configs::RenderWindow();
-		Colors::RenderWindow();
+		// Colors::RenderWindow();
 	}
 
 	PlayerList::RenderWindow();

@@ -22,9 +22,11 @@ static void RageAntiAIm()
     };
 
     const char* RageAntiAimType[] = {
-        "NONE",
-        "Fake Arround Real(Beta)",
-        "Real Arround Fake",
+        "Default Rage",
+        "Fake Arround Real",
+	    "Real Arround Fake",
+        "Semi Direction",
+        "Free Stand",
     };
     ImGui::Columns(1, nullptr, false); // Pick Rage Anti Aim type
     {
@@ -33,68 +35,51 @@ static void RageAntiAIm()
         ImGui::PopItemWidth();
     }
 
-    ImGui::Columns(2, nullptr, false);
+    if (Settings::AntiAim::RageAntiAim::Type == RageAntiAimType::FreeStand)
     {
-        ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-        ImGui::Text(XORSTR("Yaw Fake"));
-        ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-        ImGui::Text(XORSTR("Yaw Actual"));
-    }
-    ImGui::NextColumn();
-    {
-        ImGui::PushItemWidth(-1);
-        ImGui::Combo(XORSTR("##YFAKETYPE"), (int*)&Settings::AntiAim::Yaw::typeFake, yType, IM_ARRAYSIZE(yType));
-        ImGui::Combo(XORSTR("##YACTUALTYPE"), (int*)& Settings::AntiAim::Yaw::typeReal, yType, IM_ARRAYSIZE(yType));
-        ImGui::PopItemWidth();
-    }
-
-    if ( Settings::AntiAim::RageAntiAim::Type == RageAntiAimType::RealArroundFake )
-    {
-        // Fake Percentage
-        ImGui::Columns(1);
+        ImGui::Columns(2, nullptr, false);
+        {
+            ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+            ImGui::Text(XORSTR("Yaw Actual"));
+        }
+        ImGui::NextColumn();
         {
             ImGui::PushItemWidth(-1);
-            if(Settings::AntiAim::Yaw::typeFake == AntiAimFakeType_y::Jitter)
-                ImGui::SliderFloat(XORSTR("##FakeJitterPercentage"), &Settings::AntiAim::RageAntiAim::JitterPercent, 0, 100, "Fake Jitter Ammount : %.0f perent");
-
-            if (Settings::AntiAim::Yaw::typeReal == AntiAimRealType_Y::Static)
-            {
-                ImGui::SliderFloat(XORSTR("##RealPercentage"), &Settings::AntiAim::RageAntiAim::AntiAImPercent, 0, 100, "Real Ammount : %.0f percent");
-                ImGui::Text(XORSTR("Invert Key"));
-                ImGui::SameLine();
-                UI::KeyBindButton(&Settings::AntiAim::RageAntiAim::InvertKey);      
-            }
-            else if (Settings::AntiAim::Yaw::typeReal == AntiAimRealType_Y::Jitter)      
-                ImGui::SliderFloat(XORSTR("##RealJitterPercentage"), &Settings::AntiAim::RageAntiAim::AntiAImPercent, 0, 100, "Real Jitter Ammount : %.0f percent");
-            
+            ImGui::Combo(XORSTR("##YACTUALTYPE"), (int*)& Settings::AntiAim::Yaw::typeReal, yType, IM_ARRAYSIZE(yType));
             ImGui::PopItemWidth();
-        }    
+        }
+
+        if(Settings::AntiAim::Yaw::typeReal == AntiAimRealType_Y::Jitter)
+            ImGui::SliderFloat(XORSTR("##RealJitterPercentage"), &Settings::AntiAim::RageAntiAim::JitterPercent, 1, 100, "Real Jitter Ammount : %.0f perent");
     }
-    
-    else if (Settings::AntiAim::RageAntiAim::Type == RageAntiAimType::FakeArroundReal)
+    else
     {
+        ImGui::Columns(2, nullptr, false);
+        {
+            ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+            ImGui::Text(XORSTR("Yaw Fake"));
+            ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+            ImGui::Text(XORSTR("Yaw Actual"));
+        }
+        ImGui::NextColumn();
+        {
+            ImGui::PushItemWidth(-1);
+            ImGui::Combo(XORSTR("##YFAKETYPE"), (int*)&Settings::AntiAim::Yaw::typeFake, yType, IM_ARRAYSIZE(yType));
+            ImGui::Combo(XORSTR("##YACTUALTYPE"), (int*)& Settings::AntiAim::Yaw::typeReal, yType, IM_ARRAYSIZE(yType));
+            ImGui::PopItemWidth();
+        }
         // Real Percentage
         ImGui::Columns(1);
         {
             ImGui::PushItemWidth(-1);
-            if(Settings::AntiAim::Yaw::typeReal == AntiAimRealType_Y::Jitter)
-                ImGui::SliderFloat(XORSTR("##RealJitterPercentage"), &Settings::AntiAim::RageAntiAim::JitterPercent, 0, 100, "Real Jitter Ammount : %.0f perent");
-        
-            
-            if (Settings::AntiAim::Yaw::typeFake == AntiAimFakeType_y::Static)
-            {
-                ImGui::SliderFloat(XORSTR("##FakePercentage"), &Settings::AntiAim::RageAntiAim::AntiAImPercent, 0, 100, "Fake Ammount : %.0f percent");
-                ImGui::Text(XORSTR("Invert Key"));
-                ImGui::SameLine();
-                UI::KeyBindButton(&Settings::AntiAim::RageAntiAim::InvertKey);      
-            }
-            else if (Settings::AntiAim::Yaw::typeFake == AntiAimFakeType_y::Jitter)  
-                      ImGui::SliderFloat(XORSTR("##FakeJitterPercentage"), &Settings::AntiAim::RageAntiAim::AntiAImPercent, 0, 100, "Fake Jitter Ammount : %.0f percent");
+            ImGui::SliderFloat(XORSTR("##MaxDeltaPercentage"), &Settings::AntiAim::RageAntiAim::AntiAImPercent, 0, 100, "Max Delta Ammount : %.0f percent");
+
+            if(Settings::AntiAim::Yaw::typeReal == AntiAimRealType_Y::Jitter || Settings::AntiAim::Yaw::typeFake == AntiAimFakeType_y::Jitter)
+                ImGui::SliderFloat(XORSTR("##JitterPercentage"), &Settings::AntiAim::RageAntiAim::JitterPercent, 0, 100, "Jitter Ammount : %.0f perent"); 
          
             ImGui::PopItemWidth();
         }
     }
-    
 
     ImGui::Spacing(); ImGui::Spacing();
     ImGui::Columns(1, nullptr, false);
@@ -151,19 +136,23 @@ static void RageAntiAIm()
 
 static void LegitAntiAim()
 {
+    const char* LegitAAType[] = {
+                                "OverWatchProof",
+                                "FakeLegitAA",
+                                "Experimental"
+                                };
     /*
     * part where legit anti aim ui constructed
     */
-   ImGui::Spacing();
+    // Really nothing much here to add more about
+    ImGui::Spacing();
+    ImGui::PushItemWidth(-1);
+    ImGui::Combo(XORSTR("##LegitAAType"), (int*)&Settings::AntiAim::LegitAntiAim::legitAAtype, LegitAAType, IM_ARRAYSIZE(LegitAAType));
+    ImGui::Spacing();
     ImGui::Columns(1, nullptr, false);
     ImGui::Text(XORSTR("InvertKey"));
     ImGui::SameLine();
     UI::KeyBindButton(&Settings::AntiAim::LegitAntiAim::InvertKey); 
-    ImGui::Spacing(); ImGui::Spacing(); 
-    ImGui::PushItemWidth(-1); 
-    ImGui::SliderFloat(XORSTR("##RealPercentage"), &Settings::AntiAim::LegitAntiAim::RealPercentage, 0, 100, "Real Percent : %.0f percent" );  
-    ImGui::Spacing();
-    ImGui::SliderFloat(XORSTR("##INCROUTCHREALPERCENTAGE"), &Settings::AntiAim::LegitAntiAim::RealPercentageInCroutch, 0, 100, "Real Percent In Croutch : %.0f percent" ); 
     ImGui::PopItemWidth();
     /*
     * End of legit antiaim
@@ -232,6 +221,10 @@ void HvH::RenderTab()
         ImGui::BeginChild(XORSTR("HVH2"), ImVec2(0, 0), false);
         {
             ImGui::Checkbox(XORSTR("Angle Indicator"), &Settings::AngleIndicator::enabled);
+            ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
+            ImGui::SameLine();
+            ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 100, XORSTR("Amount: %0.f"));
+			ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);
             ImGui::EndChild();
         }
     }

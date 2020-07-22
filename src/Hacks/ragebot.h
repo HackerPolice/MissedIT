@@ -8,56 +8,45 @@
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IGameEvent.h"
 #include "../interfaces.h"
+#include "../Utils/xorstring.h"
+#include "../hooker.h"
+#include "../Hooks/hooks.h"
+#include "../Utils/bonemaps.h"
+#include "../Utils/math.h"
+#include "autowall.h"
 
 namespace Ragebot {
 
-    inline bool shouldAim = false;
+    struct enemy 
+    {
+        C_BasePlayer* player = nullptr;
+        int LockedBone = -1;
+        int bestDamage = 0;
+        Vector lockedSpot = Vector(0);
+    };
+
+    struct Miss
+    {
+        bool shooted = false;
+        int playerhelth = 0;
+    };
+
+    inline enemy lockedEnemy;
+    inline Miss miss;
+    inline Vector localEye = Vector(0),
+    	 BestSpot = Vector(0);
+    inline int BestDamage = 0;
+
+    inline bool shouldAim = false,
+                shouldSlow = false,
+                doubleTap = false;
     extern std::vector<int64_t> friends;
-    extern int targetAimbot;
-    inline int TotalShoots, ShotHitted;
-    inline C_BasePlayer *LockedEnemy;
+
+    inline int prevDamage = 0, dtTick_Count = 0, dtTick_Need = 0;
     inline ItemDefinitionIndex prevWeapon = ItemDefinitionIndex::INVALID;
 
     void CreateMove(CUserCmd*);
     void FireGameEvent(IGameEvent* event);
-	  inline void UpdateValues();
-}
-
-void Ragebot::UpdateValues()
-{
-    if (!Settings::Ragebot::enabled || !engine->IsInGame())
-      return;
-		
-    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer->GetAlive())
-		  return;
-
-	  C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-    if (!activeWeapon)
-		  return;
-
-    ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-
-    if (Settings::Ragebot::weapons.find(*activeWeapon->GetItemDefinitionIndex()) != Settings::Ragebot::weapons.end())
-		  index = *activeWeapon->GetItemDefinitionIndex();
-
-    const RagebotWeapon_t& currentWeaponSetting = Settings::Ragebot::weapons.at(index);
-
-    Settings::Ragebot::silent = currentWeaponSetting.silent;
-    Settings::Ragebot::friendly = currentWeaponSetting.friendly;
-    Settings::Ragebot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;
-    Settings::Ragebot::AutoShoot::enabled = currentWeaponSetting.autoShootEnabled;
-    Settings::Ragebot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
-    Settings::Ragebot::HitChance::enabled = currentWeaponSetting.HitChanceEnabled;
-    Settings::Ragebot::HitChance::value = currentWeaponSetting.HitChance;
-    Settings::Ragebot::MinDamage = currentWeaponSetting.MinDamage;
-    Settings::Ragebot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
-    Settings::Ragebot::ScopeControl::enabled = currentWeaponSetting.scopeControlEnabled;
-  	Settings::Ragebot::damagePrediction = currentWeaponSetting.DmagePredictionType;
-	  Settings::Ragebot::enemySelectionType = currentWeaponSetting.enemySelectionType;
-    
-    for (int bone = 0; bone < 6; bone++)
-		  Settings::Ragebot::AutoAim::desireBones[bone] = currentWeaponSetting.desireBones[bone];
 }
 
 
