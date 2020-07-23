@@ -58,7 +58,8 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 		engine->GetViewAngles(viewAngles);
 	float prevFOV = 0.f;
 
-	for (int i = engine->GetMaxClients(); i > 1; i--)
+    int maxPlayers = engine->GetMaxClients();
+	for (int i = 1; i < maxPlayers; ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
 
@@ -83,10 +84,9 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 		}
 		else if ( cbFov < prevFOV )
 		{
-			return player;
+			prevFOV = cbFov;
+			closestPlayer = player;
 		}
-		else 
-			break;
 	}
 	return closestPlayer;
 }
@@ -736,7 +736,7 @@ static void DoLegitAntiAim(C_BasePlayer *const localplayer, QAngle& angle, bool&
             AntiAim::realAngle.y = angle.y += inverted ? maxDelta : maxDelta*-1;
         else
         {
-            localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y + maxDelta : angle.y - maxDelta;
+            localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y - maxDelta : angle.y + maxDelta;
             AntiAim::fakeAngle = angle = ViewAngle;
         }
             
@@ -753,14 +753,11 @@ static void DoLegitAntiAim(C_BasePlayer *const localplayer, QAngle& angle, bool&
     });
     static auto Experimental([&](){
         if (!AntiAim::bSend)
-        {
-            localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y + maxDelta : angle.y - maxDelta;
-            AntiAim::realAngle = angle;
-        }
+            localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y - maxDelta : angle.y + maxDelta;
         else
         {
-            localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y - maxDelta : angle.y + maxDelta;
-            AntiAim::fakeAngle = angle;
+            localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y + maxDelta : angle.y - maxDelta;
+            AntiAim::fakeAngle = angle = ViewAngle;
         }
             
     });
@@ -946,4 +943,9 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         CreateMove::sendPacket = AntiAim::bSend;
     // Math::ClampAngles(angle);
     Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);    
+}
+
+void AntiAim::FrameStageNotify(ClientFrameStage_t stage)
+{
+
 }

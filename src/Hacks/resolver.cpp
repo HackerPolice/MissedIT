@@ -32,7 +32,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{
-		for (int i = 1; i <= engine->GetMaxClients(); ++i)
+		int maxClient = engine->GetMaxClients();
+		for (int i = 1; i < maxClient; ++i)
 		{
 			
 			C_BasePlayer *player = (C_BasePlayer *)entityList->GetClientEntity(i);
@@ -62,8 +63,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			// cvar->ConsoleDPrintf(XORSTR("X Axis : %f\n"), player->GetEyeAngles()->x);
 			if (player->GetEyeAngles()->x < 65.f || player->GetEyeAngles()->x > 90.f)
 			{
-				cvar->ConsoleDPrintf(XORSTR("Resolving : Legit AA"));
-				cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
+				// cvar->ConsoleDPrintf(XORSTR("Resolving : Legit AA"));
+				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
 				static float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 
 				switch(Resolver::players[player->GetIndex()].MissedCount)
@@ -96,8 +97,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			else
             {
                 float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-				cvar->ConsoleDPrintf(XORSTR("Resolving : Rage AA"));
-				cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
+				// cvar->ConsoleDPrintf(XORSTR("Resolving : Rage AA"));
+				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
 				switch(Resolver::players[player->GetIndex()].MissedCount)
 				{
 					case 0:
@@ -106,10 +107,10 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 					case 1:
 						break;
 					case 2:
-						player->GetEyeAngles()->y = trueDelta ? player->GetEyeAngles()->y + trueDelta :  player->GetEyeAngles()->y - 57.f;
+						player->GetEyeAngles()->y = trueDelta ? player->GetEyeAngles()->y + trueDelta : player->GetEyeAngles()->y - 57.f;
 						break;
 					case 3:
-						player->GetEyeAngles()->y = trueDelta ? player->GetEyeAngles()->y - 57.f : player->GetEyeAngles()->y + trueDelta;
+						player->GetEyeAngles()->y = trueDelta ? player->GetEyeAngles()->y + trueDelta :  player->GetEyeAngles()->y - 57.f;
 						break;
 					case 4:
 						player->GetAnimState()->goalFeetYaw = player->GetEyeAngles()->y + trueDelta;
@@ -129,38 +130,34 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
 	{
-		// for (unsigned long i = 0; i < player_data.size(); i++)
+		// for (auto &i : Resolver::players)
 		// {
-		// 	std::pair<C_BasePlayer *, QAngle> player_aa_data = player_data[i];
-		// 	*player_aa_data.first->GetEyeAngles() = player_aa_data.second;
+		// 	i.MissedCount = 0;
 		// }
-
-		// player_data.clear();
 	}
 }
 
 void Resolver::FireGameEvent(IGameEvent *event)
 {	
+	// if (!event)
+	// 	return;
 
-	if (!event)
-		return;
-	// cvar->ConsoleDPrintf(XORSTR("\nPlayer Hurt : %d\n"), strcmp(event->GetName(), "player_hurt"));
-	if (strcmp(event->GetName(), XORSTR("player_connect_full")) == 0 || strcmp(event->GetName(), XORSTR("cs_game_disconnected")) == 0)
-    {
-		if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
-	    	return;
-    }
+	// if (strcmp(event->GetName(), XORSTR("player_connect_full")) == 0 || strcmp(event->GetName(), XORSTR("cs_game_disconnected")) == 0)
+    // {
+	// 	if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
+	//     	return;
+    // }
 
-		int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
-		int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("userid")));
+	// 	int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
+	// 	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("userid")));
 
-		if (attacker_id == deadPlayer_id) // suicide
-	    	return;
+	// 	if (attacker_id == deadPlayer_id) // suicide
+	//     	return;
 		
-		if (attacker_id != engine->GetLocalPlayer())
-			return;
+	// 	if (attacker_id != engine->GetLocalPlayer())
+	// 		return;
 
-		if (strcmp(event->GetName(), "player_hurt") == 0 || strcmp(event->GetName(), "player_hurt") == -1);		
+	// 	if (strcmp(event->GetName(), "player_hurt") == 0 || strcmp(event->GetName(), "player_hurt") == -1);		
 			// Resolver::players[TargetID].MissedCount--;
 				// ImGui::TextWrapped(XORSTR("Missed"));
 }

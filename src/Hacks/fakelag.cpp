@@ -5,7 +5,7 @@
 #include "../Hooks/hooks.h"
 
 static int ticks = 0;
-int ticksMax = 16;
+int ticksMax = 20;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {

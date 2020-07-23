@@ -526,7 +526,7 @@ static void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activ
 	oldOrigin = localplayer->GetAbsOrigin();
 	float speed  = velocity.Length();
 		
-	// if(speed > 15.f)
+	// if(speed < 15.f)
 	// {
 	// 	QAngle dir;
 	// 	Math::VectorAngles(velocity, dir);
@@ -641,7 +641,7 @@ static C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer)
 
 	int maxClient = engine->GetMaxClients();
 
-	for (int i = maxClient; i > 1; i--)
+	for (int i = 1; i < maxClient; ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
 
@@ -680,21 +680,6 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 	
 	Vector bestSpot = Vector(0);
 	int bestDamage = 0;
-
-	while (Ragebot::lockedEnemy.player)
-	{
-		if ( !Ragebot::lockedEnemy.player->GetAlive() || Ragebot::lockedEnemy.player->GetDormant() || Ragebot::lockedEnemy.player->GetImmune() )
-			break;
-		GetBestSpotAndDamage(Ragebot::lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
-		if (bestDamage >= Ragebot::lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
-		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return Ragebot::lockedEnemy.player;
-		}
-		Ragebot::lockedEnemy.player = nullptr;
-		break;
-	}
 	
 	C_BasePlayer* clossestEnemy = GetClosestEnemy(localplayer);
 
@@ -713,7 +698,7 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 		}
 	}
 	int maxClient = engine->GetMaxClients();
-	for (int i = 1; i <= maxClient ; ++i)
+	for (int i = 1; i < maxClient ; ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
@@ -759,7 +744,7 @@ static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWea
 	Vector bestSpot = Vector(0);
 	int bestDamage = 0;
 
-	while (Ragebot::lockedEnemy.player )
+	while (Ragebot::lockedEnemy.player)
 	{
 		if (!Ragebot::lockedEnemy.player->GetAlive() || Ragebot::lockedEnemy.player->GetDormant() || Ragebot::lockedEnemy.player->GetImmune())
 			break;
@@ -898,7 +883,8 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			CreateMove::sendPacket = true;
 			Ragebot::miss.shooted = true;
 			Ragebot::miss.playerhelth = lockedEnemy.player->GetHealth();
-			// cmd->tick_count = TIME_TO_TICKS(player->GetSimulationTime() + LagComp::GetLerpTime());
+			// cmd->tick_count = globalVars->tickcount;
+			CreateMove::sendPacket = true;
 		}
 			
     }

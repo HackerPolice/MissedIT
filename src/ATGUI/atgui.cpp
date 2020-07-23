@@ -41,21 +41,26 @@ bool UI::DrawImWatermark()
 	if (UI::isVisible)
 		return false;
 
-	if (engine->IsInGame())
-		return false;
+	// if (engine->IsInGame())
+	// 	return false;
 
-	ImGui::NewFrame();
     ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiCond_Always );
-    ImGui::SetNextWindowSize( ImVec2( 100, 0 ), ImGuiCond_Always );
+    ImGui::SetNextWindowSize( ImVec2( 200, 0 ), ImGuiCond_Always );
     // ImGui::SetNextWindowBgAlpha( 0.0f );
 	ImGuiStyle& style = ImGui::GetStyle();
             style.WindowBorderSize = 1.0f;
-    ImGui::Begin( XORSTR("##mainFrame"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize );
-    Draw::ImText( ImVec2( 20.f, 10.f ), ImColor( 255, 255, 255, 255 ), XORSTR( "MissedIT" ), nullptr, 0.0f, nullptr,
+    if ( ImGui::Begin( XORSTR("##mainFrame"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize ) ) ;
+    {
+		Draw::ImText( ImVec2( 20.f, 10.f ), ImColor( 255, 255, 255, 255 ), XORSTR( "MissedIT | FPS :" ), nullptr, 0.0f, nullptr,
                   ImFontFlags_Outline );
-	
-	ImGui::End();
-	ImGui::EndFrame();
+		int fps = static_cast< int >( 1.f / globalVars->frametime );
+		std::string fps_string = std::to_string(fps);
+		Draw::ImText( ImVec2( 140.f, 10.f ), ImColor( 255, 255, 255, 255 ), fps_string.c_str() , nullptr, 0.0f, nullptr,
+                  	ImFontFlags_Outline );
+		
+		ImGui::End();
+	}
+
 	return true;
 }
 

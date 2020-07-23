@@ -18,11 +18,13 @@ namespace Resolver
 
     struct resolvedPlayers
     {
+        C_BasePlayer* enemy;
         int PrevTrueDelta = 0;
         int MissedCount = 0;
     };
 
-    inline resolvedPlayers players[100];
+    inline resolvedPlayers players[1000];
+    inline std::pair<C_BasePlayer*, int> player;
     inline int TargetID = 0;
     extern std::vector<int64_t> Players;
 
