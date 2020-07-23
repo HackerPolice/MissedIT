@@ -12,7 +12,7 @@
 std::vector<LagComp::LagCompTickInfo> LagComp::lagCompTicks;
 
 
-static float GetLerpTime()
+float LagComp::GetLerpTime()
 {
 	int updateRate = cvar->FindVar("cl_updaterate")->GetInt();
 	ConVar *minUpdateRate = cvar->FindVar("sv_minupdaterate");
@@ -40,7 +40,7 @@ static bool IsTickValid(float time) // pasted from polak getting some invalid ti
 {
 	float correct = 0;
 
-	correct += GetLerpTime();
+	correct += LagComp::GetLerpTime();
 	correct = CLAMP(correct, 0.f, cvar->FindVar("sv_maxunlag")->GetFloat());
 
 	float deltaTime = correct - (globalVars->curtime - time);

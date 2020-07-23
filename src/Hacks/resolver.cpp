@@ -48,9 +48,6 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			cvar->ConsoleDPrintf(XORSTR("Resolving : "));
-			cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
-
 			// if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 			// 	continue;
 
@@ -65,17 +62,41 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			// cvar->ConsoleDPrintf(XORSTR("X Axis : %f\n"), player->GetEyeAngles()->x);
 			if (player->GetEyeAngles()->x < 65.f || player->GetEyeAngles()->x > 90.f)
 			{
+				cvar->ConsoleDPrintf(XORSTR("Resolving : Legit AA"));
+				cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
 				static float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 
-				if (trueDelta < 30)
-					return;
-				
-				player->GetAnimState()->goalFeetYaw = trueDelta + player->GetEyeAngles()->y;										
+				switch(Resolver::players[player->GetIndex()].MissedCount)
+				{
+					case 0:
+						player->GetAnimState()->goalFeetYaw = trueDelta + player->GetEyeAngles()->y;
+						break;
+					case 1:
+						break;
+					case 2:
+						player->GetAnimState()->goalFeetYaw = trueDelta ? player->GetEyeAngles()->y + trueDelta :  player->GetEyeAngles()->y - 57.f;
+						break;
+					case 3:
+						player->GetAnimState()->goalFeetYaw = trueDelta ? player->GetEyeAngles()->y + trueDelta : player->GetEyeAngles()->y + 57.f;
+						break;
+					case 4:
+						player->GetEyeAngles()->y = trueDelta ? player->GetEyeAngles()->y + trueDelta :  player->GetEyeAngles()->y - 57.f;
+						break;
+					case 5:
+						player->GetEyeAngles()->y += trueDelta;
+						break;
+					case 6:
+						player->GetAnimState()->goalFeetYaw = player->GetEyeAngles()->y + (trueDelta/2);
+						break;
+					default:
+						break;
+				}
+														
 			}
 			else
             {
                 float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-				cvar->ConsoleDPrintf(XORSTR("Resolving : "));
+				cvar->ConsoleDPrintf(XORSTR("Resolving : Rage AA"));
 				cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
 				switch(Resolver::players[player->GetIndex()].MissedCount)
 				{

@@ -14,6 +14,7 @@
 #include "../Utils/bonemaps.h"
 #include "../Utils/math.h"
 #include "autowall.h"
+#include "lagcomp.h"
 
 namespace Ragebot {
 

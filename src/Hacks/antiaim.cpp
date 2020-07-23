@@ -730,16 +730,12 @@ static void DoLegitAntiAim(C_BasePlayer *const localplayer, QAngle& angle, bool&
 
     QAngle ViewAngle;
         engine->GetViewAngles( ViewAngle);
-    static int tickCount = cmd->tick_count;
+
     static auto OverWatchProof([&](){
         if (!AntiAim::bSend)
-        {
-            tickCount = cmd->tick_count;
             AntiAim::realAngle.y = angle.y += inverted ? maxDelta : maxDelta*-1;
-        }
         else
         {
-            cmd->tick_count = tickCount;
             localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y + maxDelta : angle.y - maxDelta;
             AntiAim::fakeAngle = angle = ViewAngle;
         }
@@ -749,26 +745,20 @@ static void DoLegitAntiAim(C_BasePlayer *const localplayer, QAngle& angle, bool&
     static auto FakeLegitAA([&](){
         if (!AntiAim::bSend)
         {
-            tickCount = cmd->tick_count;
             localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y + maxDelta : angle.y - maxDelta;
             AntiAim::realAngle = angle;
         }
         else
-        {
-            cmd->tick_count = tickCount;
             AntiAim::fakeAngle = angle;
-        }
     });
     static auto Experimental([&](){
         if (!AntiAim::bSend)
         {
-            tickCount = cmd->tick_count;
             localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y + maxDelta : angle.y - maxDelta;
             AntiAim::realAngle = angle;
         }
         else
         {
-            cmd->tick_count = tickCount;
             localplayer->GetAnimState()->goalFeetYaw = inverted ? angle.y - maxDelta : angle.y + maxDelta;
             AntiAim::fakeAngle = angle;
         }

@@ -898,6 +898,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			CreateMove::sendPacket = true;
 			Ragebot::miss.shooted = true;
 			Ragebot::miss.playerhelth = lockedEnemy.player->GetHealth();
+			// cmd->tick_count = TIME_TO_TICKS(player->GetSimulationTime() + LagComp::GetLerpTime());
 		}
 			
     }

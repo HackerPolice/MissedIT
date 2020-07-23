@@ -58,9 +58,9 @@ void UI::ReloadWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
 	if (Settings::Legitbot::weapons.find(currentWeapon) != Settings::Legitbot::weapons.end())
-		{
-			index = currentWeapon;
-		}
+	{
+		index = currentWeapon;
+	}
 
 	silent = Settings::Legitbot::weapons.at(index).silent;
 	autoShootEnabled = Settings::Legitbot::weapons.at(index).autoShoot;
