@@ -225,6 +225,10 @@ void HvH::RenderTab()
             ImGui::SameLine();
             ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 100, XORSTR("Amount: %0.f"));
 			ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);
+            
+            ImGui::Checkbox(XORSTR("FakeDuck"), &Settings::AntiAim::FakeDuck::enabled);
+            ImGui::SameLine(); 
+            UI::KeyBindButton(&Settings::AntiAim::FakeDuck::fakeDuckKey);
             ImGui::EndChild();
         }
     }

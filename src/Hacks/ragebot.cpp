@@ -681,6 +681,9 @@ static C_BasePlayer* GetClosestPlayerAndSpot(C_BasePlayer* localplayer, const Ra
 	Vector bestSpot = Vector(0);
 	int bestDamage = 0;
 	
+	Ragebot::BestDamage = 0;
+	Ragebot::BestSpot = Vector(0);
+
 	C_BasePlayer* clossestEnemy = GetClosestEnemy(localplayer);
 
 	if (clossestEnemy)
@@ -744,21 +747,28 @@ static C_BasePlayer* GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWea
 	Vector bestSpot = Vector(0);
 	int bestDamage = 0;
 
-	while (Ragebot::lockedEnemy.player)
+	Ragebot::BestDamage = 0;
+	Ragebot::BestSpot = Vector(0);
+
+	if (Ragebot::lockedEnemy.player)
 	{
 		if (!Ragebot::lockedEnemy.player->GetAlive() || Ragebot::lockedEnemy.player->GetDormant() || Ragebot::lockedEnemy.player->GetImmune())
-			break;
-		GetBestSpotAndDamage(Ragebot::lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
-		if (bestDamage >= Ragebot::lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
 		{
-			Ragebot::BestDamage = bestDamage;
-			Ragebot::BestSpot = bestSpot;
-			return Ragebot::lockedEnemy.player;
+			GetBestSpotAndDamage(Ragebot::lockedEnemy.player,localplayer, bestSpot, bestDamage, currSettings);
+			if (bestDamage >= Ragebot::lockedEnemy.player->GetHealth() || bestDamage >= currSettings.MinDamage)
+			{
+				Ragebot::BestDamage = bestDamage;
+				Ragebot::BestSpot = bestSpot;
+				return Ragebot::lockedEnemy.player;
+			}
 		}
-		Ragebot::lockedEnemy.player = nullptr;
-		Ragebot::lockedEnemy.bestDamage = 0;
-		Ragebot::lockedEnemy.lockedSpot = Vector(0);
-		break;
+		else 
+		{
+			Ragebot::lockedEnemy.player = nullptr;
+			Ragebot::lockedEnemy.bestDamage = 0;
+			Ragebot::lockedEnemy.lockedSpot = Vector(0);
+		}
+		
 	}
 	
 	C_BasePlayer* clossestEnemy = nullptr;
@@ -814,12 +824,12 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	
 	// Cheking if our aimbot miss any shot or not basically it is not the perfect way to do this
 	// But for Now I only come up with this thing :(
-	if (Ragebot::miss.shooted)
+	if (Ragebot::miss.shooted && lockedEnemy.player)
 	{
 		if (Ragebot::miss.playerhelth == lockedEnemy.player->GetHealth() && lockedEnemy.player->GetAlive())
 			Resolver::players[Resolver::TargetID].MissedCount++;
 		
-		if (Resolver::players[Resolver::TargetID].MissedCount > 6)
+		if (Resolver::players[Resolver::TargetID].MissedCount > 4)
 			Resolver::players[Resolver::TargetID].MissedCount = 0;
 		
 		Ragebot::miss.shooted = false;
@@ -847,7 +857,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
     if (Settings::Ragebot::weapons.find(*activeWeapon->GetItemDefinitionIndex()) != Settings::Ragebot::weapons.end())
 		  index = *activeWeapon->GetItemDefinitionIndex();
-    const RageWeapon_t& currentWeaponSetting = Settings::Ragebot::weapons.at(index);
+    const RageWeapon_t currentWeaponSetting = Settings::Ragebot::weapons.at(index);
 		
 
 	Ragebot::localEye = localplayer->GetEyePosition();
@@ -865,7 +875,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			break;
 	}
 
-    if (player)
+    if (player && Ragebot::BestDamage > 0)
     {
 		Resolver::TargetID = player->GetIndex();
 		Ragebot::lockedEnemy.player = player;
@@ -883,7 +893,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			CreateMove::sendPacket = true;
 			Ragebot::miss.shooted = true;
 			Ragebot::miss.playerhelth = lockedEnemy.player->GetHealth();
-			// cmd->tick_count = globalVars->tickcount;
+			cmd->tick_count = TIME_TO_TICKS(player->GetSimulationTime())+ TIME_TO_TICKS(LagComp::GetLerpTime());
 			CreateMove::sendPacket = true;
 		}
 			

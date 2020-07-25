@@ -32,5 +32,6 @@ namespace Resolver
     void FrameStageNotify(ClientFrameStage_t stage); // This is where the resolver happens.
     void FireGameEvent(IGameEvent *event);			 // Strangely, I never see this getting called.
     void CreateMove(CUserCmd* cmd);
+    void AnimationFix(C_BasePlayer *player);
 
 } 

@@ -22,6 +22,7 @@ void Offsets::GetNetVarOffsets()
 	offsets.DT_BasePlayer.m_hViewModel = NetVarManager::GetOffset(tables, XORSTR("DT_BasePlayer"), XORSTR("m_hViewModel[0]"));
 	offsets.DT_BasePlayer.m_szLastPlaceName = NetVarManager::GetOffset(tables, XORSTR("DT_BasePlayer"), XORSTR("m_szLastPlaceName"));
 	offsets.DT_BasePlayer.deadflag = NetVarManager::GetOffset(tables, XORSTR("DT_BasePlayer"), XORSTR("deadflag"));
+	offsets.DT_BasePlayer.m_clientAnimation = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_bClientSideAnimation") ); // function for animate
 
 	offsets.DT_BaseEntity.m_flAnimTime = NetVarManager::GetOffset(tables, XORSTR("DT_BaseEntity"), XORSTR("m_flAnimTime"));
 	offsets.DT_BaseEntity.m_flSimulationTime = NetVarManager::GetOffset(tables, XORSTR("DT_BaseEntity"), XORSTR("m_flSimulationTime"));

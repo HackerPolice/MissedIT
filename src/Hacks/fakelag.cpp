@@ -4,11 +4,24 @@
 #include "../interfaces.h"
 #include "../Hooks/hooks.h"
 
-static int ticks = 0;
 int ticksMax = 20;
 
+static void fakeDuck(CUserCmd* cmd )
+{
+	if (!Settings::AntiAim::FakeDuck::enabled)
+		return;
+
+	if (!inputSystem->IsButtonDown(ButtonCode_t::KEY_LCONTROL))
+		return;
+
+	cmd->buttons |= IN_BULLRUSH;
+
+	FakeLag::ticks > 7 ? cmd->buttons |= IN_DUCK : cmd->buttons &= ~IN_DUCK;
+}
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
+	// fakeDuck( cmd ); // for fake ducking don't ask my why here
+
 	if (!Settings::FakeLag::enabled)
 		return;
 
@@ -25,10 +38,10 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		return;
 	}
 
-	if (ticks >= ticksMax)
+	if (FakeLag::ticks >= ticksMax)
 	{
 		CreateMove::sendPacket = true;
-		ticks = 0;
+		FakeLag::ticks = 0;
 	}
 	else
 	{
@@ -46,11 +59,11 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 			else
 				packetsToChoke = 0;
 
-			CreateMove::sendPacket = ticks < 16 - packetsToChoke;
+			CreateMove::sendPacket = FakeLag::ticks < 16 - packetsToChoke;
 		}
 		else
-			CreateMove::sendPacket = ticks < 16 - Settings::FakeLag::value;
+			CreateMove::sendPacket = FakeLag::ticks < 16 - Settings::FakeLag::value;
 	}
 
-	ticks++;
+	FakeLag::ticks++;
 }

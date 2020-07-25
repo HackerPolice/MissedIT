@@ -2,6 +2,7 @@
 
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IClientEntity.h"
+#include "../SDK/CViewRender.h"
 
 namespace AntiAim
 {
@@ -22,4 +23,5 @@ namespace AntiAim
     //Hooks
     void CreateMove(CUserCmd* cmd);
     void FrameStageNotify(ClientFrameStage_t stage);
+    void OverrideView(CViewSetup *pSetup);
 }

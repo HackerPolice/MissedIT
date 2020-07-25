@@ -731,7 +731,6 @@ namespace Settings
             inline bool noEnemy = false;
             inline bool knifeHeld = false;
         }
-
         namespace RageAntiAim
         {
             inline bool enable = false;
@@ -743,7 +742,6 @@ namespace Settings
 			inline bool SendReal = false;
 			inline RageAntiAimType Type = RageAntiAimType::RealArroundFake;
         }
-
 		namespace LegitAntiAim 
 		{
 			inline bool enable = false;
@@ -754,7 +752,6 @@ namespace Settings
 			inline float RealPercentageInCroutch = 30.f;
 			inline LegitAAType legitAAtype = LegitAAType::OverWatchProof;
 		}
-		
 		namespace ManualAntiAim
 		{
 			inline bool Enable = false;
@@ -767,7 +764,6 @@ namespace Settings
             inline AntiAimRealType_Y typeReal = AntiAimRealType_Y::Static;
             inline AntiAimFakeType_y typeFake = AntiAimFakeType_y::Static;
         }
-
         namespace HeadEdge
         {
             inline bool enabled = false;
@@ -778,7 +774,12 @@ namespace Settings
             inline bool enabled = false;
             inline float offset = 180.0f;
         }
-    }
+		namespace FakeDuck
+		{
+			inline bool enabled = false;
+			inline ButtonCode_t fakeDuckKey = ButtonCode_t::KEY_LCONTROL;
+		}
+	}
 
 	namespace Resolver
 	{

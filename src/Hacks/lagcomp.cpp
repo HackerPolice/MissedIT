@@ -139,10 +139,8 @@ void LagComp::CreateMove(CUserCmd *cmd)
 					has_target = true;
 				}
 			}
-			if (has_target)	break;
 		}
 
-	
-		cmd->tick_count = tickcount;
+		if (has_target)	cmd->tick_count = tickcount;
 	}
 }

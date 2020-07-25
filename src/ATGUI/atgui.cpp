@@ -12,6 +12,7 @@
 #include "Windows/skinmodelchanger.h"
 #include "Windows/showspectators.h"
 #include "../Hacks/radar.h"
+#include "../Hacks/antiaim.h"
 
 
 bool UI::isVisible = false;
@@ -46,9 +47,9 @@ bool UI::DrawImWatermark()
 
     ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiCond_Always );
     ImGui::SetNextWindowSize( ImVec2( 200, 0 ), ImGuiCond_Always );
-    // ImGui::SetNextWindowBgAlpha( 0.0f );
+    ImGui::SetNextWindowBgAlpha( 0.0f );
 	ImGuiStyle& style = ImGui::GetStyle();
-            style.WindowBorderSize = 1.0f;
+            style.WindowBorderSize = 0.0f;
     if ( ImGui::Begin( XORSTR("##mainFrame"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize ) ) ;
     {
 		Draw::ImText( ImVec2( 20.f, 10.f ), ImColor( 255, 255, 255, 255 ), XORSTR( "MissedIT | FPS :" ), nullptr, 0.0f, nullptr,
@@ -80,4 +81,26 @@ void UI::SetupWindows()
 	PlayerList::RenderWindow();
 	ShowSpectators::RenderWindow();
 	Radar::RenderWindow();
+}
+
+void UI::angleIndicator()
+{
+
+	ImGui::SetNextWindowPos( ImVec2( 0, 400 ), ImGuiCond_Always );
+    ImGui::SetNextWindowSize( ImVec2( 100, 0 ), ImGuiCond_Always );
+
+	ImGui::SetNextWindowBgAlpha( 0.0f );
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.WindowBorderSize = 0.0f;
+	if ( ImGui::Begin( XORSTR("##indecator"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize ) ) ;
+    {
+		if (AntiAim::ManualAntiAim::alignBack)
+        Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ BACK ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
+    else if (AntiAim::ManualAntiAim::alignLeft)
+        Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Left ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
+    else if (AntiAim::ManualAntiAim::alignRight)
+        Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Right ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
+		
+		ImGui::End();
+	}
 }

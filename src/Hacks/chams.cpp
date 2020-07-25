@@ -178,7 +178,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	Fake_meterial->AlphaModulate(Settings::ESP::Chams::FakeColor.Color(entity).Value.w);
 
 	static matrix3x4_t fakeBoneMatrix[128];
-	float fakeangle = AntiAim::realAngle.y - AntiAim::fakeAngle.y;
+	float fakeangle = AntiAim::fakeAngle.y - AntiAim::realAngle.y;
 	static Vector OutPos;
 	for (int i = 0; i < 128; i++)
 	{
