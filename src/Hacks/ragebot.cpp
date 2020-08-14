@@ -513,20 +513,18 @@ static void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activ
 	{
 		cmd->buttons |= IN_ATTACK2;
 		Ragebot::shouldSlow = true;
-		return;
 	}
 
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime )
-		return;
+	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime ) return;
 
 	QAngle ViewAngle;
 		engine->GetViewAngles(ViewAngle);
-	static Vector oldOrigin = localplayer->GetAbsOrigin();
-	Vector velocity = (localplayer->GetVecOrigin()-oldOrigin) * (1.f/globalVars->interval_per_tick);
-	oldOrigin = localplayer->GetAbsOrigin();
-	float speed  = velocity.Length();
+	static Vector oldOrigin = localplayer->GetAbsOrigin( );
+	Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) * (1.f/globalVars->interval_per_tick);
+	oldOrigin = localplayer->GetAbsOrigin( );
+	float speed  = velocity.Length( );
 		
-	// if(speed < 15.f)
+	// if(speed > 15.f)
 	// {
 	// 	QAngle dir;
 	// 	Math::VectorAngles(velocity, dir);

@@ -6,18 +6,6 @@
 
 int ticksMax = 20;
 
-static void fakeDuck(CUserCmd* cmd )
-{
-	if (!Settings::AntiAim::FakeDuck::enabled)
-		return;
-
-	if (!inputSystem->IsButtonDown(ButtonCode_t::KEY_LCONTROL))
-		return;
-
-	cmd->buttons |= IN_BULLRUSH;
-
-	FakeLag::ticks > 7 ? cmd->buttons |= IN_DUCK : cmd->buttons &= ~IN_DUCK;
-}
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
 	// fakeDuck( cmd ); // for fake ducking don't ask my why here

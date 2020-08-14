@@ -142,12 +142,12 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				switch(Resolver::players[player->GetIndex()].MissedCount)
 				{
 					case 0:
-						player->GetEyeAngles()->y = trueDelta == 0 ? player->GetEyeAngles( )->y - 30.f : player->GetEyeAngles( )->y + trueDelta;
+						player->GetAnimState()->goalFeetYaw = trueDelta == 0 ? player->GetEyeAngles( )->y - 27.f :  player->GetEyeAngles( )->y + GetPercentVal(trueDelta, 60);
 						break;
 					case 1:
 						break;
 					case 2:
-						player->GetAnimState()->goalFeetYaw = trueDelta == 0 ? player->GetEyeAngles( )->y - 30.f :  player->GetEyeAngles( )->y + GetPercentVal(trueDelta, 60);
+						player->GetEyeAngles()->y = trueDelta == 0 ? player->GetEyeAngles( )->y - 30.f : player->GetEyeAngles( )->y + trueDelta;
 						break;
 					case 3:
 						player->GetEyeAngles()->y = trueDelta <= 0 ? player->GetEyeAngles( )->y - 30.f : player->GetEyeAngles( )->y + 30.f;
