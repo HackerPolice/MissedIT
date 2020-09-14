@@ -83,13 +83,12 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame()) return;
 	if (stage != ClientFrameStage_t::FRAME_RENDER_START) return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	if ( !localplayer || !localplayer->GetAlive()) return;
 
 	if (!Settings::ThirdPerson::enabled && !input->m_fCameraInThirdPerson) return;
 		
-	if (Settings::AntiAim::RageAntiAim::enable) *localplayer->GetVAngles() = AntiAim::realAngle;
+	if (Settings::AntiAim::RageAntiAim::enable && Settings::ThirdPerson::toggled) *localplayer->GetVAngles() = AntiAim::realAngle;
 	
 }
