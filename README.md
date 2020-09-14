@@ -3,9 +3,7 @@
 </p>
 ===================
 
-# MissedIT
-<b> This branch is quite brocken now I want to try test branch untill I commit that code to master thanks :)</b>
-* To get Stable Updates with Bug Fixes Use Master Branch<a href = https://github.com/HackerPolice/MissedIT >MissedIT</a>. 
+# MissedIT 
 
 # It looks like we are starting to get detected. Use public forks at your own Risk! 
 
