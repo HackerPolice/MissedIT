@@ -15,8 +15,8 @@
 #include "../Hacks/edgejump.h"
 #include "../Hacks/autoblock.h"
 #include "../Hacks/predictionsystem.h"
-#include "../Hacks/ragebot.h"
-#include "../Hacks/legitbot.h"
+#include "../Hacks/AimBot/ragebot.h"
+#include "../Hacks/AimBot/legitbot.h"
 #include "../Hacks/triggerbot.h"
 #include "../Hacks/autoknife.h"
 #include "../Hacks/antiaim.h"
@@ -26,27 +26,13 @@
 #include "../Hacks/nofall.h"
 #include "../Hacks/ragdollgravity.h"
 #include "../Hacks/lagcomp.h"
+#include "../Hacks/fakeduck.h"
 
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
 
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 
-static void RandomMethod(CUserCmd *cmd, bool *sendPacket)
-{
-	PredictionSystem::StartPrediction(cmd);
-	Legitbot::CreateMove(cmd);
-	// auto ragebot = std::async(std::launch::async, Ragebot::CreateMove, cmd);
-	Ragebot::CreateMove(cmd);
-	Triggerbot::CreateMove(cmd);
-	LagComp::CreateMove(cmd);
-	AutoKnife::CreateMove(cmd);
-	// auto antiaim = std::async(std::launch::async, Ragebot::CreateMove, cmd);
-	FakeLag::CreateMove(cmd);
-    AntiAim::CreateMove(cmd);
-
-	*sendPacket = CreateMove::sendPacket;
-}
 bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
 	clientModeVMT->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
@@ -73,8 +59,15 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
 
-		std::async(std::launch::async, RandomMethod, cmd, sendPacket); // Actions
-		// RandomMethod(cmd);
+		PredictionSystem::StartPrediction(cmd);
+		FakeLag::CreateMove(cmd);
+		LagComp::CreateMove(cmd);
+		Legitbot::CreateMove(cmd);
+		Ragebot::CreateMove(cmd);
+		Triggerbot::CreateMove(cmd);
+		AutoKnife::CreateMove(cmd);
+    	AntiAim::CreateMove(cmd);
+		FakeDuck::CreateMove(cmd);
 		
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);
@@ -84,7 +77,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		EdgeJump::PostPredictionCreateMove(cmd);
 		NoFall::PostPredictionCreateMove(cmd);
 
-        // *sendPacket = CreateMove::sendPacket;
+        *sendPacket = CreateMove::sendPacket;
 
         if (CreateMove::sendPacket)
             CreateMove::lastTickViewAngles = cmd->viewangles;

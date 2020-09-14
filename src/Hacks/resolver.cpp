@@ -1,14 +1,10 @@
 #include "resolver.h"
 
-#include "../Utils/entity.h"
-#include "../Utils/math.h"
-#include "../Utils/xorstring.h"
-#include "../interfaces.h"
-#include "../settings.h"
-#include "antiaim.h"
-
+#include "../ImGUI/imgui.h"
 std::vector<int64_t> Resolver::Players = {};
-std::vector<std::pair<C_BasePlayer *, QAngle>> player_data_Nimbus;
+
+#define RANDOME_FLOAT(x) ( static_cast<float>(static_cast<float>(rand()/ static_cast<float>(RAND_MAX/ ( x ) ))) )
+#define GetPercentVal(val, percent) (val * (percent/100.f))
 
 static float NormalizeAsYaw(float flAngle)
 {
@@ -25,36 +21,66 @@ static float NormalizeAsYaw(float flAngle)
 	return flAngle;
 }
 
+void Resolver::AnimationFix(C_BasePlayer *player)
+{
+	// player->ClientAnimations(true);
+
+	// auto old_curtime = globalVars->curtime;
+	// auto old_frametime = globalVars->frametime;
+
+	// globalVars->curtime = player->GetSimulationTime();
+	// globalVars->frametime = globalVars->interval_per_tick;
+
+	// auto player_animation_state = player->GetAnimState();
+	// auto player_model_time = reinterpret_cast<int*>(player_animation_state + 112);
+	// if (player_animation_state && player_model_time)
+	// 	if (*player_model_time == globalVars->frametime)
+	// 		* player_model_time = globalVars->frametime - 1;
+
+
+	// player->updateClientAnimation();
+
+	// globalVars->curtime = old_curtime;
+	// globalVars->frametime = old_frametime;
+
+	//pEnt->SetAbsAngles(Vector3(0, player_animation_state->m_flGoalFeetYaw, 0));
+
+	// player->ClientAnimations(false);
+}
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!engine->IsInGame() || !Settings::Resolver::resolveAll)
+	if (!engine->IsInGame())
 		return;
 
+	if (!Settings::Resolver::resolveAll)
+		return;
+		
 	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{
-		for (int i = engine->GetMaxClients(); i > 1; i--)
+		
+		int maxClient = engine->GetMaxClients();
+		for (int i = 1; i < maxClient; ++i)
 		{
 			C_BasePlayer *player = (C_BasePlayer *)entityList->GetClientEntity(i);
+			// Resolver::AnimationFix(player);
 
 			if (!player 
 			|| player == localplayer 
 			|| player->GetDormant() 
 			|| !player->GetAlive() 
-			|| player->GetImmune() 
+			|| player->GetImmune()
 			|| Entity::IsTeamMate(player, localplayer))
 				continue;
 
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
-				continue;
-
-			player_data_Nimbus.push_back(std::pair<C_BasePlayer *, QAngle>(player, *player->GetEyeAngles()));
+			// if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
+			// 	continue;
 
 			/*
 			cvar->ConsoleColorPrintf(ColorRGBA(64, 0, 255, 255), XORSTR("\n[Nimbus] "));
@@ -62,57 +88,124 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			*/
 
 			// Tanner is a sex bomb, also thank you Stacker for helping us out!
-			float lbyDelta = fabsf(NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y));
+			// float lbyDelta = fabsf(NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y));
 
-			if (lbyDelta < 35)
-				return;
-
-			if (player->GetEyeAngles()->x > 87.f)
+			// cvar->ConsoleDPrintf(XORSTR("X Axis : %f\n"), player->GetEyeAngles()->x);
+			if (player->GetEyeAngles()->x < 65.f || player->GetEyeAngles()->x > 90.f)
 			{
-				static float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-
-				if (player->GetVelocity().Length() < 10.0f)
+				// cvar->ConsoleDPrintf(XORSTR("Resolving : Legit AA"));
+				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
+				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+				
+				if ( Resolver::players[player->GetIndex()].enemy )
 				{
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
-															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f)
-															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.99f) - player->GetEyeAngles()->y;
+					if (player != Resolver::players[player->GetIndex()].enemy) // It means player discoennected or player sequence changed better to reset out miss shots count
+					{
+						Resolver::players[player->GetIndex()].MissedCount = 0;
+						Resolver::players[player->GetIndex()].enemy = player;
+					}
+						
 				}
-				else
+				else 
 				{
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0
-															  ? player->GetEyeAngles()->y + fabs(AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f)
-															  : fabs(-AntiAim::GetMaxDelta(player->GetAnimState()) * 0.2f) - player->GetEyeAngles()->y;
+					Resolver::players[player->GetIndex()].enemy = player;
 				}
+				
+				switch(Resolver::players[player->GetIndex()].MissedCount)
+				{
+					case 0:
+						player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y - GetPercentVal(trueDelta, 50): GetPercentVal(trueDelta, 50) + player->GetEyeAngles()->y;
+						break;
+					case 1:
+						break;
+					case 2:
+						player->GetEyeAngles()->y = trueDelta == 0 ? player->GetEyeAngles()->y - 30.f :  player->GetEyeAngles()->y + trueDelta;
+						break;
+					case 3:
+						player->GetEyeAngles()->y += trueDelta;
+						break;
+					case 4:
+						player->GetEyeAngles()->y = trueDelta == 0 ? player->GetEyeAngles()->y - 37.f : player->GetEyeAngles()->y + trueDelta;
+						break;
+					default:
+						break;
+				}
+														
 			}
 			else
-				player->GetEyeAngles()->y += *player->GetLowerBodyYawTarget();
+            {
+                float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+				
+				if ( Resolver::players[player->GetIndex()].enemy )
+				{
+					if (player != Resolver::players[player->GetIndex()].enemy) // It means player discoennected or player sequence changed better to reset out miss shots count
+					{
+						Resolver::players[player->GetIndex()].MissedCount = 0;
+						Resolver::players[player->GetIndex()].enemy = player;
+					}
+						
+				}
+				else 
+				{
+					Resolver::players[player->GetIndex()].enemy = player;
+				}
+					
+				
+				// cvar->ConsoleDPrintf(XORSTR("Resolving : Rage AA"));
+				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
+				switch(Resolver::players[player->GetIndex()].MissedCount)
+				{
+					case 0:
+						player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y - GetPercentVal(trueDelta, 50): GetPercentVal(trueDelta, 50) + player->GetEyeAngles()->y;
+						break;
+					case 1:
+						break;
+					case 2:
+						player->GetEyeAngles()->y += trueDelta;
+						break;
+					case 3:
+						player->GetEyeAngles()->y = trueDelta <= 0 ? player->GetEyeAngles( )->y - 20.f : player->GetEyeAngles( )->y + 20.f;
+						break;
+					case 4:
+						player->GetEyeAngles()->y += trueDelta <= 0 ? player->GetEyeAngles( )->y - RANDOME_FLOAT(35.f) : player->GetEyeAngles( )->y + RANDOME_FLOAT(35.f);
+						break;
+					default:
+						break;
+				}
+
+            }	
 		}
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
 	{
-		for (unsigned long i = 0; i < player_data_Nimbus.size(); i++)
-		{
-			std::pair<C_BasePlayer *, QAngle> player_aa_data = player_data_Nimbus[i];
-			*player_aa_data.first->GetEyeAngles() = player_aa_data.second;
-		}
-
-		player_data_Nimbus.clear();
+		// for (auto &i : Resolver::players)
+		// {
+		// 	i.MissedCount = 0;
+		// }
 	}
 }
 
 void Resolver::FireGameEvent(IGameEvent *event)
-{
-	if (!engine->IsInGame() || !Settings::Resolver::resolveAll)
-		return;
+{	
+	// if (!event)
+	// 	return;
 
-	if (!event)
-		return;
+	// if (strcmp(event->GetName(), XORSTR("player_connect_full")) == 0 || strcmp(event->GetName(), XORSTR("cs_game_disconnected")) == 0)
+    // {
+	// 	if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
+	//     	return;
+    // }
 
-	if (strcmp(event->GetName(), XORSTR("player_connect_full")) != 0 && strcmp(event->GetName(), XORSTR("cs_game_disconnected")) != 0)
-		return;
+	// 	int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
+	// 	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("userid")));
 
-	if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
-		return;
+	// 	if (attacker_id == deadPlayer_id) // suicide
+	//     	return;
+		
+	// 	if (attacker_id != engine->GetLocalPlayer())
+	// 		return;
 
-	Resolver::Players.clear();
+	// 	if (strcmp(event->GetName(), "player_hurt") == 0 || strcmp(event->GetName(), "player_hurt") == -1);		
+			// Resolver::players[TargetID].MissedCount--;
+				// ImGui::TextWrapped(XORSTR("Missed"));
 }

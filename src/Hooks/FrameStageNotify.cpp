@@ -13,6 +13,7 @@
 #include "../Hacks/thirdperson.h"
 #include "../settings.h"
 #include "../Hacks/lagcomp.h"
+#include "../Hacks/antiaim.h"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 
@@ -28,6 +29,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	ASUSWalls::FrameStageNotify(stage);
 	NoSmoke::FrameStageNotify(stage);
 	ThirdPerson::FrameStageNotify(stage);
+	AntiAim::FrameStageNotify(stage);
 
 	if (SkinChanger::forceFullUpdate)
 	{

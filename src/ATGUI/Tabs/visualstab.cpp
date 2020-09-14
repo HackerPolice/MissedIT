@@ -1,14 +1,7 @@
 #include "visualstab.h"
 
-#include "../../settings.h"
-#include "../../Utils/xorstring.h"
-#include "../../ImGUI/imgui_internal.h"
-#include "../atgui.h"
-#include "../../Hacks/tracereffect.h"
-#include "../../Hacks/materialconfig.h"
-#include "../../Utils/ColorPickerButton.h"
-
 #pragma GCC diagnostic ignored "-Wformat-security"
+#pragma GCC diagnostic ignored "-Wenum-compare"
 
 	const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
 	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
@@ -17,9 +10,15 @@
 	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
-	const char* chamsTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "Achivements","NONE"  };
-	const char* ArmsTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat", "Achivements", "None" };
-	const char* WeaponTypes[] = { "WHITE_ADDTIVE", "Wireframe", "PREDICTION_GLASS", "FBI_GLASS", "CRYSTAL_CLEAR",  "GIB_GLASS", "Dog CLass", "Flat","Achivements", "None" };
+	
+	const char* chamsTypes[] = { 
+								"ADDTIVE",
+								"ADDTIVE TWO",
+								"WIREFRAME",
+								"FLAT",
+								"NONE",
+								};
+
 	const char* SmokeTypes[] = { "Wireframe", "None" };
     const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
 	const char* SkyBoxes[] = {
@@ -47,6 +46,7 @@
 			"vertigoblue_hdr",
 			"vietnam" // 21
 	};
+	
 	const char *tracerEffectNames[] = {
 			"Assault Rifle", // 0
 			"Pistol",
@@ -106,7 +106,8 @@ static void FilterLocalPlayer()
 	ImGui::Columns(2, nullptr, false);
 	{
 		ImGui::Checkbox(XORSTR("Box"), &Settings::ESP::FilterLocalPlayer::Boxes::enabled);
-		ImGui::Checkbox(XORSTR("Chams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
+		ImGui::Checkbox(XORSTR("FakeChams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
+		ImGui::Checkbox(XORSTR("RealChams"), &Settings::ESP::FilterLocalPlayer::RealChams::enabled);
 		ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::FilterLocalPlayer::HelthBar::enabled);
 		ImGui::Checkbox(XORSTR("Tracers"), &Settings::ESP::FilterLocalPlayer::Tracers::enabled);
 		
@@ -116,7 +117,8 @@ static void FilterLocalPlayer()
 	{
 		ImGui::PushItemWidth(-1);
 		ImGui::Combo(XORSTR("##BOXTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
-		ImGui::Combo(XORSTR("##CHAMSTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+		ImGui::Combo(XORSTR("##FakeCHAMSTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+		ImGui::Combo(XORSTR("##RealCHAMSTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::RealChams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
 		ImGui::Combo(XORSTR("##BARTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::HelthBar::type, BarTypes, IM_ARRAYSIZE(BarTypes));
 		ImGui::Combo(XORSTR("##TRACERTYPE"), (int*)& Settings::ESP::FilterLocalPlayer::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 		ImGui::PopItemWidth();
@@ -126,6 +128,7 @@ static void FilterLocalPlayer()
 	{
 		ImGui::Checkbox(XORSTR("Player Info"), &Settings::ESP::FilterLocalPlayer::playerInfo::enabled);
 		ImGui::Checkbox(XORSTR("Skeleton"), &Settings::ESP::FilterLocalPlayer::Skeleton::enabled);
+		
 		ImGui::Checkbox(XORSTR("Glow"), &Settings::ESP::Glow::enabled);
 	}
 }
@@ -160,15 +163,50 @@ static void FilterAlise()
 	}	
 }
 
+static void colorPicker() 
+{
+	const char* colorNames[IM_ARRAYSIZE(Colors::colors)];
+	for (int i = 0; i < IM_ARRAYSIZE(Colors::colors); i++)
+		colorNames[i] = Colors::colors[i].name;
+
+	static int colorSelected = 0;
+
+		Settings::UI::Windows::Colors::open = true;
+
+		ImGui::Columns(2, nullptr, false);
+		{
+			float ButtonsXSize = (ImGui::GetWindowSize().x / 2)-55;
+			ImGui::SetColumnOffset(1, ButtonsXSize);
+			ImGui::PushItemWidth(-1);
+			ImGui::ListBox(XORSTR("##COLORSELECTION"), &colorSelected, colorNames, IM_ARRAYSIZE(colorNames), 12);
+			ImGui::PopItemWidth();
+		}
+		ImGui::NextColumn();
+		{
+			if ( (int)Colors::colors[colorSelected].type == (int)ColorListVar::HEALTHCOLORVAR_TYPE)
+			{
+				UI::ColorPicker4((float*)Colors::colors[colorSelected].healthColorVarPtr);
+				ImGui::Checkbox(XORSTR("Rainbow"), &Colors::colors[colorSelected].healthColorVarPtr->rainbow);
+				ImGui::SameLine();
+				ImGui::Checkbox(XORSTR("Health-Based"), &Colors::colors[colorSelected].healthColorVarPtr->hp);
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderFloat(XORSTR("##RAINBOWSPEED"), &Colors::colors[colorSelected].healthColorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
+				ImGui::PopItemWidth();
+			}
+			else
+			{
+				UI::ColorPicker4((float*)Colors::colors[colorSelected].colorVarPtr);
+				ImGui::Checkbox(XORSTR("Rainbow"), &Colors::colors[colorSelected].colorVarPtr->rainbow);
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderFloat(XORSTR("##RAINBOWSPEED"), &Colors::colors[colorSelected].colorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
+				ImGui::PopItemWidth();
+			}
+		}
+	// Colors::RenderWindow();
+}
+
 void Visuals::RenderTab()
 {
-	const char* Filter[] = {
-		"Enemies",
-		"Local Player",
-		"Alise",
-		"Fish",
-		"Chicken",
-	};
 	float itemWidth = ImGui::GetWindowWidth();
 
 	// Backend For Visuals
@@ -182,20 +220,20 @@ void Visuals::RenderTab()
 	ImGui::Columns(3, nullptr, false);
 	{
 		ImGui::SetColumnOffset(1, itemWidth / 3);
-		ImGui::BeginChild(XORSTR("##FilterEnemyTitle"), ImVec2(0,22),false);
+		ImGui::BeginChild(XORSTR("##FilterEnemyTitle"), ImVec2(0,22),true);
 			ImGui::Text(XORSTR("Enemy"));
 		ImGui::EndChild();
 	}
 	ImGui::NextColumn();
 	{
-		ImGui::BeginChild(XORSTR("##FilterLocalPlayerTitle"), ImVec2(0,22),false);
+		ImGui::BeginChild(XORSTR("##FilterLocalPlayerTitle"), ImVec2(0,22),true);
 			ImGui::Text(XORSTR("Local Player"));
 		ImGui::EndChild();
 	}
 	ImGui::NextColumn();
 	{
 		// ImGui::SetColumnOffset(3, (itemWidth/3)*2 - itemWidth);
-		ImGui::BeginChild(XORSTR("##FilterAliseTitle"), ImVec2(0,22),false);
+		ImGui::BeginChild(XORSTR("##FilterAliseTitle"), ImVec2(0,22),true);
 			ImGui::Text(XORSTR("Alise"));
 		ImGui::EndChild();
 	}
@@ -239,7 +277,7 @@ void Visuals::RenderTab()
 		{
 			ImGui::Columns(1, nullptr, false);
 			ImGui::PushItemWidth(-1);
-			if ( ImGui::BeginCombo(XORSTR("##Filter Visibility"),XORSTR("Filter Visibility")) )
+			if ( ImGui::BeginCombo(XORSTR("##Filter Visibility"),XORSTR("Visibility Filter")) )
 			{
 				ImGui::Selectable(XORSTR("Smoke Chekc"), &Settings::ESP::Filters::smokeCheck, ImGuiSelectableFlags_DontClosePopups);
 				ImGui::Selectable(XORSTR("Legit Mode"), &Settings::ESP::Filters::legit, ImGuiSelectableFlags_DontClosePopups);
@@ -249,74 +287,100 @@ void Visuals::RenderTab()
 
 			if ( ImGui::BeginCombo(XORSTR("##FilterOptions"), XORSTR("Filter Options")) )
 			{
-				ImGui::Selectable(XORSTR("Clan"), &Settings::ESP::Info::clan, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Rank"), &Settings::ESP::Info::rank, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::PushID(1);
-				ImGui::Selectable(XORSTR("Health"), &Settings::ESP::Info::health, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::PopID();
-				ImGui::Selectable(XORSTR("Armor"), &Settings::ESP::Info::armor, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Scoped"), &Settings::ESP::Info::scoped, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Flashed"), &Settings::ESP::Info::flashed, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Defuse Kit"), &Settings::ESP::Info::hasDefuser, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Grabbing Hostage"), &Settings::ESP::Info::grabbingHostage, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Location"), &Settings::ESP::Info::location, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Money"), &Settings::ESP::Info::money, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Name"), &Settings::ESP::Info::name, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Steam ID"), &Settings::ESP::Info::steamId, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Weapon"), &Settings::ESP::Info::weapon, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Reloading"), &Settings::ESP::Info::reloading, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Planting"), &Settings::ESP::Info::planting,ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Defusing"), &Settings::ESP::Info::defusing, ImGuiSelectableFlags_DontClosePopups);
-				ImGui::Selectable(XORSTR("Rescuing Hostage"), &Settings::ESP::Info::rescuing, ImGuiSelectableFlags_DontClosePopups);
-                ImGui::Selectable(XORSTR("Layers Debug"), &Settings::Debug::AnimLayers::draw, ImGuiSelectableFlags_DontClosePopups);
+
+				ImGui::Columns(2, nullptr, false);
+				{
+					ImGui::Selectable(XORSTR("Clan"), &Settings::ESP::Info::clan, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Rank"), &Settings::ESP::Info::rank, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::PushID(1);
+					ImGui::Selectable(XORSTR("Health"), &Settings::ESP::Info::health, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::PopID();
+					ImGui::Selectable(XORSTR("Armor"), &Settings::ESP::Info::armor, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Scoped"), &Settings::ESP::Info::scoped, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Flashed"), &Settings::ESP::Info::flashed, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Defuse Kit"), &Settings::ESP::Info::hasDefuser, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Grabbing Hostage"), &Settings::ESP::Info::grabbingHostage, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Location"), &Settings::ESP::Info::location, ImGuiSelectableFlags_DontClosePopups);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Selectable(XORSTR("Name"), &Settings::ESP::Info::name, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Steam ID"), &Settings::ESP::Info::steamId, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Weapon"), &Settings::ESP::Info::weapon, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Reloading"), &Settings::ESP::Info::reloading, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Planting"), &Settings::ESP::Info::planting,ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Defusing"), &Settings::ESP::Info::defusing, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Rescuing Hostage"), &Settings::ESP::Info::rescuing, ImGuiSelectableFlags_DontClosePopups);
+                	ImGui::Selectable(XORSTR("Layers Debug"), &Settings::Debug::AnimLayers::draw, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Money"), &Settings::ESP::Info::money, ImGuiSelectableFlags_DontClosePopups);
+				
+				}
 				
 				ImGui::EndCombo();
 			}
 			
-			ImGui::PopItemWidth();
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text(XORSTR("World"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, false);
+			if ( ImGui::BeginCombo(XORSTR("##WorldItems"), XORSTR("World Items")) )
 			{
-				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Filters::weapons);
-				ImGui::Checkbox(XORSTR("Throwables"), &Settings::ESP::Filters::throwables);
-				
+				ImGui::Columns(2, nullptr, false);
+				{
+					ImGui::Selectable(XORSTR("Weapons"), &Settings::ESP::Filters::weapons, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Throwables"), &Settings::ESP::Filters::throwables, ImGuiSelectableFlags_DontClosePopups);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Selectable(XORSTR("Bomb"), &Settings::ESP::Filters::bomb, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Defuse Kits"), &Settings::ESP::Filters::defusers, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Hostages"), &Settings::ESP::Filters::hostages, ImGuiSelectableFlags_DontClosePopups);
+				}
+				ImGui::EndCombo();
 			}
-			ImGui::NextColumn();
-			{
-				ImGui::Checkbox(XORSTR("Bomb"), &Settings::ESP::Filters::bomb);
-				ImGui::Checkbox(XORSTR("Defuse Kits"), &Settings::ESP::Filters::defusers);
-				ImGui::Checkbox(XORSTR("Hostages"), &Settings::ESP::Filters::hostages);
-			}
-			ImGui::Columns(1);
 
-			ImGui::Separator();
-			ImGui::Text(XORSTR("Danger Zone"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, false);
+			if ( ImGui::BeginCombo(XORSTR("##DangerZone"), XORSTR("Danger Zone")) )
 			{
-				ImGui::Checkbox(XORSTR("Loot Crates"), &Settings::ESP::DangerZone::lootcrate);
-				ImGui::Checkbox(XORSTR("Weapon Upgrades"), &Settings::ESP::DangerZone::upgrade);
-				ImGui::Checkbox(XORSTR("Ammo box"), &Settings::ESP::DangerZone::ammobox);
-				ImGui::Checkbox(XORSTR("Radar Jammer"), &Settings::ESP::DangerZone::radarjammer);
-				ImGui::Checkbox(XORSTR("Cash"), &Settings::ESP::DangerZone::cash);
-				ImGui::Checkbox(XORSTR("Drone"), &Settings::ESP::DangerZone::drone);
-				ImGui::Checkbox(XORSTR("Draw Distance"), &Settings::ESP::DangerZone::drawDistEnabled);
+				ImGui::Columns(2, nullptr, false);
+				{
+					ImGui::Selectable(XORSTR("Loot Crates"), &Settings::ESP::DangerZone::lootcrate, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Weapon Upgrades"), &Settings::ESP::DangerZone::upgrade, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Ammo box"), &Settings::ESP::DangerZone::ammobox, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Radar Jammer"), &Settings::ESP::DangerZone::radarjammer, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Cash"), &Settings::ESP::DangerZone::cash, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Drone"), &Settings::ESP::DangerZone::drone, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Draw Distance"), &Settings::ESP::DangerZone::drawDistEnabled, ImGuiSelectableFlags_DontClosePopups);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Selectable(XORSTR("Safe"), &Settings::ESP::DangerZone::safe, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Sentry Turret"), &Settings::ESP::DangerZone::dronegun, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Melee"), &Settings::ESP::DangerZone::melee, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Tablet"), &Settings::ESP::DangerZone::tablet, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Healthshot"), &Settings::ESP::DangerZone::healthshot, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Explosive Barrel"), &Settings::ESP::DangerZone::barrel, ImGuiSelectableFlags_DontClosePopups);
+					if (Settings::ESP::DangerZone::drawDistEnabled)
+						ImGui::SliderInt(XORSTR("##DZDRAWDIST"), &Settings::ESP::DangerZone::drawDist, 1, 10000, XORSTR("Amount: %0.f"));
+				}
+				ImGui::EndCombo();
 			}
-			ImGui::NextColumn();
+
+			if ( ImGui::BeginCombo(XORSTR("##CrossHairOptions"), XORSTR("Crosshair Options")) )
 			{
-				ImGui::Checkbox(XORSTR("Safe"), &Settings::ESP::DangerZone::safe);
-				ImGui::Checkbox(XORSTR("Sentry Turret"), &Settings::ESP::DangerZone::dronegun);
-				ImGui::Checkbox(XORSTR("Melee"), &Settings::ESP::DangerZone::melee);
-				ImGui::Checkbox(XORSTR("Tablet"), &Settings::ESP::DangerZone::tablet);
-				ImGui::Checkbox(XORSTR("Healthshot"), &Settings::ESP::DangerZone::healthshot);
-				ImGui::Checkbox(XORSTR("Explosive Barrel"), &Settings::ESP::DangerZone::barrel);
-				if (Settings::ESP::DangerZone::drawDistEnabled)
-					ImGui::SliderInt(XORSTR("##DZDRAWDIST"), &Settings::ESP::DangerZone::drawDist, 1, 10000, XORSTR("Amount: %0.f"));
+				ImGui::Columns(2, nullptr, false);
+				{
+					ImGui::Selectable(XORSTR("Recoil Crosshair"), &Settings::Recoilcrosshair::enabled, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("FOV Circle"), &Settings::ESP::FOVCrosshair::enabled, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Show Spread"), &Settings::ESP::Spread::enabled, ImGuiSelectableFlags_DontClosePopups);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Selectable(XORSTR("Only When Shooting"), &Settings::Recoilcrosshair::showOnlyWhenShooting, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Filled"), &Settings::ESP::FOVCrosshair::filled, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable(XORSTR("Show SpreadLimit"), &Settings::ESP::Spread::spreadLimit, ImGuiSelectableFlags_DontClosePopups);
+				}
+				ImGui::EndCombo();
 			}
-			ImGui::Columns(1);
+			ImGui::PopItemWidth();
+
+			colorPicker(); // Converting Color Picker window in this place
+			/*
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Event logger"));
 			ImGui::Separator();
@@ -335,7 +399,7 @@ void Visuals::RenderTab()
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
-
+			*/
 			ImGui::EndChild();
 		}
 	}
@@ -344,32 +408,15 @@ void Visuals::RenderTab()
 	{
         ImGui::Text(XORSTR("Only on Key"));
         UI::KeyBindButton(&Settings::ESP::key);
-		ImGui::BeginChild(XORSTR("Chams"), ImVec2(0, 0), true);
+		ImGui::BeginChild(XORSTR("Chams"), ImVec2(0, 0), false);
 		{
-			ImGui::Text(XORSTR("Crosshair"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, false);
-			{
-				ImGui::Checkbox(XORSTR("Recoil Crosshair"), &Settings::Recoilcrosshair::enabled);
-				ImGui::Checkbox(XORSTR("FOV Circle"), &Settings::ESP::FOVCrosshair::enabled);
-				ImGui::Checkbox(XORSTR("Show Spread"), &Settings::ESP::Spread::enabled);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Checkbox(XORSTR("Only When Shooting"), &Settings::Recoilcrosshair::showOnlyWhenShooting);
-				ImGui::Checkbox(XORSTR("Filled"), &Settings::ESP::FOVCrosshair::filled);
-				ImGui::Checkbox(XORSTR("Show SpreadLimit"), &Settings::ESP::Spread::spreadLimit);
-			}
 			ImGui::Columns(1);
-			ImGui::Separator();
 			ImGui::Text(XORSTR("Skybox Changer"));
-			ImGui::Separator();
-			ImGui::Checkbox(XORSTR("##SKYBOXENABLE"), &Settings::SkyBox::enabled);
+			ImGui::Checkbox(XORSTR("Skybox Changer"), &Settings::SkyBox::enabled);
 			ImGui::SameLine();
 			ImGui::Combo(XORSTR("##SKYBOX"), &Settings::SkyBox::skyBoxNumber, SkyBoxes, IM_ARRAYSIZE(SkyBoxes));
-			ImGui::Separator();
-			ImGui::Text(XORSTR("Other Visual Settings"));
-			ImGui::Separator();
+			
+			// ImGui::Text(XORSTR("Other Visual Settings"));
 			ImGui::Columns(2, nullptr, false);
 			{
 				ImGui::Checkbox(XORSTR("Arms"), &Settings::ESP::Chams::Arms::enabled);
@@ -552,8 +599,8 @@ void Visuals::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::Combo(XORSTR("##ARMSTYPE"), (int*)& Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
-				ImGui::Combo(XORSTR("##WEAPONTYPE"), (int*)& Settings::ESP::Chams::Weapon::type, WeaponTypes, IM_ARRAYSIZE(WeaponTypes));
+				ImGui::Combo(XORSTR("##ARMSTYPE"), (int*)& Settings::ESP::Chams::Arms::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+				ImGui::Combo(XORSTR("##WEAPONTYPE"), (int*)& Settings::ESP::Chams::Weapon::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
 				ImGui::SliderFloat(XORSTR("##DLIGHTRADIUS"), &Settings::Dlights::radius, 0, 1000, XORSTR("Radius: %0.f"));
 				ImGui::SliderFloat(XORSTR("##NOFLASHAMOUNT"), &Settings::Noflash::value, 0, 255, XORSTR("Amount: %0.f"));
 				ImGui::Combo(XORSTR("##SMOKETYPE"), (int*)& Settings::NoSmoke::type, SmokeTypes, IM_ARRAYSIZE(SmokeTypes));

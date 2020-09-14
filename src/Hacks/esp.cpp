@@ -1,7 +1,7 @@
 #include <iomanip>
 
 #include "esp.h"
-#include "autowall.h"
+#include "AimBot/autowall.h"
 #include "../fonts.h"
 #include "../settings.h"
 #include "../interfaces.h"
@@ -485,29 +485,6 @@ static void DrawSkeleton( C_BasePlayer* player, C_BasePlayer* localplayer ) {
 		Draw::AddLine( vBonePos1.x, vBonePos1.y, vBonePos2.x, vBonePos2.y, Entity::IsTeamMate(player, localplayer) ? Settings::ESP::Skeleton::allyColor.Color() : Settings::ESP::Skeleton::enemyColor.Color());
 	
 	}
-}
-
-static void DrawBulletTrace( C_BasePlayer* player ) {
-	Vector src3D, dst3D, forward;
-	Vector src, dst;
-	trace_t tr;
-	Ray_t ray;
-	CTraceFilter filter;
-
-	Math::AngleVectors( *player->GetEyeAngles(), forward );
-	filter.pSkip = player;
-	src3D = player->GetEyePosition();
-	dst3D = src3D + ( forward * 8192 );
-
-	ray.Init( src3D, dst3D );
-
-	trace->TraceRay( ray, MASK_SHOT, &filter, &tr );
-
-	if ( debugOverlay->ScreenPosition( src3D, src ) || debugOverlay->ScreenPosition( tr.endpos, dst ) )
-		return;
-
-	Draw::AddLine( src.x, src.y, dst.x, dst.y, ESP::GetESPPlayerColor( player, true ) );
-	Draw::AddRectFilled( ( int ) ( dst.x - 3 ), ( int ) ( dst.y - 3 ), 6, 6, ESP::GetESPPlayerColor( player, false ) );
 }
 
 static void DrawTracer( C_BasePlayer* player, TracerType& tracerType ) {

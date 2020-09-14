@@ -79,17 +79,17 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 	
 }
 
-
 void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (stage == ClientFrameStage_t::FRAME_RENDER_START && engine->IsInGame())
-	{
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!engine->IsInGame()) return;
+	if (stage != ClientFrameStage_t::FRAME_RENDER_START) return;
 
-		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::enabled && input->m_fCameraInThirdPerson)
-		{
-			if (Settings::AntiAim::RageAntiAim::enable || Settings::AntiAim::LegitAntiAim::enable)
-				*localplayer->GetVAngles() = AntiAim::realAngle;
-		}
-	}
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+
+	if ( !localplayer || !localplayer->GetAlive()) return;
+
+	if (!Settings::ThirdPerson::enabled && !input->m_fCameraInThirdPerson) return;
+		
+	if (Settings::AntiAim::RageAntiAim::enable) *localplayer->GetVAngles() = AntiAim::realAngle;
+	
 }

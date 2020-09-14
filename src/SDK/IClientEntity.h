@@ -99,6 +99,7 @@ public:
 };
 
 class IClientUnknown : public IHandleEntity {};
+
 class IClientRenderable
 {
 public:
@@ -246,6 +247,20 @@ public:
 	{
 		return (bool*)((uintptr_t)this + offsets.DT_BaseEntity.m_bSpotted);
 	}
+
+	void ClientAnimations(bool value) // responsible for local animation
+	{
+		*reinterpret_cast<bool*>(uintptr_t(this) + offsets.DT_BasePlayer.m_clientAnimation) = value;
+	}
+
+	void updateClientAnimation( )
+	{
+		// typedef void (* oSetDestroyedOnRecreateEntities)(void*);
+		// return getvfunc<oSetDestroyedOnRecreateEntities>(this, 13)(this);
+		typedef void (*UpdateAnim)(void*);
+		return getvfunc<UpdateAnim>( this, 223 )( this );
+	}
+
 };
 
 /* generic game classes */

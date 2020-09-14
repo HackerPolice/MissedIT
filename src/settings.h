@@ -69,15 +69,10 @@ enum class AutostrafeType : int
 
 enum class ChamsType : int
 {
-	WHITE_ADDTIVE,
+	WHITEADDTIVE,
+	ADDITIVETWO,
 	WIREFRAME,
-	PREDICTION_GLASS,
-	FBI_GLASS,
-	CRYSTAL_CLEAR,
-	GIB_GLASS,
-	Dog_Class,
-	CHAMS_FLAT,
-	Achivements,
+	FLAT,
 	NONE,
 };
 
@@ -142,30 +137,6 @@ enum class TeamColorType : int
 	RELATIVE,
 };
 
-enum class ArmsType : int
-{
-	WHITE_ADDTIVE,
-	WIREFRAME,
-	PREDICTION_GLASS,
-	FBI_GLASS,
-	CRYSTAL_CLEAR,
-	GIB_GLASS,
-	Dog_Class,
-	NONE,
-};
-
-enum class WeaponType : int
-{
-	WHITE_ADDTIVE,
-	WIREFRAME,
-	PREDICTION_GLASS,
-	FBI_GLASS,
-	CRYSTAL_CLEAR,
-	GIB_GLASS,
-	Dog_Class,
-	NONE,
-};
-
 enum class SmokeType : int
 {
 	WIREFRAME,
@@ -187,12 +158,6 @@ enum class SpammerType : int
 	SPAMMER_POSITIONS,
 };
 
-enum class ShowedAngle : int
-{
-    REAL,
-    FAKE,
-};
-
 enum class AntiAimRealType_Y : int
 {
 	NONE,
@@ -209,19 +174,6 @@ enum class AntiAimFakeType_y : int
 	Randome,
 };
 
-enum class AntiAimType_X : int
-{
-    STATIC_UP,
-    STATIC_DOWN,
-    DANCE,
-    FRONT,
-    STATIC_UP_FAKE,
-    STATIC_DOWN_FAKE,
-    LISP_DOWN,
-    ANGEL_DOWN,
-    ANGEL_UP,
-};
-
 enum class AntiAimType : int
 {
 	LegitAntiAim,
@@ -231,41 +183,48 @@ enum class AntiAimType : int
 
 enum class RageAntiAimType : int
 {
-	NONE,
+	DefaultRage,
 	FakeArroundReal,
 	RealArroundFake,
+	SemiDirection,
+	FreeStand,
 };
-struct AimbotWeapon_t
+
+enum class LegitAAType : int
+{
+    OverWatchProof,
+	FakeLegitAA,
+	Experimental,
+};
+
+enum class SkinAndModel : int
+{
+	Skins,
+	Model,
+};
+
+struct LegitWeapon_t
 {
 	bool silent,
-		 friendly,
-		 closestBone,
-	     engageLock,
-		 engageLockTR,
+		 autoShoot,
 		 aimkeyOnly,
 		 smoothEnabled,
 		 smoothSaltEnabled,
 		 errorMarginEnabled,
 		 autoAimEnabled,
-		 shootassist,
 		 aimStepEnabled,
 		 rcsEnabled,
 		 rcsAlwaysOn,
 		 hitchanceEnaled,
 		 autoPistolEnabled,
 		 autoScopeEnabled,
-		 noShootEnabled,
 		 ignoreJumpEnabled,
 		 ignoreEnemyJumpEnabled,
-		 smokeCheck,
-		 flashCheck,
-		 autoWallEnabled,
-		 autoAimRealDistance,
 		 autoSlow,
 		 predEnabled,
-		 scopeControlEnabled,
-		 TriggerBot;
-	int engageLockTTR = 700;
+		 TriggerBot,
+		 mindamage,
+		 autoWall;
 	Bone bone = BONE_HEAD;
 	SmoothType smoothType = SmoothType::SLOW_END;
 	ButtonCode_t aimkey = ButtonCode_t ::MOUSE_MIDDLE;
@@ -277,13 +236,11 @@ struct AimbotWeapon_t
 		  aimStepMax = 35.0f,
 		  rcsAmountX = 2.0f,
 		  rcsAmountY = 2.0f,
-		  MinDamage = 10.0f,
+		  minDamagevalue = 10.0f,
 		  hitchance = 20;
-	int	shotDelay = 200,
-		minShotFire = 6;
 	bool desiredBones[31];
 
-	bool operator == (const AimbotWeapon_t& another) const
+	bool operator == (const LegitWeapon_t& another) const
 	{
 		for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 		{
@@ -292,11 +249,7 @@ struct AimbotWeapon_t
 		}
 
 		return this->silent == another.silent &&
-			this->friendly == another.friendly &&
-			this->closestBone == another.closestBone &&
-			this->engageLock == another.engageLock &&
-			this->engageLockTR == another.engageLockTR &&
-			this->engageLockTTR == another.engageLockTTR &&
+			this->autoShoot == another.autoShoot &&
 			this->bone == another.bone &&
 			this->aimkey == another.aimkey &&
 			this->aimkeyOnly == another.aimkeyOnly &&
@@ -308,7 +261,6 @@ struct AimbotWeapon_t
 			this->errorMarginEnabled == another.errorMarginEnabled &&
 			this->errorMarginValue == another.errorMarginValue &&
 			this->autoAimEnabled == another.autoAimEnabled &&
-			this->shootassist == another.shootassist &&
 			this->LegitautoAimFov == another.LegitautoAimFov &&
 			this->aimStepEnabled == another.aimStepEnabled &&
 			this->aimStepMin == another.aimStepMin &&
@@ -319,26 +271,18 @@ struct AimbotWeapon_t
 			this->rcsAmountY == another.rcsAmountY &&
 			this->autoPistolEnabled == another.autoPistolEnabled &&
 			this->autoScopeEnabled == another.autoScopeEnabled &&
-			this->noShootEnabled == another.noShootEnabled &&
-			this->ignoreJumpEnabled == another.ignoreJumpEnabled &&
 			this->ignoreEnemyJumpEnabled == another.ignoreEnemyJumpEnabled &&
-			this->smokeCheck == another.smokeCheck &&
-			this->flashCheck == another.flashCheck &&
 			this->hitchanceEnaled == another.hitchanceEnaled &&
 			this->hitchance == another.hitchance &&
-			this->shotDelay == another.shotDelay &&
-			this->minShotFire == another.minShotFire &&
-			this->autoWallEnabled == another.autoWallEnabled &&
-			this->MinDamage == another.MinDamage &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
-			this->autoAimRealDistance == another.autoAimRealDistance &&
-			this->scopeControlEnabled == another.scopeControlEnabled &&
-			this->TriggerBot == another.TriggerBot;
+			this->TriggerBot == another.TriggerBot &&
+			this->mindamage == another.mindamage &&
+			this->autoWall == another.autoWall;
 	}
 } const defaultSettings{};
 
-struct RagebotWeapon_t
+struct RageWeapon_t
 {
 	bool silent,
 		 friendly,
@@ -355,13 +299,19 @@ struct RagebotWeapon_t
 	DamagePrediction DmagePredictionType = DamagePrediction::damage;
 	EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
 	bool desireBones[6];
+	bool desiredMultiBones[6];
 	
 
-	bool operator == (const RagebotWeapon_t& Ragebotanother) const
+	bool operator == (const RageWeapon_t& Ragebotanother) const
 	{
-		for (int bone = 0; bone <= 5; bone++) // static bones
+		for (int bone = 0; bone < 6; bone++) // static bones
+		{
 			if( this->desireBones[bone] != Ragebotanother.desireBones[bone] )
 				return false;
+			if( this->desiredMultiBones[bone] != Ragebotanother.desiredMultiBones[bone] )
+				return false;
+		}
+			
 
 		return this->silent == Ragebotanother.silent &&
 			this->friendly == Ragebotanother.friendly &&
@@ -439,12 +389,12 @@ namespace Settings
 {
 	namespace UI
 	{
-		inline ColorVar mainColor = ImColor(36, 95, 35, 255 );
-		inline ColorVar bodyColor = ImColor( 56, 67, 78, 182 );
-		inline ColorVar fontColor = ImColor( 255, 255, 255, 195 );
-		inline ColorVar accentColor = ImColor( 113, 128, 129, 255 );
+		inline ColorVar mainColor = ImColor(42, 45, 42, 255 );
+		inline ColorVar bodyColor = ImColor( 0, 0, 0, 245 );
+		inline ColorVar fontColor = ImColor( 238, 224, 224, 154 );
+		inline ColorVar accentColor = ImColor( 0, 171, 178, 255 );
 		inline bool imGuiAliasedLines = false;
-		inline bool imGuiAliasedFill = false;
+		inline bool imGuiAliasedFill = true;
 
         /* Window Position/Size Defaults */
         namespace Windows
@@ -664,7 +614,7 @@ namespace Settings
 			inline bool enabled = false;
 		}
 
-		inline std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
+		inline std::unordered_map<ItemDefinitionIndex, LegitWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, defaultSettings },
         };
 	}
@@ -730,7 +680,7 @@ namespace Settings
 			inline bool enabled = false;
 		}
 
-		inline std::unordered_map<ItemDefinitionIndex, RagebotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
+		inline std::unordered_map<ItemDefinitionIndex, RageWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
 	}
@@ -781,7 +731,6 @@ namespace Settings
             inline bool noEnemy = false;
             inline bool knifeHeld = false;
         }
-
         namespace RageAntiAim
         {
             inline bool enable = false;
@@ -793,7 +742,6 @@ namespace Settings
 			inline bool SendReal = false;
 			inline RageAntiAimType Type = RageAntiAimType::RealArroundFake;
         }
-
 		namespace LegitAntiAim 
 		{
 			inline bool enable = false;
@@ -802,8 +750,8 @@ namespace Settings
 			inline bool inverted = false;
 			inline float RealPercentage = 30.f;
 			inline float RealPercentageInCroutch = 30.f;
+			inline LegitAAType legitAAtype = LegitAAType::OverWatchProof;
 		}
-		
 		namespace ManualAntiAim
 		{
 			inline bool Enable = false;
@@ -816,7 +764,6 @@ namespace Settings
             inline AntiAimRealType_Y typeReal = AntiAimRealType_Y::Static;
             inline AntiAimFakeType_y typeFake = AntiAimFakeType_y::Static;
         }
-
         namespace HeadEdge
         {
             inline bool enabled = false;
@@ -827,7 +774,12 @@ namespace Settings
             inline bool enabled = false;
             inline float offset = 180.0f;
         }
-    }
+		namespace FakeDuck
+		{
+			inline bool enabled = false;
+			inline ButtonCode_t fakeDuckKey = ButtonCode_t::KEY_LCONTROL;
+		}
+	}
 
 	namespace Resolver
 	{
@@ -909,7 +861,7 @@ namespace Settings
 			namespace Chams
 			{
 				inline bool enabled = false;
-				inline ChamsType type = ChamsType::WHITE_ADDTIVE;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
 			}
 			namespace HelthBar
 			{
@@ -968,7 +920,7 @@ namespace Settings
 			namespace Chams
 			{
 				inline bool enabled = false;
-				inline ChamsType type = ChamsType::WHITE_ADDTIVE;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
 			}
 			namespace HelthBar
 			{
@@ -1003,6 +955,16 @@ namespace Settings
            	 	inline ColorVar defuserColor = ImColor(49, 27, 146, 255);
             	inline ColorVar chickenColor = ImColor(255, 193, 7, 255);
 			}
+			namespace RealChams
+			{
+				inline bool enabled = false;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
+			}
+			namespace Chams
+			{
+				inline bool enabled = false;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
+			}
 			namespace Skeleton
 			{
 				inline bool enabled = false;
@@ -1022,12 +984,6 @@ namespace Settings
 			{
 				inline bool enabled = false;
 				inline BoxType type = BoxType::FRAME_2D;
-			}
-
-			namespace Chams
-			{
-				inline bool enabled = false;
-				inline ChamsType type = ChamsType::WHITE_ADDTIVE;
 			}
 			namespace HelthBar
 			{
@@ -1153,22 +1109,22 @@ namespace Settings
             inline HealthColorVar enemyColor = ImColor(255, 0, 0, 255);
             inline HealthColorVar enemyVisibleColor = ImColor(255, 255, 0, 255);
             inline HealthColorVar localplayerColor = ImColor(0, 255, 255, 255);
-			inline HealthColorVar FakeColor = ImColor(124,145,25,255);
+			inline HealthColorVar FakeColor = ImColor(124,145,25,225);
 
-			inline ChamsType type = ChamsType::WHITE_ADDTIVE;
+			inline ChamsType type = ChamsType::WHITEADDTIVE;
 
 			namespace Arms
 			{
 				inline bool enabled = false;
 				inline ColorVar color = ImColor(255, 255, 255, 255);
-				inline ArmsType type = ArmsType::WHITE_ADDTIVE;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
 			}
 
 			namespace Weapon
 			{
 				inline bool enabled = false;
 				inline ColorVar color = ImColor( 255, 255, 255, 255 );
-				inline WeaponType type = WeaponType::WHITE_ADDTIVE;
+				inline ChamsType type = ChamsType::WHITEADDTIVE;
 			}
 		}
 
@@ -1395,6 +1351,10 @@ namespace Settings
 		inline ButtonCode_t key = ButtonCode_t::KEY_6;
 	}
 
+	namespace SkinOrModel
+	{
+		inline SkinAndModel skin_or_model = SkinAndModel::Model;
+	}
 	namespace Skinchanger
 	{
 		namespace Skins
@@ -1573,7 +1533,6 @@ namespace Settings
 		inline bool toggled = true;
 		inline ButtonCode_t toggleThirdPerson = ButtonCode_t::KEY_LALT;
 		inline float distance = 100.0f;
-        inline ShowedAngle type = ShowedAngle::REAL;
 	}
 
 	namespace JumpThrow

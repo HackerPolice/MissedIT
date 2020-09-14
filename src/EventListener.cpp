@@ -1,7 +1,7 @@
 #include "EventListener.h"
 
-#include "Hacks/legitbot.h"
-#include "Hacks/ragebot.h"
+#include "Hacks/AimBot/legitbot.h"
+#include "Hacks/AimBot/ragebot.h"
 #include "Hacks/eventlog.h"
 #include "Hacks/hitmarkers.h"
 #include "Hacks/namestealer.h"
@@ -26,10 +26,8 @@ EventListener::~EventListener()
 
 void EventListener::FireGameEvent(IGameEvent* event)
 {
-    if(Settings::Legitbot::enabled)
-        Legitbot::FireGameEvent(event);
-    else if (Settings::Ragebot::enabled)
-        Ragebot::FireGameEvent(event);
+    Legitbot::FireGameEvent(event);
+    Ragebot::FireGameEvent(event);
 
     Hitmarkers::FireGameEvent(event);
     Eventlog::FireGameEvent(event);
