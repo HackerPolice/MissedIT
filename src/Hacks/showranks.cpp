@@ -23,6 +23,6 @@ void ShowRanks::CreateMove(CUserCmd* cmd)
 	input.ebx = 3;
 	
 	if( MsgFunc_ServerRankRevealAll ){
-		MsgFunc_ServerRankRevealAll((void*)input);
+		MsgFunc_ServerRankRevealAll((void*)&input);
 	}
 }
