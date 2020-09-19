@@ -40,4 +40,5 @@ namespace Hooker
 	void FindSequenceActivity();
 	void FindAbsFunctions();
 	void FindItemSystem();
+	void FindWriteUserCmd();
 }

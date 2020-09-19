@@ -18,6 +18,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 	if (activeWeapon && activeWeapon->GetCSWpnData() && activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
 	{
 		input->m_fCameraInThirdPerson = false;
+		Settings::ThirdPerson::toggled = false;
 		return;
 	}
 

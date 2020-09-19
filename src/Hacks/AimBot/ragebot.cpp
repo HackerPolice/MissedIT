@@ -875,6 +875,14 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     	RagebotAutoR8(player, localplayer, activeWeapon, cmd, Ragebot::BestSpot, angle, oldForward, oldSideMove, currentWeaponSetting);
 		RagebotAutoCrouch(player, cmd, activeWeapon, currentWeaponSetting);
 
+		// bf_write* buf;
+		// CUserCmd* from = cmd;
+		// CUserCmd* to = cmd;
+
+		// to->command_number++;
+		// to->tick_count +=  200;
+		// WriteUserCmd(buf, from, to);
+
 		if (cmd->buttons & IN_ATTACK)
 		{
 			angle = Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot);

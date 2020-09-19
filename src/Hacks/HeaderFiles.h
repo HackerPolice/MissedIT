@@ -17,6 +17,8 @@
 #include "../SDK/vector.h"
 #include "../SDK/IEngineTrace.h"
 #include "../SDK/IClientEntity.h"
+#include "../SDK/bitbuf.h"
+
 
 #include <stdio.h>
 #include <string>

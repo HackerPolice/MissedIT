@@ -38,4 +38,5 @@ namespace Ragebot {
     void FireGameEvent(IGameEvent* event);
 }
 
+extern WriteUserCmdFn WriteUserCmd;
 

@@ -7,6 +7,8 @@
 #include <map>
 #include <string>
 #include "vector.h"
+#include "bitbuf.h"
+#include "IInputSystem.h"
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -26,6 +28,7 @@ typedef IClientMode* (*GetClientModeFn) (void);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
+typedef void (*WriteUserCmdFn) (bf_write *buf, const CUserCmd *to, const CUserCmd *from); // write user cmd fr function
 typedef void (*SetLocalPlayerReadyFn) (const char*);
 typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
 typedef void (*StartDrawingFn) (void*);
