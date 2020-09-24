@@ -20,7 +20,7 @@
 
 static EventListener* eventListener = nullptr;
 
-const char *Util::logFileName = "/tmp/MissedIT.log";
+const char *Util::logFileName = "/tmp/MissedIT/Hack.log";
 std::vector<VMT*> createdVMTs;
 
 void MainThread()

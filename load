@@ -12,28 +12,51 @@ function echo_red {
 	echo -e "\\e[31m$*\\e[0m"
 }
 
+Check_For_logDirectory(){
+    hack_log=$(cd /tmp/MissedIT)
+    if [ -z $hack_log ]
+        then
+            echo "Creating Log Directory"
+            sudo mkdir /tmp/MissedIT
+        fi
+}
+
+Checking_Csgo_Process(){
+    csgo_pid=$(pidof csgo_linux64)
+    # local csgo_pid=$1
+    if [ -z "$csgo_pid" ]
+        then
+            echo_green "Injecting Started"
+        else
+            echo_red "Exit Your Csgo First then load"
+            exit
+    fi 
+    echo_orange "Cheking for csgo process"
+    gameLaunched=0
+    while [ -z "$csgo_pid" ]
+        do
+            csgo_pid=$(pidof csgo_linux64)
+            if [ $gameLaunched -eq 0 ]
+                then
+                    echo_green "Csgo Launching"
+                    steam steam://rungameid/730 > /tmp/MissedIT/GameLog.log 2>&1 & disown
+                    gameLaunched=1
+                fi
+        done
+}
+
 if [ ! -d ".git" ]; then
     echo "We have detected that you have downloaded MissedIT-master.zip from GitHub.com. This is the WRONG way to download! Please download Fuzion by cloning the Git repository: 'git clone https://github.com/HackerPolice/MissedIT.git'"
 fi
 
+sudo -v
+
+Check_For_logDirectory
+Checking_Csgo_Process
 csgo_pid=$(pidof csgo_linux64)
-gameLaunched = 0
-while [-z "$csgo_pid" ] 
-    do
-        if [gameLaunched == 0]
-            steam steam://rungameid/730
-            gameLaunched = 1
-        fi
-        # run the csgo first
-        
-    esac
-done
-# if [ -z "$csgo_pid" ]; then
-#     echo_red "CS:GO needs to be open before you can inject, exiting..."
-#     exit 1
-# fi
 
-
+sleep 20
+echo_orange "Sleem Done"
 
 # pBypass for crash dumps being sent
 # You may also want to consider using -nobreakpad in your launch options.
@@ -42,7 +65,7 @@ sudo mkdir --mode=000 /tmp/dumps # Make it as root with no permissions
 
 if [ ! -f build_id ]; then
     echo "Build ID not found. Please rebuild using the './build' script."
-    exit
+    exit 1
 fi
 
 filename=$(cat build_id)
@@ -50,7 +73,7 @@ filename=$(cat build_id)
 # Credit: Aixxe @ aixxe.net
 if grep -q "$filename" /proc/"$csgo_pid"/maps; then
     echo_orange "MissedIt is already injected, aborting..."
-    exit
+    exit 1
 fi
 echo "Injecting Build ID: $filename"
 
