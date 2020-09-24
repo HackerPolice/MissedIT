@@ -70,7 +70,7 @@ Now, you can inject the hack with the `load` script
 ```bash
 ./load
 ```
-`If MissedIT did not load properly Then open the load Script and go to line No. 58 and increase the number`
+**If MissedIT did not load properly Then open the load Script and go to line No. 58 and increase the number**
 
 You might be prompted to enter in your password, this is because the injection script requires root access.
 
