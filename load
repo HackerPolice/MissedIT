@@ -12,15 +12,23 @@ function echo_red {
 	echo -e "\\e[31m$*\\e[0m"
 }
 
-csgo_pid=$(pidof csgo_linux64)
-if [ -z "$csgo_pid" ]; then
-    echo_red "CS:GO needs to be open before you can inject, exiting..."
-    exit 1
+if [ ! -d ".git" ]; then
+    echo "We have detected that you have downloaded MissedIT-master.zip from GitHub.com. This is the WRONG way to download! Please download Fuzion by cloning the Git repository: 'git clone https://github.com/HackerPolice/MissedIT.git'"
 fi
 
-if [ ! -d ".git" ]; then
-    echo "We have detected that you have downloaded Fuzion-master.zip from GitHub.com. This is the WRONG way to download! Please download Fuzion by cloning the Git repository: 'git clone --recursive https://github.com/LWSS/Fuzion.git'"
-fi
+csgo_pid=$(pidof csgo_linux64)
+while [-z "$csgo_pid" ] 
+    do
+        # run the csgo first
+        steam steam://rungameid/730
+    esac
+done
+# if [ -z "$csgo_pid" ]; then
+#     echo_red "CS:GO needs to be open before you can inject, exiting..."
+#     exit 1
+# fi
+
+
 
 # pBypass for crash dumps being sent
 # You may also want to consider using -nobreakpad in your launch options.
@@ -36,7 +44,7 @@ filename=$(cat build_id)
 
 # Credit: Aixxe @ aixxe.net
 if grep -q "$filename" /proc/"$csgo_pid"/maps; then
-    echo_orange "Fuzion is already injected, aborting..."
+    echo_orange "MissedIt is already injected, aborting..."
     exit
 fi
 echo "Injecting Build ID: $filename"

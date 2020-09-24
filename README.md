@@ -14,10 +14,6 @@ Want to chat or play with other MissedIT users? Join us on Discord :- <a href = 
 
 A fully featured internal hack for *CounterStrike : Global Offensive* written in C++. Which is a Fork of <a href = ""><b>Aimtux-Fuzion</b></a>
 
-## AUR Installation
-* Load MissedIT by using the command `./load`
-* Unload using `./unload`
-
 ## Compiling
 
 **Note:** _Do NOT download or compile as the root user._
@@ -43,31 +39,24 @@ sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-de
 
 ===================
 
-#### Download MissedIT:
-
+## How To use MissedIT
+### Step 1 : Download MissedIT
 ```bash
-git clone --recursive https://github.com/HackerPolice/MissedIT.git -b alfa MissedIT-Alfa
+git clone https://github.com/HackerPolice/MissedIT.git
 ```
-
+### Step 2 : Navigate to the folder
 ```bash
 cd MissedIT
 ```
-
-===================
-
-#### Compile with build script
-
-You can build easily with the included build script.
+### Step 3 : Compile with build script
+*You can build easily with the included build script. This is mainly one time process*
 ```bash
 ./build
 ```
-
-You can later update with 
+### Step 4 : Load Missed Using Load Script
 ```bash
-./update
+./load
 ```
-
-
 ## Injecting using the load script
 
 First of all, make sure CS:GO is open, and you are not in any official valve server. However, it is not recommended to inject while CS:GO is loading into a map. 
@@ -107,7 +96,15 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ```bash
 ./uload
 ```
-
+## Update the hack
+To check for upate enter Bellow command
+```bash
+./update
+```
+If The update is availabel but the cheat is not updateing then try bellow command
+```bash
+./update-force
+``` 
 ## Configs
 
 Configs are stored in a hidden directory in your home folder. Specifically 
@@ -150,12 +147,10 @@ To add a config, copy the folder containing it to `~/.config/MissedIT/CSGO`
 
 Special thanks to the Original AimTux project: [https://github.com/AimTuxOfficial/AimTux](https://github.com/AimTuxOfficial/AimTux).
 
-Special thanks to the Fuzion For Panaroma Update And For Good Quality Codes: [https://github.com/LWSS/Fuzion](https://github.com/LWSS/Fuzion).
+Special thanks to the Fuzion For Panaroma Update And For Quality Codes: [https://github.com/LWSS/Fuzion](https://github.com/LWSS/Fuzion).
 
-Special thanks to the Nimbus project For The UI and Resolver: [https://github.com/NimbusProjects/Nimbus](https://github.com/NimbusProjects/Nimbus)
+Special thanks to the Nimbus project : [https://github.com/NimbusProjects/Nimbus](https://github.com/NimbusProjects/Nimbus)
 
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.).
 
 This project was also originally based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
-
-[telans](https://github.com/telans) for the AUR package
