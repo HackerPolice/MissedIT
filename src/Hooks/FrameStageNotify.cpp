@@ -6,14 +6,14 @@
 #include "../Hacks/skinchanger.h"
 #include "../Hacks/noflash.h"
 #include "../Hacks/view.h"
-#include "../Hacks/resolver.h"
+#include "../Hacks/AntiAim/resolver.h"
 #include "../Hacks/skybox.h"
 #include "../Hacks/asuswalls.h"
 #include "../Hacks/nosmoke.h"
 #include "../Hacks/thirdperson.h"
 #include "../settings.h"
 #include "../Hacks/lagcomp.h"
-#include "../Hacks/antiaim.h"
+#include "../Hacks/AntiAim/antiaim.h"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 

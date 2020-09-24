@@ -11,7 +11,7 @@
 #include "../interfaces.h"
 #include "../settings.h"
 #include "antiaim.h"
-#include "AimBot/ragebot.h"
+#include "../AimBot/ragebot.h"
 
 namespace Resolver
 {

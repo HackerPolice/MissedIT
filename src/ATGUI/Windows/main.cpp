@@ -92,7 +92,7 @@ void Main::RenderWindow()
 		Settings::UI::Windows::Main::posY = (int)temp.y;
 		const char* tabs[] = {
 				"Legit Bot",
-				"Rage Bot(Beta)",
+				"Rage Bot",
 				"Anti Aim",
 				"Visuals",
 				"Skin/Model",
@@ -158,11 +158,9 @@ void Main::RenderWindow()
 			}
 			ImGui::EndChild();
 		}
-		
-		
+		ImGui::EndColumns();
+		ImGui::End();
 	}
-	ImGui::EndColumns();
-	ImGui::End();
 	
 	Buttons();
 }

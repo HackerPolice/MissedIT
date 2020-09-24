@@ -14,7 +14,7 @@
 
 #include "../ATGUI/texture.h"
 #include "../Resources/tux.h"
-#include "antiaim.h"
+#include "AntiAim/antiaim.h"
 
 #include <climits>
 #include <deque>

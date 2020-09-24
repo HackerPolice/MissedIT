@@ -11,6 +11,7 @@
 #include "../hooker.h"
 #include "../Hooks/hooks.h"
 
+#include "../SDK/CViewRender.h"
 #include "../SDK/IInputSystem.h"
 #include "../SDK/IGameEvent.h"
 #include "../SDK/definitions.h"

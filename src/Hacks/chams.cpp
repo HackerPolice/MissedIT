@@ -1,6 +1,6 @@
 #include "chams.h"
 #include "thirdperson.h"
-#include "antiaim.h"
+#include "AntiAim/antiaim.h"
 
 #include "../Utils/xorstring.h"
 #include "../Utils/entity.h"

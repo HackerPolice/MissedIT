@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../SDK/IInputSystem.h"
-#include "../SDK/IClientEntity.h"
-#include "../SDK/CViewRender.h"
+#include "../HeaderFiles.h"
 
 namespace AntiAim
 {

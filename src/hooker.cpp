@@ -53,11 +53,11 @@ GetSequenceActivityFn GetSeqActivity;
 
 uintptr_t SetAbsOriginFnAddr;
 
-//RandomSeedFn RandomSeed;
-//RandomFloatFn RandomFloat;
-//RandomFloatExpFn RandomFloatExp;
-//RandomIntFn RandomInt;
-//RandomGaussianFloatFn RandomGaussianFloat;
+RandomSeedFn RandomSeed;
+RandomFloatFn RandomFloat;
+RandomFloatExpFn RandomFloatExp;
+RandomIntFn RandomInt;
+RandomGaussianFloatFn RandomGaussianFloat;
 
 SetNamedSkyBoxFn SetNamedSkyBox;
 
@@ -326,7 +326,8 @@ void Hooker::FindLoadFromBuffer()
 																XORSTR("xxxxxxxxxxxxxxxxxxx????xx"));
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
-/*
+
+
 void Hooker::FindVstdlibFunctions()
 {
 	void* handle = dlopen(XORSTR("./bin/linux64/libvstdlib_client.so"), RTLD_NOLOAD | RTLD_NOW);
@@ -339,7 +340,7 @@ void Hooker::FindVstdlibFunctions()
 
 	dlclose(handle);
 }
- */
+
 
 void Hooker::FindOverridePostProcessingDisable()
 {

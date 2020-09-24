@@ -5,7 +5,7 @@
 #include "Hacks/eventlog.h"
 #include "Hacks/hitmarkers.h"
 #include "Hacks/namestealer.h"
-#include "Hacks/resolver.h"
+#include "Hacks/AntiAim/resolver.h"
 #include "Hacks/skinchanger.h"
 #include "Hacks/spammer.h"
 #include "Hacks/valvedscheck.h"

@@ -30,7 +30,7 @@ namespace Hooker
 	void FindLineGoesThroughSmoke();
 	void FindInitKeyValues();
 	void FindLoadFromBuffer();
-	//void FindVstdlibFunctions();
+	void FindVstdlibFunctions();
 	void FindOverridePostProcessingDisable();
 	void FindSDLInput();
 	void FindSetNamedSkybox();

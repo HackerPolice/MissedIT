@@ -10,14 +10,11 @@ static float NormalizeAsYaw(float flAngle)
 {
 	if (flAngle > 180.f || flAngle < -180.f)
 	{
-		auto revolutions = round(abs(flAngle / 360.f));
-
 		if (flAngle < 0.f)
-			flAngle += 360.f * revolutions;
+			flAngle += round(abs(flAngle));
 		else
-			flAngle -= 360.f * revolutions;
+			flAngle -= round(abs(flAngle));
 	}
-
 	return flAngle;
 }
 
@@ -47,6 +44,7 @@ void Resolver::AnimationFix(C_BasePlayer *player)
 
 	// player->ClientAnimations(false);
 }
+
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame())
@@ -79,37 +77,24 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			// if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
-			// 	continue;
+			if ( Resolver::players[player->GetIndex()].enemy )
+			{
+				if (player != Resolver::players[player->GetIndex()].enemy) // It means player discoennected or player sequence changed better to reset out miss shots count
+				{
+					Resolver::players[player->GetIndex()].MissedCount = 0;
+					Resolver::players[player->GetIndex()].enemy = player;
+				}
+			}
+			else 
+			{
+				Resolver::players[player->GetIndex()].enemy = player;
+			}
 
-			/*
-			cvar->ConsoleColorPrintf(ColorRGBA(64, 0, 255, 255), XORSTR("\n[Nimbus] "));
-			cvar->ConsoleDPrintf("Debug log here!");
-			*/
-
-			// Tanner is a sex bomb, also thank you Stacker for helping us out!
-			// float lbyDelta = fabsf(NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y));
-
-			// cvar->ConsoleDPrintf(XORSTR("X Axis : %f\n"), player->GetEyeAngles()->x);
 			if (player->GetEyeAngles()->x < 65.f || player->GetEyeAngles()->x > 90.f)
 			{
 				// cvar->ConsoleDPrintf(XORSTR("Resolving : Legit AA"));
 				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
 				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-				
-				if ( Resolver::players[player->GetIndex()].enemy )
-				{
-					if (player != Resolver::players[player->GetIndex()].enemy) // It means player discoennected or player sequence changed better to reset out miss shots count
-					{
-						Resolver::players[player->GetIndex()].MissedCount = 0;
-						Resolver::players[player->GetIndex()].enemy = player;
-					}
-						
-				}
-				else 
-				{
-					Resolver::players[player->GetIndex()].enemy = player;
-				}
 				
 				switch(Resolver::players[player->GetIndex()].MissedCount)
 				{
@@ -135,28 +120,11 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			else
             {
                 float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-				
-				if ( Resolver::players[player->GetIndex()].enemy )
-				{
-					if (player != Resolver::players[player->GetIndex()].enemy) // It means player discoennected or player sequence changed better to reset out miss shots count
-					{
-						Resolver::players[player->GetIndex()].MissedCount = 0;
-						Resolver::players[player->GetIndex()].enemy = player;
-					}
-						
-				}
-				else 
-				{
-					Resolver::players[player->GetIndex()].enemy = player;
-				}
 					
-				
-				// cvar->ConsoleDPrintf(XORSTR("Resolving : Rage AA"));
-				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
 				switch(Resolver::players[player->GetIndex()].MissedCount)
 				{
 					case 0:
-						player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y - GetPercentVal(trueDelta, 50): GetPercentVal(trueDelta, 50) + player->GetEyeAngles()->y;
+						player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y + GetPercentVal(trueDelta, 60): GetPercentVal(trueDelta, 60) - player->GetEyeAngles()->y;
 						break;
 					case 1:
 						break;
@@ -172,16 +140,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 					default:
 						break;
 				}
-
             }	
 		}
-	}
-	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
-	{
-		// for (auto &i : Resolver::players)
-		// {
-		// 	i.MissedCount = 0;
-		// }
 	}
 }
 

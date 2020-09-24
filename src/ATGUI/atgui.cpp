@@ -12,7 +12,7 @@
 #include "Windows/skinmodelchanger.h"
 #include "Windows/showspectators.h"
 #include "../Hacks/radar.h"
-#include "../Hacks/antiaim.h"
+#include "../Hacks/AntiAim/antiaim.h"
 
 
 bool UI::isVisible = false;

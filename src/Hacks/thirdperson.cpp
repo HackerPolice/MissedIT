@@ -1,5 +1,5 @@
 #include "thirdperson.h"
-#include "antiaim.h"
+#include "AntiAim/antiaim.h"
 
 #include "../settings.h"
 #include "../interfaces.h"

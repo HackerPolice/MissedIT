@@ -219,14 +219,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	    RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
 	    RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
 	    RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.HitChanceEnabled;
 	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
         RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
 	    RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
 	    RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
 	    RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
-        RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")] = (int)i.second.DmagePredictionType;
-        RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")] = (int)i.second.enemySelectionType;
 
         for (int bone = 0; bone < 6; bone++)
         {
@@ -840,7 +837,6 @@ void Settings::LoadConfig(std::string path)
 	        .silent = RageweaponSetting[XORSTR("Silent")].asBool(),
 	        .friendly = RageweaponSetting[XORSTR("Friendly")].asBool(),
 	        .closestBone = RageweaponSetting[XORSTR("ClosestBone")].asBool(),
-	        .HitChanceEnabled = RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
 	        .autoPistolEnabled = RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
 	        .autoShootEnabled = RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")].asBool(),
 	        .autoScopeEnabled = RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
@@ -850,10 +846,7 @@ void Settings::LoadConfig(std::string path)
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
 	        .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
         };
-        // Getting value like this because can't find anyother way convert value from json to enum
-        GetVal(RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")], (int*)&weapon.DmagePredictionType);
-        GetVal(RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")], (int*)&weapon.enemySelectionType);
-
+        
 	    for (int bone = 0; bone < 6; bone++)
         {
             weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();

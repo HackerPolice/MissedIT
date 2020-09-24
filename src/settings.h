@@ -13,16 +13,6 @@
 #include "SDK/definitions.h"
 #include "SDK/Materialsystem_config.h"
 
-enum class DamagePrediction : int {
-	justDamage = 0,
-	damage,
-};
-
-enum class EnemySelectionType : int {
-	BestDamage = 0,
-	CLosestToCrosshair,
-};
-
 enum class DesireBones : int {
 	BONE_HEAD = 0,
 	UPPER_CHEST,
@@ -287,7 +277,6 @@ struct RageWeapon_t
 	bool silent,
 		 friendly,
 		 closestBone,
-		 HitChanceEnabled,
 		 autoPistolEnabled,
 		 autoShootEnabled,
 		 autoScopeEnabled,
@@ -296,8 +285,6 @@ struct RageWeapon_t
 		 DoubleFire;
 	float MinDamage = 50.f,
 		  HitChance = 20.f;
-	DamagePrediction DmagePredictionType = DamagePrediction::damage;
-	EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
 	
@@ -319,13 +306,10 @@ struct RageWeapon_t
 			this->autoPistolEnabled == Ragebotanother.autoPistolEnabled &&
 			this->autoShootEnabled == Ragebotanother.autoShootEnabled &&
 			this->autoScopeEnabled == Ragebotanother.autoScopeEnabled &&
-			this->HitChanceEnabled == Ragebotanother.HitChanceEnabled &&
 			this->MinDamage == Ragebotanother.MinDamage &&
 			this->autoSlow == Ragebotanother.autoSlow &&
 			this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 
 			this->HitChance == Ragebotanother.HitChance && 
-			this->DmagePredictionType == Ragebotanother.DmagePredictionType && 
-			this->enemySelectionType == Ragebotanother.enemySelectionType && 
 			this->DoubleFire == Ragebotanother.DoubleFire;
 	}
 
@@ -626,9 +610,6 @@ namespace Settings
         inline bool silent = false;
         inline bool friendly = false;
 		inline bool DoubleFire = false;
-
-		inline DamagePrediction damagePrediction = DamagePrediction::damage;
-		inline EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
 
 		namespace AutoAim
 		{

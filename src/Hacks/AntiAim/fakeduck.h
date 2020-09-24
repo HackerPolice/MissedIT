@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../SDK/IInputSystem.h"
-#include "../SDK/CViewRender.h"
+#include "../HeaderFiles.h"
 
 namespace FakeDuck
 {

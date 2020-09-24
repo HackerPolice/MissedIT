@@ -19,14 +19,14 @@
 #include "../Hacks/AimBot/legitbot.h"
 #include "../Hacks/triggerbot.h"
 #include "../Hacks/autoknife.h"
-#include "../Hacks/antiaim.h"
-#include "../Hacks/fakelag.h"
+#include "../Hacks/AntiAim/antiaim.h"
+#include "../Hacks/AntiAim/fakelag.h"
 #include "../Hacks/esp.h"
 #include "../Hacks/tracereffect.h"
 #include "../Hacks/nofall.h"
 #include "../Hacks/ragdollgravity.h"
 #include "../Hacks/lagcomp.h"
-#include "../Hacks/fakeduck.h"
+#include "../Hacks/AntiAim/fakeduck.h"
 
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0);

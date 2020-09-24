@@ -1,11 +1,9 @@
 #include "legitbot.h"
 #include "autowall.h"
 
-
 bool Legitbot::aimStepInProgress = false;
 std::vector<int64_t> Legitbot::friends = { };
 std::vector<long> killTimes = { 0 }; // the Epoch time from when we kill someone
-
 
 QAngle AimStepLastAngle;
 QAngle LastPunch;
