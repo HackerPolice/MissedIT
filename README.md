@@ -59,7 +59,7 @@ cd MissedIT
 ```
 ## Injecting using the load script
 
-First of all, make sure CS:GO is open, and you are not in any official valve server. However, it is not recommended to inject while CS:GO is loading into a map. 
+First of all, make sure **CS:GO is not open**, and you are **not in any official valve server**. However, it is not recommended to inject while CS:GO is loading into a map. 
 
 Navigate to the directory where MissedIT was built if you have not ready.
 ```bash

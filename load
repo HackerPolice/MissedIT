@@ -17,10 +17,15 @@ if [ ! -d ".git" ]; then
 fi
 
 csgo_pid=$(pidof csgo_linux64)
+gameLaunched = 0
 while [-z "$csgo_pid" ] 
     do
+        if [gameLaunched == 0]
+            steam steam://rungameid/730
+            gameLaunched = 1
+        fi
         # run the csgo first
-        steam steam://rungameid/730
+        
     esac
 done
 # if [ -z "$csgo_pid" ]; then
