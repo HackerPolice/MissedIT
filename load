@@ -12,14 +12,14 @@ function echo_red {
 	echo -e "\\e[31m$*\\e[0m"
 }
 
-Check_For_logDirectory(){
-    hack_log=$(cd /tmp/MissedIT)
-    if [ -z $hack_log ]
-        then
-            echo "Creating Log Directory"
-            sudo mkdir /tmp/MissedIT
-        fi
-}
+# Check_For_logDirectory(){
+#     hack_log=$(cd /tmp/MissedIT)
+#     if [ -z $hack_log ]
+#         then
+#             echo "Creating Log Directory"
+#             sudo mkdir /tmp/MissedIT
+#         fi
+# }
 
 Checking_Csgo_Process(){
     csgo_pid=$(pidof csgo_linux64)
@@ -39,7 +39,7 @@ Checking_Csgo_Process(){
             if [ $gameLaunched -eq 0 ]
                 then
                     echo_green "Csgo Launching"
-                    steam steam://rungameid/730 > /tmp/MissedIT/GameLog.log 2>&1 & disown
+                    steam steam://rungameid/730 > /dev/null 2>&1 & disown
                     gameLaunched=1
                 fi
         done
@@ -51,12 +51,12 @@ fi
 
 sudo -v
 
-Check_For_logDirectory
+# Check_For_logDirectory
 Checking_Csgo_Process
 csgo_pid=$(pidof csgo_linux64)
 
 sleep 20
-echo_orange "Sleem Done"
+echo_orange "Sleep Done"
 
 # pBypass for crash dumps being sent
 # You may also want to consider using -nobreakpad in your launch options.
