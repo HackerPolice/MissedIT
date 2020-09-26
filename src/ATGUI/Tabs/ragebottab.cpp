@@ -6,7 +6,7 @@
 #include "../../Utils/xorstring.h"
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
-#include "../../Hacks/AimBot/ragebot.h"
+#include "../../Hacks/AimBot/ragebot.hpp"
 #include "../../Utils/ColorPickerButton.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"

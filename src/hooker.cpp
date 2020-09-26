@@ -527,50 +527,20 @@ void Hooker::FindItemSystem()
 }
 
 void Hooker::FindWriteUserCmd(){
-	// 8B 46 04 				mov     eax, [esi+4]
-	// 89 44 24 08 				mov     [esp+8], eax
-	// 8B 43 04 				mov     eax, [ebx+4]
-	// C7 04 24 2F 32 00 01 	mov     dword ptr [esp]
-	// 89 44 24 04 				mov     [esp+4], eax
-	// E8 71 11 30 05 			call    ConDMsg
-	// E9  36 FD FF FF			jmp     loc_6EF7B2
-
-	// 8B 46 04 89 44 24 08 8B 43 04 C7 04 24 2F 32 00 01 89 44 24 04 E8 71 11 30 05 E9  36 FD FF FF
-
-	// 57 72 69 
-	// 74 65 55 
-	// 73 65 
-	// 72 63 
-	// 6D 64 
-	// 3A 20 
-	// 66 72 
-	// 6F 6D 3D 25
-	// 64 20 74 
-	// 6F 3D 25 
-	// 64 0A 00
+	// 41 8B 54 24 08			mov     edx, [r12+8]
+	// 48 8D 3D 55 34 DB 00		lea     rdi, aWriteusercmdFr ; "WriteUsercmd: from=%d to=%d\n"
+	// 31 C0					eax, eax
+	// 41 8B 75 08				mov     esi, [r13+8]
+	// E8 38 DA CA FF			call    sub_6B8C90
+	// E9 0F FD FF FF			jmp     loc_A0AF6C
 
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
-																(unsigned char*) XORSTR("\x57\x00\x00"
-                                                                                        "\x74\x00\x00"
-																						"\x73\x00"
-																						"\x72\x00"
-																						"\x6D\x00"
-																						"\x3A\x00"
-																						"\x6F\x00\x00\x00"
-																						"\x64\x00\x00"
-																						"\x6F\x00\x00"
-																						"\x64\x00\x00"),
-																XORSTR("x??"
-                                                                        "x??"
-																		"x?"
-																		"x?"
-																		"x?"
-																		"x?"
-																		"x???"
-																		"x??"
-																		"x??"
-																		"x??" ));
+																(unsigned char*) XORSTR("\x41\x8B\x54\x24\x08"
+																					"\x48\x8D\x00\x00\x00\x00\x00"),
+																XORSTR("xxxxx"
+                                                                        "xx?????"));
 
+	func_address += 7;
 	WriteUserCmd = reinterpret_cast<WriteUserCmdFn>(func_address);																		   
 
 	// 'WriteUsercmd: from=%d to=%d',0Ah,0	

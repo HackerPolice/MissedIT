@@ -6,7 +6,7 @@
 #include "../AimBot/legitbot.h"
 #include "../AimBot/autowall.h"
 #include "../valvedscheck.h"
-#include "../AimBot/ragebot.h"
+#include "../AimBot/ragebot.hpp"
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 

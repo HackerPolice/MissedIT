@@ -220,6 +220,7 @@ void HvH::RenderTab()
     {
         ImGui::BeginChild(XORSTR("HVH2"), ImVec2(0, 0), false);
         {
+            ImGui::PushItemWidth(-1);
             ImGui::Checkbox(XORSTR("Angle Indicator"), &Settings::AngleIndicator::enabled);
             ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
             ImGui::SameLine();
@@ -229,7 +230,15 @@ void HvH::RenderTab()
             ImGui::Checkbox(XORSTR("FakeDuck"), &Settings::AntiAim::FakeDuck::enabled);
             ImGui::SameLine(); 
             UI::KeyBindButton(&Settings::AntiAim::FakeDuck::fakeDuckKey);
-            ImGui::EndChild();
+
+            ImGui::Checkbox(XORSTR("FakeWalk"), &Settings::AntiAim::FakeWalk::enabled);
+            ImGui::SameLine();
+            ImGui::SliderFloat(XORSTR("##FakeWalkSPeed"), &Settings::AntiAim::FakeWalk::walkSpeed, 0, 100, XORSTR("Amount: %0.f"));
+            if ( Settings::AntiAim::FakeWalk::enabled ) 
+                UI::KeyBindButton(&Settings::AntiAim::FakeWalk::fakeWalkKey);
+            
+            ImGui::PopItemWidth();
         }
+        ImGui::EndChild();
     }
 }

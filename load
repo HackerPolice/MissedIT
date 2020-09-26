@@ -27,12 +27,10 @@ Checking_Csgo_Process(){
     if [ -z "$csgo_pid" ]
         then
             echo_green "Injecting Started"
-        else
-            echo_red "Exit Your Csgo First then load"
-            exit
     fi 
     echo_orange "Cheking for csgo process"
     gameLaunched=0
+
     while [ -z "$csgo_pid" ]
         do
             csgo_pid=$(pidof csgo_linux64)
@@ -55,7 +53,11 @@ sudo -v
 Checking_Csgo_Process
 csgo_pid=$(pidof csgo_linux64)
 
-sleep 20
+if [ $gameLaunched -eq 1 ] 
+    then
+        sleep 20
+    fi
+
 echo_orange "Sleep Done"
 
 # pBypass for crash dumps being sent

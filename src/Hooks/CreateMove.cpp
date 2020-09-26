@@ -15,7 +15,7 @@
 #include "../Hacks/edgejump.h"
 #include "../Hacks/autoblock.h"
 #include "../Hacks/predictionsystem.h"
-#include "../Hacks/AimBot/ragebot.h"
+#include "../Hacks/AimBot/ragebot.hpp"
 #include "../Hacks/AimBot/legitbot.h"
 #include "../Hacks/triggerbot.h"
 #include "../Hacks/autoknife.h"
@@ -27,6 +27,7 @@
 #include "../Hacks/ragdollgravity.h"
 #include "../Hacks/lagcomp.h"
 #include "../Hacks/AntiAim/fakeduck.h"
+#include "../Hacks/AntiAim/fakewalk.hpp"
 
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
@@ -68,6 +69,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		AutoKnife::CreateMove(cmd);
     	AntiAim::CreateMove(cmd);
 		FakeDuck::CreateMove(cmd);
+		FakeWalk::CreateMove(cmd);
+
 		
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);

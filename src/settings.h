@@ -315,8 +315,6 @@ struct RageWeapon_t
 
 } const ragedefault{};
 
-
-
 class ColorVar
 {
 public:
@@ -666,8 +664,6 @@ namespace Settings
         };
 	}
 
-
-
 	namespace Triggerbot
 	{
 		inline bool enabled = false;
@@ -759,6 +755,12 @@ namespace Settings
 		{
 			inline bool enabled = false;
 			inline ButtonCode_t fakeDuckKey = ButtonCode_t::KEY_LCONTROL;
+		}
+
+		namespace FakeWalk{
+			inline bool enabled = false;
+			inline ButtonCode_t fakeWalkKey = ButtonCode_t::KEY_LSHIFT;
+			inline float walkSpeed = 50;
 		}
 	}
 

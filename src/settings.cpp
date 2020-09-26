@@ -286,6 +286,13 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
     settings[XORSTR("Resolver")][XORSTR("resolve_all")] = Settings::Resolver::resolveAll;
 
+    settings[XORSTR("FakeWalk")][XORSTR("enabled")] = Settings::AntiAim::FakeWalk::enabled;
+    settings[XORSTR("FakeWalk")][XORSTR("speed")] = Settings::AntiAim::FakeWalk::walkSpeed;
+    settings[XORSTR("FakeDuck")][XORSTR("enabled")] = Settings::AntiAim::FakeDuck::enabled;
+
+    settings[XORSTR("FakeWalk")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeWalk::fakeWalkKey);
+    settings[XORSTR("FakeDuck")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeDuck::fakeDuckKey);
+
     settings[XORSTR("ESP")][XORSTR("enabled")] = Settings::ESP::enabled;
     settings[XORSTR("ESP")][XORSTR("backend")] = (int)Settings::ESP::backend;
     settings[XORSTR("ESP")][XORSTR("key")] = Util::GetButtonName(Settings::ESP::key);
@@ -910,6 +917,13 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("LBYBreaker")][XORSTR("offset")], &Settings::AntiAim::LBYBreaker::offset);
 
     GetVal(settings[XORSTR("Resolver")][XORSTR("resolve_all")], &Settings::Resolver::resolveAll);
+
+    GetVal(settings[XORSTR("FakeWalk")][XORSTR("enabled")], &Settings::AntiAim::FakeWalk::enabled);
+    GetVal(settings[XORSTR("FakeWalk")][XORSTR("speed")], &Settings::AntiAim::FakeWalk::walkSpeed);
+    GetVal(settings[XORSTR("FakeDuck")][XORSTR("enabled")], &Settings::AntiAim::FakeDuck::enabled);
+
+    GetButtonCode(settings[XORSTR("FakeWalk")][XORSTR("key")], &Settings::AntiAim::FakeWalk::fakeWalkKey);
+    GetButtonCode(settings[XORSTR("FakeDuck")][XORSTR("key")], &Settings::AntiAim::FakeDuck::fakeDuckKey);
 
     GetVal(settings[XORSTR("ESP")][XORSTR("enabled")], &Settings::ESP::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("backend")], (int*)&Settings::ESP::backend);
