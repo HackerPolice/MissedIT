@@ -2,7 +2,6 @@
 
 #include "../HeaderFiles.h"
 
-namespace FakeWalk{
-    inline int ticks = 0;
+namespace SlowWalk{
     void CreateMove(CUserCmd* cmd);
 }

@@ -28,8 +28,9 @@
 #include "../Hacks/lagcomp.h"
 #include "../Hacks/AntiAim/fakeduck.h"
 #include "../Hacks/AntiAim/fakewalk.hpp"
+#include "../Hacks/WalkBot/walkbot.h"
+#include "../Hacks/AntiAim/slowwalk.hpp"
 
-bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
 
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
@@ -59,6 +60,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
         EdgeJump::PrePredictionCreateMove(cmd);
 		Autoblock::CreateMove(cmd);
 		NoFall::PrePredictionCreateMove(cmd);
+		Walkbot::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
 		FakeLag::CreateMove(cmd);
@@ -70,7 +72,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
     	AntiAim::CreateMove(cmd);
 		FakeDuck::CreateMove(cmd);
 		FakeWalk::CreateMove(cmd);
-
+		SlowWalk::CreateMove(cmd);
 		
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);

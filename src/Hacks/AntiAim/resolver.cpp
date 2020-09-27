@@ -90,58 +90,29 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				Resolver::players[player->GetIndex()].enemy = player;
 			}
 
-			if (player->GetEyeAngles()->x < 65.f || player->GetEyeAngles()->x > 90.f)
-			{
-				// cvar->ConsoleDPrintf(XORSTR("Resolving : Legit AA"));
-				// cvar->ConsoleDPrintf(XORSTR("MissedShots : %d\n"), players[player->GetIndex()].MissedCount);
-				float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-				
-				switch(Resolver::players[player->GetIndex()].MissedCount)
-				{
-					case 0:
-						player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y - GetPercentVal(trueDelta, 50): GetPercentVal(trueDelta, 50) + player->GetEyeAngles()->y;
-						break;
-					case 1:
-						break;
-					case 2:
-						player->GetEyeAngles()->y = trueDelta == 0 ? player->GetEyeAngles()->y - 30.f :  player->GetEyeAngles()->y + trueDelta;
-						break;
-					case 3:
-						player->GetEyeAngles()->y += trueDelta;
-						break;
-					case 4:
-						player->GetEyeAngles()->y = trueDelta == 0 ? player->GetEyeAngles()->y - 37.f : player->GetEyeAngles()->y + trueDelta;
-						break;
-					default:
-						break;
-				}
-														
-			}
-			else
-            {
-                float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
+
+            float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
 					
-				switch(Resolver::players[player->GetIndex()].MissedCount)
-				{
-					case 0:
-						player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y + GetPercentVal(trueDelta, 60): GetPercentVal(trueDelta, 60) - player->GetEyeAngles()->y;
-						break;
-					case 1:
-						break;
-					case 2:
-						player->GetEyeAngles()->y += trueDelta;
-						break;
-					case 3:
-						player->GetEyeAngles()->y = trueDelta <= 0 ? player->GetEyeAngles( )->y - 20.f : player->GetEyeAngles( )->y + 20.f;
-						break;
-					case 4:
-						player->GetEyeAngles()->y += trueDelta <= 0 ? player->GetEyeAngles( )->y - RANDOME_FLOAT(35.f) : player->GetEyeAngles( )->y + RANDOME_FLOAT(35.f);
-						break;
-					default:
-						break;
-				}
-            }	
-		}
+			switch(Resolver::players[player->GetIndex()].MissedCount)
+			{
+				case 0:
+					player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y + GetPercentVal(trueDelta, 60): player->GetEyeAngles()->y - GetPercentVal(trueDelta, 60);
+					break;
+				case 1:
+					break;
+				case 2:
+					player->GetEyeAngles()->y += trueDelta;
+					break;
+				case 3:
+					player->GetEyeAngles()->y = trueDelta <= 0 ? player->GetEyeAngles( )->y - 20.f : player->GetEyeAngles( )->y + 20.f;
+					break;
+				case 4:
+					player->GetEyeAngles()->y += trueDelta <= 0 ? player->GetEyeAngles( )->y - RANDOME_FLOAT(35.f) : player->GetEyeAngles( )->y + RANDOME_FLOAT(35.f);
+					break;
+				default:
+					break;
+			}
+        }	
 	}
 }
 

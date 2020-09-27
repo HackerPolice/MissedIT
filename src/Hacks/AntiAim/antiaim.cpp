@@ -718,13 +718,13 @@ static void DoLegitAntiAim(C_BasePlayer *localplayer, QAngle& angle, bool& bSend
                     CreateMove::sendPacket =  AntiAim::bSend = false;
                     lbyBreak = true;
                     lastCheck = globalVars->curtime;
-                    needToFlick = true;
+                    bSend = true;
                 } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
                     angle.y = offset;
                     CreateMove::sendPacket =  AntiAim::bSend = false;
                     lbyBreak = true;
                     lastCheck = globalVars->curtime;
-                    needToFlick = true;
+                    bSend = true;
                 }
             }
     });
@@ -743,7 +743,7 @@ static void DoLegitAntiAim(C_BasePlayer *localplayer, QAngle& angle, bool& bSend
             AntiAim::fakeAngle = angle;
         }
             
-        inverted ? LBYBREAK(angle.y+maxDelta-1) : LBYBREAK(angle.y-maxDelta-1); 
+        inverted ? LBYBREAK(AntiAim::realAngle.y) : LBYBREAK(AntiAim::realAngle.y); 
     });
     static auto FakeLegitAA([&](){
         if (!AntiAim::bSend)
@@ -925,6 +925,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
 
+    Math::ClampAngles(angle);
+    
     if (AntiAim::bSend) AntiAim::fakeAngle = angle;
     else AntiAim::realAngle = angle;
 
@@ -935,7 +937,6 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     
     if (!Settings::FakeLag::enabled)
         CreateMove::sendPacket = AntiAim::bSend;
-    // Math::ClampAngles(angle);
     Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);    
 }
 

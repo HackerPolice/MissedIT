@@ -233,9 +233,15 @@ void HvH::RenderTab()
 
             ImGui::Checkbox(XORSTR("FakeWalk"), &Settings::AntiAim::FakeWalk::enabled);
             ImGui::SameLine();
-            ImGui::SliderFloat(XORSTR("##FakeWalkSPeed"), &Settings::AntiAim::FakeWalk::walkSpeed, 0, 100, XORSTR("Amount: %0.f"));
+            ImGui::SliderFloat(XORSTR("##FakeWalkSPeed"), &Settings::AntiAim::FakeWalk::Speed, 0, 100, XORSTR("Amount: %0.f"));
             if ( Settings::AntiAim::FakeWalk::enabled ) 
-                UI::KeyBindButton(&Settings::AntiAim::FakeWalk::fakeWalkKey);
+                UI::KeyBindButton(&Settings::AntiAim::FakeWalk::Key);
+
+            ImGui::Checkbox(XORSTR("SlowWalk"), &Settings::AntiAim::SlowWalk::enabled);
+            ImGui::SameLine();
+            ImGui::SliderFloat(XORSTR("##SlowWalkSPeed"), &Settings::AntiAim::SlowWalk::Speed, 0, 100, XORSTR("Amount: %0.f"));
+            if ( Settings::AntiAim::SlowWalk::enabled ) 
+                UI::KeyBindButton(&Settings::AntiAim::SlowWalk::Key);
             
             ImGui::PopItemWidth();
         }

@@ -672,6 +672,21 @@ void RagebotAutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCom
 	RagebotAutoSlow(localplayer, activeWeapon, cmd, forrwordMove, sideMove, angle, currentSettings);
 }
 
+inline void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const RageWeapon_t& currentSettings)
+{
+	if (!activeWeapon || activeWeapon->GetInReload())
+		return;
+	if (!currentSettings.autoPistolEnabled)
+		return;
+	if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_PISTOL)
+		return;
+	if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
+		return;
+
+    if (*activeWeapon->GetItemDefinitionIndex() != ItemDefinitionIndex::WEAPON_REVOLVER)
+        cmd->buttons &= ~IN_ATTACK;
+}
+
 static void FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player, QAngle& angle, QAngle& oldAngle)
 {
     if (!player || !player->GetAlive())
@@ -693,6 +708,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Ragebot::enabled)
 		return;
+	
 	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer || !localplayer->GetAlive())
 		return;
@@ -750,22 +766,12 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     	RagebotAutoR8(player, localplayer, activeWeapon, cmd, Ragebot::BestSpot, angle, oldForward, oldSideMove, currentWeaponSetting);
 		RagebotAutoCrouch(player, cmd, activeWeapon, currentWeaponSetting);
 
-		// bf_write* buf;
-		// CUserCmd from = cmd;
-		// CUserCmd to = cmd;
-
-		// to->command_number++;
-		// to->tick_count +=  200;
-		// WriteUserCmd(buf, &from, &to);
-
 		if (cmd->buttons & IN_ATTACK)
 		{
 			angle = Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot);
 			lockedEnemy.shooted = true;
 			lockedEnemy.playerhelth = lockedEnemy.player->GetHealth();
-			CreateMove::sendPacket = true;
 		}
-			
     }
 	else{
 		Ragebot::lockedEnemy.player = nullptr;
@@ -774,7 +780,8 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	}
 	
 	RagebotNoRecoil(angle, cmd, localplayer, activeWeapon, currentWeaponSetting);
-	
+	AutoPistol(activeWeapon, cmd, currentWeaponSetting);
+
     Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 

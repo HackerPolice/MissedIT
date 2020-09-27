@@ -759,8 +759,13 @@ namespace Settings
 
 		namespace FakeWalk{
 			inline bool enabled = false;
-			inline ButtonCode_t fakeWalkKey = ButtonCode_t::KEY_LSHIFT;
-			inline float walkSpeed = 50;
+			inline ButtonCode_t Key = ButtonCode_t::KEY_LSHIFT;
+			inline float Speed = 50;
+		}
+		namespace SlowWalk{
+			inline bool enabled = false;
+			inline ButtonCode_t Key = ButtonCode_t::KEY_LSHIFT;
+			inline float Speed = 50;
 		}
 	}
 

@@ -11,32 +11,25 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
     if (!localplayer || !localplayer->GetAlive())
         return;
 
-    if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::fakeWalkKey))
+	if ( cmd->buttons & IN_ATTACK )
+		return;
+    if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::Key))
         return;
 
-    float oldForward = cmd->forwardmove;
-    float oldSideMove = cmd->sidemove;
-        
-    QAngle ViewAngle;
-	engine->GetViewAngles(ViewAngle);
-	    
-    static Vector oldOrigin = localplayer->GetAbsOrigin( );
-	Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) 	
-							* (1.f/globalVars->interval_per_tick);
-	oldOrigin = localplayer->GetAbsOrigin( );
-	float speed  = velocity.Length( );
-	
-    if(speed > Settings::AntiAim::FakeWalk::walkSpeed )
-	{
-		QAngle dir;
-		Math::VectorAngles(velocity, dir);
-		dir.y = ViewAngle.y - dir.x;
-		Vector NewMove = Vector(0);
-		Math::AngleVectors(dir, NewMove);
-		auto max = std::max(oldForward, oldSideMove);
-		auto mult = 450.f/max;
-		NewMove *= -mult;
-		cmd->forwardmove =  NewMove.x;
-		cmd->sidemove =  NewMove.y;
+	if (ticks > 13){
+		ticks = 0;
+	}else {
+		ticks++;
 	}
+
+	int maxTick = GetPercentVal(14, Settings::AntiAim::FakeWalk::Speed);
+	bool canMove = !ticks || ticks > maxTick;
+
+	if (canMove && cmd->forwardmove )
+		cmd->forwardmove = 0;
+	if ( canMove && cmd->sidemove )
+		cmd->sidemove = 0;
+		
+   	CreateMove::sendPacket = !ticks;
+	
 }

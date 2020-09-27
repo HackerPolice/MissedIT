@@ -287,11 +287,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("Resolver")][XORSTR("resolve_all")] = Settings::Resolver::resolveAll;
 
     settings[XORSTR("FakeWalk")][XORSTR("enabled")] = Settings::AntiAim::FakeWalk::enabled;
-    settings[XORSTR("FakeWalk")][XORSTR("speed")] = Settings::AntiAim::FakeWalk::walkSpeed;
+    settings[XORSTR("FakeWalk")][XORSTR("speed")] = Settings::AntiAim::FakeWalk::Speed;
     settings[XORSTR("FakeDuck")][XORSTR("enabled")] = Settings::AntiAim::FakeDuck::enabled;
+    settings[XORSTR("SlowWalk")][XORSTR("enabled")] = Settings::AntiAim::SlowWalk::enabled;
+    settings[XORSTR("SlowWalk")][XORSTR("speed")] = Settings::AntiAim::SlowWalk::Speed;
 
-    settings[XORSTR("FakeWalk")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeWalk::fakeWalkKey);
+    settings[XORSTR("FakeWalk")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeWalk::Key);
     settings[XORSTR("FakeDuck")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeDuck::fakeDuckKey);
+    settings[XORSTR("SlowWalk")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::SlowWalk::Key);
 
     settings[XORSTR("ESP")][XORSTR("enabled")] = Settings::ESP::enabled;
     settings[XORSTR("ESP")][XORSTR("backend")] = (int)Settings::ESP::backend;
@@ -919,10 +922,13 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("Resolver")][XORSTR("resolve_all")], &Settings::Resolver::resolveAll);
 
     GetVal(settings[XORSTR("FakeWalk")][XORSTR("enabled")], &Settings::AntiAim::FakeWalk::enabled);
-    GetVal(settings[XORSTR("FakeWalk")][XORSTR("speed")], &Settings::AntiAim::FakeWalk::walkSpeed);
+    GetVal(settings[XORSTR("FakeWalk")][XORSTR("speed")], &Settings::AntiAim::FakeWalk::Speed);
     GetVal(settings[XORSTR("FakeDuck")][XORSTR("enabled")], &Settings::AntiAim::FakeDuck::enabled);
+    GetVal(settings[XORSTR("SlowWalk")][XORSTR("enabled")], &Settings::AntiAim::SlowWalk::enabled);
+    GetVal(settings[XORSTR("SlowWalk")][XORSTR("speed")], &Settings::AntiAim::SlowWalk::Speed);
 
-    GetButtonCode(settings[XORSTR("FakeWalk")][XORSTR("key")], &Settings::AntiAim::FakeWalk::fakeWalkKey);
+    GetButtonCode(settings[XORSTR("FakeWalk")][XORSTR("key")], &Settings::AntiAim::FakeWalk::Key);
+    GetButtonCode(settings[XORSTR("SlowWalk")][XORSTR("key")], &Settings::AntiAim::SlowWalk::Key);
     GetButtonCode(settings[XORSTR("FakeDuck")][XORSTR("key")], &Settings::AntiAim::FakeDuck::fakeDuckKey);
 
     GetVal(settings[XORSTR("ESP")][XORSTR("enabled")], &Settings::ESP::enabled);
