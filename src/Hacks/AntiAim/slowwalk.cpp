@@ -6,17 +6,13 @@ void SlowWalk::CreateMove(CUserCmd* cmd){
 
     if (!Settings::AntiAim::SlowWalk::enabled)
         return;
-
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive()){
+    if (!localplayer || !localplayer->GetAlive())
 		return;
-	}
-	if ( cmd->buttons & IN_ATTACK ){
+	if ( cmd->buttons & IN_ATTACK )
 		return;
-	}
-    if (!inputSystem->IsButtonDown(Settings::AntiAim::SlowWalk::Key)){
+    if (!inputSystem->IsButtonDown(Settings::AntiAim::SlowWalk::Key))
 		return;
-	}
     
     float oldForward = cmd->forwardmove;
     float oldSideMove = cmd->sidemove;
@@ -40,5 +36,4 @@ void SlowWalk::CreateMove(CUserCmd* cmd){
 	{
 		CreateMove::sendPacket = true;
 	}
-	
 }

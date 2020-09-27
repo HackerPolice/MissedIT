@@ -6,11 +6,9 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
 
     if (!Settings::AntiAim::FakeWalk::enabled)
         return;
-
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer || !localplayer->GetAlive())
         return;
-
 	if ( cmd->buttons & IN_ATTACK )
 		return;
     if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::Key))
@@ -25,11 +23,12 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
 	int maxTick = GetPercentVal(14, Settings::AntiAim::FakeWalk::Speed);
 	bool canMove = !ticks || ticks > maxTick;
 
-	if (canMove && cmd->forwardmove )
-		cmd->forwardmove = 0;
-	if ( canMove && cmd->sidemove )
-		cmd->sidemove = 0;
-		
+	if (canMove)
+	{
+		if (cmd->forwardmove)
+			cmd->forwardmove = 0;
+		if (cmd->sidemove)
+			cmd->sidemove = 0;
+	}	
    	CreateMove::sendPacket = !ticks;
-	
 }
