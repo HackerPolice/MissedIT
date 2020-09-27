@@ -99,14 +99,15 @@ void RagebotTab::RenderTab()
 	{
 		ImGui::SetColumnOffset(1, 200);
 		ImGui::PushItemWidth(-10);
+		{
+			if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Ragebot::enabled))
+			{	
+				Settings::Legitbot::enabled = false;
+				UI::UpdateRageWeaponSettings();
+			}
 
-		if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Ragebot::enabled))
-		{	
-			Settings::Legitbot::enabled = false;
-			UI::UpdateRageWeaponSettings();
+			ImGui::InputText(XORSTR("##FILTERWEAPONS"), filterWeapons, IM_ARRAYSIZE(filterWeapons));
 		}
-
-		ImGui::InputText(XORSTR("##FILTERWEAPONS"), filterWeapons, IM_ARRAYSIZE(filterWeapons));
 		ImGui::PopItemWidth();
 		ImGui::ListBoxHeader(XORSTR("##GUNS"), ImVec2(-1, -1));
 		for (auto it : ItemDefinitionIndexMap)
@@ -202,8 +203,6 @@ void RagebotTab::RenderTab()
 					ImGui::Checkbox(XORSTR("LagCom"), &Settings::Ragebot::backTrack::enabled);
 					ImGui::Checkbox(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 				}
-				
-				ImGui::PopItemWidth();
 			}
 			// END Auto Shoot Features
 			
@@ -304,7 +303,8 @@ void RagebotTab::RenderTab()
 					UI::ReloadRageWeaponSettings();
 				}
 			}
-			ImGui::EndChild();
 		}
+		ImGui::EndChild();
 	}
+	ImGui::EndColumns();
 }
