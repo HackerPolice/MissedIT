@@ -4,7 +4,7 @@
 
 Want to chat or play with other MissedIT users? Join us on Discord :- <a href = https://discord.gg/PDtg8hd><b>Hacker.Police Discord</b></a>
 
-Want To chat with other fuzion users? join us on Gitter :- ![Fuzion Lobby](https://gitter.im/Aimtux-Fuzion)
+Want To chat with other fuzion users? join us on Gitter :- **[Fuzion Lobby](https://gitter.im/Aimtux-Fuzion)**
 
 
 ## What is MissedIT?
