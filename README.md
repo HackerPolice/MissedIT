@@ -1,6 +1,4 @@
-<p align="center">
-<img src="./Pictures/missedit.png">
-</p>
+![missedit](Pictures/missedit.png)
 
 ==================
 
