@@ -1,9 +1,5 @@
 ![missedit](Pictures/missedit.gif)
 
-==================
-
-# MissedIT 
-
 # It looks like we are starting to get detected. Use public forks at your own Risk! 
 
 Want to chat or play with other MissedIT users? Join us on Discord :- <a href = https://discord.gg/PDtg8hd><b>Hacker.Police Discord</b></a>
@@ -21,7 +17,7 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 
 If you are having problems compiling make sure you've got the latest version of `g++`.
 
-==================
+==================||
 
 __Ubuntu-Based / Debian:__
 ```bash
@@ -36,7 +32,7 @@ __Fedora:__
 sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel libX11-devel patchelf
 ```
 
-===================
+===================||
 
 ## How To use MissedIT
 ### Step 1 : Download MissedIT
