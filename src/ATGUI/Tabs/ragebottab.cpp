@@ -199,7 +199,7 @@ void RagebotTab::RenderTab()
 				
 				ImGui::Columns(1, nullptr, false);
 				{
-					ImGui::Checkbox(XORSTR("Auto Crouch"), &Settings::Ragebot::AutoCrouch::enable);
+					// ImGui::Checkbox(XORSTR("Auto Crouch"), &Settings::Ragebot::AutoCrouch::enable);
 					ImGui::Checkbox(XORSTR("LagCom"), &Settings::Ragebot::backTrack::enabled);
 					ImGui::Checkbox(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 				}

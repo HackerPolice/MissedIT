@@ -7,7 +7,7 @@
 
 #include "../../Hacks/AimBot/legitbot.h"
 #include "../../Hacks/esp.h"
-#include "../../Hacks/AntiAim/resolver.h"
+#include "../../Hacks/AimBot/resolver.h"
 #include "../../Hacks/clantagchanger.h"
 #include "../../Hacks/namechanger.h"
 

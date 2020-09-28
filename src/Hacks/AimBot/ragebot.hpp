@@ -3,6 +3,7 @@
 #include "../HeaderFiles.h"
 #include "autowall.h"
 #include "../lagcomp.h"
+#include "../../Utils/draw.h"
 
 class RagebotPredictionSystem{
 
@@ -12,6 +13,10 @@ private:
 	C_BasePlayer* localplayer = nullptr;
 
     #define RandomeFloat(x) (static_cast<double>( static_cast<double>(std::rand())/ static_cast<double>(RAND_MAX/x)))
+    #define TICK_INTERVAL globalVars->interval_per_tick
+    
+    // items to check hit Bullet_Impact
+    Vector *bulletPosition = new Vector();
 
 	void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, int& playerHelth, int& i,const std::unordered_map<int, int>* modelType, const RageWeapon_t& currentSetting);
 
@@ -19,15 +24,21 @@ private:
 
     void BestMultiPoint(C_BasePlayer* player, int &BoneIndex, int& Damage, Vector& Spot);
 
-	void GetBestSpotAndDamage(C_BasePlayer* player,C_BasePlayer* localplayer, Vector& Spot, int& Damage,const RageWeapon_t& currSettings);
+	void GetBestSpotAndDamage(C_BasePlayer* player, Vector& Spot, int& Damage,const RageWeapon_t& currSettings);
 
 public :
 
     RagebotPredictionSystem(){}
 
-	bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings);
+	bool canShoot(CUserCmd* cmd, C_BaseCombatWeapon*,Vector&, C_BasePlayer*,const RageWeapon_t&);
 
-	void GetBestEnemyAndSpot(C_BasePlayer* localplayer,const RageWeapon_t& currSettings);
+	void GetBestEnemyAndSpot(const RageWeapon_t&);
+
+    void CheckHit(C_BaseCombatWeapon*);
+
+    void SetBulletPosition(float&, float&, float&);
+
+    void init(C_BasePlayer*);
 
 	C_BasePlayer* GetEnemy();
 };

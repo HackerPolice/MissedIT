@@ -21,5 +21,7 @@ namespace AutoWall
 	int GetDamage(const Vector& vecPoint, bool teamCheck);
 	int GetDamage(const Vector& point, bool teamCheck, FireBulletData& fdata);
 	int GetDamage(C_BasePlayer* player, const Vector& point, bool teamCheck, FireBulletData& fdata);
+
+	inline void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePlayer* ignore, trace_t* ptr);
 }
 

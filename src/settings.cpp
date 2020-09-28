@@ -234,8 +234,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
     #undef RageweaponSetting
     }
 
-    settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
-    settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
+    // settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
+    // settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
     settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")] = Settings::Ragebot::backTrack::enabled;
     
     settings[XORSTR("Triggerbot")][XORSTR("enabled")] = Settings::Triggerbot::enabled;
@@ -266,8 +266,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("Type")] = (int)Settings::AntiAim::RageAntiAim::Type;
     settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("atTheTarget")] = Settings::AntiAim::RageAntiAim::atTheTarget;
     settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("SendReal")] = Settings::AntiAim::RageAntiAim::SendReal;
-    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("Enable")] = Settings::AntiAim::ManualAntiAim::Enable;
     
+    // Settings saving Manual AntiAIm
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("Enable")] = Settings::AntiAim::ManualAntiAim::Enable;
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("backButton")] = Util::GetButtonName(Settings::AntiAim::ManualAntiAim::backButton);
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("rightButton")] = Util::GetButtonName(Settings::AntiAim::ManualAntiAim::RightButton);
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("leftButton")] = Util::GetButtonName(Settings::AntiAim::ManualAntiAim::LeftButton);
     /*
     * legit anti aim settings 
     */
@@ -865,10 +869,10 @@ void Settings::LoadConfig(std::string path)
         Settings::Ragebot::weapons.at(weaponID) = weapon;
     }
 
-    GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
+    // GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
     GetVal(settings[XORSTR("Legitbot")][XORSTR("enabled")], &Settings::Legitbot::enabled);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("enabled")], &Settings::Ragebot::enabled);
-    GetVal(settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")], &Settings::Ragebot::AutoCrouch::enable);
+    // GetVal(settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")], &Settings::Ragebot::AutoCrouch::enable);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")], &Settings::Ragebot::backTrack::enabled);
 
     GetVal(settings[XORSTR("Triggerbot")][XORSTR("enabled")], &Settings::Triggerbot::enabled);
@@ -901,8 +905,12 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("Type")], (int*)&Settings::AntiAim::RageAntiAim::Type);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("atTheTarget")], &Settings::AntiAim::RageAntiAim::atTheTarget);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("SendReal")], &Settings::AntiAim::RageAntiAim::SendReal);
+
+    // Settings loading Manual AntiAIm
     GetVal(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("Enable")], &Settings::AntiAim::ManualAntiAim::Enable);
-    
+    GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("backButton")], &Settings::AntiAim::ManualAntiAim::backButton);
+    GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("rightButton")], &Settings::AntiAim::ManualAntiAim::RightButton);
+    GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("leftButton")], &Settings::AntiAim::ManualAntiAim::LeftButton);
     /* 
     *Legit Anti AIm Settings Saving
     */

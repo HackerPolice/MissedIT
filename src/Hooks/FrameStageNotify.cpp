@@ -6,7 +6,7 @@
 #include "../Hacks/skinchanger.h"
 #include "../Hacks/noflash.h"
 #include "../Hacks/view.h"
-#include "../Hacks/AntiAim/resolver.h"
+#include "../Hacks/AimBot/resolver.h"
 #include "../Hacks/skybox.h"
 #include "../Hacks/asuswalls.h"
 #include "../Hacks/nosmoke.h"

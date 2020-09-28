@@ -513,7 +513,7 @@ static void DrawAimbotSpot( ) {
 		Settings::Debug::AutoAim::target = {0,0,0};
 		return;
 	}
-	if ( !Settings::Legitbot::AutoAim::enabled || !Settings::Legitbot::enabled ){
+	if ( !Settings::Legitbot::enabled ){
 		Settings::Debug::AutoAim::target = {0,0,0};
 		return;
 	}
@@ -577,7 +577,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 			continue;
 
 		AutoWall::FireBulletData data;
-		int damage = (int)AutoWall::GetDamage( bone3D, !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( bone3D, true, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
@@ -626,7 +626,7 @@ static void DrawAutoWall(C_BasePlayer *player) {
 
 	AutoWall::FireBulletData data;
 	for ( int i = 0; i < 11; i++ ) {
-		int damage = (int)AutoWall::GetDamage( headPoints[i], !Settings::Legitbot::friendly, data );
+		int damage = (int)AutoWall::GetDamage( headPoints[i], true, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 
@@ -1381,7 +1381,7 @@ static void DrawGlow()
 		glow_object.m_bRenderWhenUnoccluded = true;
 	}
 }
-
+/*
 static void DrawFOVCrosshair()
 {
 	if (!Settings::ESP::FOVCrosshair::enabled)
@@ -1434,7 +1434,7 @@ static void DrawFOVCrosshair()
 	else
 		Draw::AddCircle(Paint::engineWidth / 2, Paint::engineHeight / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
 }
-
+*/
 static void DrawSpread()
 {
     if ( !Settings::ESP::Spread::enabled && !Settings::ESP::Spread::spreadLimit )
@@ -1459,7 +1459,7 @@ static void DrawSpread()
         }
     }
     if ( Settings::ESP::Spread::spreadLimit ) {
-        float cone = Settings::Legitbot::ShootAssist::Hitchance::value;
+        float cone = 100;
         if ( cone > 0.0f ) {
             float radius = ( cone * Paint::engineHeight ) / 1.5f;
             Draw::AddRect( ( ( Paint::engineWidth / 2 ) - radius ), ( Paint::engineHeight / 2 ) - radius + 1,
@@ -1598,8 +1598,8 @@ void ESP::Paint()
 		}
 	}
 
-	if (Settings::ESP::FOVCrosshair::enabled)
-		DrawFOVCrosshair();
+	// if (Settings::ESP::FOVCrosshair::enabled)
+	// 	DrawFOVCrosshair();
 	if (Settings::ESP::Spread::enabled || Settings::ESP::Spread::spreadLimit)
 		DrawSpread();
 	if (Settings::NoScopeBorder::enabled && localplayer->IsScoped())

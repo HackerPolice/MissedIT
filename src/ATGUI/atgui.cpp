@@ -95,11 +95,11 @@ void UI::angleIndicator()
 	if ( ImGui::Begin( XORSTR("##indecator"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize ) ) ;
     {
 		if (AntiAim::ManualAntiAim::alignBack)
-        Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ BACK ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
-    else if (AntiAim::ManualAntiAim::alignLeft)
-        Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Left ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
-    else if (AntiAim::ManualAntiAim::alignRight)
-        Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Right ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
+        	Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ BACK ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
+    	else if (AntiAim::ManualAntiAim::alignLeft)
+        	Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Left ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
+    	else if (AntiAim::ManualAntiAim::alignRight)
+       	 	Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Right ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
 		
 		ImGui::End();
 	}

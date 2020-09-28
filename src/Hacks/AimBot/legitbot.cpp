@@ -322,16 +322,16 @@ void Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim, const LegitWea
 	angle = viewAngles + toChange;
 }
 
-void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
-{
-	if (!Settings::Legitbot::AutoCrouch::enabled)
-		return;
+// void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
+// {
+// 	if (!Settings::Legitbot::AutoCrouch::enabled)
+// 		return;
 
-	if (!player || !player->GetAlive())
-		return;
+// 	if (!player || !player->GetAlive())
+// 		return;
 
-	cmd->buttons |= IN_BULLRUSH | IN_DUCK;
-}
+// 	cmd->buttons |= IN_BULLRUSH | IN_DUCK;
+// }
 
 void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const LegitWeapon_t& currentSettings)
 {
@@ -500,10 +500,8 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 				angle += lastRandom;
 				lastShotFired = localplayer->GetShotsFired();
 			}
-		}
-
-		
-		AutoCrouch(player, cmd);
+		}		
+		// AutoCrouch(player, cmd);
 		AutoPistol(activeWeapon, cmd, currentWeaponSetting);
 	}
 	else // No player to Shoot
