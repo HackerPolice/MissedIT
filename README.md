@@ -3,6 +3,7 @@
 # It looks like we are starting to get detected. Use public forks at your own Risk! 
 
 Want to chat or play with other MissedIT users? Join us on Discord :- <a href = https://discord.gg/PDtg8hd><b>Hacker.Police Discord</b></a>
+
 Want To chat with other fuzion users? join us on Gitter :- ![Fuzion Lobby](https://gitter.im/Aimtux-Fuzion)
 
 
