@@ -7,7 +7,7 @@
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 #include "../Windows/configs.h"
-#include "../../Hacks/legitbot.h"
+#include "../../Hacks/AimBot/legitbot.h"
 #include "triggerbottab.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"

@@ -1,6 +1,7 @@
 #include "visualstab.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
+#pragma GCC diagnostic ignored "-Wenum-compare"
 
 	const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
 	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
@@ -182,7 +183,7 @@ static void colorPicker()
 		}
 		ImGui::NextColumn();
 		{
-			if (Colors::colors[colorSelected].type == ColorListVar::HEALTHCOLORVAR_TYPE)
+			if ( (int)Colors::colors[colorSelected].type == (int)ColorListVar::HEALTHCOLORVAR_TYPE)
 			{
 				UI::ColorPicker4((float*)Colors::colors[colorSelected].healthColorVarPtr);
 				ImGui::Checkbox(XORSTR("Rainbow"), &Colors::colors[colorSelected].healthColorVarPtr->rainbow);

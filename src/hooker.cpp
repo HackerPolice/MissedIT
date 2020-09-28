@@ -30,6 +30,7 @@ VMT* uiEngineVMT = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
+WriteUserCmdFn WriteUserCmd;
 SetLocalPlayerReadyFn SetLocalPlayerReady;
 
 RecvVarProxyFn fnSequenceProxyFn;
@@ -52,11 +53,11 @@ GetSequenceActivityFn GetSeqActivity;
 
 uintptr_t SetAbsOriginFnAddr;
 
-//RandomSeedFn RandomSeed;
-//RandomFloatFn RandomFloat;
-//RandomFloatExpFn RandomFloatExp;
-//RandomIntFn RandomInt;
-//RandomGaussianFloatFn RandomGaussianFloat;
+RandomSeedFn RandomSeed;
+RandomFloatFn RandomFloat;
+RandomFloatExpFn RandomFloatExp;
+RandomIntFn RandomInt;
+RandomGaussianFloatFn RandomGaussianFloat;
 
 SetNamedSkyBoxFn SetNamedSkyBox;
 
@@ -325,7 +326,8 @@ void Hooker::FindLoadFromBuffer()
 																XORSTR("xxxxxxxxxxxxxxxxxxx????xx"));
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
-/*
+
+
 void Hooker::FindVstdlibFunctions()
 {
 	void* handle = dlopen(XORSTR("./bin/linux64/libvstdlib_client.so"), RTLD_NOLOAD | RTLD_NOW);
@@ -338,7 +340,7 @@ void Hooker::FindVstdlibFunctions()
 
 	dlclose(handle);
 }
- */
+
 
 void Hooker::FindOverridePostProcessingDisable()
 {
@@ -477,8 +479,8 @@ typedef CItemSystem* (* GetItemSystemFn)( );
 
 void Hooker::FindItemSystem()
 {
-    //xref almost any weapon name "weapon_glock" or "weapon_ak47"
-    //above the string find a very commonly used function that has about 100xrefs
+    // xref almost any weapon name "weapon_glock" or "weapon_ak47"
+    // above the string find a very commonly used function that has about 100xrefs
     // ItemSystem() proc near
     // 55                      push    rbp
     // 48 89 E5                mov     rbp, rsp
@@ -522,4 +524,24 @@ void Hooker::FindItemSystem()
 	cvar->ConsoleDPrintf("ItemSystem(%p)\n", itemSys);
 	itemSys += sizeof(void*); // 2nd vtable
     itemSystem = (CItemSystem*)itemSys;
+}
+
+void Hooker::FindWriteUserCmd(){
+	// 41 8B 54 24 08			mov     edx, [r12+8]
+	// 48 8D 3D 55 34 DB 00		lea     rdi, aWriteusercmdFr ; "WriteUsercmd: from=%d to=%d\n"
+	// 31 C0					eax, eax
+	// 41 8B 75 08				mov     esi, [r13+8]
+	// E8 38 DA CA FF			call    sub_6B8C90
+	// E9 0F FD FF FF			jmp     loc_A0AF6C
+
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
+																(unsigned char*) XORSTR("\x41\x8B\x54\x24\x08"
+																					"\x48\x8D\x00\x00\x00\x00\x00"),
+																XORSTR("xxxxx"
+                                                                        "xx?????"));
+
+	func_address += 7;
+	WriteUserCmd = reinterpret_cast<WriteUserCmdFn>(func_address);																		   
+
+	// 'WriteUsercmd: from=%d to=%d',0Ah,0	
 }

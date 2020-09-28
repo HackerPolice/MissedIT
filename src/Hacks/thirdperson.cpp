@@ -1,5 +1,5 @@
 #include "thirdperson.h"
-#include "antiaim.h"
+#include "AntiAim/antiaim.h"
 
 #include "../settings.h"
 #include "../interfaces.h"
@@ -18,6 +18,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 	if (activeWeapon && activeWeapon->GetCSWpnData() && activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
 	{
 		input->m_fCameraInThirdPerson = false;
+		Settings::ThirdPerson::toggled = false;
 		return;
 	}
 
@@ -79,17 +80,16 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 	
 }
 
-
 void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (stage == ClientFrameStage_t::FRAME_RENDER_START && engine->IsInGame())
-	{
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!engine->IsInGame()) return;
+	if (stage != ClientFrameStage_t::FRAME_RENDER_START) return;
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::enabled && input->m_fCameraInThirdPerson)
-		{
-			if (Settings::AntiAim::RageAntiAim::enable /*|| Settings::AntiAim::LegitAntiAim::enable*/)
-				*localplayer->GetVAngles() = AntiAim::realAngle;
-		}
-	}
+	if ( !localplayer || !localplayer->GetAlive()) return;
+
+	if (!Settings::ThirdPerson::enabled && !input->m_fCameraInThirdPerson) return;
+		
+	if (Settings::AntiAim::RageAntiAim::enable && Settings::ThirdPerson::toggled) *localplayer->GetVAngles() = AntiAim::realAngle;
+	
 }

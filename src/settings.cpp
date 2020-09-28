@@ -219,14 +219,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	    RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
 	    RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
 	    RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.HitChanceEnabled;
 	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
         RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
 	    RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
 	    RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
 	    RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
-        RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")] = (int)i.second.DmagePredictionType;
-        RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")] = (int)i.second.enemySelectionType;
 
         for (int bone = 0; bone < 6; bone++)
         {
@@ -237,8 +234,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
     #undef RageweaponSetting
     }
 
-    settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
-    settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
+    // settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
+    // settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
     settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")] = Settings::Ragebot::backTrack::enabled;
     
     settings[XORSTR("Triggerbot")][XORSTR("enabled")] = Settings::Triggerbot::enabled;
@@ -269,8 +266,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("Type")] = (int)Settings::AntiAim::RageAntiAim::Type;
     settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("atTheTarget")] = Settings::AntiAim::RageAntiAim::atTheTarget;
     settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("SendReal")] = Settings::AntiAim::RageAntiAim::SendReal;
-    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("Enable")] = Settings::AntiAim::ManualAntiAim::Enable;
     
+    // Settings saving Manual AntiAIm
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("Enable")] = Settings::AntiAim::ManualAntiAim::Enable;
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("backButton")] = Util::GetButtonName(Settings::AntiAim::ManualAntiAim::backButton);
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("rightButton")] = Util::GetButtonName(Settings::AntiAim::ManualAntiAim::RightButton);
+    settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("leftButton")] = Util::GetButtonName(Settings::AntiAim::ManualAntiAim::LeftButton);
     /*
     * legit anti aim settings 
     */
@@ -288,6 +289,16 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("AntiAim")][XORSTR("LBYBreaker")][XORSTR("offset")] = Settings::AntiAim::LBYBreaker::offset;
 
     settings[XORSTR("Resolver")][XORSTR("resolve_all")] = Settings::Resolver::resolveAll;
+
+    settings[XORSTR("FakeWalk")][XORSTR("enabled")] = Settings::AntiAim::FakeWalk::enabled;
+    settings[XORSTR("FakeWalk")][XORSTR("speed")] = Settings::AntiAim::FakeWalk::Speed;
+    settings[XORSTR("FakeDuck")][XORSTR("enabled")] = Settings::AntiAim::FakeDuck::enabled;
+    settings[XORSTR("SlowWalk")][XORSTR("enabled")] = Settings::AntiAim::SlowWalk::enabled;
+    settings[XORSTR("SlowWalk")][XORSTR("speed")] = Settings::AntiAim::SlowWalk::Speed;
+
+    settings[XORSTR("FakeWalk")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeWalk::Key);
+    settings[XORSTR("FakeDuck")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::FakeDuck::fakeDuckKey);
+    settings[XORSTR("SlowWalk")][XORSTR("key")] = Util::GetButtonName(Settings::AntiAim::SlowWalk::Key);
 
     settings[XORSTR("ESP")][XORSTR("enabled")] = Settings::ESP::enabled;
     settings[XORSTR("ESP")][XORSTR("backend")] = (int)Settings::ESP::backend;
@@ -840,7 +851,6 @@ void Settings::LoadConfig(std::string path)
 	        .silent = RageweaponSetting[XORSTR("Silent")].asBool(),
 	        .friendly = RageweaponSetting[XORSTR("Friendly")].asBool(),
 	        .closestBone = RageweaponSetting[XORSTR("ClosestBone")].asBool(),
-	        .HitChanceEnabled = RageweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
 	        .autoPistolEnabled = RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
 	        .autoShootEnabled = RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")].asBool(),
 	        .autoScopeEnabled = RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
@@ -850,10 +860,7 @@ void Settings::LoadConfig(std::string path)
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
 	        .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
         };
-        // Getting value like this because can't find anyother way convert value from json to enum
-        GetVal(RageweaponSetting[XORSTR("DamagePrediction")][XORSTR("Type")], (int*)&weapon.DmagePredictionType);
-        GetVal(RageweaponSetting[XORSTR("EnemySelectionType")][XORSTR("Type")], (int*)&weapon.enemySelectionType);
-
+        
 	    for (int bone = 0; bone < 6; bone++)
         {
             weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
@@ -862,10 +869,10 @@ void Settings::LoadConfig(std::string path)
         Settings::Ragebot::weapons.at(weaponID) = weapon;
     }
 
-    GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
+    // GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
     GetVal(settings[XORSTR("Legitbot")][XORSTR("enabled")], &Settings::Legitbot::enabled);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("enabled")], &Settings::Ragebot::enabled);
-    GetVal(settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")], &Settings::Ragebot::AutoCrouch::enable);
+    // GetVal(settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")], &Settings::Ragebot::AutoCrouch::enable);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")], &Settings::Ragebot::backTrack::enabled);
 
     GetVal(settings[XORSTR("Triggerbot")][XORSTR("enabled")], &Settings::Triggerbot::enabled);
@@ -898,8 +905,12 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("Type")], (int*)&Settings::AntiAim::RageAntiAim::Type);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("atTheTarget")], &Settings::AntiAim::RageAntiAim::atTheTarget);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Rage AntiAim")][XORSTR("SendReal")], &Settings::AntiAim::RageAntiAim::SendReal);
+
+    // Settings loading Manual AntiAIm
     GetVal(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("Enable")], &Settings::AntiAim::ManualAntiAim::Enable);
-    
+    GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("backButton")], &Settings::AntiAim::ManualAntiAim::backButton);
+    GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("rightButton")], &Settings::AntiAim::ManualAntiAim::RightButton);
+    GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("ManualAntiAim")][XORSTR("leftButton")], &Settings::AntiAim::ManualAntiAim::LeftButton);
     /* 
     *Legit Anti AIm Settings Saving
     */
@@ -917,6 +928,16 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("LBYBreaker")][XORSTR("offset")], &Settings::AntiAim::LBYBreaker::offset);
 
     GetVal(settings[XORSTR("Resolver")][XORSTR("resolve_all")], &Settings::Resolver::resolveAll);
+
+    GetVal(settings[XORSTR("FakeWalk")][XORSTR("enabled")], &Settings::AntiAim::FakeWalk::enabled);
+    GetVal(settings[XORSTR("FakeWalk")][XORSTR("speed")], &Settings::AntiAim::FakeWalk::Speed);
+    GetVal(settings[XORSTR("FakeDuck")][XORSTR("enabled")], &Settings::AntiAim::FakeDuck::enabled);
+    GetVal(settings[XORSTR("SlowWalk")][XORSTR("enabled")], &Settings::AntiAim::SlowWalk::enabled);
+    GetVal(settings[XORSTR("SlowWalk")][XORSTR("speed")], &Settings::AntiAim::SlowWalk::Speed);
+
+    GetButtonCode(settings[XORSTR("FakeWalk")][XORSTR("key")], &Settings::AntiAim::FakeWalk::Key);
+    GetButtonCode(settings[XORSTR("SlowWalk")][XORSTR("key")], &Settings::AntiAim::SlowWalk::Key);
+    GetButtonCode(settings[XORSTR("FakeDuck")][XORSTR("key")], &Settings::AntiAim::FakeDuck::fakeDuckKey);
 
     GetVal(settings[XORSTR("ESP")][XORSTR("enabled")], &Settings::ESP::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("backend")], (int*)&Settings::ESP::backend);

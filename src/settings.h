@@ -13,16 +13,6 @@
 #include "SDK/definitions.h"
 #include "SDK/Materialsystem_config.h"
 
-enum class DamagePrediction : int {
-	justDamage = 0,
-	damage,
-};
-
-enum class EnemySelectionType : int {
-	BestDamage = 0,
-	CLosestToCrosshair,
-};
-
 enum class DesireBones : int {
 	BONE_HEAD = 0,
 	UPPER_CHEST,
@@ -287,7 +277,6 @@ struct RageWeapon_t
 	bool silent,
 		 friendly,
 		 closestBone,
-		 HitChanceEnabled,
 		 autoPistolEnabled,
 		 autoShootEnabled,
 		 autoScopeEnabled,
@@ -296,8 +285,6 @@ struct RageWeapon_t
 		 DoubleFire;
 	float MinDamage = 50.f,
 		  HitChance = 20.f;
-	DamagePrediction DmagePredictionType = DamagePrediction::damage;
-	EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
 	
@@ -319,19 +306,14 @@ struct RageWeapon_t
 			this->autoPistolEnabled == Ragebotanother.autoPistolEnabled &&
 			this->autoShootEnabled == Ragebotanother.autoShootEnabled &&
 			this->autoScopeEnabled == Ragebotanother.autoScopeEnabled &&
-			this->HitChanceEnabled == Ragebotanother.HitChanceEnabled &&
 			this->MinDamage == Ragebotanother.MinDamage &&
 			this->autoSlow == Ragebotanother.autoSlow &&
 			this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 
 			this->HitChance == Ragebotanother.HitChance && 
-			this->DmagePredictionType == Ragebotanother.DmagePredictionType && 
-			this->enemySelectionType == Ragebotanother.enemySelectionType && 
 			this->DoubleFire == Ragebotanother.DoubleFire;
 	}
 
 } const ragedefault{};
-
-
 
 class ColorVar
 {
@@ -467,152 +449,6 @@ namespace Settings
 	namespace Legitbot
 	{
 		inline bool enabled = false;
-        inline bool silent = false;
-        inline bool friendly = false;
-		inline float minDamage = 10.f;
-        inline Bone bone = BONE_HEAD;
-        inline ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
-        inline bool aimkeyOnly = false;
-
-		namespace Smooth
-		{
-			inline bool enabled = false;
-            inline float value = 0.5f;
-            inline SmoothType type = SmoothType::SLOW_END;
-
-			namespace Salting
-			{
-				inline bool enabled = false;
-                inline float multiplier = 0.0f;
-			}
-		}
-
-		namespace ErrorMargin
-		{
-			inline bool enabled = false;
-			inline float value = 0.0f;
-		}
-
-		namespace AutoAim
-		{
-			inline bool enabled = false;
-            inline float fov = 15.f;
-            inline bool realDistance = false;
-            inline bool closestBone = false;
-            inline bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
-                                          false, false, false, false, false, false, false, // left arm
-                                          false, false, false, false, false, false, false, // right arm
-                                          false, false, false, false, false, // left leg
-                                          false, false, false, false, false  // right leg
-            };
-			
-            inline bool engageLock = false;
-            inline bool engageLockTR = false; // Target Reacquisition ( re-target after getting a kill when spraying ).
-            inline int engageLockTTR = 700; // Time to Target Reacquisition in ms
-		}
-
-		namespace ShootAssist
-		{
-			inline bool enabled = false;
-
-			namespace ShotDelay
-			{
-				inline float Value = 100.f;
-			}	
-			namespace MinShotFire
-			
-			{
-				inline int value = 6;
-			} // namespace MinShotFire
-
-			namespace Hitchance
-			{
-				inline bool enabled = false;
-				inline float value = 20;
-			}
-		}
-
-		namespace AutoWall
-		{
-			inline bool enabled = false;
-			inline float value = 10.0f;
-		}
-
-		namespace AimStep
-		{
-			inline bool enabled = false;
-			inline float min = 25.0f;
-			inline float max = 35.0f;
-		}
-
-		namespace RCS
-		{
-			inline bool enabled = false;
-			inline bool always_on = false;
-			inline float valueX = 2.0f;
-			inline float valueY = 2.0f;
-		}
-
-		namespace AutoPistol
-		{
-			inline bool enabled = false;
-		}
-
-		namespace AutoShoot
-		{
-			inline bool enabled = false;
-			inline bool velocityCheck = false;
-			inline bool autoscope = false;
-		}
-
-		namespace AutoCrouch
-		{
-			inline bool enabled = false;
-		}
-
-		namespace AutoSlow
-		{
-			inline bool enabled = false;
-		}
-
-		namespace NoShoot
-		{
-			inline bool enabled = false;
-		}
-
-		namespace IgnoreJump
-		{
-			inline bool enabled = false;
-		}
-
-		namespace IgnoreEnemyJump
-		{
-			inline bool enabled = false;
-		}
-
-		namespace SmokeCheck
-		{
-			inline bool enabled = false;
-		}
-
-		namespace FlashCheck
-		{
-			inline bool enabled = false;
-		}
-
-		
-		
-		
-
-		namespace Prediction
-		{
-			inline bool enabled = false;
-		}
-
-		namespace ScopeControl
-		{
-			inline bool enabled = false;
-		}
 
 		inline std::unordered_map<ItemDefinitionIndex, LegitWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, defaultSettings },
@@ -621,59 +457,7 @@ namespace Settings
 
 	namespace Ragebot
 	{
-		inline float MinDamage = 50.f;
 		inline bool enabled = false;
-        inline bool silent = false;
-        inline bool friendly = false;
-		inline bool DoubleFire = false;
-
-		inline DamagePrediction damagePrediction = DamagePrediction::damage;
-		inline EnemySelectionType enemySelectionType = EnemySelectionType::CLosestToCrosshair;
-
-		namespace AutoAim
-		{
-			inline bool enabled = false;
-			inline bool desireBones[] = {true, true, true, true, true, true};
-		}
-
-		namespace AutoPistol
-		{
-			inline bool enabled = false;
-		}
-
-		namespace AutoShoot
-		{
-			inline bool enabled = false;
-			inline bool velocityCheck = false;
-			inline bool autoscope = false;
-		}
-
-		namespace AutoSlow
-		{
-			inline bool enabled = false;
-		}
-
-		namespace HitChance
-		{
-			inline bool enabled = false;
-			inline float value = 20.f;
-		}
-
-		namespace HitChanceOverwrride 
-		{
-			inline bool enable = false;
-			inline float value = 1.0f;
-		}
-
-		namespace ScopeControl
-		{
-			inline bool enabled = false;
-		}
-
-		namespace AutoCrouch
-		{
-			inline bool enable = false;
-		}
 
 		namespace backTrack
 		{
@@ -684,8 +468,6 @@ namespace Settings
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
 	}
-
-
 
 	namespace Triggerbot
 	{
@@ -778,6 +560,17 @@ namespace Settings
 		{
 			inline bool enabled = false;
 			inline ButtonCode_t fakeDuckKey = ButtonCode_t::KEY_LCONTROL;
+		}
+
+		namespace FakeWalk{
+			inline bool enabled = false;
+			inline ButtonCode_t Key = ButtonCode_t::KEY_LSHIFT;
+			inline float Speed = 50;
+		}
+		namespace SlowWalk{
+			inline bool enabled = false;
+			inline ButtonCode_t Key = ButtonCode_t::KEY_LSHIFT;
+			inline float Speed = 50;
 		}
 	}
 
