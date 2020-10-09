@@ -9,7 +9,7 @@
 
 **Want To chat with other fuzion users?**
 
-**[![Gitter](https://badges.gitter.im/MissedIT-Fuzion-AimTux/community.svg)](https://gitter.im/Aimtux-Fuzion) [Fuzion Lobby](https://gitter.im/Aimtux-Fuzion)**
+[![Gitter](https://badges.gitter.im/MissedIT-Fuzion-AimTux/community.svg)](https://gitter.im/Aimtux-Fuzion)
 
 ## What is MissedIT?
 
