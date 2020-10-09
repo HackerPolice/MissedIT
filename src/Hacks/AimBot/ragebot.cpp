@@ -506,13 +506,13 @@ void RagebotPredictionSystem::GetBestEnemy(const RageWeapon_t& currSettings)
 
 void RagebotPredictionSystem::CheckHit()
 {
-	if (!localplayer)
+	if (!localplayer || !Ragebot::data.player)
 		return;
-	if (!Ragebot::data.shooted || !Ragebot::data.player || !Ragebot::data.player->GetAlive())
+	if (!Ragebot::data.shooted || !Ragebot::data.player->GetAlive())
 		return;
 	cvar->ConsoleColorPrintf(ColorRGBA(255,200,156,255), XORSTR("1\n"));
-	// if (bulletPosition.empty())
-	// 	return;
+	if (bulletPosition.empty())
+		return;
 	cvar->ConsoleColorPrintf(ColorRGBA(255,200,156,255), XORSTR("2\n"));
 	if (!activeWeapon || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
 		return;
@@ -840,7 +840,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     FixMouseDeltas(cmd, player, angle, oldAngle);
     cmd->viewangles = angle;
 	if (!currentWeaponSetting.silent)
-		engine->SetViewAngles(cmd->viewangles);
+		engine->SetViewAngles(angle);
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
