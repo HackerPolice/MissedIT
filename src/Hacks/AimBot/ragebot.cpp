@@ -767,18 +767,21 @@ static void FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player, QAngle& angle, Q
 }
 
 void Ragebot::CreateMove(CUserCmd* cmd)
-{	
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer)
+		return;
+    C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+    if (!activeWeapon)
+		return;
+
+	Ragebot::ragebotPredictionSystem->init(localplayer, activeWeapon);
 	// Cheking the hit detection by tracing fucking bullet
 	Ragebot::ragebotPredictionSystem->CheckHit();
 	Ragebot::ragebotPredictionSystem->clearBulletPositions();
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer->GetAlive() || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
 		return;
-    C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-    if (!activeWeapon || activeWeapon->GetInReload())
-		return;
-
     CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
     if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
@@ -794,8 +797,6 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	float oldForward = cmd->forwardmove;
     float oldSideMove = cmd->sidemove;
 	QAngle angle = cmd->viewangles;
-
-	Ragebot::ragebotPredictionSystem->init(localplayer, activeWeapon);
 
 	Ragebot::data.player = nullptr;
 	Ragebot::data.shooted = false;
