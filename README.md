@@ -2,9 +2,14 @@
 
 # It looks like we are starting to get detected. Use public forks at your own Risk! 
 
-Want to chat or play with other MissedIT users? Join us on Discord :- **[Hacker.Police Discord](https://discord.gg/PDtg8hd)**
+**Want to chat or play with other MissedIT users?**
 
-Want To chat with other fuzion users? join us on Gitter :- **[Fuzion Lobby](https://gitter.im/Aimtux-Fuzion)**
+[![Discord](https://img.shields.io/discord/463752820026376202.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/PDtg8hd)
+[![Gitter](https://badges.gitter.im/MissedIT-Fuzion-AimTux/community.svg)](https://gitter.im/MissedIT-Fuzion-AimTux/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+**Want To chat with other fuzion users?**
+
+[![Gitter](https://badges.gitter.im/MissedIT-Fuzion-AimTux/community.svg)](https://gitter.im/Aimtux-Fuzion)
 
 ## What is MissedIT?
 
