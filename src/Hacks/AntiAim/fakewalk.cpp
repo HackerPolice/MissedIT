@@ -1,22 +1,26 @@
 #include "fakewalk.hpp"
+#include "../AimBot/ragebot.hpp"
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
 void FakeWalk::CreateMove(CUserCmd* cmd){
-
-    if (!Settings::AntiAim::FakeWalk::enabled)
-        return;
+	
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
-        return;
-	if ( cmd->buttons & IN_ATTACK )
+    if (!localplayer || !localplayer->GetAlive()){
 		return;
-    if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::Key))
-        return;
-
-	if (ticks > 13){
+	}   
+	else if ( cmd->buttons & IN_ATTACK ){
+		return;
+	}
+    else if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::Key)){    
+		return;
+	}
+	else if (ticks > 13)
+	{
 		ticks = 0;
-	}else {
+	}
+	else 
+	{
 		ticks++;
 	}
 
@@ -25,10 +29,8 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
 
 	if (canMove)
 	{
-		if (cmd->forwardmove)
-			cmd->forwardmove = 0;
-		if (cmd->sidemove)
-			cmd->sidemove = 0;
+		cmd->forwardmove = 0;
+		cmd->sidemove = 0;
 	}	
    	CreateMove::sendPacket = !ticks;
 }

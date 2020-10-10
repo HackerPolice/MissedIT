@@ -84,7 +84,7 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 	}
 	return closestPlayer;
 }
-/*
+
 static float GetBestHeadAngle(CUserCmd* cmd)
 {    
     C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -136,7 +136,7 @@ static float GetBestHeadAngle(CUserCmd* cmd)
     return yaw;
 	
 }
-*/
+
 static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 {
     float b, r, l;
@@ -163,6 +163,7 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 		int bestDamage = localplayer->GetHealth();
 		C_BasePlayer* bestTarget = nullptr;
 
+        float prevFov = 0;
 		for( int i = 0; i < engine->GetMaxClients(); ++i )
 		{
 			C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
@@ -175,17 +176,25 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 				|| player->GetTeam() == localplayer->GetTeam())
 				continue;
 
-			// float fov = Math::GetFov(viewAngles, Math::CalcAngle(localplayer->GetEyePosition(), player->GetEyePosition()));
+			float fov = Math::GetFov(viewAngles, Math::CalcAngle(localplayer->GetEyePosition(), player->GetEyePosition()));
 
-            AutoWall::FireBulletData data;
-            int damage = AutoWall::GetDamage(player, localplayer->GetEyePosition(), true, data);
+            // AutoWall::FireBulletData data;
+            // int damage = AutoWall::GetDamage(player, localplayer->GetEyePosition(), true, data);
 
-            if (damage < 0) continue;
-			else if( damage >= bestDamage )
-			{
-				bestDamage = damage;
-				bestTarget = player;
-			}
+            // if (damage < 0) continue;
+			// else if( damage >= bestDamage )
+			// {
+			// 	bestDamage = damage;
+			// 	bestTarget = player;
+			// }
+
+            if (prevFov == 0){
+                bestTarget = player;
+                prevFov = fov;
+            }else if (fov > prevFov){
+                bestTarget = player;
+                prevFov = fov;
+            }
 		}
 
 		return bestTarget;
@@ -266,13 +275,13 @@ static void DefaultRageAntiAim(C_BasePlayer *const localplayer, QAngle& angle, C
     if (Settings::AntiAim::ManualAntiAim::Enable)
     {
         if (AntiAim::ManualAntiAim::alignLeft) {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 90.f;
             return;
         } else if (AntiAim::ManualAntiAim::alignBack) {
             AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 180.f;
             return;
         } else if (AntiAim::ManualAntiAim::alignRight) {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 90.f;
             return;
         }
     }
@@ -361,11 +370,11 @@ static void FakeArrondReal(C_BasePlayer *const localplayer, QAngle& angle, CUser
     if (Settings::AntiAim::ManualAntiAim::Enable)
     {
         if (AntiAim::ManualAntiAim::alignLeft) {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 90.f;
         } else if (AntiAim::ManualAntiAim::alignBack) {
             AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 180.f;
         } else if (AntiAim::ManualAntiAim::alignRight) {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 90.f;
         }
         return;
     }
@@ -541,13 +550,13 @@ static void SemiDirectionRageAntiAIim(C_BasePlayer *const localplayer, QAngle& a
     if (Settings::AntiAim::ManualAntiAim::Enable)
     {
         if (AntiAim::ManualAntiAim::alignLeft) {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 90.f;
             return;
         } else if (AntiAim::ManualAntiAim::alignBack) {
             AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 180.f;
             return;
         } else if (AntiAim::ManualAntiAim::alignRight) {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 90.f;
             return;
         }
     }
@@ -631,7 +640,7 @@ static void FreeStand(C_BasePlayer *const localplayer, QAngle& angle, CUserCmd* 
     {
         if (alignLeft)
         {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y += 90.f;
             return;
         }
         else if (alignBack)
@@ -641,7 +650,7 @@ static void FreeStand(C_BasePlayer *const localplayer, QAngle& angle, CUserCmd* 
         }
         else if (alignRight)
         {
-            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 70.f;
+            AntiAim::realAngle.y = AntiAim::fakeAngle.y = angle.y -= 90.f;
             return;
         }
     }
@@ -874,7 +883,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     if (Settings::FakeLag::enabled)
         CreateMove::sendPacket ? AntiAim::bSend = CreateMove::sendPacket : AntiAim::bSend = cmd->command_number%2;              
     else
-        AntiAim::bSend = cmd->command_number%2;
+        AntiAim::bSend = !AntiAim::bSend;
 
     QAngle angle = cmd->viewangles;
     QAngle oldAngle = cmd->viewangles;

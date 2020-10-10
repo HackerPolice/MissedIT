@@ -100,7 +100,7 @@ static bool TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vector 
 	return false;
 }
 
-static bool HandleBulletPenetration(CCSWeaponInfo* weaponInfo, AutoWall::FireBulletData& data)
+bool AutoWall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, AutoWall::FireBulletData& data)
 {
 	surfacedata_t *enter_surface_data = physics->GetSurfaceData(data.enter_trace.surface.surfaceProps);
 	int enter_material = enter_surface_data->game.material;
@@ -180,7 +180,7 @@ void AutoWall::TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask
 	trace->TraceRay(ray, mask, &filter, ptr);
 }
 
-static bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
+bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive()) return false;
@@ -198,14 +198,14 @@ static bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, Auto
 		Vector end = data.src + data.direction * data.trace_length_remaining;
 
 		// data.enter_trace
-		AutoWall::TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
+		TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
 
 		Ray_t ray;
 		ray.Init(data.src, end + data.direction * 40.f);
 
 		trace->TraceRay(ray, MASK_SHOT, &data.filter, &data.enter_trace);
 
-		AutoWall::TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
+		TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
 
 		if (data.enter_trace.fraction == 1.0f)
 			break;

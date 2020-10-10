@@ -418,9 +418,9 @@ C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, C_BasePlayer* localplayer, 
 	BoneId = (*modelType).at(BoneId);
 	Vector bone3d = player->GetBonePosition( BoneId );
 
-	bool IsPriorityBoneInFov = IsInFov( localplayer, player, bone3d  , currentSettings);
+	// bool IsPriorityBoneInFov = IsInFov( localplayer, player, bone3d  , currentSettings);
 	
-	if ( !IsPriorityBoneInFov )
+	// if ( !IsPriorityBoneInFov )
 		GetClosestSpot(localplayer, player, bone3d, currentSettings);
 	
 	if ( LineGoesThroughSmoke( localplayer->GetEyePosition( ), bone3d, true ) )
@@ -436,8 +436,6 @@ C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, C_BasePlayer* localplayer, 
 
 void Legitbot::CreateMove(CUserCmd* cmd)
 {
-	if(!Settings::Legitbot::enabled)
-		return;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
@@ -476,7 +474,6 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	if (player)
 	{
-		// cvar->ConsoleDPrintf(XORSTR("Player found \n"));
 		if (!currentWeaponSetting.aimkeyOnly && ( cmd->buttons&IN_ATTACK || currentWeaponSetting.autoShoot))
 			shouldAim = true; 
 		else if (inputSystem->IsButtonDown(currentWeaponSetting.aimkey))

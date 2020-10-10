@@ -101,6 +101,7 @@ void UI::angleIndicator()
     	else if (AntiAim::ManualAntiAim::alignRight)
        	 	Draw::ImText( ImVec2( 20.f, 420.f ), ImColor( 54, 154, 255, 255 ), XORSTR( "[ Right ]" ), nullptr, 0.0f, nullptr, ImFontFlags_Shadow );
 		
-		ImGui::End();
+	
+	ImGui::End();
 	}
 }

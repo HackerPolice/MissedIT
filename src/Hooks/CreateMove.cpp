@@ -25,7 +25,8 @@
 #include "../Hacks/tracereffect.h"
 #include "../Hacks/nofall.h"
 #include "../Hacks/ragdollgravity.h"
-#include "../Hacks/lagcomp.h"
+#include "../Hacks/TickManipulation/lagcomp.hpp"
+#include "../Hacks/TickManipulation/backtrack.hpp"
 #include "../Hacks/AntiAim/fakeduck.h"
 #include "../Hacks/AntiAim/fakewalk.hpp"
 #include "../Hacks/WalkBot/walkbot.h"
@@ -64,15 +65,16 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		PredictionSystem::StartPrediction(cmd);
 		FakeLag::CreateMove(cmd);
-		LagComp::CreateMove(cmd);
-		Legitbot::CreateMove(cmd);
-		Ragebot::CreateMove(cmd);
+		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); 	}
+		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); 	}
 		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
     	AntiAim::CreateMove(cmd);
 		FakeDuck::CreateMove(cmd);
-		FakeWalk::CreateMove(cmd);
+		if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
 		SlowWalk::CreateMove(cmd);
+		if (Settings::BackTrack::enabled) { BackTrack::CreateMove(cmd); }
+		if (Settings::LagComp::enabled) { LagComp::CreateMove(cmd); }
 		
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);

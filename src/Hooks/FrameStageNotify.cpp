@@ -12,7 +12,7 @@
 #include "../Hacks/nosmoke.h"
 #include "../Hacks/thirdperson.h"
 #include "../settings.h"
-#include "../Hacks/lagcomp.h"
+#include "../Hacks/TickManipulation/lagcomp.hpp"
 #include "../Hacks/AntiAim/antiaim.h"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);

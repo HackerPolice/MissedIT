@@ -27,6 +27,8 @@ static float MinDamage = 0.f;
 static bool autoSlow = false;
 static bool doubleFire = false;
 static bool scopeControlEnabled = false;
+static bool AutoCroutch = false;
+static bool OnShot = false;
 
 
 void UI::ReloadRageWeaponSettings()
@@ -69,6 +71,8 @@ void UI::UpdateRageWeaponSettings()
 			.autoSlow = autoSlow,
 			.scopeControlEnabled = scopeControlEnabled,
 			.DoubleFire = doubleFire,
+			.AutoCroutch = AutoCroutch,
+			.OnShot = OnShot,
 			.MinDamage = MinDamage,
 			.HitChance = HitChance,
 	};
@@ -149,6 +153,8 @@ void RagebotTab::RenderTab()
 			{
 				if (ImGui::Checkbox(XORSTR("Auto Shoot"), &autoShootEnabled))
 					UI::UpdateRageWeaponSettings();
+				if (ImGui::Checkbox(XORSTR("On Shot"), &OnShot))
+					UI::UpdateRageWeaponSettings();
 				if (ImGui::Checkbox(XORSTR("AutoSlow"), &autoSlow))
 					UI::UpdateRageWeaponSettings();
 
@@ -199,13 +205,17 @@ void RagebotTab::RenderTab()
 				
 				ImGui::Columns(1, nullptr, false);
 				{
-					// ImGui::Checkbox(XORSTR("Auto Crouch"), &Settings::Ragebot::AutoCrouch::enable);
-					ImGui::Checkbox(XORSTR("LagCom"), &Settings::Ragebot::backTrack::enabled);
+					if ( ImGui::Checkbox(XORSTR("Auto Crouch"), &AutoCroutch) ){
+						UI::UpdateRageWeaponSettings();
+					}
+					ImGui::Checkbox(XORSTR("LagCom"), &Settings::LagComp::enabled);
+					ImGui::Checkbox(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
+					ImGui::SameLine();
+					ImGui::SliderFloat(XORSTR("##BACKTRACKMAXTICK"), &Settings::BackTrack::MaxTick, 0, 100, XORSTR("Max TIck : %0.0f"));
 					ImGui::Checkbox(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 				}
 			}
 			// END Auto Shoot Features
-			
 		}
 		ImGui::EndChild();
 	}

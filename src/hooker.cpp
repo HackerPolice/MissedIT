@@ -533,14 +533,17 @@ void Hooker::FindWriteUserCmd(){
 	// 41 8B 75 08				mov     esi, [r13+8]
 	// E8 38 DA CA FF			call    sub_6B8C90
 	// E9 0F FD FF FF			jmp     loc_A0AF6C
-
+	
+	// 57 72 69 74 65 55  73 65 72 63 6D 64 3A 20 66 72 6F 6D 3D 25 64 20  74 6F 3D 25 64 0A 00
+	// 57 72 69 74 65 55 73 65 72 63 6D 64
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
 																(unsigned char*) XORSTR("\x41\x8B\x54\x24\x08"
 																					"\x48\x8D\x00\x00\x00\x00\x00"),
 																XORSTR("xxxxx"
                                                                         "xx?????"));
 
-	func_address += 7;
+	func_address += 6;
+	func_address = GetAbsoluteAddress(func_address, 1, 6);
 	WriteUserCmd = reinterpret_cast<WriteUserCmdFn>(func_address);																		   
 
 	// 'WriteUsercmd: from=%d to=%d',0Ah,0	

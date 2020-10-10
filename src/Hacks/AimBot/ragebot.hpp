@@ -2,7 +2,7 @@
 
 #include "../HeaderFiles.h"
 #include "autowall.h"
-#include "../lagcomp.h"
+#include "../TickManipulation/lagcomp.hpp"
 #include "../../Utils/draw.h"
 
 class RagebotPredictionSystem{
@@ -11,12 +11,12 @@ private:
 
 	C_BasePlayer* enemy = nullptr;
 	C_BasePlayer* localplayer = nullptr;
+    C_BaseCombatWeapon* activeWeapon = nullptr;
 
     #define RandomeFloat(x) (static_cast<double>( static_cast<double>(std::rand())/ static_cast<double>(RAND_MAX/x)))
-    #define TICK_INTERVAL globalVars->interval_per_tick
     
     // items to check hit Bullet_Impact
-    Vector *bulletPosition = new Vector();
+    std::vector<Vector> bulletPosition;
 
 	void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, int& playerHelth, int& i,const std::unordered_map<int, int>* modelType, const RageWeapon_t& currentSetting);
 
@@ -25,37 +25,42 @@ private:
     void BestMultiPoint(C_BasePlayer* player, int &BoneIndex, int& Damage, Vector& Spot);
 
 	void GetBestSpotAndDamage(C_BasePlayer* player, Vector& Spot, int& Damage,const RageWeapon_t& currSettings);
-
 public :
 
     RagebotPredictionSystem(){}
 
-	bool canShoot(CUserCmd* cmd, C_BaseCombatWeapon*,Vector&, C_BasePlayer*,const RageWeapon_t&);
+	bool canShoot(C_BaseCombatWeapon*,Vector&, C_BasePlayer*,const RageWeapon_t&);
 
-	void GetBestEnemyAndSpot(const RageWeapon_t&);
+	void GetBestEnemy(const RageWeapon_t&);
 
-    void CheckHit(C_BaseCombatWeapon*);
+    void CheckHit();
 
-    void SetBulletPosition(float&, float&, float&);
+    void SetBulletPositions(float& x, float& y, float& z);
+    void clearBulletPositions();
 
-    void init(C_BasePlayer*);
+    void init(C_BasePlayer*, C_BaseCombatWeapon*);
+
+    // Vector GetBulletPosition(){
+    //     return bulletPosition;
+    // }
 
 	C_BasePlayer* GetEnemy();
 };
 
 
 namespace Ragebot {
-    struct enemy 
+    struct DATA 
     {
         C_BasePlayer* player = nullptr;
-        int LockedBone = -1;
-        int bestDamage = 0;
-        Vector lockedSpot = Vector(0);
+        Vector PrevTickEyePosition = Vector(0);
+        Vector BestSpot = Vector(0);
         bool shooted = false;
         int playerhelth = 0;
+        bool slowWalking = false;
+        QAngle prevAngle = QAngle(0);
     };
 
-    inline enemy lockedEnemy;
+    inline struct DATA data;
     inline Vector localEye = Vector(0);
     inline Vector BestSpot = Vector(0);
     inline int BestDamage = 0;

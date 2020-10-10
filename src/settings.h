@@ -282,9 +282,11 @@ struct RageWeapon_t
 		 autoScopeEnabled,
 		 autoSlow,
 		 scopeControlEnabled,
-		 DoubleFire;
+		 DoubleFire,
+		 AutoCroutch,
+		 OnShot;
 	float MinDamage = 50.f,
-		  HitChance = 20.f;
+		  HitChance = 50.f;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
 	
@@ -300,17 +302,19 @@ struct RageWeapon_t
 		}
 			
 
-		return this->silent == Ragebotanother.silent &&
-			this->friendly == Ragebotanother.friendly &&
-			this->closestBone == Ragebotanother.closestBone &&
-			this->autoPistolEnabled == Ragebotanother.autoPistolEnabled &&
-			this->autoShootEnabled == Ragebotanother.autoShootEnabled &&
-			this->autoScopeEnabled == Ragebotanother.autoScopeEnabled &&
-			this->MinDamage == Ragebotanother.MinDamage &&
-			this->autoSlow == Ragebotanother.autoSlow &&
-			this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 
-			this->HitChance == Ragebotanother.HitChance && 
-			this->DoubleFire == Ragebotanother.DoubleFire;
+		return 	this->silent == Ragebotanother.silent &&
+				this->friendly == Ragebotanother.friendly &&
+				this->closestBone == Ragebotanother.closestBone &&
+				this->autoPistolEnabled == Ragebotanother.autoPistolEnabled &&
+				this->autoShootEnabled == Ragebotanother.autoShootEnabled &&
+				this->autoScopeEnabled == Ragebotanother.autoScopeEnabled &&
+				this->MinDamage == Ragebotanother.MinDamage &&
+				this->autoSlow == Ragebotanother.autoSlow &&
+				this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 
+				this->HitChance == Ragebotanother.HitChance && 
+				this->DoubleFire == Ragebotanother.DoubleFire &&
+				this->AutoCroutch == Ragebotanother.AutoCroutch && 
+				this->OnShot == Ragebotanother.OnShot;
 	}
 
 } const ragedefault{};
@@ -459,14 +463,20 @@ namespace Settings
 	{
 		inline bool enabled = false;
 
-		namespace backTrack
-		{
-			inline bool enabled = false;
-		}
-
 		inline std::unordered_map<ItemDefinitionIndex, RageWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
+	}
+
+	namespace LagComp
+	{
+		inline bool enabled = false;
+	}
+
+	namespace BackTrack
+	{
+		inline bool enabled = false;
+		inline float MaxTick = 100;
 	}
 
 	namespace Triggerbot

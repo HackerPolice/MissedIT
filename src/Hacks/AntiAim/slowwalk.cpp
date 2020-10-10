@@ -9,13 +9,10 @@ void SlowWalk::CreateMove(CUserCmd* cmd){
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer || !localplayer->GetAlive())
 		return;
-	if (Ragebot::lockedEnemy.player)
+	if (Ragebot::data.player)
 		return;
     if (!inputSystem->IsButtonDown(Settings::AntiAim::SlowWalk::Key))
 		return;
-    
-    // float oldForward = cmd->forwardmove;
-    // float oldSideMove = cmd->sidemove;
         
     QAngle ViewAngle;
 	engine->GetViewAngles(ViewAngle);
@@ -30,10 +27,5 @@ void SlowWalk::CreateMove(CUserCmd* cmd){
 	{
 		cmd->forwardmove = 0;
 		cmd->sidemove = 0;
-		CreateMove::sendPacket = false;
-	}
-	else
-	{
-		CreateMove::sendPacket = true;
 	}
 }

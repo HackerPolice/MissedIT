@@ -1808,6 +1808,8 @@ const std::map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
 // NON-PLAYER SPECIFIC (i.e., not used by GameMovement or the client .dll ) -- Can still be applied to players, though
 #define FL_INWATER				(1<<9)	// In water
 
+#define FL_ONFIRE				(1<<27)	
+
 #define CONTENTS_EMPTY			0		// No contents
 
 #define CONTENTS_SOLID			0x1		// an eye is never valid in a solid

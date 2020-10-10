@@ -10,11 +10,14 @@ static float NormalizeAsYaw(float flAngle)
 {
 	if (flAngle > 180.f || flAngle < -180.f)
 	{
+		auto revolutions = round(abs(flAngle / 360.f));
+
 		if (flAngle < 0.f)
-			flAngle += round(abs(flAngle));
+			flAngle += 360.f * revolutions;
 		else
-			flAngle -= round(abs(flAngle));
+			flAngle -= 360.f * revolutions;
 	}
+
 	return flAngle;
 }
 
@@ -61,7 +64,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 	{
 		
 		int maxClient = engine->GetMaxClients();
-		for (int i = 1; i < maxClient; ++i)
+		for (int i = 1; i < maxClient; i++)
 		{
 			C_BasePlayer *player = (C_BasePlayer *)entityList->GetClientEntity(i);
 			// Resolver::AnimationFix(player);
@@ -90,24 +93,25 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				Resolver::players[player->GetIndex()].enemy = player;
 			}
 
-
+			// player->GetEyeAngles()->y += 60;
             float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-					
+
+			// 
 			switch(Resolver::players[player->GetIndex()].MissedCount)
 			{
 				case 0:
-					player->GetAnimState()->goalFeetYaw = trueDelta <= 0 ? player->GetEyeAngles()->y + GetPercentVal(trueDelta, 60): player->GetEyeAngles()->y - GetPercentVal(trueDelta, 60);
+					player->GetEyeAngles()->y += trueDelta; 
+					Resolver::players[player->GetIndex()].PrevTrueDelta = trueDelta;
 					break;
 				case 1:
 					break;
 				case 2:
-					player->GetEyeAngles()->y += trueDelta;
+					if (Resolver::players[player->GetIndex()].PrevTrueDelta == trueDelta)
+						player->GetEyeAngles()->y -= trueDelta;
 					break;
 				case 3:
-					player->GetEyeAngles()->y = trueDelta <= 0 ? player->GetEyeAngles( )->y - 20.f : player->GetEyeAngles( )->y + 20.f;
-					break;
-				case 4:
-					player->GetEyeAngles()->y += trueDelta <= 0 ? player->GetEyeAngles( )->y - RANDOME_FLOAT(35.f) : player->GetEyeAngles( )->y + RANDOME_FLOAT(35.f);
+					Resolver::players[player->GetIndex()].MissedCount = 0;
+					player->GetEyeAngles()->y += trueDelta; 
 					break;
 				default:
 					break;
@@ -118,25 +122,5 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 void Resolver::FireGameEvent(IGameEvent *event)
 {	
-	// if (!event)
-	// 	return;
-
-	// if (strcmp(event->GetName(), XORSTR("player_connect_full")) == 0 || strcmp(event->GetName(), XORSTR("cs_game_disconnected")) == 0)
-    // {
-	// 	if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
-	//     	return;
-    // }
-
-	// 	int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
-	// 	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("userid")));
-
-	// 	if (attacker_id == deadPlayer_id) // suicide
-	//     	return;
-		
-	// 	if (attacker_id != engine->GetLocalPlayer())
-	// 		return;
-
-	// 	if (strcmp(event->GetName(), "player_hurt") == 0 || strcmp(event->GetName(), "player_hurt") == -1);		
-			// Resolver::players[TargetID].MissedCount--;
-				// ImGui::TextWrapped(XORSTR("Missed"));
+	// no need right now
 }

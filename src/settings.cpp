@@ -163,80 +163,82 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
     for (auto i : Settings::Legitbot::weapons)
     {
-    // TODO this is kind of a hack and i'm too tired to find a better way to do this
-    // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
-    // in C++ and weird shit
-    #define LegitweaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
-	    LegitweaponSetting[XORSTR("Silent")] = i.second.silent;
-	    LegitweaponSetting[XORSTR("AutoShoot")] = i.second.autoShoot;
-	    LegitweaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
-	    LegitweaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
-	    LegitweaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
-	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Enabled")] = i.second.smoothEnabled;
-	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Amount")] = i.second.smoothAmount;
-	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Type")] = (int)i.second.smoothType;
-	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")] = i.second.smoothSaltEnabled;
-	    LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")] = i.second.smoothSaltMultiplier;
-	    LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
-	    LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
-	    LegitweaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
-	    LegitweaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
-	    LegitweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
-	    LegitweaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
-	    LegitweaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
-	    LegitweaponSetting[XORSTR("RCS")][XORSTR("Enabled")] = i.second.rcsEnabled;
-	    LegitweaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")] = i.second.rcsAlwaysOn;
-	    LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountX")] = i.second.rcsAmountX;
-    	LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
-    	LegitweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
-    	LegitweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-    	LegitweaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
-	    LegitweaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
-    	LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
-	    LegitweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
-    	LegitweaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
-	    LegitweaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
-        LegitweaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
-        LegitweaponSetting[XORSTR("MinDamage")][XORSTR("enabled")] = i.second.mindamage;
-        LegitweaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.minDamagevalue;
-        LegitweaponSetting[XORSTR("Autowall")][XORSTR("enabled")] = i.second.autoWall;
+        // TODO this is kind of a hack and i'm too tired to find a better way to do this
+        // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
+        // in C++ and weird shit
+        #define LegitweaponSetting settings[XORSTR("Legitbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
+	        LegitweaponSetting[XORSTR("Silent")] = i.second.silent;
+	        LegitweaponSetting[XORSTR("AutoShoot")] = i.second.autoShoot;
+	        LegitweaponSetting[XORSTR("TargetBone")] = (int)i.second.bone;
+	        LegitweaponSetting[XORSTR("AimKey")] = Util::GetButtonName(i.second.aimkey);
+	        LegitweaponSetting[XORSTR("AimKeyOnly")] = i.second.aimkeyOnly;
+	        LegitweaponSetting[XORSTR("Smooth")][XORSTR("Enabled")] = i.second.smoothEnabled;
+	        LegitweaponSetting[XORSTR("Smooth")][XORSTR("Amount")] = i.second.smoothAmount;
+	        LegitweaponSetting[XORSTR("Smooth")][XORSTR("Type")] = (int)i.second.smoothType;
+	        LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Enabled")] = i.second.smoothSaltEnabled;
+	        LegitweaponSetting[XORSTR("Smooth")][XORSTR("Salting")][XORSTR("Multiplier")] = i.second.smoothSaltMultiplier;
+	        LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Enabled")] = i.second.errorMarginEnabled;
+	        LegitweaponSetting[XORSTR("ErrorMargin")][XORSTR("Value")] = i.second.errorMarginValue;
+	        LegitweaponSetting[XORSTR("AutoAim")][XORSTR("Enabled")] = i.second.autoAimEnabled;
+	        LegitweaponSetting[XORSTR("AutoAim")][XORSTR("LegitFOV")] = i.second.LegitautoAimFov;
+	        LegitweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
+	        LegitweaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
+	        LegitweaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
+	        LegitweaponSetting[XORSTR("RCS")][XORSTR("Enabled")] = i.second.rcsEnabled;
+	        LegitweaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")] = i.second.rcsAlwaysOn;
+	        LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountX")] = i.second.rcsAmountX;
+    	    LegitweaponSetting[XORSTR("RCS")][XORSTR("AmountY")] = i.second.rcsAmountY;
+    	    LegitweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
+    	    LegitweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
+    	    LegitweaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
+	        LegitweaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
+    	    LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
+	        LegitweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
+    	    LegitweaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
+	        LegitweaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
+            LegitweaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")] = i.second.TriggerBot;
+            LegitweaponSetting[XORSTR("MinDamage")][XORSTR("enabled")] = i.second.mindamage;
+            LegitweaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.minDamagevalue;
+            LegitweaponSetting[XORSTR("Autowall")][XORSTR("enabled")] = i.second.autoWall;
 	
-	    for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-	        LegitweaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
+	        for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
+	            LegitweaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
 
-    #undef LegitweaponSetting
+        #undef LegitweaponSetting
     }
 
     for (auto i : Settings::Ragebot::weapons)
     {
-    // TODO this is kind of a hack and i'm too tired to find a better way to do this
-    // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
-    // in C++ and weird shit
-    #define RageweaponSetting settings[XORSTR("Ragebot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
-	    RageweaponSetting[XORSTR("Silent")] = i.second.silent;
-	    RageweaponSetting[XORSTR("Friendly")] = i.second.friendly;
-	    RageweaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
-	    RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
-	    RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
-	    RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
-	    RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
-        RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
-	    RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
-	    RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
-	    RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
+        // TODO this is kind of a hack and i'm too tired to find a better way to do this
+        // yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
+        // in C++ and weird shit
+        #define RageweaponSetting settings[XORSTR("Ragebot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex)i.first)]
+	        RageweaponSetting[XORSTR("Silent")] = i.second.silent;
+	        RageweaponSetting[XORSTR("Friendly")] = i.second.friendly;
+	        RageweaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
+	        RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
+	        RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
+            RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")] = i.second.OnShot;
+	        RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
+	        RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
+            RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
+	        RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
+	        RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
+	        RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
+            RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")] = i.second.AutoCroutch;
 
-        for (int bone = 0; bone < 6; bone++)
-        {
-            RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone] = i.second.desireBones[bone];
-            RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone] = i.second.desiredMultiBones[bone];
-        }
+            for (int bone = 0; bone < 6; bone++)
+            {
+                RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone] = i.second.desireBones[bone];
+                RageweaponSetting[XORSTR("DesireMultiBones")][XORSTR("Bones")][bone] = i.second.desiredMultiBones[bone];
+            }
 	
-    #undef RageweaponSetting
+        #undef RageweaponSetting
     }
 
-    // settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")] = Settings::Legitbot::AutoCrouch::enabled;
-    // settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")] = Settings::Ragebot::AutoCrouch::enable;
-    settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")] = Settings::Ragebot::backTrack::enabled;
+    settings[XORSTR("LagComp")][XORSTR("enable")] = Settings::LagComp::enabled;
+    settings[XORSTR("BackTrack")][XORSTR("enable")] = Settings::BackTrack::enabled;
+    settings[XORSTR("BackTrack")][XORSTR("maxTick")] = Settings::BackTrack::MaxTick;
     
     settings[XORSTR("Triggerbot")][XORSTR("enabled")] = Settings::Triggerbot::enabled;
 	settings[XORSTR("Triggerbot")][XORSTR("key")] = Util::GetButtonName(Settings::Triggerbot::key);
@@ -857,6 +859,8 @@ void Settings::LoadConfig(std::string path)
 	        .autoSlow = RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")].asBool(),
 	        .scopeControlEnabled = RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")].asBool(),
 		    .DoubleFire = RageweaponSetting[XORSTR("Prediction")][XORSTR("Enabled")].asBool(),
+            .AutoCroutch = RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")].asBool(),
+            .OnShot = RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")].asBool(),
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
 	        .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
         };
@@ -872,8 +876,9 @@ void Settings::LoadConfig(std::string path)
     // GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
     GetVal(settings[XORSTR("Legitbot")][XORSTR("enabled")], &Settings::Legitbot::enabled);
     GetVal(settings[XORSTR("Ragebot")][XORSTR("enabled")], &Settings::Ragebot::enabled);
-    // GetVal(settings[XORSTR("Ragebot")][XORSTR("AUtoAcrouth")][XORSTR("enable")], &Settings::Ragebot::AutoCrouch::enable);
-    GetVal(settings[XORSTR("Ragebot")][XORSTR("BackTrack")][XORSTR("enable")], &Settings::Ragebot::backTrack::enabled);
+    GetVal(settings[XORSTR("LagComp")][XORSTR("enable")], &Settings::LagComp::enabled);
+    GetVal(settings[XORSTR("BackTrack")][XORSTR("enable")], &Settings::BackTrack::enabled);
+    GetVal(settings[XORSTR("BackTrack")][XORSTR("maxTick")], &Settings::BackTrack::MaxTick);
 
     GetVal(settings[XORSTR("Triggerbot")][XORSTR("enabled")], &Settings::Triggerbot::enabled);
 	GetButtonCode(settings[XORSTR("Triggerbot")][XORSTR("key")], &Settings::Triggerbot::key);
