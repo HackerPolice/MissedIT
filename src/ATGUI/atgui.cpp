@@ -74,7 +74,6 @@ void UI::SetupWindows()
 		//MainHeader::RenderWindow();
 		Main::RenderWindow();
 		ImGui::PopStyleVar();
-		Configs::RenderWindow();
 		// Colors::RenderWindow();
 	}
 

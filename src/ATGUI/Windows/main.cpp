@@ -19,41 +19,6 @@
 
 bool Main::showWindow = true;
 
-static void Buttons()
-{
-	ImVec2 size =  ImGui::GetWindowSize();
-	size = ImVec2( (size.x - Settings::UI::Windows::Main::sizeX)/ 2, (size.y - Settings::UI::Windows::Main::sizeY) / 2);
-	
-	ImGui::SetNextWindowPos(ImVec2(0, (ImGui::GetWindowSize().y / 2) - 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(size.x - 20,30), ImGuiCond_Once );
-
-	ImGui::GetStyle().Colors[ImGuiCol_WindowBg] = ImVec4(0,0,0,0);
-
-	ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
-						Settings::UI::mainColor.Color().Value.x ,
-						Settings::UI::mainColor.Color().Value.y ,
-						Settings::UI::mainColor.Color().Value.z ,
-						Settings::UI::mainColor.Color().Value.w
-				);
-
-	if (ImGui::Begin(XORSTR("##BUTTONS"), &Main::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiConfigFlags_NoMouseCursorChange ) )
-	{
-		ImGui::Columns(1);
-		{			
-			ImGui::PushItemWidth(-1);
-			if (ImGui::Button(XORSTR("Config"), ImVec2( ImGui::GetWindowSize().x, 50) ) )
-				Configs::showWindow = !Configs::showWindow;
-
-			ImGui::PopItemWidth();
-		}
-	}
-	ImGui::End();
-
-	ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::accentColor.Color();
-	ImGui::GetStyle().Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor.Color();
-
-}
-
 void Main::RenderWindow()
 {
 	if (!Main::showWindow)
@@ -97,6 +62,7 @@ void Main::RenderWindow()
 				"Visuals",
 				"Skin/Model",
 				"Misc",	
+				"Config",
 		};
 
 		ImGui::Columns(2, nullptr, false);
@@ -154,6 +120,9 @@ void Main::RenderWindow()
 				case 5:
 					Misc::RenderTab();
 					break;
+				case 6:
+					Configs::RenderTab();
+					break;
 				}
 			}
 			ImGui::EndChild();
@@ -162,5 +131,5 @@ void Main::RenderWindow()
 		ImGui::End();
 	}
 	
-	Buttons();
+	// Buttons();
 }

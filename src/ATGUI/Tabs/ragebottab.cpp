@@ -210,8 +210,6 @@ void RagebotTab::RenderTab()
 					}
 					ImGui::Checkbox(XORSTR("LagCom"), &Settings::LagComp::enabled);
 					ImGui::Checkbox(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
-					ImGui::SameLine();
-					ImGui::SliderFloat(XORSTR("##BACKTRACKMAXTICK"), &Settings::BackTrack::MaxTick, 0, 100, XORSTR("Max TIck : %0.0f"));
 					ImGui::Checkbox(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 				}
 			}
@@ -232,6 +230,7 @@ void RagebotTab::RenderTab()
 			{
 				ImGui::PushItemWidth(-1);
 				if (HitChance == 0) {
+					// ImGui::SliderFloat2
 					if( ImGui::SliderFloat(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("HitChance Off")) )
 						UI::UpdateRageWeaponSettings();
 				}

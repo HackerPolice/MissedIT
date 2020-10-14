@@ -472,8 +472,6 @@ void GrenadePrediction::RenderView( void* thisptr, CViewSetup& setup, CViewSetup
 
 /* Don't jump with Scroll-Wheel if grenade predicting */
 void GrenadePrediction::CreateMove( CUserCmd *cmd ) {
-    if( !Settings::GrenadePrediction::enabled )
-        return;
 
     C_BasePlayer* localPlayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
     if ( !localPlayer || !localPlayer->GetAlive() )

@@ -90,6 +90,8 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (!Settings::ThirdPerson::enabled && !input->m_fCameraInThirdPerson) return;
 		
-	if (Settings::AntiAim::RageAntiAim::enable && Settings::ThirdPerson::toggled) *localplayer->GetVAngles() = AntiAim::realAngle;
-	
+	if (Settings::ThirdPerson::toggled){
+		QAngle* temp = localplayer->GetVAngles();
+		*temp = AntiAim::realAngle;
+	}
 }

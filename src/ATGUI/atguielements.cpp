@@ -239,17 +239,17 @@ void UI::SetupColors()
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(4, 4);
 	style.WindowMinSize = ImVec2(32, 32);
-	style.WindowRounding = 7.5f;
+	style.WindowRounding = 0.0f;
 	style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
-	style.ChildRounding = 5.5f;
+	style.ChildRounding = 0.0f;
 	style.FramePadding = ImVec2(4, 3);
-	style.FrameRounding = 7.5f;
+	style.FrameRounding = 0.f;
 	style.ItemSpacing = ImVec2(8, 4);
 	style.ItemInnerSpacing = ImVec2(4, 4);
 	style.TouchExtraPadding = ImVec2(0, 2);
 	style.IndentSpacing = 21.0f;
 	style.ColumnsMinSpacing = 3.0f;
-	style.MouseCursorScale = 2.f;
+	style.MouseCursorScale = 1.5f;
 	style.ScrollbarSize = 12.0f;
 	style.ScrollbarRounding = 7.5f;
 	style.GrabMinSize = 5.0f;
@@ -258,7 +258,7 @@ void UI::SetupColors()
 	style.DisplayWindowPadding = ImVec2(22, 22);
 	style.DisplaySafeAreaPadding = ImVec2(4, 4);
 	style.AntiAliasedLines = true;
-	style.AntiAliasedFill = true;
+	style.AntiAliasedFill = false;
 	style.CurveTessellationTol = 1.25f;
 
 	style.Colors[ImGuiCol_Text] = Settings::UI::fontColor.Color();
@@ -281,7 +281,7 @@ void UI::SetupColors()
 	style.Colors[ImGuiCol_ScrollbarGrabActive] = accentColorActive;
 	style.Colors[ImGuiCol_CheckMark]  = Settings::UI::accentColor.Color();
 	style.Colors[ImGuiCol_SliderGrab] = accentColorHovered;
-	style.Colors[ImGuiCol_SliderGrabActive] = accentColorActive;
+	style.Colors[ImGuiCol_SliderGrabActive] = accentColorHovered;
 	style.Colors[ImGuiCol_Button] = Settings::UI::accentColor.Color();
 	style.Colors[ImGuiCol_ButtonHovered] = accentColorHovered;
 	style.Colors[ImGuiCol_ButtonActive] = accentColorActive;

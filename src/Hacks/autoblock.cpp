@@ -6,9 +6,6 @@
 
 void Autoblock::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::Autoblock::enabled)
-		return;
-
 	if (!inputSystem->IsButtonDown(Settings::Autoblock::key))
 		return;
 

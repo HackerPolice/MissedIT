@@ -80,9 +80,6 @@ static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 
 void AutoStrafe::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::AutoStrafe::enabled)
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;

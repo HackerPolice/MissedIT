@@ -128,7 +128,6 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 
 static void DrawFake(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
-
 	if (!Settings::ESP::FilterLocalPlayer::Chams::enabled || !Settings::ThirdPerson::toggled)
 		return;
 

@@ -50,23 +50,24 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
         CreateMove::sendPacket = true;
 
 		/* run code that affects movement before prediction */
-		BHop::CreateMove(cmd);
-		NoDuckCooldown::CreateMove(cmd);
-		AutoStrafe::CreateMove(cmd);
-		ShowRanks::CreateMove(cmd);
-		AutoDefuse::CreateMove(cmd);
-		JumpThrow::CreateMove(cmd);
+		if (Settings::BHop::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, BHop::CreateMove, cmd); }
+		if (Settings::NoDuckCooldown::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, NoDuckCooldown::CreateMove, cmd); }
+		if (Settings::AutoStrafe::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, AutoStrafe::CreateMove, cmd); }
+		if (Settings::ShowRanks::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, ShowRanks::CreateMove, cmd); }
+		if (Settings::AutoDefuse::enabled || Settings::AutoDefuse::silent) { auto t = std::async(std::launch::async | std::launch::deferred, AutoDefuse::CreateMove, cmd); }
+		if (Settings::JumpThrow::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, JumpThrow::CreateMove, cmd); }
+		
 		GrenadeHelper::CreateMove(cmd);
-        GrenadePrediction::CreateMove( cmd );
-        EdgeJump::PrePredictionCreateMove(cmd);
-		Autoblock::CreateMove(cmd);
-		NoFall::PrePredictionCreateMove(cmd);
-		Walkbot::CreateMove(cmd);
+		if( Settings::GrenadePrediction::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, GrenadePrediction::CreateMove, cmd); }
+        if( Settings::EdgeJump::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, EdgeJump::PrePredictionCreateMove, cmd); }
+		if( Settings::Autoblock::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, Autoblock::CreateMove, cmd); }
+		if ( !Settings::NoFall::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, NoFall::PrePredictionCreateMove, cmd);}
+		// Walkbot::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
-		FakeLag::CreateMove(cmd);
-		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); 	}
-		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); 	}
+		if (!Settings::FakeLag::enabled) {  auto t = std::async(std::launch::async | std::launch::deferred, FakeLag::CreateMove, cmd); }
+		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
+		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
 		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
     	AntiAim::CreateMove(cmd);

@@ -36,11 +36,6 @@ void LagSpike(CUserCmd* cmd, int lagTick){
 }
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
-	// fakeDuck( cmd ); // for fake ducking don't ask my why here
-
-	if (!Settings::FakeLag::enabled)
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;

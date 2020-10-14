@@ -7,9 +7,6 @@ int flags_backup = 0;
 
 void EdgeJump::PrePredictionCreateMove(CUserCmd* cmd)
 {
-	if (!Settings::EdgeJump::enabled)
-		return;
-
 	if (!inputSystem->IsButtonDown(Settings::EdgeJump::key))
 		return;
 

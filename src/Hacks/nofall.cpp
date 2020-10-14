@@ -11,8 +11,7 @@ void NoFall::PrePredictionCreateMove( CUserCmd *cmd ) {
     Ray_t ray;
     trace_t tr;
 
-    if ( !Settings::NoFall::enabled )
-        return;
+   
 
     C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
     if ( !localplayer )

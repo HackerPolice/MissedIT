@@ -2,7 +2,5 @@
 
 namespace Configs
 {
-	extern bool showWindow;
-
-	extern void RenderWindow();
+	void RenderTab();
 }

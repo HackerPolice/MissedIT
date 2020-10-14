@@ -178,7 +178,7 @@ void TracerEffect::CreateMove(CUserCmd* cmd) {
              * Instead of the one you took the shot with */
             lastGun = localWeapon->GetCSWpnData()->GetConsoleName();
             engine->ClientCmd_Unrestricted("use weapon_taser;"); // needs to be unrestricted
-            cmd->buttons = cmd->buttons | IN_ATTACK;
+            cmd->buttons |= IN_ATTACK;
             wait = true;
             waitUntil = Util::GetEpochTime() + 125;
         }

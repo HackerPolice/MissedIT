@@ -6,8 +6,6 @@
 
 void AutoDefuse::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::AutoDefuse::enabled && !Settings::AutoDefuse::silent)
-		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())

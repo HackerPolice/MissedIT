@@ -153,7 +153,6 @@ enum class AntiAimRealType_Y : int
 	NONE,
 	Static,
 	Jitter,
-	Randome,
 };
 
 enum class AntiAimFakeType_y : int
@@ -162,29 +161,6 @@ enum class AntiAimFakeType_y : int
 	Static,
 	Jitter,
 	Randome,
-};
-
-enum class AntiAimType : int
-{
-	LegitAntiAim,
-	RageAntiAim,
-	Lagacy,
-};
-
-enum class RageAntiAimType : int
-{
-	DefaultRage,
-	FakeArroundReal,
-	RealArroundFake,
-	SemiDirection,
-	FreeStand,
-};
-
-enum class LegitAAType : int
-{
-    OverWatchProof,
-	FakeLegitAA,
-	Experimental,
 };
 
 enum class SkinAndModel : int
@@ -476,7 +452,6 @@ namespace Settings
 	namespace BackTrack
 	{
 		inline bool enabled = false;
-		inline float MaxTick = 100;
 	}
 
 	namespace Triggerbot
@@ -514,36 +489,14 @@ namespace Settings
 
     namespace AntiAim
     {
-		namespace Type
-		{
-			inline AntiAimType antiaimType = AntiAimType::LegitAntiAim;
-		}
-        namespace AutoDisable
-        {
-            inline bool noEnemy = false;
-            inline bool knifeHeld = false;
-        }
-        namespace RageAntiAim
-        {
-            inline bool enable = false;
-			inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
-			inline bool inverted = false;
-			inline float AntiAImPercent = 100.f;
-			inline float JitterPercent = 30.f;
-			inline bool atTheTarget = false;
-			inline bool SendReal = false;
-			inline RageAntiAimType Type = RageAntiAimType::RealArroundFake;
-        }
-		namespace LegitAntiAim 
-		{
-			inline bool enable = false;
-			inline bool OverWatchProof = true;
-			inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
-			inline bool inverted = false;
-			inline float RealPercentage = 30.f;
-			inline float RealPercentageInCroutch = 30.f;
-			inline LegitAAType legitAAtype = LegitAAType::OverWatchProof;
-		}
+		inline bool inverted = false;
+		inline bool atTheTarget = false;
+		inline bool PitchDown = false;
+		inline bool autoDirection = false;
+		inline float offset = 0.f;
+		inline float fakeAmmount = 0.f;
+		inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
+		
 		namespace ManualAntiAim
 		{
 			inline bool Enable = false;
@@ -551,21 +504,11 @@ namespace Settings
 			inline ButtonCode_t RightButton = ButtonCode_t::KEY_C;
 			inline ButtonCode_t LeftButton = ButtonCode_t::KEY_Z;
 		}
-        namespace Yaw
-        {
-            inline AntiAimRealType_Y typeReal = AntiAimRealType_Y::Static;
-            inline AntiAimFakeType_y typeFake = AntiAimFakeType_y::Static;
-        }
         namespace HeadEdge
         {
             inline bool enabled = false;
-            inline float distance = 25.0f;
         }
-        namespace LBYBreaker
-        {
-            inline bool enabled = false;
-            inline float offset = 180.0f;
-        }
+
 		namespace FakeDuck
 		{
 			inline bool enabled = false;

@@ -7,9 +7,6 @@ bool inAttackState = false;
 
 void JumpThrow::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::JumpThrow::enabled)
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
