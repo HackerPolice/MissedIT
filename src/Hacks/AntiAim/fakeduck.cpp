@@ -16,41 +16,22 @@ void FakeDuck::CreateMove(CUserCmd *cmd)
 		return;
 
 	if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeDuck::fakeDuckKey))
-	{
-		FirstDuck = false;
 		return;
-	}
 
-	if ( !localplayer->GetAnimState()->duckProgress && !FirstDuck )
-	{
-		cmd->buttons |= IN_DUCK;
-		CreateMove::sendPacket = true;
-	}
-	else 
-		FirstDuck = true;
-	
 	if ( cmd->buttons&IN_ATTACK )
-	{
 		cmd->buttons &= ~IN_DUCK;
-		CreateMove::sendPacket = false;
-	}
-	
-	CreateMove::sendPacket = false;
 
 	static bool counter = false;
 	static int counters = 0;
 
 	if (counters == 9 )
-	{
-		counters = 0;
 		counter = !counter;
-	}
 
 	counters++;
 
 	if (counter)
 	{
-		cmd->buttons |= IN_BULLRUSH | IN_DUCK;
+		cmd->buttons |= IN_DUCK;
 		CreateMove::sendPacket = true;
 	}
 	else

@@ -95,19 +95,18 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			// player->GetEyeAngles()->y += 60;
             float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-
+			// float trueDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
 			// 
+			
 			switch(Resolver::players[player->GetIndex()].MissedCount)
 			{
 				case 0:
-					player->GetEyeAngles()->y += trueDelta; 
-					Resolver::players[player->GetIndex()].PrevTrueDelta = trueDelta;
+					trueDelta > 0 ? *player->GetLowerBodyYawTarget() + (360 - trueDelta) : *player->GetLowerBodyYawTarget() - (360 - (trueDelta*-1)) ; 
 					break;
 				case 1:
 					break;
 				case 2:
-					if (Resolver::players[player->GetIndex()].PrevTrueDelta == trueDelta)
-						player->GetEyeAngles()->y -= trueDelta;
+					player->GetEyeAngles()->y += (*player->GetLowerBodyYawTarget() + trueDelta);
 					break;
 				case 3:
 					Resolver::players[player->GetIndex()].MissedCount = 0;
@@ -116,6 +115,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				default:
 					break;
 			}
+			// Math::NormalizeAngles( *player->GetEyeAngles() ); 
+			// Math::ClampAngles( *player->GetEyeAngles() );
         }	
 	}
 }

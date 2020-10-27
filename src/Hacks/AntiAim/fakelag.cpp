@@ -7,56 +7,21 @@
 #ifndef absol
 	#define absol(x) x < 0 ? x*-1 : x
 #endif
-int ticksMax = 16;
 
-bool CheckPeaking(CUserCmd* cmd){
-	float forMove = absol(cmd->forwardmove);
-	float sideMove = absol(cmd->sidemove);
-	if (sideMove > forMove) {
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer || !localplayer->GetAlive()){
-			return false;
-		}
+int ticksMax = 14;
 
-		if ( localplayer->GetVelocity().Length2D() > 100.f )
-			return true;
-	}	
-	return false;
-}
-void LagSpike(CUserCmd* cmd, int lagTick){
-	if (!CheckPeaking){
-		ticksMax = 16;
-		return;
-	}
-		
-	ticksMax = 25;
-	FakeLag::ticks = 0;
-	
-	
-}
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
-	if (localplayer->GetFlags() & FL_ONGROUND && Settings::FakeLag::adaptive)
-		return;
-
-	if (cmd->buttons & IN_ATTACK)
-	{
-		CreateMove::sendPacket = true;
-		return;
+	if ( FakeLag::ticks > ticksMax){
+		FakeLag::ticks = 0;
 	}
-
 
 	if (Settings::FakeLag::adaptive)
 	{
-		if (FakeLag::ticks >= ticksMax)
-		{
-			CreateMove::sendPacket = true;
-			FakeLag::ticks = 0;
-		}
 		int packetsToChoke;
 		if (localplayer->GetVelocity().Length() > 0.f)
 		{
@@ -72,15 +37,8 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		CreateMove::sendPacket = FakeLag::ticks < (16 - packetsToChoke);
 	}
 	else{
-		if (FakeLag::ticks > Settings::FakeLag::value)
-		{
-			CreateMove::sendPacket = true;
-			FakeLag::ticks = 0;
-		}
-
-		CreateMove::sendPacket = FakeLag::ticks < Settings::FakeLag::value;
+		CreateMove::sendPacket = FakeLag::ticks >= Settings::FakeLag::value;
 	}
-		
 
 	FakeLag::ticks++;
 }

@@ -40,12 +40,12 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	for ( auto &Tick : Records::Ticks){
 		for ( auto &record : Tick.records){
 			if (record.entity == Ragebot::data.player){
-				cmd->tick_count = TIME_TO_TICKS(record.simulationTime + Records::GetLerpTime());
 				has_target = true;
 				break;
 			}
 		}
 		if (has_target){
+			cmd->tick_count = Tick.tickCount;
 			break;
 		}
 	}

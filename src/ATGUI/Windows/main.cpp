@@ -13,6 +13,7 @@
 #include "../Tabs/skinstab.h"
 #include "../Tabs/modelstab.h"
 #include "../Tabs/skinsandmodel.h"
+#include "../Tabs/other.hpp"
 
 #include "colors.h"
 #include "configs.h"
@@ -61,37 +62,36 @@ void Main::RenderWindow()
 				"Anti Aim",
 				"Visuals",
 				"Skin/Model",
-				"Misc",	
+				"Misc",
+				"Others",
 				"Config",
 		};
 
 		ImGui::Columns(2, nullptr, false);
 		{
 			float ButtonsXSize = ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs)-9;
-			ImGui::SetColumnOffset(1, ButtonsXSize);
-			for (int i = 0; i < IM_ARRAYSIZE(tabs); i++)
+			ImGui::SetColumnOffset(1, ButtonsXSize); 
+			for (int i = 0; i < 8; i++)
 			{
 				int distance = i == page ? 0 : i > page ? i - page : page - i;
-
-				ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
-					Settings::UI::mainColor.Color().Value.x - (distance * 0.035f),
-					Settings::UI::mainColor.Color().Value.y - (distance * 0.035f),
-					Settings::UI::mainColor.Color().Value.z - (distance * 0.035f),
-					Settings::UI::mainColor.Color().Value.w
-				);
-
+				
+				if (i <= 5){
+					ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
+						Settings::UI::mainColor.Color().Value.x - (distance * 0.035f),
+						Settings::UI::mainColor.Color().Value.y - (distance * 0.035f),
+						Settings::UI::mainColor.Color().Value.z - (distance * 0.035f),
+						Settings::UI::mainColor.Color().Value.w
+					);
+				}
+				
+				ImGui::Spacing();
 				if (ImGui::Button(tabs[i], ImVec2( ButtonsXSize, 0)))
 					page = i;
 
-				ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::accentColor.Color();
-
-				// if (i < IM_ARRAYSIZE(tabs) - 1)
-				// {
-				// 	ImGui::SameLine();
-				// 	ImGui::Dummy(ImVec2(-1,-1));
-				// }
+				if (i == 5) ImGui::Dummy(ImVec2(-1,80));
+				ImGui::GetStyle().Colors[ImGuiCol_Button] =Settings::UI::mainColor.Color().Value;
 				
-		}
+			}
 		}
 		ImGui::NextColumn();
 		{
@@ -121,6 +121,9 @@ void Main::RenderWindow()
 					Misc::RenderTab();
 					break;
 				case 6:
+					Other::Render();
+					break;
+				case 7:
 					Configs::RenderTab();
 					break;
 				}
@@ -130,6 +133,4 @@ void Main::RenderWindow()
 		ImGui::EndColumns();
 		ImGui::End();
 	}
-	
-	// Buttons();
 }

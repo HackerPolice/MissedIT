@@ -250,22 +250,22 @@ struct LegitWeapon_t
 
 struct RageWeapon_t
 {
-	bool silent,
-		 friendly,
-		 closestBone,
-		 autoPistolEnabled,
-		 autoShootEnabled,
-		 autoScopeEnabled,
+	bool silent = false,
+		 friendly = false,
+		 closestBone = false,
+		 autoPistolEnabled = false,
+		 autoShootEnabled = false,
+		 autoScopeEnabled = false,
 		 autoSlow,
-		 scopeControlEnabled,
-		 DoubleFire,
-		 AutoCroutch,
-		 OnShot;
+		 scopeControlEnabled = false,
+		 DoubleFire = false,
+		 AutoCroutch = false,
+		 OnShot = false;
 	float MinDamage = 50.f,
-		  HitChance = 50.f;
+		  HitChance = 50.f,
+		  DamageOverride = 100.f;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
-	
 
 	bool operator == (const RageWeapon_t& Ragebotanother) const
 	{
@@ -277,7 +277,6 @@ struct RageWeapon_t
 				return false;
 		}
 			
-
 		return 	this->silent == Ragebotanother.silent &&
 				this->friendly == Ragebotanother.friendly &&
 				this->closestBone == Ragebotanother.closestBone &&
@@ -290,6 +289,7 @@ struct RageWeapon_t
 				this->HitChance == Ragebotanother.HitChance && 
 				this->DoubleFire == Ragebotanother.DoubleFire &&
 				this->AutoCroutch == Ragebotanother.AutoCroutch && 
+				this->DamageOverride == Ragebotanother.DamageOverride &&
 				this->OnShot == Ragebotanother.OnShot;
 	}
 
@@ -438,7 +438,7 @@ namespace Settings
 	namespace Ragebot
 	{
 		inline bool enabled = false;
-
+		inline ButtonCode_t DamageOverrideBtn = ButtonCode_t::MOUSE_MIDDLE;
 		inline std::unordered_map<ItemDefinitionIndex, RageWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
                 { ItemDefinitionIndex::INVALID, ragedefault },
         };
@@ -489,12 +489,15 @@ namespace Settings
 
     namespace AntiAim
     {
+		inline bool Enabled = false;
 		inline bool inverted = false;
+		inline bool InvertOnShoot = false;
 		inline bool atTheTarget = false;
 		inline bool PitchDown = false;
 		inline bool autoDirection = false;
 		inline float offset = 0.f;
 		inline float fakeAmmount = 0.f;
+		inline float NetFake = 0.f;
 		inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
 		
 		namespace ManualAntiAim

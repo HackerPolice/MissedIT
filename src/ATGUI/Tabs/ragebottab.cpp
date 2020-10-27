@@ -24,6 +24,7 @@ static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
 static float HitChance = 0.f;
 static float MinDamage = 0.f;
+static float DamageOverride = 0.f;
 static bool autoSlow = false;
 static bool doubleFire = false;
 static bool scopeControlEnabled = false;
@@ -48,6 +49,7 @@ void UI::ReloadRageWeaponSettings()
 	autoSlow = Settings::Ragebot::weapons.at(index).autoSlow;
 	doubleFire = Settings::Ragebot::weapons.at(index).DoubleFire;
 	scopeControlEnabled = Settings::Ragebot::weapons.at(index).scopeControlEnabled;
+	DamageOverride = Settings::Ragebot::weapons.at(index).DamageOverride;
 
 	for (int BONE = 0; BONE < 6; BONE++)
 	{
@@ -75,8 +77,8 @@ void UI::UpdateRageWeaponSettings()
 			.OnShot = OnShot,
 			.MinDamage = MinDamage,
 			.HitChance = HitChance,
+			.DamageOverride = DamageOverride,
 	};
-
 
 	for (int BONE = 0; BONE < 6; BONE++){
 		settings.desireBones[BONE] = desireBones[BONE];
@@ -238,6 +240,7 @@ void RagebotTab::RenderTab()
 					if( ImGui::SliderFloat(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("Hitchance %0.0f")) )
 						UI::UpdateRageWeaponSettings();
 				}
+
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns();
@@ -250,6 +253,18 @@ void RagebotTab::RenderTab()
 				else {
 					if (ImGui::SliderFloat(XORSTR("##VISIBLEDMG"), &MinDamage, 0, 150, XORSTR("Min Damage: %.0f")))
 					UI::UpdateRageWeaponSettings();
+				}
+
+				if (DamageOverride == 0) {
+					if (ImGui::SliderFloat(XORSTR("##DamageOverride"), &DamageOverride, 0, 150, XORSTR("DamageOverride OFf")))
+						UI::UpdateRageWeaponSettings();
+				}
+				else {
+					if (ImGui::SliderFloat(XORSTR("##DamageOverride"), &DamageOverride, 0, 150, XORSTR("Override Damage: %.0f")))
+						UI::UpdateRageWeaponSettings();
+
+
+					UI::KeyBindButton(&Settings::Ragebot::DamageOverrideBtn);
 				}
 
 				ImGui::PopItemWidth();

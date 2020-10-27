@@ -30,16 +30,19 @@ void BackTrack::CreateMove(CUserCmd *cmd)
 	int size = Records::Ticks.size()-1;
 	int index;
 	bool has_target = false;
-	for ( index = size; index >= 0; index--){
-		for ( auto &record : Records::Ticks.at(index).records ){
-			if (record.entity == Ragebot::data.player){
-				cmd->tick_count = TIME_TO_TICKS(record.simulationTime + Records::GetLerpTime());
-				has_target = true;
-				break;
-			}
-		}
-		if (has_target){
-			break;
-		}
-	}
+
+	cmd->tick_count = Records::Ticks.at(size).tickCount;
+	// for ( index = size; index >= 0; index--){
+	// 	for ( auto &record : Records::Ticks.at(index).records ){
+	// 		if (record.entity == Ragebot::data.player){
+	// 			cmd->tick_count = TIME_TO_TICKS(record.simulationTime + Records::GetLerpTime());
+	// 			Ragebot::data.player->SetAbsOrigin(&record.origin);
+	// 			has_target = true;
+	// 			break;
+	// 		}
+	// 	}
+	// 	if (has_target){
+	// 		break;
+	// 	}
+	// }
 }

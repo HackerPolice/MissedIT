@@ -151,7 +151,7 @@ bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_Base
         if (tr.m_pEntityHit == enemy)
            	hitCount++;
 
-        if (static_cast<int>((hitCount*0.390625)) >= currentSettings.HitChance) // 100/256 = 0.390625
+        if (static_cast<int>((hitCount/2.56)) >= currentSettings.HitChance) // 100/256 = 0.390625
 			return true;
 
 		if ((256 - i + hitCount) < NeededHits)
@@ -426,10 +426,6 @@ void Ragebot::GetBestEnemy()
 			if ( !currentWeaponSetting->desireBones[boneIndex] ) continue;
 
 			GetDamageAndSpots(player, bestSpot, bestDamage, playerHelth, boneIndex, modelType);
-			// Calculating Damage
-				
-	
-			//
 
 			if (bestDamage >= playerHelth)
 			{
@@ -445,6 +441,11 @@ void Ragebot::GetBestEnemy()
 				enemy = player;
 			}
 		}
+	}
+
+	if (inputSystem->IsButtonDown(Settings::Ragebot::DamageOverrideBtn) && BestDamage < currentWeaponSetting->DamageOverride){
+		enemy = nullptr;
+		BestDamage = 0;
 	}
 }
 
@@ -479,6 +480,7 @@ void Ragebot::CheckHit()
 	data.trace_length = 0;
 	data.penetrate_count = 4;
 	data.current_damage = (float) weaponInfo->GetDamage();
+	
 	while ( data.penetrate_count > 0 && data.current_damage >= 1.0f)
 	{
 		data.trace_length_remaining = weaponInfo->GetRange() - data.trace_length;
@@ -499,9 +501,10 @@ void Ragebot::CheckHit()
 				engine->ExecuteClientCmd("say Miss Due To Resolver");
 				Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
 			}
-			else{
+			else if (player) {
 				engine->ExecuteClientCmd("say Ok I am on drugs || I fuking fuck some one elses ass shit :/");
 			}
+			bulPosition.Zero();
 			return;
 		}
 
@@ -509,7 +512,14 @@ void Ragebot::CheckHit()
 			break;
 	}
 
-	engine->ExecuteClientCmd("say Shit this spread sucking so hard");
+	bulPosition.Zero();
+	if (Ragebot::data.player->GetVelocity().Length() < 20.f && localplayer->GetVelocity().Length() < 20.f){
+		engine->ExecuteClientCmd("say I don't Shoot Gays");
+		Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
+	}else {
+		engine->ExecuteClientCmd("say Shit this spread sucking so hard");
+	}
+	
 }
 
 
@@ -529,8 +539,8 @@ void RagebotNoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_
 		|| !localplayer->GetAlive())
 		return;
 	
-	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SSG08 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AWP)
-		return;
+	// if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SSG08 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AWP)
+	// 	return;
 
 	QAngle CurrentPunch = *localplayer->GetAimPunchAngle();
 
@@ -574,21 +584,20 @@ void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon
 	}
 		
 	Ragebot::data.needToStop = true;
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime ) 
+	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime ) {
 		return;
+	}
+		
 
 	
-	// QAngle ViewAngle;
-	// 	engine->GetViewAngles(ViewAngle);
-	// static Vector oldOrigin = localplayer->GetAbsOrigin( );
-	// Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) * (1.f/globalVars->interval_per_tick);
-	// oldOrigin = localplayer->GetAbsOrigin( );
-	// float speed  = velocity.Length( );
-
-
-	//  = velocity.ToAngle(); 
+	QAngle ViewAngle;
+		engine->GetViewAngles(ViewAngle);
+	static Vector oldOrigin = localplayer->GetAbsOrigin( );
+	Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) * (1.f/globalVars->interval_per_tick);
+	oldOrigin = localplayer->GetAbsOrigin( );
+	float speed  = velocity.Length( );
 		
-	// if(speed > 15.f)
+	// if(speed > 30.f)
 	// {
 	// 	QAngle dir;
 	// 	Math::VectorAngles(velocity, dir);
@@ -600,20 +609,15 @@ void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon
 	// 	auto mult = 450.f/max;
 	// 	NewMove *= -mult;
 			
-	// 	forrwordMove = NewMove.x;
-	// 	sideMove = NewMove.y;
+	// 	cmd->forwardmove = NewMove.x;
+	// 	cmd->sidemove = NewMove.y;
 	// }
 	// else 
-	// {	
-	// if (speed >= 15){
-	// 	forrwordMove *= -1;
-	// 	sideMove *= -1;
-	// }else 
 	// {
-		forrwordMove = 0;
-		sideMove = 0;
+		cmd->forwardmove = 0;
+		cmd->sidemove = 0;
 	// }
-	
+	// CreateMove::sendPacket = false;
 }
 
 void RagebotAutoR8(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd,Vector& bestspot, QAngle& angle, float& forrwordMove, float& sideMove, const RageWeapon_t& currentSettings)
@@ -713,13 +717,13 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 
 	init(localplayer, activeWeapon);
 	CheckHit();
-	bulPosition.Zero();
+	
+	if (!localplayer->GetAlive() || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
+		return;
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
 		return;
 
-	if (!localplayer->GetAlive() || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
-		return;
     CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
     if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
@@ -730,16 +734,14 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	}
 	currentWeaponSetting = &Settings::Ragebot::weapons.at(index);
 
-	QAngle oldAngle;
-    engine->GetViewAngles(oldAngle);
-    
+	static QAngle oldAngle;
+    	engine->GetViewAngles(oldAngle);
 	static float oldForward;
-	oldForward = cmd->forwardmove;
+		oldForward = cmd->forwardmove;
     static float oldSideMove;
-	oldSideMove = cmd->sidemove;
-
+		oldSideMove = cmd->sidemove;
 	static QAngle angle;
-	angle = cmd->viewangles;
+		angle = cmd->viewangles;
 
 	if (data.player){
 		data.player = nullptr;
@@ -768,7 +770,8 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			Ragebot::data.playerhelth = enemy->GetHealth();
 			Ragebot::data.PrevTickEyePosition = Ragebot::localEye;
 			Ragebot::data.shooted = true;
-			angle = Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot);
+			if (Settings::AntiAim::InvertOnShoot) { Settings::AntiAim::inverted = !Settings::AntiAim::inverted; }
+			Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot, angle);
 		}
     }
 	
@@ -780,11 +783,10 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 
     FixMouseDeltas(cmd, enemy, angle, oldAngle);
     cmd->viewangles = angle;
+
 	if (!currentWeaponSetting->silent)
 		engine->SetViewAngles(angle);
 
-	CreateMove::sendPacket = !data.needToStop;
-	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
 
 void Ragebot::FireGameEvent(IGameEvent* event)

@@ -9,7 +9,7 @@
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
 	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
-	const char* TeamColorTypes[] = { "Absolute", "Relative" };
+	
 	
 	const char* chamsTypes[] = { 
 								"ADDTIVE",
@@ -20,7 +20,6 @@
 								};
 
 	const char* SmokeTypes[] = { "Wireframe", "None" };
-    const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
 	const char* SkyBoxes[] = {
 			"cs_baggage_skybox_", // 0
 			"cs_tibet",
@@ -110,8 +109,6 @@ static void FilterLocalPlayer()
 		ImGui::Checkbox(XORSTR("RealChams"), &Settings::ESP::FilterLocalPlayer::RealChams::enabled);
 		ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::FilterLocalPlayer::HelthBar::enabled);
 		ImGui::Checkbox(XORSTR("Tracers"), &Settings::ESP::FilterLocalPlayer::Tracers::enabled);
-		
-		
 	}
 	ImGui::NextColumn();
 	{
@@ -263,15 +260,6 @@ void Visuals::RenderTab()
 	// Filter Visibility
 	ImGui::Columns(2, nullptr, false);
 	{
-		// if( Settings::ESP::backend == DrawingBackend::IMGUI ){
-    	//  ImGui::Checkbox( XORSTR( "Aliased Lines"), &Settings::UI::imGuiAliasedLines );
-		// 	ImGui::SameLine();
-        //     ImGui::Checkbox( XORSTR( "Aliased Fill"), &Settings::UI::imGuiAliasedFill );
-        // }
-		//END Backend for visualas options
-		// ImGui::PushItemWidth(-1);
-		// ImGui::Combo(XORSTR("##Filters"), (int*)&Settings::ESP::filter, Filter, IM_ARRAYSIZE(Filter));
-		// ImGui::PopItemWidth();
 		ImGui::Spacing(); ImGui::Spacing();
 		ImGui::BeginChild(XORSTR("##Visuals"), ImVec2(0, 0), false);
 		{
@@ -406,19 +394,11 @@ void Visuals::RenderTab()
 
 	ImGui::NextColumn();
 	{
-        ImGui::Text(XORSTR("Only on Key"));
-        UI::KeyBindButton(&Settings::ESP::key);
 		ImGui::BeginChild(XORSTR("Chams"), ImVec2(0, 0), false);
 		{
-			ImGui::Columns(1);
-			ImGui::Text(XORSTR("Skybox Changer"));
-			ImGui::Checkbox(XORSTR("Skybox Changer"), &Settings::SkyBox::enabled);
-			ImGui::SameLine();
-			ImGui::Combo(XORSTR("##SKYBOX"), &Settings::SkyBox::skyBoxNumber, SkyBoxes, IM_ARRAYSIZE(SkyBoxes));
-			
-			// ImGui::Text(XORSTR("Other Visual Settings"));
 			ImGui::Columns(2, nullptr, false);
 			{
+				ImGui::Checkbox(XORSTR("Skybox Changer"), &Settings::SkyBox::enabled);
 				ImGui::Checkbox(XORSTR("Arms"), &Settings::ESP::Chams::Arms::enabled);
 				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Chams::Weapon::enabled);
 				ImGui::Checkbox(XORSTR("Dlights"), &Settings::Dlights::enabled);
@@ -599,6 +579,7 @@ void Visuals::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
+				ImGui::Combo(XORSTR("##SKYBOX"), &Settings::SkyBox::skyBoxNumber, SkyBoxes, IM_ARRAYSIZE(SkyBoxes));
 				ImGui::Combo(XORSTR("##ARMSTYPE"), (int*)& Settings::ESP::Chams::Arms::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
 				ImGui::Combo(XORSTR("##WEAPONTYPE"), (int*)& Settings::ESP::Chams::Weapon::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
 				ImGui::SliderFloat(XORSTR("##DLIGHTRADIUS"), &Settings::Dlights::radius, 0, 1000, XORSTR("Radius: %0.f"));
@@ -617,61 +598,7 @@ void Visuals::RenderTab()
 					ImGui::Checkbox(XORSTR("Just Dots"), &Settings::Debug::BoneMap::justDrawDots);
 				ImGui::SliderInt(XORSTR("Test Model ID"), &Settings::Debug::BoneMap::modelID, 1253, 1350, XORSTR("Model ID: %0.f") );
 			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text(XORSTR("Radar"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, false);
-			{
-				ImGui::Checkbox(XORSTR("Radar"), &Settings::Radar::enabled);
-				ImGui::PushItemWidth(-1);
-				ImGui::Combo(XORSTR("##RADARTEAMCOLTYPE"), (int*)& Settings::Radar::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
-				ImGui::PopItemWidth();
-				ImGui::Checkbox(XORSTR("Enemies"), &Settings::Radar::enemies);
-				ImGui::Checkbox(XORSTR("Bomb"), &Settings::Radar::bomb);
-				ImGui::Checkbox(XORSTR("Legit"), &Settings::Radar::legit);
-				ImGui::Checkbox(XORSTR("In-game Radar"), &Settings::Radar::InGame::enabled);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat(XORSTR("##RADARZOOM"), &Settings::Radar::zoom, 0.f, 100.f, XORSTR("Zoom: %0.f"));
-				ImGui::SliderFloat(XORSTR("##RADARICONSSCALE"), &Settings::Radar::iconsScale, 2, 16, XORSTR("Icons Scale: %0.1f"));
-				ImGui::PopItemWidth();
-				ImGui::Checkbox(XORSTR("Allies"), &Settings::Radar::allies);
-				ImGui::Checkbox(XORSTR("Defuser"), &Settings::Radar::defuser);
-				ImGui::Checkbox(XORSTR("Visibility Check"), &Settings::Radar::visibilityCheck);
-				ImGui::Checkbox(XORSTR("Smoke Check"), &Settings::Radar::smokeCheck);
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-
-			ImGui::Text(XORSTR("Hitmarkers"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, false);
-			{
-				ImGui::Checkbox(XORSTR("Hitmarkers"), &Settings::ESP::Hitmarker::enabled);
-
-				ImGui::Checkbox(XORSTR("Enemies##HITMARKERS"), &Settings::ESP::Hitmarker::enemies);
-				ImGui::Checkbox(XORSTR("Allies##HITMARKERS"), &Settings::ESP::Hitmarker::allies);
-                ImGui::Checkbox(XORSTR("Sounds##HITMARKERS"), &Settings::ESP::Hitmarker::Sounds::enabled);
-                ImGui::Checkbox(XORSTR("Damage##HITMARKERS"), &Settings::ESP::Hitmarker::Damage::enabled);
-            }
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt(XORSTR("##HITMARKERDUR"), &Settings::ESP::Hitmarker::duration, 250, 3000, XORSTR("Timeout: %0.f"));
-				ImGui::SliderInt(XORSTR("##HITMARKERSIZE"), &Settings::ESP::Hitmarker::size, 1, 32, XORSTR("Size: %0.f"));
-				ImGui::SliderInt(XORSTR("##HITMARKERGAP"), &Settings::ESP::Hitmarker::innerGap, 1, 16, XORSTR("Gap: %0.f"));
-                ImGui::Combo( XORSTR ( "Sounds##HITMARKERCOMBO" ), ( int* ) &Settings::ESP::Hitmarker::Sounds::sound, Sounds, IM_ARRAYSIZE( Sounds ) );
-                ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-
-			ImGui::EndChild();
 		}
+		ImGui::EndChild();
 	}
-	
-
 }

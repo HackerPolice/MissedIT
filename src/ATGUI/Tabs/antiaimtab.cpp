@@ -9,11 +9,13 @@
 #include "../../Hacks/valvedscheck.h"
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
+#include "../tooltip.h"
 
+#define GetPercentVal(val, percent) (val * (percent/100.f))
 
+static float FakeAmmount = Settings::AntiAim::fakeAmmount;
 void HvH::RenderTab()
 {
-    
     ImGui::Spacing();
 
     ImGui::Columns(2, nullptr, false);
@@ -21,46 +23,52 @@ void HvH::RenderTab()
         ImGui::BeginChild(XORSTR("HVH1"), ImVec2(0, 0), false);
         {
             ImGui::PushItemWidth(-1);
-            if ( Settings::AntiAim::offset == 0 || Settings::AntiAim::offset == 360) // amtiaim off
-            {
-                ImGui::SliderFloat(XORSTR("##offset"), &Settings::AntiAim::offset, 0, 360, XORSTR(" Increase or Decrease to turn on antiaim"));
-            }
-            else 
+            ImGui::Checkbox(XORSTR("Enable AntiAim"), &Settings::AntiAim::Enabled);
+
+            ImGui::Columns();
             {
                 ImGui::SliderFloat(XORSTR("##offset"), &Settings::AntiAim::offset, 0, 360, XORSTR(" Real Offset : %0.0f"));
+                ToolTip::Show("Ajust Your Player angle in Y axis Usefull in HVH", ImGui::IsItemHovered());
             }
-            if ( Settings::AntiAim::fakeAmmount == 0) // amtiaim off
+            
+            ImGui::Columns();
             {
-                ImGui::SliderFloat(XORSTR("##FakeAmmount"), &Settings::AntiAim::fakeAmmount, 0, 100, XORSTR(" Increase to turn on antiaim"));
+                ImGui::SliderFloat(XORSTR("##AlignAmmount"), &Settings::AntiAim::fakeAmmount, 0, 100, XORSTR(" Align : %0.0f"));
+                ToolTip::Show("Align Your Player May be your need in some Cases IDK", ImGui::IsItemHovered());
             }
-            else 
-            {
-                ImGui::SliderFloat(XORSTR("##FakeAmmount"), &Settings::AntiAim::fakeAmmount, 0, 100, XORSTR(" Fake Ammount : %0.0f"));
-            }
-
+                
             ImGui::Columns();
             {
                 ImGui::Checkbox(XORSTR("##pitchDown"), &Settings::AntiAim::PitchDown);
                 ImGui::SameLine();
                 ImGui::Text(XORSTR("PitchDown"));
+                ToolTip::Show("Make Your Player Look Down", ImGui::IsItemHovered());
             }
             ImGui::Columns();
             {
                 ImGui::Checkbox(XORSTR("##AtTheTarget"), &Settings::AntiAim::atTheTarget);
                 ImGui::SameLine();
                 ImGui::Text(XORSTR("At The Target"));
+                ToolTip::Show("Automatically Angle Your player Towords your Enemy", ImGui::IsItemHovered());
             }
             ImGui::Columns();
             {
                 ImGui::Checkbox(XORSTR("##AutoDirection"), &Settings::AntiAim::autoDirection);
                 ImGui::SameLine();
                 ImGui::Text(XORSTR("Auto Direction"));
+                ToolTip::Show("AutoMatically Adjust Your Head According to your Enemy", ImGui::IsItemHovered());
             }
             ImGui::PopItemWidth();
-        // }
-        // ImGui::EndChild();
 
-        // ImGui::BeginChild(XORSTR("ManualAntiAim"), ImVec2(0,0), true);{
+            ImGui::Columns(); // Invert On Shoot
+            {
+                ImGui::Checkbox(XORSTR("##InvertOnShoot"), &Settings::AntiAim::InvertOnShoot);
+                ImGui::SameLine();
+                ImGui::Text(XORSTR("Invert On Shoot"));
+                ToolTip::Show("Will Invert Your AntiAim After every shoot", ImGui::IsItemHovered());
+            }
+            
+
             ImGui::Checkbox(XORSTR("##Manual Anti Aim"), &Settings::AntiAim::ManualAntiAim::Enable);
             ImGui::SameLine();
             ImGui::Text(XORSTR("Manuan AntiAim"));
@@ -94,7 +102,7 @@ void HvH::RenderTab()
             ImGui::Checkbox(XORSTR("Angle Indicator"), &Settings::AngleIndicator::enabled);
             ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
             ImGui::SameLine();
-            ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 100, XORSTR("Amount: %0.f"));
+            ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 14, XORSTR("Amount: %0.f"));
 			ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);
             
             ImGui::Checkbox(XORSTR("FakeDuck"), &Settings::AntiAim::FakeDuck::enabled);

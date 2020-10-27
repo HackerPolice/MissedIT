@@ -31,6 +31,7 @@
 #include "../Hacks/AntiAim/fakewalk.hpp"
 #include "../Hacks/WalkBot/walkbot.h"
 #include "../Hacks/AntiAim/slowwalk.hpp"
+#include "../Hacks/TickManipulation/rapidFire.hpp"
 
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
 
@@ -50,33 +51,34 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
         CreateMove::sendPacket = true;
 
 		/* run code that affects movement before prediction */
-		if (Settings::BHop::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, BHop::CreateMove, cmd); }
-		if (Settings::NoDuckCooldown::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, NoDuckCooldown::CreateMove, cmd); }
-		if (Settings::AutoStrafe::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, AutoStrafe::CreateMove, cmd); }
-		if (Settings::ShowRanks::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, ShowRanks::CreateMove, cmd); }
-		if (Settings::AutoDefuse::enabled || Settings::AutoDefuse::silent) { auto t = std::async(std::launch::async | std::launch::deferred, AutoDefuse::CreateMove, cmd); }
-		if (Settings::JumpThrow::enabled) { auto t = std::async(std::launch::async | std::launch::deferred, JumpThrow::CreateMove, cmd); }
+		if (Settings::BHop::enabled) { BHop::CreateMove(cmd); }
+		if (Settings::NoDuckCooldown::enabled) {  NoDuckCooldown::CreateMove(cmd); }
+		if (Settings::AutoStrafe::enabled) {  AutoStrafe::CreateMove(cmd); }
+		if (Settings::ShowRanks::enabled) {  ShowRanks::CreateMove(cmd); }
+		if (Settings::AutoDefuse::enabled || Settings::AutoDefuse::silent) {  AutoDefuse::CreateMove(cmd); }
+		if (Settings::JumpThrow::enabled) {  JumpThrow::CreateMove(cmd); }
 		
 		GrenadeHelper::CreateMove(cmd);
-		if( Settings::GrenadePrediction::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, GrenadePrediction::CreateMove, cmd); }
-        if( Settings::EdgeJump::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, EdgeJump::PrePredictionCreateMove, cmd); }
-		if( Settings::Autoblock::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, Autoblock::CreateMove, cmd); }
-		if ( !Settings::NoFall::enabled ) {  auto t = std::async(std::launch::async | std::launch::deferred, NoFall::PrePredictionCreateMove, cmd);}
+		if( Settings::GrenadePrediction::enabled ) {   GrenadePrediction::CreateMove(cmd); }
+        if( Settings::EdgeJump::enabled ) {   EdgeJump::PrePredictionCreateMove(cmd); }
+		if( Settings::Autoblock::enabled ) {   Autoblock::CreateMove(cmd); }
+		if ( Settings::NoFall::enabled ) {   NoFall::PrePredictionCreateMove(cmd);}
 		// Walkbot::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
-		if (!Settings::FakeLag::enabled) {  auto t = std::async(std::launch::async | std::launch::deferred, FakeLag::CreateMove, cmd); }
+		if (Settings::FakeLag::enabled) { FakeLag::CreateMove(cmd); }
+		if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
 		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
 		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
 		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
-    	AntiAim::CreateMove(cmd);
 		FakeDuck::CreateMove(cmd);
 		if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
-		SlowWalk::CreateMove(cmd);
+		if ( Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
 		if (Settings::BackTrack::enabled) { BackTrack::CreateMove(cmd); }
 		if (Settings::LagComp::enabled) { LagComp::CreateMove(cmd); }
-		
+		// RapidFire::CreateMove(cmd);
+
 		ESP::CreateMove(cmd);
 		TracerEffect::CreateMove(cmd);
 		RagdollGravity::CreateMove(cvar);
@@ -84,6 +86,15 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		
 		EdgeJump::PostPredictionCreateMove(cmd);
 		NoFall::PostPredictionCreateMove(cmd);
+
+		// if (!CreateMove::sendPacket){
+		// 	cvar->ConsoleDPrintf("Fake Laging\n");
+		// }
+		// else {
+		// 	cvar->ConsoleDPrintf("sending\n");
+		// }
+		if (cmd->buttons & IN_ATTACK)
+			CreateMove::sendPacket = true;
 
         *sendPacket = CreateMove::sendPacket;
 

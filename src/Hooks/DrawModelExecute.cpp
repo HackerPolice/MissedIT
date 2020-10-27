@@ -14,9 +14,24 @@ void Hooks::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	{
 		Chams::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	}
+	
+	static matrix3x4_t BodyBoneMatrix[128];
+
+	if (Settings::FakeLag::enabled){
+		if(!CreateMove::sendPacket && pInfo.entity_index == engine->GetLocalPlayer()){
+			for (size_t i = 0; i < 128; i++)
+			{
+				pCustomBoneToWorld[i] = BodyBoneMatrix[i];
+			}
+		}else if ( pInfo.entity_index == engine->GetLocalPlayer() ){
+			for (int i = 0; i < 128; i++){
+				BodyBoneMatrix[i] = pCustomBoneToWorld[i];
+			}
+		}
+	}
+	
 
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-	
 	modelRender->ForcedMaterialOverride(nullptr);
 
 	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())

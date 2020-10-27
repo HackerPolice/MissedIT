@@ -38,6 +38,4 @@ void PredictionSystem::EndPrediction()
 
 	globalVars->curtime = m_flOldCurtime;
 	globalVars->frametime = m_flOldFrametime;
-
-	CreateMove::sendPacket = !Ragebot::data.needToStop;
 }

@@ -226,6 +226,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	        RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
 	        RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
             RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")] = i.second.AutoCroutch;
+            RageweaponSetting[XORSTR("DamageOverride")] = i.second.DamageOverride;
 
             for (int bone = 0; bone < 6; bone++)
             {
@@ -235,6 +236,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	
         #undef RageweaponSetting
     }
+
+    settings[XORSTR("Ragebot")][XORSTR("DamageOverrideBtn")] = Util::GetButtonName(Settings::Ragebot::DamageOverrideBtn);
 
     settings[XORSTR("LagComp")][XORSTR("enable")] = Settings::LagComp::enabled;
     settings[XORSTR("BackTrack")][XORSTR("enable")] = Settings::BackTrack::enabled;
@@ -255,11 +258,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("Triggerbot")][XORSTR("RandomDelay")][XORSTR("lowBound")] = Settings::Triggerbot::RandomDelay::lowBound;
 	settings[XORSTR("Triggerbot")][XORSTR("RandomDelay")][XORSTR("highBound")] = Settings::Triggerbot::RandomDelay::highBound;
     
+    settings[XORSTR("AntiAim")][XORSTR("Enabled")] = Settings::AntiAim::Enabled;
+    settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")] = Settings::AntiAim::InvertOnShoot;
     settings[XORSTR("AntiAim")][XORSTR("inverted")] = Settings::AntiAim::inverted;
     settings[XORSTR("AntiAim")][XORSTR("atTheTarget")] = Settings::AntiAim::atTheTarget;
     settings[XORSTR("AntiAim")][XORSTR("autoDirection")] = Settings::AntiAim::autoDirection;
     settings[XORSTR("AntiAim")][XORSTR("offset")] = Settings::AntiAim::offset;
     settings[XORSTR("AntiAim")][XORSTR("fakeAmmount")] = Settings::AntiAim::fakeAmmount;
+    settings[XORSTR("AntiAim")][XORSTR("NetFake")] = Settings::AntiAim::NetFake;
     settings[XORSTR("AntiAim")][XORSTR("pitchDown")] = Settings::AntiAim::PitchDown;
     settings[XORSTR("AntiAim")][XORSTR("invertKey")] = Util::GetButtonName(Settings::AntiAim::InvertKey);
     
@@ -846,8 +852,11 @@ void Settings::LoadConfig(std::string path)
             .OnShot = RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")].asBool(),
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
 	        .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
+            .DamageOverride = RageweaponSetting[XORSTR("DamageOverride")].asFloat(),
         };
         
+        
+         
 	    for (int bone = 0; bone < 6; bone++)
         {
             weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
@@ -855,6 +864,8 @@ void Settings::LoadConfig(std::string path)
         } 
         Settings::Ragebot::weapons.at(weaponID) = weapon;
     }
+
+    GetButtonCode(settings[XORSTR("Ragebot")][XORSTR("DamageOverrideBtn")], &Settings::Ragebot::DamageOverrideBtn);
 
     // GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
     GetVal(settings[XORSTR("Legitbot")][XORSTR("enabled")], &Settings::Legitbot::enabled);
@@ -879,8 +890,11 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("Triggerbot")][XORSTR("RandomDelay")][XORSTR("highBound")], &Settings::Triggerbot::RandomDelay::highBound);
     
     // Settings for RageAntiAIm
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("Enabled")], &Settings::AntiAim::Enabled);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")], &Settings::AntiAim::InvertOnShoot);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("offset")], &Settings::AntiAim::offset);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("fakeAmmount")], &Settings::AntiAim::fakeAmmount);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("NetFake")], &Settings::AntiAim::NetFake);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("pitchDown")], &Settings::AntiAim::PitchDown);
     GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("invertKey")], &Settings::AntiAim::InvertKey);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("inverted")], &Settings::AntiAim::inverted);

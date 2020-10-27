@@ -18,6 +18,7 @@ typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t
 static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	using namespace Settings::ESP;
+ 
 	if ( !FilterEnemy::Chams::enabled && !FilterLocalPlayer::RealChams::enabled && !FilterAlise::Chams::enabled)
 		return;
 
@@ -138,9 +139,9 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
 	
 	if (!entity
+		|| entity != localplayer
 		|| entity->GetDormant()
-		|| !entity->GetAlive()
-		|| entity != localplayer)
+		|| !entity->GetAlive() )
 		return;
 
 	IMaterial* Fake_meterial = nullptr;
@@ -173,7 +174,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	Color color = fake_color;
 	color *= 0.45f;
 
-	Fake_meterial->ColorModulate(fake_color);
+	Fake_meterial->ColorModulate(color);
 	Fake_meterial->AlphaModulate(Settings::ESP::Chams::FakeColor.Color(entity).Value.w);
 
 	static matrix3x4_t fakeBoneMatrix[128];
@@ -304,15 +305,21 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
+	
+
 	if (modelName.find(XORSTR("models/player")) != std::string::npos)
 	{
 		DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		
 	}
 		
-	else if (modelName.find(XORSTR("arms")) != std::string::npos)
+	if (modelName.find(XORSTR("arms")) != std::string::npos){
 		DrawArms(pInfo);
-	else if (modelName.find(XORSTR("weapon")) != std::string::npos)
+	}
+	if (modelName.find(XORSTR("weapon")) != std::string::npos){
 		DrawWeapon(pInfo);
+	}
+	
+	
+	
 }
