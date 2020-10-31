@@ -1,6 +1,7 @@
 #include "chams.h"
 #include "thirdperson.h"
 #include "AntiAim/antiaim.h"
+#include "TickManipulation/records.hpp"
 
 #include "../Utils/xorstring.h"
 #include "../Utils/entity.h"
@@ -8,6 +9,8 @@
 #include "../settings.h"
 #include "../interfaces.h"
 #include "../Hooks/hooks.h"
+#include "Visuals/DesyncChams.hpp"
+#include "AntiAim/fakeduck.h"
 
 IMaterial *materialChamsFlat, *materialChamsFlatIgnorez;
 IMaterial *WhiteAdditive,*WhiteAdditiveIgnoreZ;
@@ -165,10 +168,6 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 
 
 	Fake_meterial->AlphaModulate(1.f);
-		/*
-		* Testing for chams in fake angle 
-		* Hope for best
-		*/
 
 	Color fake_color = Color::FromImColor(Settings::ESP::Chams::FakeColor.Color(entity));
 	Color color = fake_color;
@@ -180,6 +179,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	static matrix3x4_t fakeBoneMatrix[128];
 	float fakeangle = AntiAim::fakeAngle.y - AntiAim::realAngle.y;
 	static Vector OutPos;
+	// localplayer->SetupBones()
 	for (int i = 0; i < 128; i++)
 	{
 		Math::AngleMatrix(Vector(0, fakeangle, 0), fakeBoneMatrix[i]);
@@ -190,15 +190,34 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
                         fakeBoneMatrix[i][0][3] = OutPos.x;
                         fakeBoneMatrix[i][1][3] = OutPos.y;
                         fakeBoneMatrix[i][2][3] = OutPos.z;
+		// fakeBoneMatrix[i] = pCustomBoneToWorld[i];
 	}
 
 	if (entity->GetImmune())
 	{
 		Fake_meterial->AlphaModulate(0.5f);
 	}
+
+	static matrix3x4_t BodyBoneMatrix[128];
+
+	if (FakeDuck::FakeDucking){
+		if (CreateMove::sendPacket){
+			for (size_t i = 0; i < 128; i++)
+				BodyBoneMatrix[i] = fakeBoneMatrix[i];
+		}
+	}
+	else if (Settings::FakeLag::enabled){
+		if(CreateMove::sendPacket){
+			for (size_t i = 0; i < 128; i++)
+				BodyBoneMatrix[i] = fakeBoneMatrix[i];
+		}
+	}
+	
 	//entity->SetupBones
+	Fake_meterial->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::FilterLocalPlayer::Chams::type == ChamsType::WIREFRAME);
+
 	modelRender->ForcedMaterialOverride(Fake_meterial);
-	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, fakeBoneMatrix);
+	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, BodyBoneMatrix);
 	modelRender->ForcedMaterialOverride(nullptr);
 	// End of chams for fake angle
 }
@@ -276,12 +295,64 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 	modelRender->ForcedMaterialOverride(mat);
 }
 
+static void DrawBackTrack(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo){
+
+	if (!Settings::BackTrack::enabled && !Settings::LagComp::enabled)
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	
+	if (!localplayer)
+		return;
+	
+	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
+	if (!entity
+		|| entity->GetDormant()
+		|| !entity->GetAlive()
+		|| entity == localplayer)
+		return;
+
+	static matrix3x4_t BacktrackBoneMatrix[128];
+	static bool found = false;
+	for (auto &Tick : Records::Ticks){
+		if (Tick.tickCount == Chams::BackTrackTicks){
+			for (auto &Record : Tick.records)
+			{
+				if (entity == Record.entity){
+					memcpy(BacktrackBoneMatrix, Record.bone_matrix, sizeof(matrix3x4_t)*128);
+					found = true;
+					// cvar->ConsoleDPrintf(XORSTR("found\n"));
+					break;
+				}
+			}
+		}
+	}
+	if (!found)
+		return;
+	found = false;
+
+	Color visColor = Color::FromImColor(Settings::ESP::Chams::localplayerColor.Color(entity));
+	visColor *= 0.5f;
+	visColor.a = 255; 
+
+	IMaterial *visible_material = nullptr;
+
+	// memcpy(visible_material, materialChamsFlatIgnorez, sizeof(visible_material));
+	visible_material = materialChamsFlatIgnorez;
+
+	visible_material->ColorModulate(visColor);
+	visible_material->AlphaModulate(Settings::ESP::Chams::enemyVisibleColor.Color(entity).Value.w);
+
+	// cvar->ConsoleDPrintf(XORSTR("Printing\n"));
+	modelRender->ForcedMaterialOverride(visible_material);
+	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, BacktrackBoneMatrix);
+	modelRender->ForcedMaterialOverride(nullptr);
+
+}
+
 void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!engine->IsInGame())
-		return;
-
-	if (!Settings::ESP::enabled)
 		return;
 
 	if (!pInfo.pModel)
@@ -297,8 +368,8 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		WhiteAdditive = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true);
 		WhiteAdditiveIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, false, true, true, true);
 		
-		AdditiveTwo = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
-		AdditiveTwoIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
+		AdditiveTwo = Util::CreateMaterial(XORSTR("Metallic"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
+		AdditiveTwoIgnoreZ = Util::CreateMaterial(XORSTR("Metallic"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
 		materialsCreated = true;
 		
 	}
@@ -310,14 +381,20 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	if (modelName.find(XORSTR("models/player")) != std::string::npos)
 	{
 		DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		DrawBackTrack(thisptr, context, state, pInfo);
 		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		modelRender->ForcedMaterialOverride(nullptr);
 	}
-		
-	if (modelName.find(XORSTR("arms")) != std::string::npos){
+	else if (modelName.find(XORSTR("arms")) != std::string::npos){
 		DrawArms(pInfo);
+		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		modelRender->ForcedMaterialOverride(nullptr);
 	}
-	if (modelName.find(XORSTR("weapon")) != std::string::npos){
+	else if (modelName.find(XORSTR("weapon")) != std::string::npos){
 		DrawWeapon(pInfo);
+		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		modelRender->ForcedMaterialOverride(nullptr);
 	}
 	
 	

@@ -11,6 +11,11 @@
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
+static const char* HitChanceType[2] = {
+	"Normal",
+	"Force Accuracy",
+};
+
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 
 //static bool enabled = false;
@@ -30,6 +35,7 @@ static bool doubleFire = false;
 static bool scopeControlEnabled = false;
 static bool AutoCroutch = false;
 static bool OnShot = false;
+static HitchanceType hitchanceType = HitchanceType::Normal;
 
 
 void UI::ReloadRageWeaponSettings()
@@ -50,6 +56,7 @@ void UI::ReloadRageWeaponSettings()
 	doubleFire = Settings::Ragebot::weapons.at(index).DoubleFire;
 	scopeControlEnabled = Settings::Ragebot::weapons.at(index).scopeControlEnabled;
 	DamageOverride = Settings::Ragebot::weapons.at(index).DamageOverride;
+	hitchanceType = Settings::Ragebot::weapons.at(index).hitchanceType;
 
 	for (int BONE = 0; BONE < 6; BONE++)
 	{
@@ -79,6 +86,8 @@ void UI::UpdateRageWeaponSettings()
 			.HitChance = HitChance,
 			.DamageOverride = DamageOverride,
 	};
+
+	settings.hitchanceType = hitchanceType;
 
 	for (int BONE = 0; BONE < 6; BONE++){
 		settings.desireBones[BONE] = desireBones[BONE];
@@ -239,6 +248,10 @@ void RagebotTab::RenderTab()
 				else {
 					if( ImGui::SliderFloat(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("Hitchance %0.0f")) )
 						UI::UpdateRageWeaponSettings();
+					// Type Hitchance
+					if ( ImGui::Combo(XORSTR("HitChanceType"), (int*)&hitchanceType, HitChanceType, IM_ARRAYSIZE(HitChanceType)) ){
+						UI::UpdateRageWeaponSettings();
+					}
 				}
 
 				ImGui::PopItemWidth();

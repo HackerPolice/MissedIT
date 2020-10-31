@@ -301,6 +301,15 @@ void Draw::AddCircle3D( const Vector &pos3D, float radius, ImColor color, int se
     drawRequests.push_back( req );
 }
 
+/*
+ * Three Vector Points to Draw a triangle
+ */
+void Draw::DrawTriangle(const Vector2D &a,const Vector2D &b, const Vector2D &c,const ImColor &col){
+	Draw::AddLine((int)a.x, (int)a.y, (int)b.x, (int)b.y, col);
+	Draw::AddLine((int)b.x, (int)b.y, (int)c.x, (int)c.y, col);
+	Draw::AddLine((int)c.x, (int)c.y, (int)a.x, (int)a.y, col);
+}
+
 void Draw::AddText( int x0, int y0, const char *text, ImColor color, ImFontFlags flags ) {
     DrawRequest req = {};
     if( text ){

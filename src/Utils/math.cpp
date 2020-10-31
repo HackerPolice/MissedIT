@@ -277,7 +277,7 @@ float Math::CalMaxDistance(const QAngle &src, const Vector &dest)
 	return Math::SquareRoot( square(tempdistance) + square(XDistance) );
 }
 
-void Math::AngleMatrix(const Vector angles, matrix3x4_t& matrix)
+void Math::AngleMatrix(const Vector& angles, matrix3x4_t& matrix)
 {
     float sr, sp, sy, cr, cp, cy;
     

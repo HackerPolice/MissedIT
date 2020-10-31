@@ -14,6 +14,7 @@
 #include "../settings.h"
 #include "../Hacks/TickManipulation/lagcomp.hpp"
 #include "../Hacks/AntiAim/antiaim.h"
+#include "../Hacks/Visuals/DesyncChams.hpp"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 
@@ -30,6 +31,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	NoSmoke::FrameStageNotify(stage);
 	ThirdPerson::FrameStageNotify(stage);
 	AntiAim::FrameStageNotify(stage);
+	DesyncChams::FrameStageNotify(stage);
 
 	if (SkinChanger::forceFullUpdate)
 	{

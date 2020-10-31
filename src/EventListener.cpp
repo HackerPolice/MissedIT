@@ -29,6 +29,7 @@ void EventListener::FireGameEvent(IGameEvent* event)
 {
     Legitbot::FireGameEvent(event);
     Ragebot::FireGameEvent(event);
+    Ragebot::FireGameEvent2(event);
 
     Hitmarkers::FireGameEvent(event);
     Eventlog::FireGameEvent(event);

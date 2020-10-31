@@ -230,4 +230,26 @@ bool Aimbot::canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeap
     return false;
 }
 
+bool Aimbot::canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const int& ReqHitchance )
+{
+	if(!localplayer || !localplayer->GetAlive() )
+		return false;
+	if (!activeWeapon || activeWeapon->GetInReload())
+		return false;
+	if ( ReqHitchance == 0)
+	{
+		if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) <= (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) )
+			return true;
+		else
+			return false;
+	}
+	
+	activeWeapon->UpdateAccuracyPenalty();
+	float hitchance = activeWeapon->GetInaccuracy();
+	// hitchance = activeWeapon->GetInaccuracy();
+	if (hitchance == 0) hitchance = 0.0000001;
+	hitchance = 1/(hitchance);
+	
+	return hitchance >= (ReqHitchance*2);
+}
 

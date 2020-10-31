@@ -12,20 +12,23 @@ namespace Ragebot {
         Vector PrevTickEyePosition = Vector(0);
         bool shooted = false;
         int playerhelth = 0;
-        bool slowWalking = false;
+        bool autoslow = false;
         QAngle prevAngle = QAngle(0);
         bool needToStop = false;
+        bool Hited = false;
+        bool IHit = false;
     };
 
     inline struct DATA data;
     inline Vector localEye = Vector(0);
     inline Vector BestSpot = Vector(0);
     inline int BestDamage = 0;
-
+    inline int ShootEnemyIndex = 0;
     inline int prevDamage = 0;
 
     void CreateMove(CUserCmd*);
     void FireGameEvent(IGameEvent* event);
+    void FireGameEvent2(IGameEvent* event);
 
     /*  
      * Yo 

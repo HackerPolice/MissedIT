@@ -86,5 +86,6 @@ namespace Draw {
 	void AddCircle( int x0, int y0, float radius, ImColor color, int segments = 12, float thickness = 1.0f );
 	void AddCircleFilled( int x0, int y0, float radius, ImColor color, int segments = 12 );
 	void AddCircle3D( const Vector &pos3D, float radius, ImColor color, int segments );
+	void DrawTriangle(const Vector2D &a,const Vector2D &b, const Vector2D &c,const ImColor &col);
 	void AddText( int x0, int y0, const char *text, ImColor color, ImFontFlags flags = ImFontFlags_Shadow );
 }

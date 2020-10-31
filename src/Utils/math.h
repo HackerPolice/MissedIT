@@ -25,7 +25,7 @@ namespace Math {
 	void CalcAngle(const Vector &src, const Vector &dst, QAngle& angle);
 	QAngle CalcAngle(const Vector &src, const Vector &dst);
 	float float_rand( float min, float max );
-	void AngleMatrix(const Vector angles, matrix3x4_t& matrix);
+	void AngleMatrix(const Vector& angles, matrix3x4_t& matrix);
 	float CalMaxDistance(const Vector &src, const Vector &dest);
 	float CalMaxDistance(const QAngle &src, const Vector &dest);
 	float SquareRoot(const float &x);

@@ -14,6 +14,7 @@
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
 static float FakeAmmount = Settings::AntiAim::fakeAmmount;
+
 void HvH::RenderTab()
 {
     ImGui::Spacing();
@@ -71,7 +72,7 @@ void HvH::RenderTab()
 
             ImGui::Checkbox(XORSTR("##Manual Anti Aim"), &Settings::AntiAim::ManualAntiAim::Enable);
             ImGui::SameLine();
-            ImGui::Text(XORSTR("Manuan AntiAim"));
+            ImGui::Text(XORSTR("Enable Manuan Direction"));
             ImGui::Text("Align Right");
             ImGui::SameLine();
             ImGui::PushItemWidth(-1);
@@ -99,10 +100,15 @@ void HvH::RenderTab()
         ImGui::BeginChild(XORSTR("HVH2"), ImVec2(0, 0), false);
         {
             ImGui::PushItemWidth(-1);
-            ImGui::Checkbox(XORSTR("Angle Indicator"), &Settings::AngleIndicator::enabled);
+            ImGui::Columns();
+            {
+                ImGui::Checkbox(XORSTR("ShowReal"), &Settings::AntiAim::ShowReal);
+                ToolTip::Show("A arrow will show the side of the real", ImGui::IsItemHovered());
+            }
+            
             ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
             ImGui::SameLine();
-            ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 14, XORSTR("Amount: %0.f"));
+            ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 50, XORSTR("Amount: %0.f"));
 			ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);
             
             ImGui::Checkbox(XORSTR("FakeDuck"), &Settings::AntiAim::FakeDuck::enabled);

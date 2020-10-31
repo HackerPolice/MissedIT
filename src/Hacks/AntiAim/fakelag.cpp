@@ -8,17 +8,13 @@
 	#define absol(x) x < 0 ? x*-1 : x
 #endif
 
-int ticksMax = 14;
+int ticksMax = 50;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
-
-	if ( FakeLag::ticks > ticksMax){
-		FakeLag::ticks = 0;
-	}
 
 	if (Settings::FakeLag::adaptive)
 	{
@@ -37,7 +33,12 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		CreateMove::sendPacket = FakeLag::ticks < (16 - packetsToChoke);
 	}
 	else{
-		CreateMove::sendPacket = FakeLag::ticks >= Settings::FakeLag::value;
+		if (FakeLag::ticks >= Settings::FakeLag::value){
+			CreateMove::sendPacket = true;
+			FakeLag::ticks = -1;
+		}else{
+			CreateMove::sendPacket = false;
+		}
 	}
 
 	FakeLag::ticks++;

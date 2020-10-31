@@ -1290,9 +1290,9 @@ public:
 
 	bool IsZero(float tolerance = 0.01f) const
 	{
-		return (x > -tolerance && x < tolerance &&
-				y > -tolerance && y < tolerance &&
-				z > -tolerance && z < tolerance);
+		return ( (x > -tolerance && x < tolerance) &&
+				 (y > -tolerance && y < tolerance) &&
+				 (z > -tolerance && z < tolerance) );
 	}
 
 	// arithmetic operations

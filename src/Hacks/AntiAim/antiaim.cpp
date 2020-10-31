@@ -7,6 +7,8 @@
 #include "../AimBot/autowall.h"
 #include "../valvedscheck.h"
 #include "../AimBot/ragebot.hpp"
+#include "fakewalk.hpp"
+#include "slowwalk.hpp"
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
@@ -250,13 +252,16 @@ static bool LBYBreak(float offset, QAngle& angle,C_BasePlayer* localplayer)
     } 
     else {
         if( !lbyBreak && ( globalVars->curtime - lastCheck ) > 0.22 ){
-            angle.y = offset;
+            if (Settings::AntiAim::inverted){
+                angle.y += offset;
+            }else {
+                angle.y -= offset;
+            }
             angle.x = CreateMove::lastTickViewAngles.x;
-            // AntiAim::realAngle = angle;
             lbyBreak = true;
-            // cvar->ConsoleDPrintf(XORSTR("Lby Break"));
             lastCheck = globalVars->curtime;
-            CreateMove::sendPacket = AntiAim::bSend = false;
+            AntiAim::fakeAngle = angle;
+            AntiAim::bSend = false;
         } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
             lbyBreak = false;
             lastCheck = globalVars->curtime;
@@ -337,7 +342,7 @@ static void DoAntiAim(CUserCmd* cmd,C_BasePlayer* localplayer, QAngle& angle){
         return;
 
     float maxDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
-    angle.y += Settings::AntiAim::offset;
+    
     // If the ammount if over 0 that means user wants to add fake angle else it is just the free stand
     static bool Bpressed = false;
     if ( inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !Bpressed )
@@ -376,6 +381,8 @@ static void DoAntiAim(CUserCmd* cmd,C_BasePlayer* localplayer, QAngle& angle){
             AntiAim::fakeAngle.x = angle.x;
         }
     }
+
+    // LBYBreak(CreateMove::lastTickViewAngles.y, angle, localplayer);
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
@@ -396,8 +403,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         return;
     }
     
-    if (Settings::FakeLag::enabled)
-        AntiAim::bSend = !CreateMove::sendPacket;             
+    if (Settings::FakeLag::enabled || FakeWalk::FakeWalking || SlowWalk::SlowWalking )
+        AntiAim::bSend = CreateMove::sendPacket;             
     else
         CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
 
@@ -419,19 +426,18 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     DoManuaAntiAim();
     if (AntiAim::ManualAntiAim::alignBack){
         angle.y += 180;
-        AntiAim::fakeAngle = AntiAim::realAngle = angle;
+        AntiAim::realAngle = AntiAim::fakeAngle = angle;
     }
     else if ( AntiAim::ManualAntiAim::alignRight ){
         angle.y -= 90;
-        AntiAim::fakeAngle = AntiAim::realAngle = angle;
+        AntiAim::realAngle = AntiAim::fakeAngle = angle;
     }else if ( AntiAim::ManualAntiAim::alignLeft){
         angle.y += 90;
-        AntiAim::fakeAngle = AntiAim::realAngle = angle;
+        AntiAim::realAngle = AntiAim::fakeAngle = angle;
     }else {
-        DoAntiAim(cmd, localplayer, angle);
+        angle.y += Settings::AntiAim::offset;  
+        DoAntiAim(cmd, localplayer, angle); 
     }
-
-    LBYBreak(CreateMove::lastTickViewAngles.y, angle, localplayer);
 
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
@@ -443,27 +449,24 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 void AntiAim::FrameStageNotify(ClientFrameStage_t stage)
 {
-    if (Settings::AntiAim::offset == 0 || Settings::AntiAim::offset == 360)
-        return;
-
-    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
-        return;
-
-    if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
-    {
-    }
+    // if (!Settings::AntiAim::Enabled)
+    //     return;
+    // if (stage != ClientFrameStage_t::FRAME_RENDER_START)
+    //     return;
+    // C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    // if (!localplayer || !localplayer->GetAlive())
+    //     return;
 }
 
 void AntiAim::OverrideView(CViewSetup *pSetup)
 {
-    // if (Settings::AntiAim::Type::antiaimType != AntiAimType::RageAntiAim && !Settings::AntiAim::LBYBreaker::enabled && Settings::AntiAim::Type::antiaimType == AntiAimType::LegitAntiAim)
-    //     return;
+    // // if (Settings::AntiAim::Type::antiaimType != AntiAimType::RageAntiAim && !Settings::AntiAim::LBYBreaker::enabled && Settings::AntiAim::Type::antiaimType == AntiAimType::LegitAntiAim)
+    // //     return;
 
-    C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
+    // C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!localplayer || !localplayer->GetAlive( ))
-		return;
+	// if (!localplayer || !localplayer->GetAlive( ))
+	// 	return;
 
-    // pSetup->origin.x = localplayer->GetAbsOrigin().x + 64.0f;
+    // // pSetup->origin.x = localplayer->GetAbsOrigin().x + 64.0f;
 }

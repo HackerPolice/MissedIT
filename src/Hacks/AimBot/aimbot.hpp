@@ -1,15 +1,12 @@
 #pragma once
 
 #include "../HeaderFiles.h"
-class Aimbot {
+namespace Aimbot {
 
     #define RandomeFloat(x) (static_cast<double>( static_cast<double>(std::rand())/ static_cast<double>(RAND_MAX/x)))
-    
-private:
-    QAngle RCSLastPunch;
 
-public:
-    Aimbot(){}
+    inline QAngle RCSLastPunch;
+
 
     void NoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const RageWeapon_t& currentSettings);
 
@@ -24,4 +21,6 @@ public:
     void FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player, QAngle& angle, QAngle& oldAngle);
 
     bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings);
+
+    bool canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const int& hitchance);
 };

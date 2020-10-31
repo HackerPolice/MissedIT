@@ -169,6 +169,12 @@ enum class SkinAndModel : int
 	Model,
 };
 
+enum class HitchanceType : int 
+{
+	Normal = 0,
+	ForceAccuracy,
+};
+
 struct LegitWeapon_t
 {
 	bool silent,
@@ -266,6 +272,7 @@ struct RageWeapon_t
 		  DamageOverride = 100.f;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
+	HitchanceType hitchanceType = HitchanceType::Normal;
 
 	bool operator == (const RageWeapon_t& Ragebotanother) const
 	{
@@ -290,6 +297,7 @@ struct RageWeapon_t
 				this->DoubleFire == Ragebotanother.DoubleFire &&
 				this->AutoCroutch == Ragebotanother.AutoCroutch && 
 				this->DamageOverride == Ragebotanother.DamageOverride &&
+				this->hitchanceType == Ragebotanother.hitchanceType &&
 				this->OnShot == Ragebotanother.OnShot;
 	}
 
@@ -491,6 +499,7 @@ namespace Settings
     {
 		inline bool Enabled = false;
 		inline bool inverted = false;
+		inline bool ShowReal = false;
 		inline bool InvertOnShoot = false;
 		inline bool atTheTarget = false;
 		inline bool PitchDown = false;

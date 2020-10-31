@@ -247,7 +247,7 @@ bool canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const
 	if (hitchance == 0) hitchance = 0.0000001;
 	hitchance = 1/(hitchance);
 	
-	return hitchance >= (currentSettings.hitchance*2);
+	return hitchance >= (currentSettings.hitchance*1.5);
 }
 
 void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, float& forrwordMove, float& sideMove, const LegitWeapon_t& currentSettings)
@@ -321,17 +321,6 @@ void Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim, const LegitWea
 
 	angle = viewAngles + toChange;
 }
-
-// void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
-// {
-// 	if (!Settings::Legitbot::AutoCrouch::enabled)
-// 		return;
-
-// 	if (!player || !player->GetAlive())
-// 		return;
-
-// 	cmd->buttons |= IN_BULLRUSH | IN_DUCK;
-// }
 
 void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const LegitWeapon_t& currentSettings)
 {
@@ -444,6 +433,9 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 		return;
 	// UpdateValues();
 
+	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
+		return;
+
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
 	if (Settings::Legitbot::weapons.find(*activeWeapon->GetItemDefinitionIndex()) != Settings::Legitbot::weapons.end())
 		index = *activeWeapon->GetItemDefinitionIndex();
@@ -522,7 +514,7 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 
 	if( !currentWeaponSetting.silent )
-    	engine->SetViewAngles(cmd->viewangles);
+    	engine->SetViewAngles(angle);
 
 }
 

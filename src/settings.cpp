@@ -227,6 +227,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	        RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
             RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")] = i.second.AutoCroutch;
             RageweaponSetting[XORSTR("DamageOverride")] = i.second.DamageOverride;
+            RageweaponSetting[XORSTR("hitchanceType")] = (int)i.second.hitchanceType;
 
             for (int bone = 0; bone < 6; bone++)
             {
@@ -259,6 +260,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("Triggerbot")][XORSTR("RandomDelay")][XORSTR("highBound")] = Settings::Triggerbot::RandomDelay::highBound;
     
     settings[XORSTR("AntiAim")][XORSTR("Enabled")] = Settings::AntiAim::Enabled;
+    settings[XORSTR("AntiAim")][XORSTR("ShowReal")] = Settings::AntiAim::ShowReal;
     settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")] = Settings::AntiAim::InvertOnShoot;
     settings[XORSTR("AntiAim")][XORSTR("inverted")] = Settings::AntiAim::inverted;
     settings[XORSTR("AntiAim")][XORSTR("atTheTarget")] = Settings::AntiAim::atTheTarget;
@@ -856,7 +858,8 @@ void Settings::LoadConfig(std::string path)
         };
         
         
-         
+        weapon.hitchanceType = (HitchanceType)RageweaponSetting[XORSTR("hitchanceType")].asInt();
+
 	    for (int bone = 0; bone < 6; bone++)
         {
             weapon.desireBones[bone] = RageweaponSetting[XORSTR("DesireBones")][XORSTR("Bones")][bone].asBool();
@@ -891,6 +894,7 @@ void Settings::LoadConfig(std::string path)
     
     // Settings for RageAntiAIm
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Enabled")], &Settings::AntiAim::Enabled);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("ShowReal")], &Settings::AntiAim::ShowReal);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")], &Settings::AntiAim::InvertOnShoot);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("offset")], &Settings::AntiAim::offset);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("fakeAmmount")], &Settings::AntiAim::fakeAmmount);

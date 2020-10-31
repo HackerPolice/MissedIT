@@ -3,6 +3,10 @@
 
 #include "ragebot.hpp"
 #include "resolver.h"
+#include "../AntiAim/fakelag.h"
+#include "../esp.h"
+#include "aimbot.hpp"
+#include <future>
 
 #define absolute(x) ( x = x < 0 ? x * -1 : x)
 #define RandomeFloat(x) (static_cast<double>( static_cast<double>(std::rand())/ static_cast<double>(RAND_MAX/x)))
@@ -18,30 +22,50 @@ QAngle RCSLastPunch;
  * Class for damage and emeny prediction for ragebot
  * Decleard in ragebot.hpp
  */
+
 void Ragebot::BestHeadPoint(C_BasePlayer* player, const int &BoneIndex, int& Damage, Vector& Spot)
 {
-	model_t* pModel = player->GetModel();
-    if (!pModel)
+	matrix3x4_t matrix[128];
+
+	if( !player->SetupBones(matrix, 128, 0x100, 0.f) )
 		return;
-    studiohdr_t* hdr = modelInfo->GetStudioModel(pModel);
-    if (!hdr)
-		return;
-	mstudiobbox_t* bbox = hdr->pHitbox((int)BoneIndex, 0);
-	if (!bbox)
+	model_t *pModel = player->GetModel();
+	if( !pModel )
 		return;
 
-	// 0 - center, 1 - skullcap,
-	// 2 - leftear, 3 - rightear, 4 - backofhead
-	Vector center = Spot;
-	Vector points[5] = {center,center,center,center,center};
+	studiohdr_t *hdr = modelInfo->GetStudioModel(pModel);
+	if( !hdr )
+		return;
+	mstudiobbox_t *bbox = hdr->pHitbox((int)Hitbox::HITBOX_HEAD, 0);
+	if( !bbox )
+		return;
 
-	points[1].y -= bbox->radius * 0.65f;
-	points[1].z += bbox->radius * 0.90f;
-	points[2].x += bbox->radius * 0.80f;
-	points[3].x -= bbox->radius * 0.80f;
-	points[4].y += bbox->radius * 0.80f;
+	Vector mins, maxs;
+	Math::VectorTransform(bbox->bbmin, matrix[bbox->bone], mins);
+	Math::VectorTransform(bbox->bbmax, matrix[bbox->bone], maxs);
 
-	for (int i = 0; i < 5; i++)
+	Vector center = ( mins + maxs ) * 0.5f;
+	static Vector points[11];
+	// 0 - center, 1 - forehead, 2 - skullcap, 3 - upperleftear, 4 - upperrightear, 5 - uppernose, 6 - upperbackofhead
+	// 7 - leftear, 8 - rightear, 9 - nose, 10 - backofhead
+	for( int i = 0; i < 11; i++ ) // set all points initially to center mass of head.
+		points[i] = center;
+	points[1].z += bbox->radius * 0.60f; // morph each point.
+	points[2].z += bbox->radius * 1.25f; // ...
+	points[3].x += bbox->radius * 0.80f;
+	points[3].z += bbox->radius * 0.60f;
+	points[4].x -= bbox->radius * 0.80f;
+	points[4].z += bbox->radius * 0.90f;
+	points[5].y += bbox->radius * 0.80f;
+	points[5].z += bbox->radius * 0.90f;
+	points[6].y -= bbox->radius * 0.80f;
+	points[6].z += bbox->radius * 0.90f;
+	points[7].x += bbox->radius * 0.80f;
+	points[8].x -= bbox->radius * 0.80f;
+	points[9].y += bbox->radius * 0.80f;
+	points[10].y -= bbox->radius * 0.80f;
+
+	for (int i = 0; i < 11; i++)
 	{
 		float bestDamage = AutoWall::GetDamage(points[i], true);
 		if (bestDamage >= player->GetHealth())
@@ -50,7 +74,7 @@ void Ragebot::BestHeadPoint(C_BasePlayer* player, const int &BoneIndex, int& Dam
 			Spot = points[i];
 			return;
 		}
-		if (bestDamage > Damage)
+		else if (bestDamage > Damage)
 		{
 		 	Damage = bestDamage;
 			Spot = points[i];
@@ -69,8 +93,13 @@ void Ragebot::BestMultiPoint(C_BasePlayer* player, int &BoneIndex, int& Damage, 
 	mstudiobbox_t* bbox = hdr->pHitbox((int)BoneIndex, 0);
 	if (!bbox)
 		return;
+	
+	matrix3x4_t matrix[128];
+	Vector mins, maxs;
+	Math::VectorTransform(bbox->bbmin, matrix[bbox->bone], mins);
+	Math::VectorTransform(bbox->bbmax, matrix[bbox->bone], maxs);
 	// 0 - center 1 - left, 2 - right, 3 - back
-	Vector center = Spot;
+	Vector center = ( mins + maxs ) * 0.5f;
 	Vector points[4] = { center,center,center,center };
 
     points[1].x += bbox->radius * 0.95f; // morph each point.
@@ -418,110 +447,97 @@ void Ragebot::GetBestEnemy()
 			player->GetTeam() == localplayer->GetTeam() )
 			continue;			
 
+		if (player->GetIndex() != ShootEnemyIndex && currentWeaponSetting->OnShot)
+			continue;
+			
 		int playerHelth = player->GetHealth();
 		const std::unordered_map<int, int>* modelType = BoneMaps::GetModelTypeBoneMap(player);
 
 		for (boneIndex = 0; boneIndex < 6; boneIndex++)
 		{
+			if (boneIndex == 0 && player->GetHealth() < 70)
+				boneIndex++;
+
 			if ( !currentWeaponSetting->desireBones[boneIndex] ) continue;
 
 			GetDamageAndSpots(player, bestSpot, bestDamage, playerHelth, boneIndex, modelType);
 
 			if (bestDamage >= playerHelth)
 			{
-				BestDamage = bestDamage;
-				BestSpot = bestSpot;
+				Ragebot::BestDamage = bestDamage;
+				Ragebot::BestSpot = bestSpot;
 				enemy = player;
 				return;
 			}
-			else if (bestDamage > BestDamage && bestDamage >= currentWeaponSetting->MinDamage)
+			else if ( inputSystem->IsButtonDown(Settings::Ragebot::DamageOverrideBtn) ){
+				if (currentWeaponSetting->DamageOverride > 0 && bestDamage >= currentWeaponSetting->DamageOverride && bestDamage > BestDamage ){
+					Ragebot::BestDamage = bestDamage;
+					Ragebot::BestSpot = bestSpot;
+					enemy = player;
+				}
+				
+			}
+			else if (bestDamage > Ragebot::BestDamage && bestDamage >= currentWeaponSetting->MinDamage)
 			{
-				BestDamage = bestDamage;
-				BestSpot = bestSpot;
+				Ragebot::BestDamage = bestDamage;
+				Ragebot::BestSpot = bestSpot;
 				enemy = player;
 			}
 		}
 	}
 
-	if (inputSystem->IsButtonDown(Settings::Ragebot::DamageOverrideBtn) && BestDamage < currentWeaponSetting->DamageOverride){
-		enemy = nullptr;
-		BestDamage = 0;
-	}
+	ShootEnemyIndex = 0;
 }
 
 void Ragebot::CheckHit()
-{
-	if (!Ragebot::data.player)
+{	
+	if (!localplayer)
 		return;
-	if (!Ragebot::data.shooted || !Ragebot::data.player->GetAlive())
+	if (!activeWeapon )
 		return;
-	if (Ragebot::data.playerhelth > Ragebot::data.player->GetHealth())
-		return;
-	// cvar->ConsoleDPrintf(XORSTR("chcck for empty\n"));
-	if (bulPosition.IsZero())
-		return;
+
 	auto traceEnd = bulPosition;
-	// cvar->ConsoleDPrintf(XORSTR("not empty\n"));
-	if (!activeWeapon || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
-		return;
-	
     Ray_t ray;
-	AutoWall::FireBulletData data;
+	AutoWall::FireBulletData fireBulletData;
 
-	data.src = Ragebot::data.PrevTickEyePosition;
-    data.filter.pSkip = localplayer;
+	fireBulletData.src = Ragebot::data.PrevTickEyePosition;
+    fireBulletData.filter.pSkip = localplayer;
 	CCSWeaponInfo* weaponInfo = activeWeapon->GetCSWpnData();
-	QAngle angles = Math::CalcAngle(data.src, traceEnd);
-	Math::AngleVectors(angles, data.direction);
-	Vector temp = data.direction;
+	QAngle angles = Math::CalcAngle(fireBulletData.src, traceEnd);
+	Math::AngleVectors(angles, fireBulletData.direction);
+	Vector temp = fireBulletData.direction;
     
-	data.direction = temp.Normalize();
-	data.trace_length_remaining = weaponInfo->GetRange();
-	data.trace_length = 0;
-	data.penetrate_count = 4;
-	data.current_damage = (float) weaponInfo->GetDamage();
-	
-	while ( data.penetrate_count > 0 && data.current_damage >= 1.0f)
+	fireBulletData.direction = temp.Normalize();
+	fireBulletData.trace_length_remaining = weaponInfo->GetRange();
+	fireBulletData.trace_length = 0;
+	fireBulletData.penetrate_count = 4;
+	fireBulletData.current_damage = (float) weaponInfo->GetDamage();
+
+	while ( fireBulletData.penetrate_count > 0 && fireBulletData.current_damage >= 1.0f)
 	{
-		data.trace_length_remaining = weaponInfo->GetRange() - data.trace_length;
-		Vector end = data.src + data.direction * data.trace_length_remaining;
-
-		AutoWall::TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
-		ray.Init(data.src, end + data.direction * 40.f);
-		trace->TraceRay(ray, MASK_SHOT, &data.filter, &data.enter_trace);
-		AutoWall::TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
-
-		if (data.enter_trace.hitgroup <= HitGroups::HITGROUP_RIGHTLEG && data.enter_trace.hitgroup > HitGroups::HITGROUP_GENERIC)
+		cvar->ConsoleColorPrintf(ColorRGBA(254, 0, 0, 255), XORSTR("round \n"));
+		fireBulletData.trace_length_remaining = weaponInfo->GetRange() - fireBulletData.trace_length;
+		Vector end = fireBulletData.src + fireBulletData.direction * fireBulletData.trace_length_remaining;
+		
+		AutoWall::TraceLine(fireBulletData.src, end, MASK_SHOT, localplayer, &fireBulletData.enter_trace);
+		ray.Init(fireBulletData.src, end + fireBulletData.direction * 40.f);
+		trace->TraceRay(ray, MASK_SHOT, &fireBulletData.filter, &fireBulletData.enter_trace);
+		AutoWall::TraceLine(fireBulletData.src, end + fireBulletData.direction * 40.f, MASK_SHOT, localplayer, &fireBulletData.enter_trace);
+		
+		if (fireBulletData.enter_trace.hitgroup < HitGroups::HITGROUP_GEAR && fireBulletData.enter_trace.hitgroup > HitGroups::HITGROUP_GENERIC)
 		{
-			C_BasePlayer* player = (C_BasePlayer*) data.enter_trace.m_pEntityHit;
-
-			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
-			if ( player == Ragebot::data.player){
-				engine->ExecuteClientCmd("say Miss Due To Resolver");
-				Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
-			}
-			else if (player) {
-				engine->ExecuteClientCmd("say Ok I am on drugs || I fuking fuck some one elses ass shit :/");
-			}
-			bulPosition.Zero();
+			cvar->ConsoleColorPrintf(ColorRGBA(254, 0, 0, 255), XORSTR("Hit something\n"));
+			// cvar->ConsoleColorPrintf(ColorRGBA(254, 0, 0, 255), XORSTR("IHit Babe\n"));
+			Ragebot::data.Hited = true;
 			return;
 		}
 
-		if (!AutoWall::HandleBulletPenetration(weaponInfo, data))
+		if (!AutoWall::HandleBulletPenetration(weaponInfo, fireBulletData))
 			break;
 	}
-
-	bulPosition.Zero();
-	if (Ragebot::data.player->GetVelocity().Length() < 20.f && localplayer->GetVelocity().Length() < 20.f){
-		engine->ExecuteClientCmd("say I don't Shoot Gays");
-		Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
-	}else {
-		engine->ExecuteClientCmd("say Shit this spread sucking so hard");
-	}
-	
+    
+	cvar->ConsoleColorPrintf(ColorRGBA(254, 0, 0, 255), XORSTR("Trace Compleate\n"));
 }
-
 
 void Ragebot::init(C_BasePlayer* _localplayer, C_BaseCombatWeapon* _activeWeapon)
 {
@@ -530,8 +546,6 @@ void Ragebot::init(C_BasePlayer* _localplayer, C_BaseCombatWeapon* _activeWeapon
 	enemy = nullptr;
 }
 
-/* END */
-
 void RagebotNoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const RageWeapon_t& currentSettings)
 {
     if (!(cmd->buttons & IN_ATTACK) 
@@ -539,8 +553,8 @@ void RagebotNoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_
 		|| !localplayer->GetAlive())
 		return;
 	
-	// if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SSG08 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AWP)
-	// 	return;
+	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SSG08 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AWP)
+		return;
 
 	QAngle CurrentPunch = *localplayer->GetAimPunchAngle();
 
@@ -570,32 +584,38 @@ void RagebotAutoCrouch(C_BasePlayer* localplayer, CUserCmd* cmd, C_BaseCombatWea
     cmd->buttons |= IN_DUCK | IN_BULLRUSH;
 }
 
-void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, float& forrwordMove, float& sideMove, QAngle& angle, const RageWeapon_t& currentSettings)
+void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, QAngle& angle, const RageWeapon_t& currentSettings)
 {
-	if (!currentSettings.autoSlow)
+	if (!currentSettings.autoSlow){
+		Ragebot::data.autoslow = false;
 		return;
-	if (!localplayer || !localplayer->GetAlive())
+	}	
+		
+	if (!localplayer || !localplayer->GetAlive()){
+		Ragebot::data.autoslow = false;
 		return;
-	if ( !activeWeapon || activeWeapon->GetInReload())
+	}	
+	if ( !activeWeapon || activeWeapon->GetInReload()){
+		Ragebot::data.autoslow = false;
 		return;
+	}	
 	
 	if (currentSettings.autoScopeEnabled && Util::Items::IsScopeable(*activeWeapon->GetItemDefinitionIndex()) && !localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) && !(cmd->buttons&IN_ATTACK)){ 
 		cmd->buttons |= IN_ATTACK2; 
 	}
 		
 	Ragebot::data.needToStop = true;
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime ) {
+	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime ){
+		Ragebot::data.autoslow = false;
 		return;
-	}
-		
-
+	}	
 	
-	QAngle ViewAngle;
-		engine->GetViewAngles(ViewAngle);
-	static Vector oldOrigin = localplayer->GetAbsOrigin( );
-	Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) * (1.f/globalVars->interval_per_tick);
-	oldOrigin = localplayer->GetAbsOrigin( );
-	float speed  = velocity.Length( );
+	// QAngle ViewAngle;
+	// 	engine->GetViewAngles(ViewAngle);
+	// static Vector oldOrigin = localplayer->GetAbsOrigin( );
+	// Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) * (1.f/globalVars->interval_per_tick);
+	// oldOrigin = localplayer->GetAbsOrigin( );
+	// float speed  = velocity.Length( );
 		
 	// if(speed > 30.f)
 	// {
@@ -618,6 +638,7 @@ void RagebotAutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon
 		cmd->sidemove = 0;
 	// }
 	// CreateMove::sendPacket = false;
+	Ragebot::data.autoslow = true;
 }
 
 void RagebotAutoR8(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd,Vector& bestspot, QAngle& angle, float& forrwordMove, float& sideMove, const RageWeapon_t& currentSettings)
@@ -638,7 +659,7 @@ void RagebotAutoR8(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombat
 		{
 			if ( !Ragebot::canShoot(activeWeapon, bestspot, player, currentSettings))
 			{
-				RagebotAutoSlow(localplayer, activeWeapon, cmd, forrwordMove, sideMove, angle, currentSettings);
+				RagebotAutoSlow(localplayer, activeWeapon, cmd, angle, currentSettings);
 				cmd->buttons &= ~IN_ATTACK;
 			}
 		}
@@ -660,18 +681,28 @@ void RagebotAutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCom
 		return;
 	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 		return;
-		
-	if ( Ragebot::canShoot(activeWeapon, bestspot, player, currentSettings) )
+
+	bool canShoot;
+	canShoot = false;
+	if (currentSettings.hitchanceType == HitchanceType::Normal){
+		canShoot = Aimbot::canShoot(localplayer, activeWeapon, currentSettings.HitChance);
+	}else {
+		canShoot = Ragebot::canShoot(activeWeapon, bestspot, player, currentSettings);
+	}
+	if ( canShoot )
 	{
 		if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
 			cmd->buttons &= ~IN_ATTACK;
 		else if ( !(cmd->buttons & IN_ATTACK) )
 			cmd->buttons |= IN_ATTACK;
+
+		Ragebot::data.autoslow = false;
+
 		return;
 	}
 
 	
-	RagebotAutoSlow(localplayer, activeWeapon, cmd, forrwordMove, sideMove, angle, currentSettings);
+	RagebotAutoSlow(localplayer, activeWeapon, cmd, angle, currentSettings);
 }
 
 inline void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const RageWeapon_t& currentSettings)
@@ -708,6 +739,23 @@ static void FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player, QAngle& angle, Q
 
 void Ragebot::CreateMove(CUserCmd* cmd)
 {
+
+	if (Ragebot::data.player && Ragebot::data.player->GetAlive() )
+    {
+		if ( Ragebot::data.player->GetHealth( ) >= Ragebot::data.playerhelth ){
+			if (Ragebot::data.Hited && !Ragebot::data.IHit){
+            	cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("say Miss Due To Resolver\n"));
+		    	Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
+        	}
+		}
+        
+		cvar->ConsoleColorPrintf(ColorRGBA(254, 0, 0, 255), XORSTR("Shoot Someone\n"));
+    }
+
+	Ragebot::data.Hited = false;
+	Ragebot::data.IHit = false;
+	Ragebot::data.player = nullptr;
+
 	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer)
 		return;
@@ -715,19 +763,14 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     if (!activeWeapon)
 		return;
 
-	init(localplayer, activeWeapon);
-	CheckHit();
-	
 	if (!localplayer->GetAlive() || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
 		return;
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
 		return;
 
-    CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
-    if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
-		return;
-	
+	init(localplayer, activeWeapon);
+
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
     if (Settings::Ragebot::weapons.find(*activeWeapon->GetItemDefinitionIndex()) != Settings::Ragebot::weapons.end()){
 		index = *activeWeapon->GetItemDefinitionIndex();
@@ -743,12 +786,9 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	static QAngle angle;
 		angle = cmd->viewangles;
 
-	if (data.player){
-		data.player = nullptr;
-		data.shooted = false;
-		data.PrevTickEyePosition.Zero();
-	}
-	data.needToStop = false;
+    CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
+    if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
+		return;
 
 	localEye = localplayer->GetEyePosition();
    	BestSpot.Zero();
@@ -772,41 +812,65 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 			Ragebot::data.shooted = true;
 			if (Settings::AntiAim::InvertOnShoot) { Settings::AntiAim::inverted = !Settings::AntiAim::inverted; }
 			Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot, angle);
+			cmd->sidemove = cmd->forwardmove = 0;
 		}
     }
 	
 	RagebotNoRecoil(angle, cmd, localplayer, activeWeapon, *currentWeaponSetting);
 	AutoPistol(activeWeapon, cmd, *currentWeaponSetting);
 
-    Math::NormalizeAngles(angle);
-	Math::ClampAngles(angle);
-
-    FixMouseDeltas(cmd, enemy, angle, oldAngle);
+    FixMouseDeltas(cmd, localplayer, angle, oldAngle);
     cmd->viewangles = angle;
-
-	if (!currentWeaponSetting->silent)
-		engine->SetViewAngles(angle);
-
+	if (cmd->buttons & IN_ATTACK){
+		Math::NormalizeAngles(angle);
+		Math::ClampAngles(angle);
+		if (!currentWeaponSetting->silent)
+			engine->SetViewAngles(angle);
+	}
 }
 
 void Ragebot::FireGameEvent(IGameEvent* event)
 {
 	if(!event)	
 		return;
+	
+	if ( strcmp(event->GetName(), XORSTR("bullet_impact")) == 0){
+		int UserID = engine->GetPlayerForUserID(event->GetInt(XORSTR("userid")));
+		if (  UserID == engine->GetLocalPlayer() ) {
+			if (!Ragebot::data.shooted)
+				return;
+			else
+				Ragebot::data.shooted = false;
 
+			const float x = event->GetFloat(XORSTR("x")), 
+						y = event->GetFloat(XORSTR("y")), 
+						z = event->GetFloat(XORSTR("z"));
+			bulPosition.Init(x, y, z);
+			Ragebot::CheckHit();
+		}else {
+			ShootEnemyIndex = UserID;
+		}
+	}
+	else if (strcmp(event->GetName(), XORSTR("player_hurt")) == 0){
+		int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
+		if (attacker_id != engine->GetLocalPlayer())
+			return;
+		cvar->ConsoleColorPrintf(ColorRGBA(254, 0, 0, 255), XORSTR("I Hit\n"));
+		Ragebot::data.IHit = true;
+	}
+    
+}
+
+void Ragebot::FireGameEvent2(IGameEvent* event)
+{
 	if ( strcmp(event->GetName(), XORSTR("bullet_impact")) == 0 && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) == engine->GetLocalPlayer()){
 		const float x = event->GetFloat(XORSTR("x")), 
 					y = event->GetFloat(XORSTR("y")), 
 					z = event->GetFloat(XORSTR("z"));
-		bulPosition.Init(x, y, z);
-		// cvar->ConsoleDPrintf(XORSTR("Bullet Hit : %0.0f, %0.0f, %0.0f\n"), x, y, z);
+
+		ESP::bulletTracers.push_front(Vector(x,y,z));
 	}
-    else if (strcmp(event->GetName(), XORSTR("player_connect_full")) == 0 || strcmp(event->GetName(), XORSTR("cs_game_disconnected")) == 0)
-    {
-		if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
-	    	return;
-    }
-    else if (strcmp(event->GetName(), XORSTR("player_death")) == 0)
+	if (strcmp(event->GetName(), XORSTR("player_death")) == 0)
     {
 		// cvar->ConsoleColorPrintf(ColorRGBA(255,200,156,255), XORSTR("player_death\n"));
 		int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
@@ -816,6 +880,11 @@ void Ragebot::FireGameEvent(IGameEvent* event)
 	    	return;
 
 		if (attacker_id != engine->GetLocalPlayer())
+	    	return;
+		// else the player we shoot is dead better to set it to 0
+    }else if (strcmp(event->GetName(), XORSTR("player_connect_full")) == 0 || strcmp(event->GetName(), XORSTR("cs_game_disconnected")) == 0)
+    {
+		if (event->GetInt(XORSTR("userid")) && engine->GetPlayerForUserID(event->GetInt(XORSTR("userid"))) != engine->GetLocalPlayer())
 	    	return;
     }
 }

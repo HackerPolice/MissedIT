@@ -1,11 +1,57 @@
 #include "backtrack.hpp"
 
 #include "../AimBot/ragebot.hpp"
+#include "../chams.h"
 
 // source from nimbus bcz i am lezy xd
 #define TICK_INTERVAL			(globalVars->interval_per_tick)
 #define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
 #define TICKS_TO_TIME( t )		( TICK_INTERVAL *( t ) )
+
+static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
+{
+    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer || !localplayer->GetAlive())
+        return nullptr; 
+	C_BasePlayer* closestPlayer = nullptr;
+	Vector pVecTarget = localplayer->GetEyePosition();
+	QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+	float prevFOV = 0.f;
+
+    int maxPlayers = engine->GetMaxClients();
+	for (int i = 1; i < maxPlayers; ++i)
+	{
+		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
+
+		if (!player
+	    	|| player == localplayer
+	    	|| player->GetDormant()
+	    	|| !player->GetAlive()
+	    	|| player->GetImmune())
+	    	continue;
+
+		if (Entity::IsTeamMate(player, localplayer))
+	   	 	continue;
+
+		Vector cbVecTarget = player->GetAbsOrigin();
+		
+		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
+		
+		if (prevFOV == 0.f)
+		{
+			prevFOV = cbFov;
+			closestPlayer = player;
+		}
+		else if ( cbFov < prevFOV )
+		{
+			prevFOV = cbFov;
+			closestPlayer = player;
+		}
+	}
+	return closestPlayer;
+}
+
 
 void BackTrack::CreateMove(CUserCmd *cmd)
 {
@@ -20,29 +66,41 @@ void BackTrack::CreateMove(CUserCmd *cmd)
 	if (!weapon)
 		return;
 
-	float serverTime = localplayer->GetTickBase() * globalVars->interval_per_tick;
-
-	if ( !(cmd->buttons & IN_ATTACK) || (weapon->GetNextPrimaryAttack() > serverTime) )
-		return;
-	if (!Ragebot::data.player || !Ragebot::data.player->GetAlive())
-		return;
-
 	int size = Records::Ticks.size()-1;
-	int index;
+	static int index;
 	bool has_target = false;
 
-	cmd->tick_count = Records::Ticks.at(size).tickCount;
-	// for ( index = size; index >= 0; index--){
-	// 	for ( auto &record : Records::Ticks.at(index).records ){
-	// 		if (record.entity == Ragebot::data.player){
-	// 			cmd->tick_count = TIME_TO_TICKS(record.simulationTime + Records::GetLerpTime());
-	// 			Ragebot::data.player->SetAbsOrigin(&record.origin);
-	// 			has_target = true;
-	// 			break;
-	// 		}
-	// 	}
-	// 	if (has_target){
-	// 		break;
-	// 	}
-	// }
+	if (Ragebot::data.player && Ragebot::data.player->GetAlive()){
+		for ( index = size; index >= 0; index--){
+			const auto &tick = Records::Ticks.at(index);
+			for ( auto &record : tick.records ){
+				if (record.entity == Ragebot::data.player){
+					Chams::BackTrackTicks = cmd->tick_count = tick.tickCount;
+					// Ragebot::data.player->SetAbsOrigin(&record.origin);
+					has_target = true;
+					break;
+				}
+			}
+			if (has_target){
+				break;
+			}
+		}
+	}else{
+		C_BasePlayer *closestEnemy = GetClosestEnemy(cmd);
+		if (!closestEnemy)
+			return;
+		for ( index = size; index >= 0; index--){
+			const auto &tick = Records::Ticks.at(index);
+			for ( auto &record : tick.records ){
+				if (record.entity == closestEnemy){
+					Chams::BackTrackTicks = cmd->tick_count = tick.tickCount;
+					has_target = true;
+					break;
+				}
+			}
+			if (has_target){
+				break;
+			}
+		}
+	}
 }

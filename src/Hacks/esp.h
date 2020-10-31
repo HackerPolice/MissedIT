@@ -6,10 +6,14 @@
 #include "../SDK/IVModelRender.h"
 #include "../SDK/IInputSystem.h"
 
+#include <deque>
+
 
 namespace ESP
 {
 	extern const char* ranks[];
+
+	inline std::deque<Vector> bulletTracers;
 
 	ImColor GetESPPlayerColor(C_BasePlayer* player, bool visible);
 	bool WorldToScreen( const Vector &origin, ImVec2 * const screen );

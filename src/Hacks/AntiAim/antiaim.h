@@ -16,6 +16,8 @@ namespace AntiAim
                     alignRight = false, 
                     alignLeft = false;
     }
+
+    inline bool sw = false;
     
     inline bool bSend = true;
     //Hooks

@@ -15,6 +15,7 @@
 #include "../ATGUI/texture.h"
 #include "../Resources/tux.h"
 #include "AntiAim/antiaim.h"
+#include "AimBot/ragebot.hpp"
 
 #include <climits>
 #include <deque>
@@ -283,17 +284,15 @@ bool ESP::WorldToScreen( const Vector &origin, ImVec2 * const screen ) {
 
 static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* entity, BoxType& boxtype ) {
  
-	if ( boxtype == BoxType::FRAME_2D ) {
-		int VertLine = w / 3;
-		int HorzLine = h / 3;
-		int squareLine = std::min( VertLine, HorzLine );
-
+	if ( boxtype == BoxType::FRAME_2D ) 
+	{
 		Draw::AddLine(x,y,x+w, y, color);
 		Draw::AddLine(x+w,y,x+w, y+h, color);
 		Draw::AddLine(x+w,y+h,x, y+h, color);
-		Draw::AddLine(x,y+h,x, y, color);
-		
-	} else if ( boxtype == BoxType::FLAT_2D ) {
+		Draw::AddLine(x,y+h,x, y, color);	
+	} 
+	else if ( boxtype == BoxType::FLAT_2D ) 
+	{
 		int VertLine = ( int ) ( w * 0.33f );
 		int HorzLine = ( int ) ( h * 0.33f );
 		int squareLine = std::min( VertLine, HorzLine );
@@ -334,7 +333,9 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 		Draw::AddRect( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 
 		Draw::AddRectFilled( x, y, x + w, y + h, ImColor( color.Value.x, color.Value.y, color.Value.z, 21 * (1.0f/255.0f) ) );
-	} else if ( boxtype == BoxType::BOX_3D ) {
+	} 
+	else if ( boxtype == BoxType::BOX_3D ) 
+	{
 		Vector vOrigin = entity->GetVecOrigin();
 		Vector min = entity->GetCollideable()->OBBMins() + vOrigin;
 		Vector max = entity->GetCollideable()->OBBMaxs() + vOrigin;
@@ -413,6 +414,28 @@ static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
 }
 */
 
+static void DrawBulletTracers(CUserCmd* cmd)
+{
+    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer)
+        return;
+
+    if (ESP::bulletTracers.empty())
+		return;
+
+	// cvar->ConsoleDPrintf(XORSTR("trace draw\n"));
+	float shite = 0.3f;
+	ImColor color = ImColor(255,0,0,255);
+
+	for (float i = 0.01f; i <= shite; ){
+		debugOverlay->DrawPill( localplayer->GetEyePosition(), Ragebot::BestSpot, i, 0, 255, 0, 255, 10 );
+		debugOverlay->DrawPill( localplayer->GetEyePosition(), ESP::bulletTracers.at(0), i, color.Value.x * 255, color.Value.y * 255, color.Value.z * 255, 100, 10 );
+		i += 0.01;
+	}	
+	
+	ESP::bulletTracers.clear(); // trace Initialising in ragebot.cpp events
+}
+
 static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color ) {
 	int x, y, w, h;
 	if ( !GetBox( entity, x, y, w, h ) )
@@ -466,7 +489,10 @@ static void DrawTracer( C_BasePlayer* player, TracerType& tracerType ) {
 	else if ( tracerType == TracerType::BOTTOM )
 		y = Paint::engineHeight;
 
+	
 	bool bIsVisible = Entity::IsVisible( player, CONST_BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+	// Draw::Rectangle(x+10,y+10,x,y, Color(125,120,14,255));
+	
 	Draw::AddLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
 }
 
@@ -1583,11 +1609,14 @@ void ESP::DrawModelExecute()
 
 void ESP::CreateMove(CUserCmd* cmd)
 {
+	if ( !Settings::ESP::enabled )
+		return;
 	viewanglesBackup = cmd->viewangles;
 
-    if( Settings::ESP::enabled && Settings::ESP::Sounds::enabled && (Settings::ESP::Filters::allies || Settings::ESP::Filters::enemies || Settings::ESP::Filters::localplayer) ){
+    if( Settings::ESP::Sounds::enabled && (Settings::ESP::Filters::allies || Settings::ESP::Filters::enemies || Settings::ESP::Filters::localplayer) ){
         CheckActiveSounds();
     }
+	DrawBulletTracers(cmd);
 }
 
 void ESP::PaintToUpdateMatrix( ) {

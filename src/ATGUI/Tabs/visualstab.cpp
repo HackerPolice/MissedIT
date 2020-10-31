@@ -163,7 +163,8 @@ static void FilterAlise()
 static void colorPicker() 
 {
 	const char* colorNames[IM_ARRAYSIZE(Colors::colors)];
-	for (int i = 0; i < IM_ARRAYSIZE(Colors::colors); i++)
+	int size = IM_ARRAYSIZE(Colors::colors);
+	for (int i = 0; i < size; i++)
 		colorNames[i] = Colors::colors[i].name;
 
 	static int colorSelected = 0;

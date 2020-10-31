@@ -48,6 +48,19 @@ void Resolver::AnimationFix(C_BasePlayer *player)
 	// player->ClientAnimations(false);
 }
 
+float NormalizeYaw(float yaw)
+{
+    if (yaw > 180)
+        yaw -= (round(yaw / 360) * 360.f);
+
+    if (yaw < -180)
+        yaw += (round(yaw / 360) * -360.f);
+
+    return yaw;
+}
+
+#include "../Hooks/hooks.h"
+
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame())
@@ -55,14 +68,14 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (!Settings::Resolver::resolveAll)
 		return;
-		
+    
 	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer )
 		return;
+
 
 	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{
-		
 		int maxClient = engine->GetMaxClients();
 		for (int i = 1; i < maxClient; i++)
 		{
@@ -79,46 +92,44 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
+            // entityInformation.__pad0
+			if ( !Resolver::players[player->GetIndex()].enemy ) // mean the player actually disconnected
+				Resolver::players[player->GetIndex()].MissedCount = 0;
 
-			if ( Resolver::players[player->GetIndex()].enemy )
-			{
-				if (player != Resolver::players[player->GetIndex()].enemy) // It means player discoennected or player sequence changed better to reset out miss shots count
-				{
-					Resolver::players[player->GetIndex()].MissedCount = 0;
-					Resolver::players[player->GetIndex()].enemy = player;
-				}
-			}
-			else 
-			{
-				Resolver::players[player->GetIndex()].enemy = player;
-			}
+			// Resolve(player, player->GetAnimState()->currentFeetYaw, player->GetEyeAngles()->y, *player->GetAnimState());
 
-			// player->GetEyeAngles()->y += 60;
-            float trueDelta = NormalizeAsYaw(*player->GetLowerBodyYawTarget() - player->GetEyeAngles()->y);
-			// float trueDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
-			// 
-			
+            float trueDelta = NormalizeAsYaw(player->GetAnimState()->goalFeetYaw - player->GetEyeAngles()->y);
+			float maxDesync = AntiAim::GetMaxDelta(player->GetAnimState());
+            float lby = NormalizeYaw(player->GetAnimState()->goalFeetYaw);
+            player->updateClientAnimation();
+            // cvar->ConsoleDPrintf("delta : %f, lby : %f\n", trueDelta, lby);
+            if (player->GetVelocity().Length() > 40.f)
+                continue;
+
 			switch(Resolver::players[player->GetIndex()].MissedCount)
 			{
 				case 0:
-					trueDelta > 0 ? *player->GetLowerBodyYawTarget() + (360 - trueDelta) : *player->GetLowerBodyYawTarget() - (360 - (trueDelta*-1)) ; 
 					break;
 				case 1:
+					player->GetAnimState()->goalFeetYaw = lby + trueDelta;
+                    // player->GetAnimState()->goalFeetYaw = lby + trueDelta;
 					break;
 				case 2:
-					player->GetEyeAngles()->y += (*player->GetLowerBodyYawTarget() + trueDelta);
+                    player->GetAnimState()->goalFeetYaw = lby + (trueDelta/2);
 					break;
 				case 3:
-					Resolver::players[player->GetIndex()].MissedCount = 0;
-					player->GetEyeAngles()->y += trueDelta; 
+                    player->GetEyeAngles()->y -= (360- (maxDesync/2));
 					break;
 				default:
+                    Resolver::players[player->GetIndex()].MissedCount = 0;
 					break;
 			}
-			// Math::NormalizeAngles( *player->GetEyeAngles() ); 
-			// Math::ClampAngles( *player->GetEyeAngles() );
+
+            player->updateClientAnimation();
         }	
 	}
+
+    // else if (stage == ClientFrameStage_t::)
 }
 
 void Resolver::FireGameEvent(IGameEvent *event)

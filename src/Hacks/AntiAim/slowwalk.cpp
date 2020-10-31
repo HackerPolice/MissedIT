@@ -4,12 +4,14 @@
 
 void SlowWalk::CreateMove(CUserCmd* cmd){
 
+	SlowWalking = true;
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer || !localplayer->GetAlive())
 		return;
     if (!inputSystem->IsButtonDown(Settings::AntiAim::SlowWalk::Key))
 		return;
-        
+
+    SlowWalking = true;
     QAngle ViewAngle;
 	engine->GetViewAngles(ViewAngle);
 	    
@@ -23,9 +25,9 @@ void SlowWalk::CreateMove(CUserCmd* cmd){
 	{
 		cmd->forwardmove = 0;
 		cmd->sidemove = 0;
-		CreateMove::sendPacket = true;
+		CreateMove::sendPacket = false;
 	}
 	else {
-		CreateMove::sendPacket = false;
+		CreateMove::sendPacket = true;
 	}
 }
