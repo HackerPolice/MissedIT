@@ -34,6 +34,8 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
 		cmd->forwardmove = 0;
 		cmd->sidemove = 0;
 		ticks = 0;
-	}	
-   	CreateMove::sendPacket = false;
+	}else {
+		CreateMove::sendPacket = false;
+	}
+   	
 }

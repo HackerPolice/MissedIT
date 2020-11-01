@@ -9,6 +9,7 @@
 #include "../AimBot/ragebot.hpp"
 #include "fakewalk.hpp"
 #include "slowwalk.hpp"
+#include "fakeduck.h"
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
@@ -398,6 +399,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
         AntiAim::bSend = CreateMove::sendPacket;
     else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
+        AntiAim::bSend = CreateMove::sendPacket; 
+    else if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
         AntiAim::bSend = CreateMove::sendPacket; 
     else
         CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
