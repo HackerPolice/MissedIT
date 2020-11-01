@@ -7,7 +7,6 @@
 
 static unsigned int rally;
 static bool reachedEnd;
-static bool hasAutobought;
 static bool hasDied;
 bool slowLastTick = false;
 

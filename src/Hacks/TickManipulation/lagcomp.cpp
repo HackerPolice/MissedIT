@@ -1,7 +1,7 @@
 #include "lagcomp.hpp"
 
 #include "../AimBot/ragebot.hpp"
-#include "../chams.h"
+#include "../Visuals/chams.hpp"
 
 /*
  * Thanks to the Nimbus(in github) Project for the initial code
@@ -17,8 +17,10 @@
 static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
-        return nullptr; 
+    if (!localplayer || !localplayer->GetAlive()){
+		return nullptr;
+	}
+         
 	C_BasePlayer* closestPlayer = nullptr;
 	Vector pVecTarget = localplayer->GetEyePosition();
 	QAngle viewAngles;
@@ -72,11 +74,6 @@ void LagComp::CreateMove(CUserCmd *cmd)
 
 	C_BaseCombatWeapon *weapon = (C_BaseCombatWeapon *)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!weapon)
-		return;
-
-	float serverTime = localplayer->GetTickBase() * globalVars->interval_per_tick;
-
-	
 		return;
 		
 	bool has_target = false;

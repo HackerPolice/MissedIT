@@ -40,8 +40,8 @@ float NormalizeYaw( const float& yaw ) {
 	while ( yaw < -180.0f )
 	return	yaw + 360.0f;
 }
+/*
 static void DirectionalStrafe(C_BasePlayer* localplayer, CUserCmd* cmd){
-
 if (localplayer->GetFlags() & FL_ONGROUND)
 		return;
 
@@ -65,7 +65,7 @@ if (localplayer->GetFlags() & FL_ONGROUND)
 	else if (cmd->buttons & IN_MOVERIGHT)
 		cmd->viewangles.y += 90.f;
 
-	if (!speed > 0.5f || speed == NAN || speed == INFINITY) {
+	if (speed > 0.5f || speed == NAN || speed == INFINITY) {
 
 		cmd->forwardmove = 450.f;
 		return;
@@ -79,24 +79,25 @@ if (localplayer->GetFlags() & FL_ONGROUND)
 	cmd->sidemove = (velocityDelta > 0.0f) ? -sideSpeed : sideSpeed;
 	cmd->viewangles.y = NormalizeYaw(cmd->viewangles.y - velocityDelta);
 }
+*/
 
 static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
 
-        const auto vel = localplayer->GetVelocity().Length2D();
+    const auto vel = localplayer->GetVelocity().Length2D();
 
-        if (vel < 1.f)
-                return;
-        if (localplayer->GetFlags() & FL_ONGROUND)
-                return;
+    if (vel < 1.f)
+            return;
+    if (localplayer->GetFlags() & FL_ONGROUND)
+        return;
 
-        if (cmd->mousedx > 1 || cmd->mousedx < -1)
-                cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
-        else
-        {
-                cmd->forwardmove = std::clamp(10000.f / vel, -450.0f, 450.0f);
-                cmd->sidemove = cmd->command_number % 2 == 0 ? -450.f : 450.f;
-        }
+	if (cmd->mousedx > 1 || cmd->mousedx < -1)
+        cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+	else
+    {
+        cmd->forwardmove = std::clamp(10000.f / vel, -450.0f, 450.0f);
+        cmd->sidemove = cmd->command_number % 2 == 0 ? -450.f : 450.f;
+    }
 
 }
 

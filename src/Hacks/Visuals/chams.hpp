@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../SDK/vector.h"
-#include "../SDK/IVModelRender.h"
+#include "../../SDK/vector.h"
+#include "../../SDK/IVModelRender.h"
 
 namespace Chams
 {

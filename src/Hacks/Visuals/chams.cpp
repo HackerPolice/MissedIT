@@ -1,20 +1,25 @@
-#include "chams.h"
-#include "thirdperson.h"
-#include "AntiAim/antiaim.h"
-#include "TickManipulation/records.hpp"
+#include "chams.hpp"
+#include "../thirdperson.h"
+#include "../AntiAim/antiaim.h"
+#include "../TickManipulation/records.hpp"
 
-#include "../Utils/xorstring.h"
-#include "../Utils/entity.h"
-#include "../Utils/math.h"
-#include "../settings.h"
-#include "../interfaces.h"
-#include "../Hooks/hooks.h"
-#include "Visuals/DesyncChams.hpp"
-#include "AntiAim/fakeduck.h"
+#include "../../Utils/xorstring.h"
+#include "../../Utils/entity.h"
+#include "../../Utils/math.h"
+#include "../../settings.h"
+#include "../../interfaces.h"
+#include "../../Hooks/hooks.h"
+#include "../Visuals/DesyncChams.hpp"
+#include "../AntiAim/fakeduck.h"
 
 IMaterial *materialChamsFlat, *materialChamsFlatIgnorez;
 IMaterial *WhiteAdditive,*WhiteAdditiveIgnoreZ;
 IMaterial *AdditiveTwo, *AdditiveTwoIgnoreZ;
+IMaterial *materialChamsPearl;
+IMaterial* materialChamsGlow;
+IMaterial* materialChamsPulse;
+
+Vector colro = Vector(0.5, 0, 1);
 
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 
@@ -66,6 +71,18 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 			visible_material = AdditiveTwo;
 			hidden_material = AdditiveTwoIgnoreZ;
 			break;
+		case ChamsType::PEARL:
+        	visible_material = materialChamsPearl;
+			hidden_material = materialChamsPearl;
+			break;
+		case ChamsType::GLOW:
+			visible_material = materialChamsFlat;
+            hidden_material = materialChamsFlatIgnorez;
+			break;
+            case ChamsType::GLOWF:
+                visible_material = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
+                hidden_material = materialChamsFlatIgnorez;
+				break;
 		default :
 			return;
 	}
@@ -162,6 +179,15 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 		case ChamsType::ADDITIVETWO:
 			Fake_meterial = AdditiveTwo;
 			break;
+		case ChamsType::PEARL:
+        	Fake_meterial = materialChamsPearl;
+			break;
+		case ChamsType::GLOW:
+			Fake_meterial = materialChamsFlat;
+			break;
+        case ChamsType::GLOWF:
+            Fake_meterial = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
+			break;
 		default:
 			return;
 	}
@@ -202,15 +228,15 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 
 	if (FakeDuck::FakeDucking){
 		if (CreateMove::sendPacket){
-			for (size_t i = 0; i < 128; i++)
-				BodyBoneMatrix[i] = fakeBoneMatrix[i];
+			memcpy(BodyBoneMatrix, fakeBoneMatrix, sizeof(matrix3x4_t)*128);
 		}
 	}
 	else if (Settings::FakeLag::enabled){
 		if(CreateMove::sendPacket){
-			for (size_t i = 0; i < 128; i++)
-				BodyBoneMatrix[i] = fakeBoneMatrix[i];
+			memcpy(BodyBoneMatrix, fakeBoneMatrix, sizeof(matrix3x4_t)*128);
 		}
+	}else {
+		memcpy(BodyBoneMatrix, pCustomBoneToWorld, sizeof(matrix3x4_t)*128);
 	}
 	
 	//entity->SetupBones
@@ -242,6 +268,15 @@ static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 			break;
 		case ChamsType::ADDITIVETWO:
 			mat = AdditiveTwo;
+			break;
+		case ChamsType::PEARL:
+        	mat = materialChamsPearl;
+			break;
+		case ChamsType::GLOW:
+			mat = materialChamsFlat;
+			break;
+        case ChamsType::GLOWF:
+            mat = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
 			break;
 		default :
 			return;
@@ -278,6 +313,15 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 			break;
 		case ChamsType::ADDITIVETWO:
 			mat = AdditiveTwo;
+			break;
+		case ChamsType::PEARL:
+        	mat = materialChamsPearl;
+			break;
+		case ChamsType::GLOW:
+			mat = materialChamsFlat;
+			break;
+        case ChamsType::GLOWF:
+            mat = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
 			break;
 		default :
 			return;
@@ -361,17 +405,21 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	static bool materialsCreated = false;
 	if (!materialsCreated)
 	{
-	
+		
+		materialChamsPearl = Util::CreateMaterial2(XORSTR("VertexLitGeneric"), XORSTR("models/inventory_items/dogtags/dogtags_outline"), false, true, true, true, 1.f);
+        materialChamsGlow = Util::CreateMaterial3(XORSTR("VertexLitGeneric"), XORSTR("csgo/materials/glowOverlay.vmt"), false, true, true, true, 1.f, colro);
+        materialChamsPulse = Util::CreateMaterial4(XORSTR("VertexLitGeneric"), XORSTR("models/inventory_items/dogtags/dogtags_outline"), false, true, true, true, 1.f, colro);
+
 		materialChamsFlat = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true);
 		materialChamsFlatIgnorez = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);
-		
+	
 		WhiteAdditive = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true);
 		WhiteAdditiveIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, false, true, true, true);
 		
-		AdditiveTwo = Util::CreateMaterial(XORSTR("Metallic"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
-		AdditiveTwoIgnoreZ = Util::CreateMaterial(XORSTR("Metallic"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
-		materialsCreated = true;
+		AdditiveTwo = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
+		AdditiveTwoIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
 		
+		materialsCreated = true;
 	}
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);

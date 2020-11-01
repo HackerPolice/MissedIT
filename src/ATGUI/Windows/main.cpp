@@ -9,10 +9,11 @@
 #include "../Tabs/antiaimtab.h"
 #include "../Tabs/misctab.h"
 #include "../Tabs/triggerbottab.h"
-#include "../Tabs/visualstab.h"
+#include "../Tabs/visualstab.hpp"
 #include "../Tabs/skinstab.h"
 #include "../Tabs/modelstab.h"
 #include "../Tabs/skinsandmodel.h"
+#include "../Tabs/Colors.hpp"
 #include "../Tabs/other.hpp"
 
 #include "colors.h"
@@ -59,8 +60,10 @@ void Main::RenderWindow()
 		const char* tabs[] = {
 				"Legit Bot",
 				"Rage Bot",
+				"Trigger Bot",
 				"Anti Aim",
 				"Visuals",
+				"Colors",
 				"Skin/Model",
 				"Misc",
 				"Others",
@@ -71,7 +74,7 @@ void Main::RenderWindow()
 		{
 			float ButtonsXSize = ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs)-9;
 			ImGui::SetColumnOffset(1, ButtonsXSize); 
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				int distance = i == page ? 0 : i > page ? i - page : page - i;
 				
@@ -106,24 +109,27 @@ void Main::RenderWindow()
 					RagebotTab::RenderTab();
 					break;
 				case 2:
-					HvH::RenderTab();
+					Triggerbot::RenderTab();
 					break;
 				case 3:
-					Visuals::RenderTab();
+					HvH::RenderTab();
 					break;
 				case 4:
-					SkinsAndModel::RenderTab();
+					Visuals::RenderTab();
 					break;
-				// case 5:
-				// 	Models::RenderTab();
-				// 	break;
 				case 5:
-					Misc::RenderTab();
+					Colors::RenderTab();
 					break;
 				case 6:
-					Other::Render();
+					SkinsAndModel::RenderTab();
 					break;
 				case 7:
+					Misc::RenderTab();
+					break;
+				case 8:
+					Other::Render();
+					break;
+				case 9:
 					Configs::RenderTab();
 					break;
 				}

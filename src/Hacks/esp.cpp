@@ -417,23 +417,30 @@ static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
 static void DrawBulletTracers(CUserCmd* cmd)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer)
-        return;
-
-    if (ESP::bulletTracers.empty())
+    if (!localplayer) 
 		return;
 
-	// cvar->ConsoleDPrintf(XORSTR("trace draw\n"));
+	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(ESP::bulletBeam.enemyIndex);
+    if (ESP::bulletBeam.bulletPosition.empty())
+		return;
+	if (!entity || !entity->GetAlive())
+		return;
+	if (engine->GetLocalPlayer() == ESP::bulletBeam.enemyIndex && !Settings::ESP::FilterLocalPlayer::BulletBeam::enabled)
+		return;
+	if ( Entity::IsTeamMate(entity, localplayer) && !Settings::ESP::FilterAlise::BulletBeam::enabled)
+		return;
+	if ( !Entity::IsTeamMate(entity, localplayer) && !Settings::ESP::FilterEnemy::BulletBeam::enabled)
+		return;
+	
 	float shite = 0.3f;
 	ImColor color = ImColor(255,0,0,255);
 
-	for (float i = 0.01f; i <= shite; ){
-		debugOverlay->DrawPill( localplayer->GetEyePosition(), Ragebot::BestSpot, i, 0, 255, 0, 255, 10 );
-		debugOverlay->DrawPill( localplayer->GetEyePosition(), ESP::bulletTracers.at(0), i, color.Value.x * 255, color.Value.y * 255, color.Value.z * 255, 100, 10 );
-		i += 0.01;
+	for (float i = 0.01f; i <= shite; i += 0.01){
+		debugOverlay->DrawPill( entity->GetEyePosition(), ESP::bulletBeam.bulletPosition.at(0), i, color.Value.x * 255, color.Value.y * 255, color.Value.z * 255, 100, 10 );
+		
 	}	
 	
-	ESP::bulletTracers.clear(); // trace Initialising in ragebot.cpp events
+	ESP::bulletBeam.bulletPosition.clear(); // trace Initialising in ragebot.cpp events
 }
 
 static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color ) {

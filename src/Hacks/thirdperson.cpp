@@ -22,7 +22,19 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		return;
 	}
 
-	if(localplayer->GetAlive() && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot())
+	// if ( !localplayer->GetAlive() ){
+	// 	if (input->m_fCameraInThirdPerson){
+	// 		input->m_fCameraInThirdPerson = false;
+	// 		input->m_vecCameraOffset = Vector(0.f, 0.f, 0.f);
+	// 	}
+	// 	if (Settings::ThirdPerson::toggled)
+	// 	{
+	// 		*localplayer->GetObserverMode() = ObserverMode_t::OBS_MODE_CHASE;
+	// 	}else {
+	// 		*localplayer->GetObserverMode() = ObserverMode_t::OBS_MODE_NONE;
+	// 	}
+	// }
+	if(Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot())
 	{
 		/* Code For Toggle
 			if (inputSystem->IsButtonDown(Settings::ThirdPerson::toggleThirdPerson) && buttonToggle == false)
@@ -45,12 +57,19 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		// END
 
 		if (Settings::ThirdPerson::toggled)
-		{
+		{	
+			C_BasePlayer* obs = nullptr;
+			if (!localplayer->GetAlive()){
+				*localplayer->GetObserverMode() = ObserverMode_t::OBS_MODE_CHASE;
+				// obs = (C_BasePlayer*)localplayer->GetObserverTarget();
+			}else {
+				obs = localplayer;
+			
 			QAngle viewAngles;
 			engine->GetViewAngles(viewAngles);
 			trace_t tr;
 			Ray_t traceRay;
-			Vector eyePos = localplayer->GetEyePosition();
+			Vector eyePos = obs->GetEyePosition();
 
 			Vector camOff = Vector(cos(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
 							   		sin(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
@@ -63,6 +82,8 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 
        	 	input->m_fCameraInThirdPerson = true;
 			input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
+			
+			}
 		}
 		else
 		{
@@ -71,12 +92,6 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		}
 		
 	}
-	else if(input->m_fCameraInThirdPerson)
-	{
-		input->m_fCameraInThirdPerson = false;
-		input->m_vecCameraOffset = Vector(0.f, 0.f, 0.f);
-	}
-
 	
 }
 

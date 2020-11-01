@@ -17,7 +17,7 @@
 #include "../Hacks/predictionsystem.h"
 #include "../Hacks/AimBot/ragebot.hpp"
 #include "../Hacks/AimBot/legitbot.h"
-#include "../Hacks/triggerbot.h"
+#include "../Hacks/AimBot/triggerbot.hpp"
 #include "../Hacks/autoknife.h"
 #include "../Hacks/AntiAim/antiaim.h"
 #include "../Hacks/AntiAim/fakelag.h"
@@ -90,19 +90,15 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		EdgeJump::PostPredictionCreateMove(cmd);
 		NoFall::PostPredictionCreateMove(cmd);
 
-		// if (!CreateMove::sendPacket){
-		// 	cvar->ConsoleDPrintf("Fake Laging\n");
-		// }
-		// else {
-		// 	cvar->ConsoleDPrintf("sending\n");
-		// }
+
 		if (cmd->buttons & IN_ATTACK)
 			CreateMove::sendPacket = true;
 
         *sendPacket = CreateMove::sendPacket;
 
         if (CreateMove::sendPacket)
-            CreateMove::lastTickViewAngles = cmd->viewangles;
+			CreateMove::lastTickViewAngles = cmd->viewangles;
+            
 	}
 
 	return false;

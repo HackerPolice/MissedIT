@@ -4,7 +4,7 @@
 #include "../AimBot/ragebot.hpp"
 namespace SlowWalk{
 
-    inline bool SlowWalking = true;
+    inline bool SlowWalking = false;
 
     void CreateMove(CUserCmd* cmd);
 }

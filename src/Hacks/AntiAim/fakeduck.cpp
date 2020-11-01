@@ -4,8 +4,7 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
-// Find it from nimbus there is no point to wast your time if that is all ready available
-static bool FirstDuck = false;
+
 void FakeDuck::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::AntiAim::FakeDuck::enabled)

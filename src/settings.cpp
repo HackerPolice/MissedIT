@@ -219,6 +219,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	        RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
 	        RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
             RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")] = i.second.OnShot;
+            RageweaponSetting[XORSTR("OnShotOnKey")][XORSTR("Enabled")] = i.second.OnShotOnKey;
 	        RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
 	        RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
             RageweaponSetting[XORSTR("MinDamage")] = i.second.MinDamage;
@@ -239,12 +240,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
     }
 
     settings[XORSTR("Ragebot")][XORSTR("DamageOverrideBtn")] = Util::GetButtonName(Settings::Ragebot::DamageOverrideBtn);
+    settings[XORSTR("Ragebot")][XORSTR("OnShotBtn")] = Util::GetButtonName(Settings::Ragebot::OnShotBtn);
 
     settings[XORSTR("LagComp")][XORSTR("enable")] = Settings::LagComp::enabled;
     settings[XORSTR("BackTrack")][XORSTR("enable")] = Settings::BackTrack::enabled;
     
     settings[XORSTR("Triggerbot")][XORSTR("enabled")] = Settings::Triggerbot::enabled;
-	settings[XORSTR("Triggerbot")][XORSTR("key")] = Util::GetButtonName(Settings::Triggerbot::key);
+    settings[XORSTR("Triggerbot")][XORSTR("OnKey")][XORSTR("enable")] = Settings::Triggerbot::OnKey::enable;
+	settings[XORSTR("Triggerbot")][XORSTR("OnKey")][XORSTR("key")] = Util::GetButtonName(Settings::Triggerbot::OnKey::key);
 	settings[XORSTR("Triggerbot")][XORSTR("Filters")][XORSTR("enemies")] = Settings::Triggerbot::Filters::enemies;
 	settings[XORSTR("Triggerbot")][XORSTR("Filters")][XORSTR("allies")] = Settings::Triggerbot::Filters::allies;
 	settings[XORSTR("Triggerbot")][XORSTR("Filters")][XORSTR("walls")] = Settings::Triggerbot::Filters::walls;
@@ -266,7 +269,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("AntiAim")][XORSTR("atTheTarget")] = Settings::AntiAim::atTheTarget;
     settings[XORSTR("AntiAim")][XORSTR("autoDirection")] = Settings::AntiAim::autoDirection;
     settings[XORSTR("AntiAim")][XORSTR("offset")] = Settings::AntiAim::offset;
-    settings[XORSTR("AntiAim")][XORSTR("fakeAmmount")] = Settings::AntiAim::fakeAmmount;
+    settings[XORSTR("AntiAim")][XORSTR("JitterAmmount")] = Settings::AntiAim::JitterAmmount;
     settings[XORSTR("AntiAim")][XORSTR("NetFake")] = Settings::AntiAim::NetFake;
     settings[XORSTR("AntiAim")][XORSTR("pitchDown")] = Settings::AntiAim::PitchDown;
     settings[XORSTR("AntiAim")][XORSTR("invertKey")] = Util::GetButtonName(Settings::AntiAim::InvertKey);
@@ -373,6 +376,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Tracers")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::Tracers::enabled;
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Tracers")][XORSTR("type")] = (int)Settings::ESP::FilterEnemy::Tracers::type;
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("BulletTracers")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::BulletTracers::enabled;
+    settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("BulletBeam")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::BulletBeam::enabled;
     settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("PlayerInfo")][XORSTR("enabled")] = Settings::ESP::FilterEnemy::playerInfo::enabled;
     
     // For LocalPlayer
@@ -388,6 +392,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Tracers")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::Tracers::enabled;
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Tracers")][XORSTR("type")] = (int)Settings::ESP::FilterLocalPlayer::Tracers::type;
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("BulletTracers")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::BulletTracers::enabled;
+    settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("BulletBeam")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::BulletBeam::enabled;
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("PlayerInfo")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::playerInfo::enabled;
     
     // For Alise
@@ -402,6 +407,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Tracers::enabled;
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::Tracers::type;
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletTracers")][XORSTR("enabled")] = Settings::ESP::FilterAlise::BulletTracers::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletBeam")][XORSTR("enabled")] = Settings::ESP::FilterAlise::BulletBeam::enabled;
     settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("PlayerInfo")][XORSTR("enabled")] = Settings::ESP::FilterAlise::playerInfo::enabled;
     
     //Various Settings for Helth vae
@@ -852,6 +858,7 @@ void Settings::LoadConfig(std::string path)
 		    .DoubleFire = RageweaponSetting[XORSTR("Prediction")][XORSTR("Enabled")].asBool(),
             .AutoCroutch = RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")].asBool(),
             .OnShot = RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")].asBool(),
+            .OnShotOnKey = RageweaponSetting[XORSTR("OnShotOnKey")][XORSTR("Enabled")].asBool(),
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
 	        .HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asFloat(),
             .DamageOverride = RageweaponSetting[XORSTR("DamageOverride")].asFloat(),
@@ -869,6 +876,7 @@ void Settings::LoadConfig(std::string path)
     }
 
     GetButtonCode(settings[XORSTR("Ragebot")][XORSTR("DamageOverrideBtn")], &Settings::Ragebot::DamageOverrideBtn);
+    GetButtonCode(settings[XORSTR("Ragebot")][XORSTR("OnShotBtn")], &Settings::Ragebot::OnShotBtn);
 
     // GetVal(settings[XORSTR("Legitbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Legitbot::AutoCrouch::enabled);
     GetVal(settings[XORSTR("Legitbot")][XORSTR("enabled")], &Settings::Legitbot::enabled);
@@ -877,7 +885,8 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("BackTrack")][XORSTR("enable")], &Settings::BackTrack::enabled);
 
     GetVal(settings[XORSTR("Triggerbot")][XORSTR("enabled")], &Settings::Triggerbot::enabled);
-	GetButtonCode(settings[XORSTR("Triggerbot")][XORSTR("key")], &Settings::Triggerbot::key);
+    GetVal(settings[XORSTR("Triggerbot")][XORSTR("OnKey")][XORSTR("enable")], &Settings::Triggerbot::OnKey::enable);
+	GetButtonCode(settings[XORSTR("Triggerbot")][XORSTR("OnKey")][XORSTR("key")], &Settings::Triggerbot::OnKey::key);
 	GetVal(settings[XORSTR("Triggerbot")][XORSTR("Filters")][XORSTR("enemies")], &Settings::Triggerbot::Filters::enemies);
 	GetVal(settings[XORSTR("Triggerbot")][XORSTR("Filters")][XORSTR("allies")], &Settings::Triggerbot::Filters::allies);
 	GetVal(settings[XORSTR("Triggerbot")][XORSTR("Filters")][XORSTR("walls")], &Settings::Triggerbot::Filters::walls);
@@ -897,7 +906,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("ShowReal")], &Settings::AntiAim::ShowReal);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")], &Settings::AntiAim::InvertOnShoot);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("offset")], &Settings::AntiAim::offset);
-    GetVal(settings[XORSTR("AntiAim")][XORSTR("fakeAmmount")], &Settings::AntiAim::fakeAmmount);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("JitterAmmount")], &Settings::AntiAim::JitterAmmount);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("NetFake")], &Settings::AntiAim::NetFake);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("pitchDown")], &Settings::AntiAim::PitchDown);
     GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("invertKey")], &Settings::AntiAim::InvertKey);
@@ -1008,6 +1017,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Tracers")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::Tracers::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("Tracers")][XORSTR("type")], (int*)&Settings::ESP::FilterEnemy::Tracers::type);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("BulletTracers")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::BulletTracers::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("BulletBeam")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::BulletBeam::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Enemy")][XORSTR("PlayerInfo")][XORSTR("enabled")], &Settings::ESP::FilterEnemy::playerInfo::enabled);
     // For LocalPlayer
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::Boxes::enabled);
@@ -1021,6 +1031,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Tracers")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::Tracers::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("Tracers")][XORSTR("type")], (int*)&Settings::ESP::FilterLocalPlayer::Tracers::type);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("BulletTracers")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::BulletTracers::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("BulletBeam")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::BulletBeam::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("PlayerInfo")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::playerInfo::enabled);
     //For Alise
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Boxes::enabled);
@@ -1033,6 +1044,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Tracers::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::Tracers::type);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletTracers")][XORSTR("enabled")], &Settings::ESP::FilterAlise::BulletTracers::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletBeam")][XORSTR("enabled")], &Settings::ESP::FilterAlise::BulletBeam::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("PlayerInfo")][XORSTR("enabled")], &Settings::ESP::FilterAlise::playerInfo::enabled);
     // END
 

@@ -1,7 +1,7 @@
 #include "backtrack.hpp"
 
 #include "../AimBot/ragebot.hpp"
-#include "../chams.h"
+#include "../Visuals/chams.hpp"
 
 // source from nimbus bcz i am lezy xd
 #define TICK_INTERVAL			(globalVars->interval_per_tick)
@@ -11,8 +11,12 @@
 static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
-        return nullptr; 
+
+    if (!localplayer || !localplayer->GetAlive()){
+		return nullptr;
+	}
+         
+
 	C_BasePlayer* closestPlayer = nullptr;
 	Vector pVecTarget = localplayer->GetEyePosition();
 	QAngle viewAngles;

@@ -3,7 +3,7 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
-#include "../Hacks/chams.h"
+#include "../Hacks/Visuals/chams.hpp"
 #include "../Hacks/esp.h"
 #include "../Hacks/AntiAim/fakeduck.h"
 #include "../Hacks/AntiAim/antiaim.h"

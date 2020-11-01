@@ -16,12 +16,11 @@
 #include "../../Hacks/valvedscheck.h"
 #include "../Windows/playerlist.h"
 
-void Other::Render(){
 
-    const char* TeamColorTypes[] = { "Absolute", "Relative" };
-    const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
+static void RaderOptions(){
 
-   
+	const char* TeamColorTypes[] = { "Absolute", "Relative" };
+	
 	ImGui::Columns(2, nullptr, false);
 	{
 		ImGui::Checkbox(XORSTR("Radar"), &Settings::Radar::enabled);
@@ -45,6 +44,13 @@ void Other::Render(){
 		ImGui::Checkbox(XORSTR("Smoke Check"), &Settings::Radar::smokeCheck);
 	}
     ImGui::EndColumns();
+
+}
+
+static void Hitmarkers(){
+
+	const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
+	
 	ImGui::Columns(2, nullptr, false);
 	{
 		ImGui::Checkbox(XORSTR("Hitmarkers"), &Settings::ESP::Hitmarker::enabled);
@@ -63,6 +69,28 @@ void Other::Render(){
         ImGui::Combo( XORSTR ( "Sounds##HITMARKERCOMBO" ), ( int* ) &Settings::ESP::Hitmarker::Sounds::sound, Sounds, IM_ARRAYSIZE( Sounds ) );
        ImGui::PopItemWidth();
 	}
+}
+void Other::Render(){
+
+	ImGui::Columns(2, nullptr, false);
+	{
+		ImGui::BeginChild(XORSTR("##RaderOptions"), ImVec2(0,0), true);
+		{
+			RaderOptions();
+		}
+		ImGui::EndChild();
+	}
+	ImGui::NextColumn();
+	{
+		ImGui::BeginChild(XORSTR("##Hitmarker"), ImVec2(0,0), true);
+		{
+			Hitmarkers();
+		}
+		ImGui::EndChild();
+	}
+	ImGui::EndColumns();
+	
+	
 	// ImGui::Columns(1);
 	// ImGui::Separator();
 

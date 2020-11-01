@@ -21,6 +21,13 @@ void UI::KeyBindButton(ButtonCode_t* key)
 		SetKeyCodeState::shouldListen = true;
 		SetKeyCodeState::keyOutput = key;
 	}
+	// if (ImGui::IsItemHovered() || ImGui::IsItemHoveredRect()){
+	// 		if (ImGui::GetIO().MouseClicked[1]){
+	// 			if ( ImGui::BeginPopupContextWindow(XORSTR("Test")) ){
+	// 				ImGui::EndPopup();
+	// 			}
+	// 		}
+	// 	}
 }
 
 bool UI::ColorPicker(float* col, bool alphabar)

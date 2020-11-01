@@ -63,6 +63,9 @@ enum class ChamsType : int
 	ADDITIVETWO,
 	WIREFRAME,
 	FLAT,
+	PEARL,
+	GLOW,
+	GLOWF,
 	NONE,
 };
 
@@ -266,10 +269,12 @@ struct RageWeapon_t
 		 scopeControlEnabled = false,
 		 DoubleFire = false,
 		 AutoCroutch = false,
-		 OnShot = false;
+		 OnShot = false,
+		 OnShotOnKey = false;
 	float MinDamage = 50.f,
 		  HitChance = 50.f,
-		  DamageOverride = 100.f;
+		  DamageOverride = 100.f,
+		  MinDamageOnshot = 100.f;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
 	HitchanceType hitchanceType = HitchanceType::Normal;
@@ -361,7 +366,7 @@ namespace Settings
 	{
 		inline ColorVar mainColor = ImColor(42, 45, 42, 255 );
 		inline ColorVar bodyColor = ImColor( 0, 0, 0, 245 );
-		inline ColorVar fontColor = ImColor( 238, 224, 224, 154 );
+		inline ColorVar fontColor = ImColor( 238, 224, 224, 255 );
 		inline ColorVar accentColor = ImColor( 0, 171, 178, 255 );
 		inline bool imGuiAliasedLines = false;
 		inline bool imGuiAliasedFill = true;
@@ -447,8 +452,9 @@ namespace Settings
 	{
 		inline bool enabled = false;
 		inline ButtonCode_t DamageOverrideBtn = ButtonCode_t::MOUSE_MIDDLE;
+		inline ButtonCode_t OnShotBtn = ButtonCode_t::KEY_5;
 		inline std::unordered_map<ItemDefinitionIndex, RageWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons = {
-                { ItemDefinitionIndex::INVALID, ragedefault },
+            { ItemDefinitionIndex::INVALID, ragedefault },
         };
 	}
 
@@ -465,8 +471,11 @@ namespace Settings
 	namespace Triggerbot
 	{
 		inline bool enabled = false;
-		inline ButtonCode_t key = ButtonCode_t::KEY_LALT;
-
+		namespace OnKey{
+			inline bool enable = true;
+			inline ButtonCode_t key = ButtonCode_t::KEY_LALT;
+		}
+		
 		namespace Magnet
 		{
 			inline bool enabled = false;
@@ -505,7 +514,7 @@ namespace Settings
 		inline bool PitchDown = false;
 		inline bool autoDirection = false;
 		inline float offset = 0.f;
-		inline float fakeAmmount = 0.f;
+		inline float JitterAmmount = 0.f;
 		inline float NetFake = 0.f;
 		inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
 		
@@ -610,6 +619,11 @@ namespace Settings
 			{
 				inline bool enabled = false;
 			}
+
+			namespace BulletBeam
+			{
+				inline bool enabled = false;
+			}
 			namespace Boxes
 			{
 				inline bool enabled = false;
@@ -666,6 +680,10 @@ namespace Settings
 				inline float size = 2.0f;
 			}
 			namespace BulletTracers
+			{
+				inline bool enabled = false;
+			}
+			namespace BulletBeam
 			{
 				inline bool enabled = false;
 			}
@@ -738,6 +756,12 @@ namespace Settings
 			{
 				inline bool enabled = false;
 			}
+
+			namespace BulletBeam
+			{
+				inline bool enabled = false;
+			}
+			
 			namespace Boxes
 			{
 				inline bool enabled = false;

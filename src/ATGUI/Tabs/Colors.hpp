@@ -8,14 +8,12 @@
 #include "../../Hacks/materialconfig.h"
 #include "../../Utils/ColorPickerButton.h"
 
-namespace Visuals
-{
-	void RenderTab();
-}
-
 namespace Colors
 {
-	struct ColorListVar
+    void RenderTab();
+
+
+    struct ColorListVar
 	{
 		const char* name;
 		union
@@ -97,7 +95,7 @@ namespace Colors
 			{ "Chams - Enemy", &Settings::ESP::Chams::enemyColor },
 			{ "Chams - Enemy Visible", &Settings::ESP::Chams::enemyVisibleColor },
 			{ "Chams - LocalPlayer", &Settings::ESP::Chams::localplayerColor },
-			{ "Chams - LocalPlayerFake", &Settings::ESP::Chams::FakeColor},
+			{ "Chams - Fake", &Settings::ESP::Chams::FakeColor},
 			{ "Chams - Arms", &Settings::ESP::Chams::Arms::color },
 			{ "Chams - Weapon", &Settings::ESP::Chams::Weapon::color },
 			{ "Grenade Helper - Aim Line", &Settings::GrenadeHelper::aimLine },
@@ -129,5 +127,4 @@ namespace Colors
 			{ "Sky", &Settings::NoSky::color },
 			{ "Walls", &Settings::ASUSWalls::color },
 	};
-
 }

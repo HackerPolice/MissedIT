@@ -19,17 +19,17 @@ void RapidFire::CreateMove(CUserCmd* cmd){
     if (!activeWeapon)
 		return;
 
-    static int curTickCount = 0;
+    // static int curTickCount = 0;
 
-    if (cmd->buttons & IN_ATTACK){
-        cmd->tick_count += 13;
-        curTickCount = cmd->tick_count;
-    }else if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime){
-        CreateMove::sendPacket = false;
-    }else
-    {
-        cmd->buttons |= IN_ATTACK;
-        cvar->ConsoleDPrintf("Shifted \n");
-    }
+    // if (cmd->buttons & IN_ATTACK){
+    //     cmd->tick_count += 13;
+    //     curTickCount = cmd->tick_count;
+    // }else if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime){
+    //     CreateMove::sendPacket = false;
+    // }else
+    // {
+    //     cmd->buttons |= IN_ATTACK;
+    //     cvar->ConsoleDPrintf("Shifted \n");
+    // }
     
 }

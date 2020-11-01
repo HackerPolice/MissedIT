@@ -55,10 +55,6 @@ void GetClosestSpot(C_BasePlayer* localplayer, C_BasePlayer* enemy, Vector &Best
 	float bestFov = currentSettings.LegitautoAimFov;
 
 	int len = 31;
-	if (currentSettings.mindamage && currentSettings.minDamagevalue >= 70)
-		len = BONE_HEAD;
-	else if (currentSettings.mindamage && currentSettings.minDamagevalue <= 70)
-		len = BONE_RIGHT_ELBOW;
 
 	int PrevDamage = 0;
 
@@ -92,8 +88,10 @@ void GetClosestSpot(C_BasePlayer* localplayer, C_BasePlayer* enemy, Vector &Best
 
 		int boneDamage = AutoWall::GetDamage(bone3D, true);
 
-		if (boneDamage >= enemy->GetHealth())
+		if (boneDamage >= enemy->GetHealth()){
 			BestSpot = bone3D;
+			return;
+		}
 		else if ( (boneDamage > PrevDamage && boneDamage >= currentSettings.minDamagevalue) )
 		{	
 			BestSpot = bone3D;
@@ -395,22 +393,23 @@ C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer, const LegitWeapon_t& c
 
 C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, C_BasePlayer* localplayer, bool visibleCheck, Vector& bestSpot, float& bestDamage, const LegitWeapon_t& currentSettings)
 {
+	if (!currentSettings.autoAimEnabled) return nullptr;
+	if (!localplayer || !localplayer->GetAlive() )	return nullptr;
+	if ( localplayer->IsFlashed() )	return nullptr;
+
 	C_BasePlayer *player = nullptr;
 	player = GetClosestEnemy(localplayer, currentSettings); // getting the closest enemy to the crosshair
 
-	if (!localplayer || !localplayer->GetAlive() )	return nullptr;
 	if ( !player || !player->GetAlive())	return nullptr;
-	if ( localplayer->IsFlashed() )	return nullptr;
 
 	int BoneId = (int)(currentSettings.bone);
+
 	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
+
 	BoneId = (*modelType).at(BoneId);
 	Vector bone3d = player->GetBonePosition( BoneId );
 
-	// bool IsPriorityBoneInFov = IsInFov( localplayer, player, bone3d  , currentSettings);
-	
-	// if ( !IsPriorityBoneInFov )
-		GetClosestSpot(localplayer, player, bone3d, currentSettings);
+	GetClosestSpot(localplayer, player, bone3d, currentSettings);
 	
 	if ( LineGoesThroughSmoke( localplayer->GetEyePosition( ), bone3d, true ) )
 		return nullptr;
@@ -431,7 +430,6 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon || activeWeapon->GetInReload())
 		return;
-	// UpdateValues();
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
 		return;
@@ -446,7 +444,6 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
-	shouldAim = false;
 
 	QAngle angle = cmd->viewangles;
 	static QAngle lastRandom = QAngle(0);
@@ -466,11 +463,16 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	if (player)
 	{
-		if (!currentWeaponSetting.aimkeyOnly && ( cmd->buttons&IN_ATTACK || currentWeaponSetting.autoShoot))
-			shouldAim = true; 
-		else if (inputSystem->IsButtonDown(currentWeaponSetting.aimkey))
+		if ( cmd->buttons & IN_ATTACK )
 			shouldAim = true;
-			
+		else if (currentWeaponSetting.aimkeyOnly && inputSystem->IsButtonDown(currentWeaponSetting.aimkey))
+			shouldAim = true;
+		else if ( currentWeaponSetting.autoShoot )
+			shouldAim = true;
+		else
+			shouldAim = false;
+		
+		
 		Settings::Debug::AutoAim::target = bestSpot; // For Debug showing aimspot.
 
 		if (shouldAim)
@@ -490,7 +492,7 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 				lastShotFired = localplayer->GetShotsFired();
 			}
 		}		
-		// AutoCrouch(player, cmd);
+		AutoShoot(player, localplayer, activeWeapon, cmd, oldForward, oldSideMove, currentWeaponSetting);
 		AutoPistol(activeWeapon, cmd, currentWeaponSetting);
 	}
 	else // No player to Shoot
@@ -499,7 +501,6 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 		lastRandom = QAngle(0);
     }
 
-	AutoShoot(player, localplayer, activeWeapon, cmd, oldForward, oldSideMove, currentWeaponSetting);
 	Smooth(player, angle, shouldAim, currentWeaponSetting);
 	RCS(angle, player, cmd, shouldAim, currentWeaponSetting);
 	AimStep(player, angle, cmd, shouldAim, currentWeaponSetting);
@@ -509,11 +510,10 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	FixMouseDeltas(cmd, angle, oldAngle, shouldAim);
 	
-	cmd->viewangles = angle;
+	if (cmd->buttons & IN_ATTACK)
+		cmd->viewangles = angle;
 
-	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
-
-	if( !currentWeaponSetting.silent )
+	if( !currentWeaponSetting.silent && CreateMove::sendPacket)
     	engine->SetViewAngles(angle);
 
 }

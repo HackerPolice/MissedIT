@@ -13,7 +13,14 @@ namespace ESP
 {
 	extern const char* ranks[];
 
-	inline std::deque<Vector> bulletTracers;
+	struct BulletBream{
+		std::deque<Vector> bulletPosition;
+		int enemyIndex;
+	};
+	
+	typedef struct BulletBream BulletBream;
+
+	inline BulletBream bulletBeam;
 
 	ImColor GetESPPlayerColor(C_BasePlayer* player, bool visible);
 	bool WorldToScreen( const Vector &origin, ImVec2 * const screen );

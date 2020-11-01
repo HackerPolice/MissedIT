@@ -191,6 +191,8 @@ namespace ImGui
     IMGUI_API bool          BeginChild(const char* str_id, const ImVec2& size = ImVec2(0,0), bool border = false, ImGuiWindowFlags flags = 0); // Begin a scrolling region. size==0.0f: use remaining window size, size<0.0f: use remaining window size minus abs(size). size>0.0f: fixed size. each axis can use a different mode, e.g. ImVec2(0,400).
     IMGUI_API bool          BeginChild(ImGuiID id, const ImVec2& size = ImVec2(0,0), bool border = false, ImGuiWindowFlags flags = 0);
     IMGUI_API void          EndChild();
+    IMGUI_API void          BeginGroupPanel(const char* name, const ImVec2& size = ImVec2(-1.0f, -1.0f));
+    IMGUI_API void          EndGroupPanel();
 
     // Windows Utilities
     IMGUI_API bool          IsWindowAppearing();

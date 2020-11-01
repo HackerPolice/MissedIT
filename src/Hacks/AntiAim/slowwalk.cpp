@@ -4,7 +4,7 @@
 
 void SlowWalk::CreateMove(CUserCmd* cmd){
 
-	SlowWalking = true;
+	SlowWalking = false;
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer || !localplayer->GetAlive())
 		return;
