@@ -408,6 +408,12 @@ void Legitbot::RenderTab()
 
 			}ImGui::EndGroupPanel();
 
+			ImGui::BeginGroupPanel(XORSTR("Humanising"));
+			{
+				Humanising();
+
+			}ImGui::EndGroupPanel();
+
 		}
 		ImGui::EndChild();
 	}
@@ -425,12 +431,6 @@ void Legitbot::RenderTab()
 			ImGui::BeginGroupPanel(XORSTR("Others"));
 			{
 				Others();
-			}ImGui::EndGroupPanel();
-
-			ImGui::BeginGroupPanel(XORSTR("Humanising"));
-			{
-				Humanising();
-
 			}ImGui::EndGroupPanel();
 
 			ImGui::Spacing();
