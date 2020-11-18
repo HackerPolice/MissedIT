@@ -24,7 +24,6 @@ void VelocityExtrapolate(C_BasePlayer* player, Vector& aimPos, Vector& localeye)
 	if (!player || !player->GetAlive())
 		return;
 	aimPos += (player->GetVelocity() * globalVars->interval_per_tick);
-	localeye += (player->GetVelocity() * globalVars->interval_per_tick);
 }
 
 bool IsInFov(C_BasePlayer* localplayer, C_BasePlayer* player, const Vector &spot, const LegitWeapon_t& weaponSettings)

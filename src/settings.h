@@ -512,10 +512,12 @@ namespace Settings
 		inline bool InvertOnShoot = false;
 		inline bool atTheTarget = false;
 		inline bool PitchDown = false;
+		inline bool JitterFake = false;
 		inline bool autoDirection = false;
 		inline float offset = 0.f;
 		inline float JitterAmmount = 0.f;
 		inline float NetFake = 0.f;
+		
 		inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
 		
 		namespace ManualAntiAim

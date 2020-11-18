@@ -78,38 +78,27 @@ void LagComp::CreateMove(CUserCmd *cmd)
 		
 	bool has_target = false;
 
-	if (Ragebot::data.player && Ragebot::data.player->GetAlive())
-	{
-		for ( auto &Tick : Records::Ticks){
-			for ( auto &record : Tick.records){
-				if (record.entity == Ragebot::data.player){
-					Chams::BackTrackTicks = cmd->tick_count = Tick.tickCount;
-					has_target = true;
-					break;
-				}
-			}
-			if (has_target){
-				break;
-			}
-		}
-	}else {
-		C_BasePlayer *closestEnemy = GetClosestEnemy(cmd);
-		if (!closestEnemy || !closestEnemy->GetAlive())
-			return;
+	C_BasePlayer *closestEnemy = nullptr;
 
-		for ( auto &Tick : Records::Ticks){
-			for ( auto &record : Tick.records){
-				if (record.entity == closestEnemy){
-					Chams::BackTrackTicks = cmd->tick_count = Tick.tickCount;
-					has_target = true;
-					break;
-				}
-			}
-			if (has_target){
+	if (Ragebot::data.player && Ragebot::data.player->GetAlive())
+		closestEnemy = Ragebot::data.player;
+	else
+		closestEnemy = GetClosestEnemy(cmd);
+		
+	if (!closestEnemy || !closestEnemy->GetAlive())
+		return;
+
+	for ( auto &Tick : Records::Ticks){
+		for ( auto &record : Tick.records){
+			if (record.entity->GetIndex() == closestEnemy->GetIndex()){
+				Chams::BackTrackTicks = cmd->tick_count = Tick.tickCount;
+				has_target = true;
 				break;
 			}
 		}
-		
+		if (has_target){
+			break;
+		}
 	}
 	
 }

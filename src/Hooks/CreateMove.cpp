@@ -31,7 +31,7 @@
 #include "../Hacks/AntiAim/fakewalk.hpp"
 #include "../Hacks/WalkBot/walkbot.h"
 #include "../Hacks/AntiAim/slowwalk.hpp"
-#include "../Hacks/TickManipulation/rapidFire.hpp"
+#include "../Hacks/AntiAim/fakelag2.hpp"
 #include "../Hacks/Visuals/DesyncChams.hpp"
 
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
@@ -71,9 +71,11 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
 		if ( Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
 		if (Settings::AntiAim::FakeDuck::enabled)  { FakeDuck::CreateMove(cmd); }
+		
 		if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
-		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
 		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
+		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
+		RapidFire::CreateMove(cmd);
 		DesyncChams::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);

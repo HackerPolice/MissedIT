@@ -40,6 +40,13 @@ void HvH::RageFeatures(){
     }
     ImGui::Columns();
     {
+        ImGui::Checkbox(XORSTR("##FakeJitter"), &Settings::AntiAim::JitterFake);
+        ImGui::SameLine();
+        ImGui::Text(XORSTR("Fake Jitter"));
+        ToolTip::Show("It Will Jitter Fake and can break some Cheat resolvers but make sure you turn on jitter too", ImGui::IsItemHovered());
+    }
+    ImGui::Columns();
+    {
         ImGui::Checkbox(XORSTR("##AtTheTarget"), &Settings::AntiAim::atTheTarget);
         ImGui::SameLine();
         ImGui::Text(XORSTR("At The Target"));

@@ -403,17 +403,6 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 }*/
 }
 
-/* Not using anymore
-static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
-	if ( Settings::ESP::Sprite::type == SpriteType::SPRITE_TUX ) {
-		static Texture sprite(tux_rgba, tux_width, tux_height);
-
-		sprite.Draw(x, y, ((float)h/tux_height)*tux_width, h);
-	}
-	// TODO: Handle other sprites
-}
-*/
-
 static void DrawBulletTracers(CUserCmd* cmd)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -425,11 +414,14 @@ static void DrawBulletTracers(CUserCmd* cmd)
 		return;
 	if (!entity || !entity->GetAlive())
 		return;
-	if (engine->GetLocalPlayer() == ESP::bulletBeam.enemyIndex && !Settings::ESP::FilterLocalPlayer::BulletBeam::enabled)
+	
+	bool isteammate = Entity::IsTeamMate(entity, localplayer);
+
+	if ( isteammate && engine->GetLocalPlayer() != ESP::bulletBeam.enemyIndex  && !Settings::ESP::FilterAlise::BulletBeam::enabled)
 		return;
-	if ( Entity::IsTeamMate(entity, localplayer) && !Settings::ESP::FilterAlise::BulletBeam::enabled)
+	else if ( !isteammate && !Settings::ESP::FilterEnemy::BulletBeam::enabled)
 		return;
-	if ( !Entity::IsTeamMate(entity, localplayer) && !Settings::ESP::FilterEnemy::BulletBeam::enabled)
+	else if (engine->GetLocalPlayer() == ESP::bulletBeam.enemyIndex && !Settings::ESP::FilterLocalPlayer::BulletBeam::enabled)
 		return;
 	
 	float shite = 0.3f;
@@ -437,7 +429,6 @@ static void DrawBulletTracers(CUserCmd* cmd)
 
 	for (float i = 0.01f; i <= shite; i += 0.01){
 		debugOverlay->DrawPill( entity->GetEyePosition(), ESP::bulletBeam.bulletPosition.at(0), i, color.Value.x * 255, color.Value.y * 255, color.Value.z * 255, 100, 10 );
-		
 	}	
 	
 	ESP::bulletBeam.bulletPosition.clear(); // trace Initialising in ragebot.cpp events
@@ -498,6 +489,7 @@ static void DrawTracer( C_BasePlayer* player, TracerType& tracerType ) {
 
 	
 	bool bIsVisible = Entity::IsVisible( player, CONST_BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+	if (bIsVisible)	return;
 	// Draw::Rectangle(x+10,y+10,x,y, Color(125,120,14,255));
 	
 	Draw::AddLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );

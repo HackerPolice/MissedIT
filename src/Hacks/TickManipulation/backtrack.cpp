@@ -56,7 +56,6 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 	return closestPlayer;
 }
 
-
 void BackTrack::CreateMove(CUserCmd *cmd)
 {
 	Records::RemoveInvalidTicks();
@@ -74,37 +73,27 @@ void BackTrack::CreateMove(CUserCmd *cmd)
 	static int index;
 	bool has_target = false;
 
-	if (Ragebot::data.player && Ragebot::data.player->GetAlive()){
-		for ( index = size; index >= 0; index--){
-			const auto &tick = Records::Ticks.at(index);
-			for ( auto &record : tick.records ){
-				if (record.entity == Ragebot::data.player){
-					Chams::BackTrackTicks = cmd->tick_count = tick.tickCount;
-					// Ragebot::data.player->SetAbsOrigin(&record.origin);
-					has_target = true;
-					break;
-				}
-			}
-			if (has_target){
+	C_BasePlayer *closestEnemy = nullptr;
+
+	if (Ragebot::data.player && Ragebot::data.player->GetAlive())
+		closestEnemy = Ragebot::data.player;
+	else
+		closestEnemy = GetClosestEnemy(cmd);
+
+	if (!closestEnemy)
+		return;
+		
+	for ( index = size; index > -1; index--){
+		const auto &tick = Records::Ticks.at(index);
+		for ( auto &record : tick.records ){
+			if (record.entity == closestEnemy){
+				Chams::BackTrackTicks = cmd->tick_count = tick.tickCount;
+				has_target = true;
 				break;
 			}
 		}
-	}else{
-		C_BasePlayer *closestEnemy = GetClosestEnemy(cmd);
-		if (!closestEnemy)
-			return;
-		for ( index = size; index >= 0; index--){
-			const auto &tick = Records::Ticks.at(index);
-			for ( auto &record : tick.records ){
-				if (record.entity == closestEnemy){
-					Chams::BackTrackTicks = cmd->tick_count = tick.tickCount;
-					has_target = true;
-					break;
-				}
-			}
-			if (has_target){
-				break;
-			}
+		if (has_target){
+			break;
 		}
 	}
 }

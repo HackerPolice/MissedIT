@@ -39,9 +39,9 @@ namespace Ragebot {
     inline Vector bulPosition;
     inline RageWeapon_t *currentWeaponSetting;
 
-	void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, int& playerHelth, int& i,const std::unordered_map<int, int>* modelType);
-	void BestHeadPoint(C_BasePlayer* player, const int &BoneIndex, int& Damage, Vector& Spot);
-    void BestMultiPoint(C_BasePlayer* player, int &BoneIndex, int& Damage, Vector& Spot);
+	void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int& playerHelth,int& i,const std::unordered_map<int, int>* modelType);
+	void BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Damage, Vector& Spot);
+    void BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage, Vector& Spot);
 	void GetBestSpotAndDamage(C_BasePlayer* player, Vector& Spot, int& Damage);
 	bool canShoot(C_BaseCombatWeapon*,Vector&, C_BasePlayer*,const RageWeapon_t&);
     C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer);

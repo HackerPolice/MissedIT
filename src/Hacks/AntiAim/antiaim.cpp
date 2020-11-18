@@ -7,6 +7,7 @@
 #include "../AimBot/autowall.h"
 #include "../valvedscheck.h"
 #include "../AimBot/ragebot.hpp"
+
 #include "fakewalk.hpp"
 #include "slowwalk.hpp"
 #include "fakeduck.h"
@@ -259,7 +260,7 @@ static bool LBYBreak(float offset, QAngle& angle,C_BasePlayer* localplayer)
             lbyBreak = true;
             lastCheck = globalVars->curtime;
             AntiAim::fakeAngle = angle;
-            AntiAim::bSend = false;
+            CreateMove::sendPacket = AntiAim::bSend = false;
         } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
             lbyBreak = false;
             lastCheck = globalVars->curtime;
@@ -316,15 +317,8 @@ static bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon,
         if (csGrenade->GetThrowTime() > 0.f)
             return false;
     }
-    if (*activeweapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-    {
-        const float& postponTime = activeweapon->GetPostPoneReadyTime();
-        if (cmd->buttons & IN_ATTACK2)
-            return false;
-        if (postponTime < globalVars->curtime )
-            return true;
-    }
-    if (cmd->buttons & IN_ATTACK || cmd->buttons & IN_USE)
+
+    if (cmd->buttons & IN_ATTACK)
         return false;
     if ( cmd->buttons & IN_ATTACK2 && activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE )
         return false;
@@ -394,16 +388,22 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         return;
     }
     
-    if (Settings::FakeLag::enabled || FakeWalk::FakeWalking || SlowWalk::SlowWalking )
-        AntiAim::bSend = CreateMove::sendPacket; 
-    else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
-        AntiAim::bSend = CreateMove::sendPacket;
-    else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
-        AntiAim::bSend = CreateMove::sendPacket; 
-    else if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
-        AntiAim::bSend = CreateMove::sendPacket; 
-    else
+    if (!CreateMove::sendPacket)
+        AntiAim::bSend = false;
+    else 
         CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
+    // if (Settings::FakeLag::enabled || FakeWalk::FakeWalking || SlowWalk::SlowWalking )
+    //     AntiAim::bSend = CreateMove::sendPacket; 
+    // else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
+    //     AntiAim::bSend = CreateMove::sendPacket;
+    // else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
+    //     AntiAim::bSend = CreateMove::sendPacket; 
+    // else if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
+    //     AntiAim::bSend = CreateMove::sendPacket; 
+    // else{
+    //     CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;            
+    // }
+        
 
     QAngle angle = cmd->viewangles;
     QAngle oldAngle;
@@ -448,12 +448,15 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         DoAntiAim(cmd, localplayer, angle); 
     }
 
+    // LBYBreak(AntiAim::fakeAngle.y, angle, localplayer);
+    if (CreateMove::sendPacket && Settings::AntiAim::JitterFake)
+        Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
+
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
 
     cmd->viewangles = angle;
 
-    engine->SetViewAngles(oldAngle);
     Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);    
 }
 
