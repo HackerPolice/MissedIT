@@ -1,5 +1,4 @@
 #include "hooks.h"
-#include <future>
 
 #include "../interfaces.h"
 #include "../settings.h"
@@ -40,7 +39,8 @@ typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 
 bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
-	clientModeVMT->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
+	static auto funcAdd = clientModeVMT->GetOriginalMethod<CreateMoveFn>(25);
+	funcAdd(thisptr, flInputSampleTime, cmd);
 
 	if (cmd && cmd->command_number)
 	{
@@ -49,8 +49,10 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
         bool *sendPacket = ((*(bool **)rbp) - (int)24);
-        CreateMove::sendPacket = true;
+        
+		CreateMove::sendPacket = true;
 
+		// input->
 		/* run code that affects movement before prediction */
 		if (Settings::BHop::enabled) { BHop::CreateMove(cmd); }
 		if (Settings::NoDuckCooldown::enabled) {  NoDuckCooldown::CreateMove(cmd); }

@@ -528,7 +528,7 @@ void Hooker::FindItemSystem()
 
 void Hooker::FindWriteUserCmd(){
 	// 41 8B 54 24 08			mov     edx, [r12+8]
-	// 48 8D 3D 55 34 DB 00		lea     rdi, aWriteusercmdFr ; "WriteUsercmd: from=%d to=%d\n"
+	// 48 8D 3D 55 34 DB 00		lea     rdi, offset aWriteusercmdFr ; "WriteUsercmd: from=%d to=%d\n"
 	// 31 C0					eax, eax
 	// 41 8B 75 08				mov     esi, [r13+8]
 	// E8 38 DA CA FF			call    sub_6B8C90
@@ -536,15 +536,66 @@ void Hooker::FindWriteUserCmd(){
 	
 	// 57 72 69 74 65 55  73 65 72 63 6D 64 3A 20 66 72 6F 6D 3D 25 64 20  74 6F 3D 25 64 0A 00
 	// 57 72 69 74 65 55 73 65 72 63 6D 64
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
-																(unsigned char*) XORSTR("\x41\x8B\x54\x24\x08"
-																					"\x48\x8D\x00\x00\x00\x00\x00"),
-																XORSTR("xxxxx"
-                                                                        "xx?????"));
+	// uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
+	// 															(unsigned char*) XORSTR("\x41\x8B\x54\x24\x08"
+	// 																				"\x48\x8D\x00\x00\x00\x00\x00"),
+	// 															XORSTR("xxxxx"
+    //                                                                     "xx?????"));
 
-	func_address += 6;
-	func_address = GetAbsoluteAddress(func_address, 1, 6);
+	// func_address += 6;
+	// func_address = GetAbsoluteAddress(func_address, 1, 6);
+	// WriteUserCmd = reinterpret_cast<WriteUserCmdFn>(func_address);
+
+
+	// push    ebp
+ 	// mov     ebp, esp
+	// push    edi
+	// push    esi
+	// push    ebx
+ 	// sub     esp, 2Ch
+	// mov     eax, ds:dword_1528EDC
+	// mov     edi, [ebp+arg_0]
+	// mov     esi, [ebp+arg_4]
+	// mov     ebx, [ebp+arg_8]
+	// cmp     eax, offset unk_1528EC0
+
+	// 55 89 E5 57 56 53 83 EC 2C A1 DC 8E 52 01 
+
+	// 55 
+	// 89 E5
+	// 57
+	// 56 
+	// 53 
+	// 83 EC 2C 
+	// A1 DC 8E 52 01 
+	// 8B 7D 08 
+	// 8B 75 0C 
+	// 8B 5D 10 
+	// 3D C0 8E 52 01
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+																(unsigned char*) XORSTR("\x55"
+																						"\x89\xE5"
+																						"\x57"
+																						"\x56" 
+																						"\x53" 
+																						"\x83\xEC\x2C" 
+																						"\xA1\xDC\x8E\x52\x01"),
+																XORSTR("x"
+																		"xx"
+																		"x"
+																		"x"
+																		"x"
+																		"xxx"
+																		"xxxxx"));
+
+	// func_address += 6;
+	// func_address = GetAbsoluteAddress(func_address, 1, 6);
 	WriteUserCmd = reinterpret_cast<WriteUserCmdFn>(func_address);																		   
 
 	// 'WriteUsercmd: from=%d to=%d',0Ah,0	
+}
+
+void Hooker::FindClSendMove(){
+
+	
 }

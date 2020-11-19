@@ -71,7 +71,6 @@ void MainThread()
     clientModeVMT = new VMT(clientMode);
     clientModeVMT->HookVM(Hooks::OverrideView, 19);
     clientModeVMT->HookVM(Hooks::CreateMove, 25);
-    // clientModeVMT->HookVM(Hooks::CreateMove2, 27);
     clientModeVMT->HookVM(Hooks::ShouldDrawCrosshair, 29);
     clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
     clientModeVMT->ApplyVMT();
@@ -79,6 +78,7 @@ void MainThread()
     clientVMT = new VMT(client);
     clientVMT->HookVM(Hooks::LevelInitPostEntity, 6);
     clientVMT->HookVM(Hooks::FrameStageNotify, 37);
+    clientVMT->HookVM(Hooks::WriteUsercmdDeltaToBuffer, 23);
 	clientVMT->ApplyVMT();
 
     materialVMT = new VMT(material);

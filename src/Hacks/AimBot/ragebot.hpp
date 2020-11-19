@@ -51,3 +51,5 @@ namespace Ragebot {
     void clearBulletPositions();
     void init(C_BasePlayer*, C_BaseCombatWeapon*);
 }
+
+// extern WriteUserCmdFn WriteUserCmd;

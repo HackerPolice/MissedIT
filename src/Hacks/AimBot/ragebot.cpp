@@ -3,6 +3,7 @@
 
 #include "ragebot.hpp"
 #include "resolver.h"
+// #include "../../hooker.cpp"
 #include "../AntiAim/fakelag.h"
 #include "../esp.h"
 #include "aimbot.hpp"
@@ -47,11 +48,11 @@ void Ragebot::BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Dama
 	Math::VectorTransform(bbox->bbmax, matrix[bbox->bone], maxs);
 
 	Vector center = ( mins + maxs ) * 0.5f;
-	static Vector points[11] = 	{ 
-									center, center, center, center, 
-									center, center, center, center, 
-									center,center,center
-								};
+	Vector points[11] ={ 
+							center, center, center, center, 
+							center, center, center, center, 
+							center,center,center
+						};
 	// 0 - center, 1 - forehead, 2 - skullcap, 3 - upperleftear, 4 - upperrightear, 5 - uppernose, 6 - upperbackofhead
 	// 7 - leftear, 8 - rightear, 9 - nose, 10 - backofhead
 
@@ -70,9 +71,9 @@ void Ragebot::BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Dama
 	points[9].y += bbox->radius * 0.80f;
 	points[10].y -= bbox->radius * 0.80f;
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 11; i++)
 	{
-		float bestDamage = AutoWall::GetDamage(points[i], true);
+		int bestDamage = AutoWall::GetDamage(points[i], true);
 		if (bestDamage >= player->GetHealth())
 		{
 			Damage = bestDamage;
@@ -658,7 +659,7 @@ static void RagebotAutoR8(C_BasePlayer* player, C_BasePlayer* localplayer, C_Bas
     }
 }
 
-void RagebotAutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, Vector& bestspot, QAngle& angle, const RageWeapon_t& currentSettings)
+static void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, Vector& bestspot, QAngle& angle, const RageWeapon_t& currentSettings)
 {
     if (!currentSettings.autoShootEnabled)
 		return;
@@ -714,10 +715,10 @@ static void FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player, QAngle& angle, Q
 		return;
 
     QAngle delta = angle - oldAngle;
-    const float &sens = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
-    const float &m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
-    const float &m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
-    const float &zoomMultiplier = cvar->FindVar("zoom_sensitivity_ratio_mouse")->GetFloat();
+    float sens = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
+    float m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
+    float m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
+    float zoomMultiplier = cvar->FindVar("zoom_sensitivity_ratio_mouse")->GetFloat();
 
     Math::NormalizeAngles(delta);
 
@@ -789,7 +790,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     {
 		Settings::Debug::AutoAim::target = Ragebot::BestSpot;
 
-		RagebotAutoShoot(enemy, localplayer, activeWeapon, cmd, Ragebot::BestSpot, angle, *currentWeaponSetting);
+		AutoShoot(enemy, localplayer, activeWeapon, cmd, Ragebot::BestSpot, angle, *currentWeaponSetting);
 		RagebotAutoCrouch(enemy, cmd, activeWeapon, *currentWeaponSetting);
 
 		if (cmd->buttons & IN_ATTACK)
