@@ -253,7 +253,7 @@ public:
 		*reinterpret_cast<bool*>(uintptr_t(this) + offsets.DT_BasePlayer.m_clientAnimation) = value;
 	}
 
-	void updateClientAnimation( )
+	void updateClientAnimation()
 	{
 		// typedef void (* oSetDestroyedOnRecreateEntities)(void*);
 		// return getvfunc<oSetDestroyedOnRecreateEntities>(this, 13)(this);

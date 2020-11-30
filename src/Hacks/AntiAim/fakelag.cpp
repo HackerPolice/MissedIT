@@ -8,7 +8,6 @@
 	#define absol(x) x < 0 ? x*-1 : x
 #endif
 
-int ticksMax = 50;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
@@ -16,30 +15,13 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
-	if (Settings::FakeLag::adaptive)
-	{
-		int packetsToChoke;
-		if (localplayer->GetVelocity().Length() > 0.f)
-		{
-			packetsToChoke = (int)((64.f / globalVars->interval_per_tick) / localplayer->GetVelocity().Length()) + 1;
-			if (packetsToChoke >= 15)
-				packetsToChoke = 14;
-			if (packetsToChoke < Settings::FakeLag::value)
-				packetsToChoke = Settings::FakeLag::value;
-		}
-		else
-			packetsToChoke = 0;
-		
-		CreateMove::sendPacket = FakeLag::ticks < (16 - packetsToChoke);
-	}
-	else{
-		if (FakeLag::ticks >= Settings::FakeLag::value){
-			CreateMove::sendPacket = true;
-			FakeLag::ticks = -1;
-		}else{
-			CreateMove::sendPacket = false;
-		}
+	else if (FakeLag::ticks >= Settings::FakeLag::value){
+		CreateMove::sendPacket = true;
+		FakeLag::ticks = Settings::FakeLag::impulseLag ? -16 : -1;
+	}else if (FakeLag::ticks > 0){
+		CreateMove::sendPacket = false;
 	}
 
 	FakeLag::ticks++;
+	
 }

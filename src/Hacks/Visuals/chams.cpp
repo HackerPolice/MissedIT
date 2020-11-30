@@ -57,7 +57,6 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 
 	switch (chamsType)
 	{
-		case ChamsType::NONE :
 		case ChamsType::WIREFRAME :
 		case ChamsType::WHITEADDTIVE :
 			visible_material = WhiteAdditive;
@@ -149,7 +148,12 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 
 static void DrawFake(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
-	if (!Settings::ESP::FilterLocalPlayer::Chams::enabled || !Settings::ThirdPerson::toggled)
+	if 	(
+			!Settings::ESP::FilterLocalPlayer::Chams::enabled 	|| 
+			!Settings::ThirdPerson::toggled 					|| 
+			Settings::AntiAim::lbyBreak::Enabled 				|| 
+			Settings::AntiAim::Jitter::Value > 0				
+		)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -168,7 +172,6 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 
 	switch (Settings::ESP::FilterLocalPlayer::Chams::type)
 	{
-		case ChamsType::NONE:
 		case ChamsType::WIREFRAME:
 		case ChamsType::WHITEADDTIVE:
 			Fake_meterial = WhiteAdditive;
@@ -216,36 +219,21 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
                         fakeBoneMatrix[i][0][3] = OutPos.x;
                         fakeBoneMatrix[i][1][3] = OutPos.y;
                         fakeBoneMatrix[i][2][3] = OutPos.z;
-		// fakeBoneMatrix[i] = pCustomBoneToWorld[i];
 	}
 
 	if (entity->GetImmune())
 	{
 		Fake_meterial->AlphaModulate(0.5f);
 	}
-
-	static matrix3x4_t BodyBoneMatrix[128];
-
-	if (FakeDuck::FakeDucking){
-		if (CreateMove::sendPacket){
-			memcpy(BodyBoneMatrix, fakeBoneMatrix, sizeof(matrix3x4_t)*128);
-		}
-	}
-	else if (Settings::FakeLag::enabled){
-		if(CreateMove::sendPacket){
-			memcpy(BodyBoneMatrix, fakeBoneMatrix, sizeof(matrix3x4_t)*128);
-		}
-	}else {
-		memcpy(BodyBoneMatrix, pCustomBoneToWorld, sizeof(matrix3x4_t)*128);
-	}
+	if (CreateMove::sendPacket)
+		memcpy(Chams::BodyBoneMatrix, fakeBoneMatrix, sizeof(matrix3x4_t)*128);
 	
 	//entity->SetupBones
 	Fake_meterial->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::FilterLocalPlayer::Chams::type == ChamsType::WIREFRAME);
 
 	modelRender->ForcedMaterialOverride(Fake_meterial);
-	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, BodyBoneMatrix);
+	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, Chams::BodyBoneMatrix);
 	modelRender->ForcedMaterialOverride(nullptr);
-	// End of chams for fake angle
 }
 
 static void DrawWeapon(const ModelRenderInfo_t& pInfo)

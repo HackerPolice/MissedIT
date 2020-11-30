@@ -7,6 +7,7 @@
 #include "../AimBot/autowall.h"
 #include "../valvedscheck.h"
 #include "../AimBot/ragebot.hpp"
+#include "../Visuals/chams.hpp"
 
 #include "fakewalk.hpp"
 #include "slowwalk.hpp"
@@ -239,34 +240,22 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 	return true;
 }
 
-static bool LBYBreak(float offset, QAngle& angle,C_BasePlayer* localplayer)
+static bool LBYBreak(C_BasePlayer* localplayer)
 {
     static bool lbyBreak;
-    lbyBreak = false;
     static float lastCheck = 0.f;
-    float vel2D = localplayer->GetVelocity().Length2D();
-    if( vel2D >= 0.1f || !(localplayer->GetFlags() & FL_ONGROUND) || localplayer->GetFlags() & FL_FROZEN ){
+
+    if( !lbyBreak && ( globalVars->curtime - lastCheck ) > 0.22 ){
+        lbyBreak = true;
+        lastCheck = globalVars->curtime;
+        if (Settings::AntiAim::lbyBreak::notSend) CreateMove::sendPacket = AntiAim::bSend = false;
+    } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
         lbyBreak = false;
         lastCheck = globalVars->curtime;
-    } 
-    else {
-        if( !lbyBreak && ( globalVars->curtime - lastCheck ) > 0.22 ){
-            if (Settings::AntiAim::inverted){
-                angle.y += offset;
-            }else {
-                angle.y -= offset;
-            }
-            angle.x = CreateMove::lastTickViewAngles.x;
-            lbyBreak = true;
-            lastCheck = globalVars->curtime;
-            AntiAim::fakeAngle = angle;
-            CreateMove::sendPacket = AntiAim::bSend = false;
-        } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
-            lbyBreak = false;
-            lastCheck = globalVars->curtime;
-        }
+    }else {
+        lbyBreak = false;
     }
-    
+
     return lbyBreak;
 }
 
@@ -320,6 +309,8 @@ static bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon,
 
     if (cmd->buttons & IN_ATTACK)
         return false;
+    if (cmd->buttons & IN_USE)
+        return false;
     if ( cmd->buttons & IN_ATTACK2 && activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE )
         return false;
     if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
@@ -334,27 +325,33 @@ static void DoAntiAim(CUserCmd* cmd,C_BasePlayer* localplayer, QAngle& angle){
         return;
 
     float maxDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
-    
-    // If the ammount if over 0 that means user wants to add fake angle else it is just the free stand
-    static bool Bpressed = false;
-    if ( inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !Bpressed )
-	{
-		Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
-        Bpressed = true;
-	}else if (!inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && Bpressed)
-        Bpressed = false;
 
-    if ( !AntiAim::bSend ){
+    if (LBYBreak(localplayer)){
+         if (Settings::AntiAim::inverted) {
+            AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
+            AntiAim::fakeAngle.x = AntiAim::realAngle.x = angle.x; 
+            angle.y += maxDelta*2;          
+        }
+        else {
+            AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
+            AntiAim::realAngle.x = angle.x;    
+            angle.y -= maxDelta*2;
+        }
+    }
+    else if ( !AntiAim::bSend ){
+        static bool Bflip = false;
         if (Settings::AntiAim::inverted) {
             AntiAim::realAngle.y = angle.y+28.f;
             AntiAim::realAngle.x = angle.x; 
-            angle.y += maxDelta*2;          
+            Bflip ? angle.y += maxDelta*2 : angle.y -= maxDelta*2;          
         }
         else {
             AntiAim::realAngle.y = angle.y-28.f;
             AntiAim::realAngle.x = angle.x;    
-            angle.y -= maxDelta*2;
+            Bflip ? angle.y -= maxDelta*2 : angle.y += maxDelta*2;
         }
+
+        Bflip = !Bflip;
     }
     else {
         if (Settings::AntiAim::inverted) {
@@ -388,21 +385,21 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         return;
     }
     
-    if (!CreateMove::sendPacket)
-        AntiAim::bSend = false;
-    else 
-        CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
-    // if (Settings::FakeLag::enabled || FakeWalk::FakeWalking || SlowWalk::SlowWalking )
-    //     AntiAim::bSend = CreateMove::sendPacket; 
-    // else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
-    //     AntiAim::bSend = CreateMove::sendPacket;
-    // else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
-    //     AntiAim::bSend = CreateMove::sendPacket; 
-    // else if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
-    //     AntiAim::bSend = CreateMove::sendPacket; 
-    // else{
-    //     CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;            
-    // }
+    // if (!CreateMove::sendPacket)
+    //     AntiAim::bSend = false;
+    // else 
+    //     CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
+    if (Settings::FakeLag::enabled)
+        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true; 
+    else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
+        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true;
+    else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
+        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true;
+    else if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
+        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true;
+    else{
+        CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;            
+    }
         
 
     QAngle angle = cmd->viewangles;
@@ -424,8 +421,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     if (AntiAim::ManualAntiAim::alignBack){
         angle.y += 180;
         AntiAim::realAngle = AntiAim::fakeAngle = angle;
-    }
-    else if ( AntiAim::ManualAntiAim::alignRight ){
+    }else if ( AntiAim::ManualAntiAim::alignRight ){
         angle.y -= 90;
         AntiAim::realAngle = AntiAim::fakeAngle = angle;
     }else if ( AntiAim::ManualAntiAim::alignLeft){
@@ -434,21 +430,36 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     }else {
         angle.y += Settings::AntiAim::offset;
 
-        if ( Settings::AntiAim::JitterAmmount > 0 && !AntiAim::bSend ){
+        static bool Bpressed = false;
+        if ( inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !Bpressed )
+	    {
+		    Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
+            Bpressed = true;
+	    }else if (!inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && Bpressed)
+            Bpressed = false;
+
+        if ( Settings::AntiAim::Jitter::Value > 0){
             static bool Bflip = false;
-            
+            if (Settings::AntiAim::Jitter::SyncWithLag)
+                AntiAim::bSend ? Bflip = !Bflip : Bflip;
+            else 
+                Bflip = !Bflip;
+
             if (Bflip){
-                angle.y -= Settings::AntiAim::JitterAmmount;
+                angle.y -= Settings::AntiAim::Jitter::Value;
             }else {
-                angle.y += Settings::AntiAim::JitterAmmount;
+                angle.y += Settings::AntiAim::Jitter::Value;
             } 
-            Bflip = !Bflip;
         }
-    
-        DoAntiAim(cmd, localplayer, angle); 
+        else if (Settings::AntiAim::lbyBreak::Enabled){
+            if (LBYBreak(localplayer) && AntiAim::bSend)  
+                angle.y += Settings::AntiAim::inverted ? Settings::AntiAim::lbyBreak::angle : Settings::AntiAim::lbyBreak::angle*-1 ;
+        }
+        else 
+            DoAntiAim(cmd, localplayer, angle); 
     }
 
-    // LBYBreak(AntiAim::fakeAngle.y, angle, localplayer);
+    
     if (CreateMove::sendPacket && Settings::AntiAim::JitterFake)
         Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
 
@@ -462,7 +473,22 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 void AntiAim::FrameStageNotify(ClientFrameStage_t stage)
 {
-   
+    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer || !localplayer->GetAlive())
+        return;
+
+    else if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_START)
+    {
+        // localplayer->updateClientAnimation();
+        // localplayer->SetupBones(Chams::BodyBoneMatrix, 256, 128);./b
+        QAngle Angle;
+            engine->GetViewAngles(Angle);
+        Angle += Settings::AntiAim::offset;
+        if (Settings::AntiAim::inverted) 
+            *localplayer->GetLowerBodyYawTarget() = Angle.y + GetMaxDelta(localplayer->GetAnimState());         
+        else
+            *localplayer->GetLowerBodyYawTarget() = Angle.y - GetMaxDelta(localplayer->GetAnimState());
+    }
 }
 
 void AntiAim::OverrideView(CViewSetup *pSetup)

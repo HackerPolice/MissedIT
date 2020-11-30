@@ -9,4 +9,6 @@ namespace HvH
 	void ManualAntiAim();
 	void Others();
 	void FakeLag();
+	void LBYBreak();
+	void Jitter();
 }

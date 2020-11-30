@@ -170,16 +170,6 @@ bool AutoWall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, AutoWall::Fire
 	return true;
 }
 
-void AutoWall::TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePlayer* ignore, trace_t* ptr)
-{
-	Ray_t ray;
-	ray.Init(vecAbsStart, vecAbsEnd);
-	CTraceFilter filter;
-	filter.pSkip = ignore;
-
-	trace->TraceRay(ray, mask, &filter, ptr);
-}
-
 bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -197,15 +187,10 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, A
 
 		Vector end = data.src + data.direction * data.trace_length_remaining;
 
-		// data.enter_trace
-		// TraceLine(data.src, end, MASK_SHOT, localplayer, &data.enter_trace);
-
 		Ray_t ray;
 		ray.Init(data.src, end + data.direction * 40.f);
 
 		trace->TraceRay(ray, MASK_SHOT, &data.filter, &data.enter_trace);
-
-		// TraceLine(data.src, end + data.direction * 40.f, MASK_SHOT, localplayer, &data.enter_trace);
 
 		if (data.enter_trace.fraction == 1.0f)
 			break;

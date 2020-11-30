@@ -1,36 +1,35 @@
-/*
- File to handle Rapid Fire to fire in one tick Don't Know If i success or not
- But This cheat really need a rapid fire god give me strenth
- */
-
-
 #include "fakelag2.hpp"
 
-void RapidFire::CreateMove(CUserCmd* cmd){
+void FakeLag2::CreateMove(CUserCmd* cmd){
 
-    // Dumb Method
-    if (!Settings::FakeLag::enabled)
-        return;
+    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->GetAlive())
+		return;
 
-    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer)
-		  return;
-    C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-    if (!activeWeapon)
-		  return;
+    if (Settings::FakeLag::InAir::Enable && !(localplayer->GetFlags() & FL_ONGROUND) ){
+        if (FakeLag2::Ticks >= Settings::FakeLag::InAir::Value){
+            CreateMove::sendPacket = true;
+            FakeLag2::Ticks = 0;
+        }
+        else{
+            CreateMove::sendPacket = false;
+            FakeLag2::Ticks++;
+        }
+	}
+    else if (Settings::FakeLag::OnShot::Enable && cmd->buttons & IN_ATTACK && !FakeLag2::Shooted){
+        CreateMove::sendPacket = false;
+        FakeLag2::Ticks = 0;
+        FakeLag2::Shooted = true;
+    }else if (Settings::FakeLag::AfterShot::Enable && cmd->buttons & IN_ATTACK && !FakeLag2::Shooted){
+        FakeLag2::Ticks = 0;
+        FakeLag2::Shooted = true;
+    }else if (FakeLag2::Ticks < Settings::FakeLag::OnShot::Value && FakeLag2::Shooted){
+        CreateMove::sendPacket = false;
+        FakeLag2::Ticks++;
+    }else
+    {
+        FakeLag2::Shooted = false;
+    }
     
-    static int curTickCount = 0;
-
-    // if (cmd->buttons & IN_ATTACK && curTickCount == 0){
-    //   cmd->tick_count = INT64_MAX;
-    //   curTickCount++;
-    //   CreateMove::sendPacket = false;
-    // }else if (curTickCount > 0 && activeWeapon->GetNextPrimaryAttack() > globalVars->curtime){
-    //   CreateMove::sendPacket = false;
-    //   // curTickCount++;
-    // }else if (curTickCount > 0 && activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
-    // {
-    //   CreateMove::sendPacket = true;
-    //   curTickCount = 0;
-    // }
+    
 }

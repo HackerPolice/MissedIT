@@ -59,7 +59,6 @@ float NormalizeYaw(float yaw)
     return yaw;
 }
 
-
 float flAngleMod(float flAngle)
 {
     return ((360.0f / 65536.0f) * (int32_t(flAngle * (65536.0f / 360.0f)) & 65535));
@@ -281,7 +280,6 @@ static void Resolve(C_BasePlayer* player, float feetYaw, float angleYaw, CCSGOAn
 
     memcpy(player->GetAnimState(), AnimState, sizeof(CCSGOAnimState));
 }
-
 
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {

@@ -19,7 +19,9 @@ namespace Ragebot {
         bool IHit = false;
     };
 
-    inline struct DATA data;
+    typedef struct DATA Data;
+    
+    inline Data data;
     inline Vector localEye = Vector(0);
     inline Vector BestSpot = Vector(0);
     inline int BestDamage = 0;
@@ -44,6 +46,7 @@ namespace Ragebot {
     void BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage, Vector& Spot);
 	void GetBestSpotAndDamage(C_BasePlayer* player, Vector& Spot, int& Damage);
 	bool canShoot(C_BaseCombatWeapon*,Vector&, C_BasePlayer*,const RageWeapon_t&);
+    void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings);
     C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer);
 	void GetBestEnemy();
     void CheckHit();

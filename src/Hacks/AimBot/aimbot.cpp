@@ -1,123 +1,91 @@
 #include "aimbot.hpp"
 
-void Aimbot::NoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const RageWeapon_t& currentSettings)
+QAngle Aimbot::ApplyErrorToAngle(QAngle* angles, float margin)
 {
-    if (!(cmd->buttons & IN_ATTACK) 
-		|| !localplayer
-		|| !localplayer->GetAlive())
+	QAngle error;
+	error.Random(-1.0f, 1.0f);
+	error *= margin;
+	angles->operator+=(error);
+	return error;
+}
+
+void Aimbot::NoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const bool& silent)
+{
+    if (!(cmd->buttons & IN_ATTACK))
 		return;
 	
 	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SSG08 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AWP)
 		return;
 
-	QAngle CurrentPunch = *localplayer->GetAimPunchAngle();
+	static QAngle* CurrentPunch;
+	CurrentPunch = localplayer->GetAimPunchAngle();
 
-	if (currentSettings.silent)
+	if (silent)
 	{
-		angle.x -= CurrentPunch.x * 2.f;
-		angle.y -= CurrentPunch.y * 2.f;
+		angle.x -= CurrentPunch->x * 2.f;
+		angle.y -= CurrentPunch->y * 2.f;
 	}
 	else if (localplayer->GetShotsFired() > 1 )
 	{
-		QAngle NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
+		QAngle NewPunch = { CurrentPunch->x - RCSLastPunch.x, CurrentPunch->y - RCSLastPunch.y, 0 };
 
-		angle.x -= NewPunch.x * 2.0;
-		angle.y -= NewPunch.y * 2.0;
+		angle.x -= NewPunch.x * 2.f;
+		angle.y -= NewPunch.y * 2.f;
 	}
-	RCSLastPunch = CurrentPunch;
+	RCSLastPunch = *CurrentPunch;
 }
 
-void Aimbot::AutoCrouch(C_BasePlayer* localplayer, CUserCmd* cmd, C_BaseCombatWeapon* activeWeapon, const RageWeapon_t& currentSettings)
+void Aimbot::AutoCrouch(CUserCmd* cmd, C_BaseCombatWeapon* activeWeapon, const bool& autoCroutch)
 {
-    // if (!localplayer || !localplayer->GetAlive() || !Settings::Ragebot::AutoCrouch::enable)
-	// 	return;
-	
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
+     if (!autoCroutch)
+		return;
+	else if ( !(cmd->buttons & IN_ATTACK) )
 		return;
 
-    cmd->buttons |= IN_DUCK;
+    cmd->buttons |= IN_DUCK | IN_BULLRUSH;
 }
 
-void Aimbot::AutoSlow(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, float& forrwordMove, float& sideMove, QAngle& angle, const RageWeapon_t& currentSettings)
+void Aimbot::AutoSlow(C_BasePlayer* localplayer, CUserCmd* cmd, const bool& autoSlow)
 {
-	if (!currentSettings.autoSlow)
-		return;
-	if (!localplayer || !localplayer->GetAlive())
-		return;
-	if ( !activeWeapon || activeWeapon->GetInReload())
-		return;
+	if (!autoSlow)	return;
 	
-	if (currentSettings.autoScopeEnabled && 
-		Util::Items::IsScopeable(*activeWeapon->GetItemDefinitionIndex()) && 
-		!localplayer->IsScoped() && 
-		!(cmd->buttons & IN_ATTACK2) && 
-		!(cmd->buttons&IN_ATTACK))
-		{ 
-			cmd->buttons |= IN_ATTACK2; 
-		}
-		
+	static float speed = 0;
 
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime ) 
-		return;
+	float lenth = localplayer->GetVelocity().Length();
 
-	// QAngle ViewAngle;
-	// 	engine->GetViewAngles(ViewAngle);
-	// static Vector oldOrigin = localplayer->GetAbsOrigin( );
-	// Vector velocity = ( localplayer->GetVecOrigin( )-oldOrigin ) * (1.f/globalVars->interval_per_tick);
-	// oldOrigin = localplayer->GetAbsOrigin( );
-	// float speed  = velocity.Length( );
-		
-	// if(speed > 15.f)
-	// {
-	// 	QAngle dir;
-	// 	Math::VectorAngles(velocity, dir);
-	// 	dir.y = ViewAngle.y - dir.x;
-		
-	// 	Vector NewMove = Vector(0);
-	// 	Math::AngleVectors(dir, NewMove);
-	// 	auto max = std::max(forrwordMove, sideMove);
-	// 	auto mult = 450.f/max;
-	// 	NewMove *= -mult;
-			
-	// 	forrwordMove = NewMove.x;
-	// 	sideMove = NewMove.y;
-	// }
-	// else 
-	// {	
-		forrwordMove = 0.f;
-		sideMove = 0.f;
-	// }
-	
-	cmd->buttons |= IN_WALK;
-}
-
-void Aimbot::AutoR8(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd,Vector& bestspot, QAngle& angle, float& forrwordMove, float& sideMove, const RageWeapon_t& currentSettings)
-{
-    if (!currentSettings.autoShootEnabled)
-		return;
-	if (!localplayer || !localplayer->GetAlive())
-		return;
-	if (!activeWeapon || activeWeapon->GetInReload())
-		return;
-
-	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-	{		
-		cmd->buttons |= IN_ATTACK;
-
-    	float postponeFireReadyTime = activeWeapon->GetPostPoneReadyTime();
-		if (player)
-		{
-			// if ( !Ragebot::ragebotPredictionSystem->canShoot(cmd, localplayer, activeWeapon, bestspot, player, currentSettings))
-			// {
-			// 	AutoSlow(localplayer, activeWeapon, cmd, forrwordMove, sideMove, angle, currentSettings);
-			// 	cmd->buttons &= ~IN_ATTACK;
-			// }
-		}
-		else if (postponeFireReadyTime < globalVars->curtime )
-			cmd->buttons &= ~IN_ATTACK;
-
-		return;
+	if (lenth > speed){
+		cmd->forwardmove = 0;
+		cmd->sidemove = 0;
+	}else {
+		cmd->forwardmove > 0 ? cmd->forwardmove = -1 : cmd->forwardmove = 1;
+		cmd->sidemove > 0 ? cmd->sidemove = -1 : cmd->sidemove = 1;			
 	}
+	
+	speed = lenth;
+}
+
+void Aimbot::AutoR8(C_BasePlayer *player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const bool& autoShoot)
+{
+    if (!autoShoot)
+		return;
+	else if (!activeWeapon || activeWeapon->GetInReload())
+		return;
+    else if (*activeWeapon->GetItemDefinitionIndex() != ItemDefinitionIndex::WEAPON_REVOLVER)
+        return;
+    else if(activeWeapon->GetAmmo() == 0)
+        return;
+
+    cmd->buttons |= IN_ATTACK;
+  	float postponeFireReadyTime = activeWeapon->GetPostPoneReadyTime();
+    if (postponeFireReadyTime > 0)
+    {
+        if (postponeFireReadyTime < globalVars->curtime)
+        {
+            if (player)
+                return;
+            cmd->buttons &= ~IN_ATTACK;
+        }
+    }
 }
 
 void Aimbot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, Vector& bestspot, QAngle& angle, float& forrwordMove, float& sideMove, const RageWeapon_t& currentSettings)
@@ -141,14 +109,11 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCo
 	// 	return;
 	// }
 
-	AutoSlow(localplayer, activeWeapon, cmd, forrwordMove, sideMove, angle, currentSettings);
+	AutoSlow(localplayer, cmd, true);
 }
 
-void Aimbot::FixMouseDeltas(CUserCmd* cmd, C_BasePlayer* player, QAngle& angle, QAngle& oldAngle)
+void Aimbot::FixMouseDeltas(CUserCmd* cmd, QAngle& angle, QAngle& oldAngle)
 {
-    if (!player || !player->GetAlive())
-		return;
-
     QAngle delta = angle - oldAngle;
     const float &sens = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
     const float &m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
@@ -182,13 +147,10 @@ bool Aimbot::canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeap
     float weap_spread = activeWeapon->GetSpread();
     float weap_inaccuracy = activeWeapon->GetInaccuracy();
 
-    for (int i = 0; i < 255; i++) {
-        static float val1 = (2.0 * M_PI);
-	// float b = RandomFloat(0.f, 2.f * M_PI);
-    // float spread = weap_spread * RandomFloat(0.f, 1.0f);
-    // float d = RandomFloat(0.f, 2.f * M_PI);
-    // float inaccuracy = weap_inaccuracy * RandomFloat(0.f, 1.0f);
+	static float val1 = (2.0 * M_PI);
 
+    for (int i = 0; i < 255; i++) {
+    
 		double b = RandomeFloat(val1);
         double spread = weap_spread * RandomeFloat(1.0f);
         double d = RandomeFloat(1.0f);
@@ -251,5 +213,25 @@ bool Aimbot::canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapo
 	hitchance = 1/(hitchance);
 	
 	return hitchance >= (ReqHitchance*2);
+}
+
+void Aimbot::VelocityExtrapolate(C_BasePlayer* player, Vector& aimPos)
+{
+	if (!player || !player->GetAlive())
+		return;
+	aimPos += (player->GetVelocity() * globalVars->interval_per_tick);
+}
+
+void Aimbot::AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const bool& autoPistol){
+	if (!autoPistol)
+		return;
+	else if (!activeWeapon || activeWeapon->GetInReload())
+		return;
+	else if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
+		return;
+	else if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_PISTOL)
+		return;
+    else if (*activeWeapon->GetItemDefinitionIndex() != ItemDefinitionIndex::WEAPON_REVOLVER)
+        cmd->buttons &= ~IN_ATTACK;
 }
 

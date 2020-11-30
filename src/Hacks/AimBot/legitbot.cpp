@@ -1,5 +1,6 @@
 #include "legitbot.h"
 #include "autowall.h"
+#include "aimbot.hpp"
 
 bool Legitbot::aimStepInProgress = false;
 std::vector<int64_t> Legitbot::friends = { };
@@ -10,39 +11,47 @@ QAngle LastPunch;
 static bool shouldAim = false;
 int Legitbot::targetAimbot = -1;
 
-QAngle ApplyErrorToAngle(QAngle* angles, float margin)
+C_BasePlayer* Legitbot::GetClosestEnemy (C_BasePlayer *localplayer, const LegitWeapon_t& currentSettings)
 {
-	QAngle error;
-	error.Random(-1.0f, 1.0f);
-	error *= margin;
-	angles->operator+=(error);
-	return error;
-}
+	if (!localplayer || !localplayer->GetAlive())
+		return nullptr;
 
-void VelocityExtrapolate(C_BasePlayer* player, Vector& aimPos, Vector& localeye)
-{
-	if (!player || !player->GetAlive())
-		return;
-	aimPos += (player->GetVelocity() * globalVars->interval_per_tick);
-}
-
-bool IsInFov(C_BasePlayer* localplayer, C_BasePlayer* player, const Vector &spot, const LegitWeapon_t& weaponSettings)
-{
-	if (!localplayer || !localplayer->GetAlive()) return false; 
-	if (!player || !player->GetAlive())	return false;
+	float bestFov = currentSettings.LegitautoAimFov;
 
 	Vector pVecTarget = localplayer->GetEyePosition();
+	C_BasePlayer* enemy = nullptr;
 	QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
 
-	float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, spot) );
-	if (cbFov > weaponSettings.LegitautoAimFov)
-		return false;
+	int maxClient = engine->GetMaxClients();
+	for (int i = maxClient; i > 1 ; i--)
+	{
+		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
+
+		if (!player
+	    	|| player == localplayer
+	    	|| player->GetDormant()
+	    	|| !player->GetAlive()
+	    	|| player->GetImmune())
+	    	continue;
+
+		if (Entity::IsTeamMate(player, localplayer))
+	   	 	continue;
+
+		Vector cbVecTarget = player->GetEyePosition();
+		
+		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
+		if (cbFov > bestFov)
+			continue;
 	
-	return true;
+		bestFov = cbFov;
+		enemy = player;
+	}
+
+	return enemy;
 }
 
-void GetClosestSpot(C_BasePlayer* localplayer, C_BasePlayer* enemy, Vector &BestSpot, const LegitWeapon_t& currentSettings)
+void Legitbot::GetClosestSpot(C_BasePlayer* localplayer, C_BasePlayer* enemy, Vector &BestSpot, const LegitWeapon_t& currentSettings)
 {
 	if (!localplayer || !localplayer->GetAlive())
 		return;
@@ -102,38 +111,54 @@ void GetClosestSpot(C_BasePlayer* localplayer, C_BasePlayer* enemy, Vector &Best
 	}
 }
 
-void RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd, bool shouldAim, const LegitWeapon_t& currentSettings)
+C_BasePlayer* Legitbot::GetClosestPlayerAndSpot(CUserCmd* cmd, C_BasePlayer* localplayer, bool visibleCheck, Vector& bestSpot, float& bestDamage, const LegitWeapon_t& currentSettings)
 {
-	if (!currentSettings.rcsEnabled)	return;
-	if ( !(cmd->buttons&IN_ATTACK) )	return;
+	if (!currentSettings.autoAimEnabled) return nullptr;
+	if (!localplayer || !localplayer->GetAlive() )	return nullptr;
+	if ( localplayer->IsFlashed() )	return nullptr;
 
-	bool hastarget = currentSettings.rcsAlwaysOn && shouldAim && player;
+	C_BasePlayer *player = nullptr;
+	player = Legitbot::GetClosestEnemy(localplayer, currentSettings); // getting the closest enemy to the crosshair
 
-	if (!currentSettings.rcsAlwaysOn && !hastarget)		return;
+	if ( !player || !player->GetAlive())	return nullptr;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	QAngle CurrentPunch = *localplayer->GetAimPunchAngle();
+	int BoneId = (int)(currentSettings.bone);
 
-	// float aimpunch = cvar->FindVar("weapon_recoil_scale")->GetFloat();
+	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
 
-	if ( currentSettings.silent)
-	{
-		angle.x -= CurrentPunch.x * currentSettings.rcsAmountX;
-		angle.y -= CurrentPunch.y * currentSettings.rcsAmountY;
-		return;
-	}
-	else if (localplayer->GetShotsFired() > 1)
-	{
-		QAngle newAngle = CurrentPunch-LastPunch;
-		angle.x -= (newAngle.x * currentSettings.rcsAmountX);
-		angle.y -= (newAngle.y * currentSettings.rcsAmountY);
-	}
+	BoneId = (*modelType).at(BoneId);
+	Vector bone3d = player->GetBonePosition( BoneId );
 
-	LastPunch.x = CurrentPunch.x;
-	LastPunch.y = CurrentPunch.y;
+	GetClosestSpot(localplayer, player, bone3d, currentSettings);
+	
+	if ( LineGoesThroughSmoke( localplayer->GetEyePosition( ), bone3d, true ) )
+		return nullptr;
+
+	bestSpot = bone3d;
+
+	if (AutoWall::GetDamage(bone3d, true) <= 0 || !Entity::IsSpotVisible(player, bone3d))
+		return nullptr;
+
+	return player;
 }
 
-void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd, bool& shouldAim, const LegitWeapon_t& currentSettings)
+bool Legitbot::IsInFov(C_BasePlayer* localplayer, C_BasePlayer* player, const Vector &spot, const LegitWeapon_t& weaponSettings)
+{
+	if (!localplayer || !localplayer->GetAlive()) return false; 
+	if (!player || !player->GetAlive())	return false;
+
+	Vector pVecTarget = localplayer->GetEyePosition();
+	QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+
+	float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, spot) );
+	if (cbFov > weaponSettings.LegitautoAimFov)
+		return false;
+	
+	return true;
+}
+
+void Legitbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd, bool& shouldAim, const LegitWeapon_t& currentSettings)
 {
 	if (!currentSettings.aimStepEnabled)
 		return;
@@ -180,7 +205,7 @@ void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd, bool& shouldAim
 	angle = AimStepLastAngle;
 }
 
-void Salt(float& smooth, const LegitWeapon_t& currentSettings)
+void Legitbot::Salt(float& smooth, const LegitWeapon_t& currentSettings)
 {
 	float sine = sin (globalVars->tickcount);
 	float salt = sine * currentSettings.smoothSaltMultiplier;
@@ -188,98 +213,7 @@ void Salt(float& smooth, const LegitWeapon_t& currentSettings)
 	smooth *= oval;
 }
 
-bool AutoSlow(C_BasePlayer* player,C_BasePlayer* localplayer, float& forward, float& sideMove, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const LegitWeapon_t& currentSettings)
-{
-	if (!currentSettings.autoSlow )
-		return true;
-	if (!player || !player->GetAlive()) 
-		return false;
-	if (!localplayer || !localplayer->GetAlive())
-		return false;
-	if ( !activeWeapon || activeWeapon->GetInReload())
-		return false;
-
-	if (currentSettings.autoScopeEnabled && Util::Items::IsScopeable(*activeWeapon->GetItemDefinitionIndex()) && !localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) && !(cmd->buttons&IN_ATTACK) )
-	{
-		cmd->buttons |= IN_ATTACK2;
-		return false;
-	}
-
-	if (currentSettings.hitchanceEnaled )
-	{
-		cvar->ConsoleDPrintf(XORSTR("slowing Down"));
-		cmd->buttons |= IN_WALK;
-		forward = -forward;
-		sideMove = -sideMove;
-		cmd->upmove = 0;
-	}
-    else if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) == (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) ) 
-    {
-        cmd->buttons |= IN_WALK;
-		forward = 0;
-		sideMove = 0;
-		cmd->upmove = 0;
-    }
-	cvar->ConsoleDPrintf(XORSTR("In AutoSlow Ending"));
-	return false;
-}
-
-bool canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const LegitWeapon_t& currentSettings)
-{
-	if(!localplayer || !localplayer->GetAlive() )
-		return false;
-	if (!activeWeapon || activeWeapon->GetInReload())
-		return false;
-	if (!currentSettings.hitchanceEnaled)
-	{
-		if ( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) <= (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3.0f) )
-			return true;
-		else
-			return false;
-	}
-	
-	activeWeapon->UpdateAccuracyPenalty();
-	float hitchance = activeWeapon->GetInaccuracy();
-	// hitchance = activeWeapon->GetInaccuracy();
-	if (hitchance == 0) hitchance = 0.0000001;
-	hitchance = 1/(hitchance);
-	
-	return hitchance >= (currentSettings.hitchance*1.5);
-}
-
-void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, float& forrwordMove, float& sideMove, const LegitWeapon_t& currentSettings)
-{
-    if (!currentSettings.autoShoot)
-		return;
-	if (!localplayer || !localplayer->GetAlive())
-		return;
-	if (!player)
-		return;
-	if (!activeWeapon || activeWeapon->GetInReload())
-		return;
-	
-	if (cmd->buttons & IN_USE)
-		return;
-
-    CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
-    if (weaponType == CSWeaponType::WEAPONTYPE_KNIFE || weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
-		return;
-	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-		return;
-		
-	if ( canShoot(localplayer, activeWeapon, currentSettings) )
-	{
-		if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
-			cmd->buttons &= ~IN_ATTACK;
-		else
-			cmd->buttons |= IN_ATTACK;	
-		return;
-	}	
-
-	AutoSlow(player,localplayer, forrwordMove, sideMove, activeWeapon, cmd, currentSettings);
-}
-
-void Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim, const LegitWeapon_t& currentSettings)
+void Legitbot::Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim, const LegitWeapon_t& currentSettings)
 {
 	if (!currentSettings.smoothEnabled)
 		return;
@@ -297,7 +231,7 @@ void Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim, const LegitWea
 	smooth = std::min(0.99f, smooth);
 
 	if (currentSettings.smoothSaltEnabled)
-		Salt(smooth, currentSettings);
+		Legitbot::Salt(smooth, currentSettings);
 
 	QAngle toChange = {0,0,0};
 
@@ -319,106 +253,37 @@ void Smooth(C_BasePlayer* player, QAngle& angle, bool& shouldAim, const LegitWea
 	angle = viewAngles + toChange;
 }
 
-void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const LegitWeapon_t& currentSettings)
+void Legitbot::AutoShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, LegitWeapon_t* currentSettings)
 {
+    if (!currentSettings->autoShoot)
+		return;
 	if (!activeWeapon || activeWeapon->GetInReload())
 		return;
-	if (!currentSettings.autoPistolEnabled)
-		return;
-	if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_PISTOL)
-		return;
-	if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
-		return;
-
-    if (*activeWeapon->GetItemDefinitionIndex() != ItemDefinitionIndex::WEAPON_REVOLVER)
-        cmd->buttons &= ~IN_ATTACK;
-}
-
-void FixMouseDeltas(CUserCmd* cmd, const QAngle &angle, const QAngle &oldAngle, bool &shouldAim)
-{
-    if( !shouldAim)
-        return;
-    QAngle delta = angle - oldAngle;
-    float sens = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
-    float m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
-    float m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
-    float zoomMultiplier = cvar->FindVar("zoom_sensitivity_ratio_mouse")->GetFloat();
-
-    Math::NormalizeAngles(delta);
-
-    cmd->mousedx = -delta.y / ( m_yaw * sens * zoomMultiplier );
-    cmd->mousedy = delta.x / ( m_pitch * sens * zoomMultiplier );
-}
-
-C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer, const LegitWeapon_t& currentSettings)
-{
-	if (!localplayer || !localplayer->GetAlive())
-		return nullptr;
-
-	float bestFov = currentSettings.LegitautoAimFov;
-
-	Vector pVecTarget = localplayer->GetEyePosition();
-	C_BasePlayer* enemy = nullptr;
-	QAngle viewAngles;
-		engine->GetViewAngles(viewAngles);
-
-	int maxClient = engine->GetMaxClients();
-	for (int i = maxClient; i > 1 ; i--)
-	{
-		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
-
-		if (!player
-	    	|| player == localplayer
-	    	|| player->GetDormant()
-	    	|| !player->GetAlive()
-	    	|| player->GetImmune())
-	    	continue;
-
-		if (Entity::IsTeamMate(player, localplayer))
-	   	 	continue;
-
-		Vector cbVecTarget = player->GetEyePosition();
-		
-		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
-		if (cbFov > bestFov)
-			continue;
 	
-		bestFov = cbFov;
-		enemy = player;
+	if (cmd->buttons & IN_USE)
+		return;
+	
+	if (currentSettings->autoScopeEnabled && Util::Items::IsScopeable(*activeWeapon->GetItemDefinitionIndex()) && !localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) && !(cmd->buttons&IN_ATTACK) )
+	{
+		cmd->buttons |= IN_ATTACK2;
 	}
 
-	return enemy;
-}
+    CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
+    if (weaponType == CSWeaponType::WEAPONTYPE_KNIFE || weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
+		return;
+	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+		return;
+		
+	if ( Aimbot::canShoot(localplayer, activeWeapon, currentSettings->hitchance) )
+	{
+		if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
+			cmd->buttons &= ~IN_ATTACK;
+		else
+			cmd->buttons |= IN_ATTACK;	
+		return;
+	}	
 
-C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, C_BasePlayer* localplayer, bool visibleCheck, Vector& bestSpot, float& bestDamage, const LegitWeapon_t& currentSettings)
-{
-	if (!currentSettings.autoAimEnabled) return nullptr;
-	if (!localplayer || !localplayer->GetAlive() )	return nullptr;
-	if ( localplayer->IsFlashed() )	return nullptr;
-
-	C_BasePlayer *player = nullptr;
-	player = GetClosestEnemy(localplayer, currentSettings); // getting the closest enemy to the crosshair
-
-	if ( !player || !player->GetAlive())	return nullptr;
-
-	int BoneId = (int)(currentSettings.bone);
-
-	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
-
-	BoneId = (*modelType).at(BoneId);
-	Vector bone3d = player->GetBonePosition( BoneId );
-
-	GetClosestSpot(localplayer, player, bone3d, currentSettings);
-	
-	if ( LineGoesThroughSmoke( localplayer->GetEyePosition( ), bone3d, true ) )
-		return nullptr;
-
-	bestSpot = bone3d;
-
-	if (AutoWall::GetDamage(bone3d, true) <= 0 || !Entity::IsSpotVisible(player, bone3d))
-		return nullptr;
-
-	return player;
+	Aimbot::AutoSlow(localplayer, cmd, currentSettings->autoSlow);
 }
 
 void Legitbot::CreateMove(CUserCmd* cmd)
@@ -427,7 +292,7 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon || activeWeapon->GetInReload())
+	if (!activeWeapon || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
 		return;
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
@@ -436,19 +301,19 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
 	if (Settings::Legitbot::weapons.find(*activeWeapon->GetItemDefinitionIndex()) != Settings::Legitbot::weapons.end())
 		index = *activeWeapon->GetItemDefinitionIndex();
-	const LegitWeapon_t& currentWeaponSetting = Settings::Legitbot::weapons.at(index);
+	currentWeaponSetting = &Settings::Legitbot::weapons.at(index);
 
-	QAngle oldAngle;
-		engine->GetViewAngles(oldAngle);
+	static QAngle oldAngle;
+	static QAngle angle; 
 
-	float oldForward = cmd->forwardmove;
-	float oldSideMove = cmd->sidemove;
+	angle = cmd->viewangles;
+	engine->GetViewAngles(oldAngle);	
 
-	QAngle angle = cmd->viewangles;
+	
 	static QAngle lastRandom = QAngle(0);
 	Vector localEye = localplayer->GetEyePosition();
 
-	if (currentWeaponSetting.ignoreJumpEnabled && (!(localplayer->GetFlags() & FL_ONGROUND) && localplayer->GetMoveType() != MOVETYPE_LADDER))
+	if (currentWeaponSetting->ignoreJumpEnabled && (!(localplayer->GetFlags() & FL_ONGROUND) && localplayer->GetMoveType() != MOVETYPE_LADDER))
 		return;
 
 	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
@@ -458,15 +323,15 @@ void Legitbot::CreateMove(CUserCmd* cmd)
     Vector bestSpot = Vector(0);
 	float bestDamage = float(0);
 
-	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, localplayer, true, bestSpot, bestDamage, currentWeaponSetting);
+	C_BasePlayer* player = Legitbot::GetClosestPlayerAndSpot(cmd, localplayer, true, bestSpot, bestDamage, *currentWeaponSetting);
 
 	if (player)
 	{
 		if ( cmd->buttons & IN_ATTACK )
 			shouldAim = true;
-		else if (currentWeaponSetting.aimkeyOnly && inputSystem->IsButtonDown(currentWeaponSetting.aimkey))
+		else if (currentWeaponSetting->aimkeyOnly && inputSystem->IsButtonDown(currentWeaponSetting->aimkey))
 			shouldAim = true;
-		else if ( currentWeaponSetting.autoShoot )
+		else if ( currentWeaponSetting->autoShoot )
 			shouldAim = true;
 		else
 			shouldAim = false;
@@ -476,43 +341,45 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 		if (shouldAim)
 		{	
-			if (currentWeaponSetting.predEnabled)
-				VelocityExtrapolate(player, bestSpot, localEye); // get eye pos next tick
+			if (currentWeaponSetting->predEnabled)
+				Aimbot::VelocityExtrapolate(player, bestSpot); // get eye pos next tick
 
 			angle = Math::CalcAngle(localEye, bestSpot);
 
-			if (currentWeaponSetting.errorMarginEnabled)
+			if (currentWeaponSetting->errorMarginEnabled)
 			{
 				static int lastShotFired = 0;
 				if ((localplayer->GetShotsFired() > lastShotFired)) //get new random spot when firing a shot or when aiming at a new target
-					lastRandom = ApplyErrorToAngle(&angle, currentWeaponSetting.errorMarginValue);
+					lastRandom = Aimbot::ApplyErrorToAngle(&angle, currentWeaponSetting->errorMarginValue);
 
 				angle += lastRandom;
 				lastShotFired = localplayer->GetShotsFired();
 			}
 		}		
-		AutoShoot(player, localplayer, activeWeapon, cmd, oldForward, oldSideMove, currentWeaponSetting);
-		AutoPistol(activeWeapon, cmd, currentWeaponSetting);
+		AutoShoot(localplayer, activeWeapon, cmd, currentWeaponSetting);
+		Aimbot::AutoPistol(activeWeapon, cmd, currentWeaponSetting->autoPistolEnabled);
 	}
 	else // No player to Shoot
 	{
-        Settings::Debug::AutoAim::target = Vector(0);	
-		lastRandom = QAngle(0);
+        Settings::Debug::AutoAim::target.Zero();	
+		lastRandom.Init(0.f,0.f,0.f);
+		if (cmd->buttons & IN_ATTACK)	angle = oldAngle;
     }
 
-	Smooth(player, angle, shouldAim, currentWeaponSetting);
-	RCS(angle, player, cmd, shouldAim, currentWeaponSetting);
-	AimStep(player, angle, cmd, shouldAim, currentWeaponSetting);
+	Legitbot::Smooth(player, angle, shouldAim, *currentWeaponSetting);
+	Legitbot::AimStep(player, angle, cmd, shouldAim, *currentWeaponSetting);
+	Aimbot::NoRecoil(angle, cmd, localplayer, activeWeapon, currentWeaponSetting->silent);
+	Aimbot::AutoPistol(activeWeapon, cmd, currentWeaponSetting->autoPistolEnabled);
 	
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
 
-	FixMouseDeltas(cmd, angle, oldAngle, shouldAim);
+	Aimbot::FixMouseDeltas(cmd, angle, oldAngle);
 	
 	if (cmd->buttons & IN_ATTACK)
 		cmd->viewangles = angle;
 
-	if( !currentWeaponSetting.silent && CreateMove::sendPacket)
+	if( !currentWeaponSetting->silent && CreateMove::sendPacket)
     	engine->SetViewAngles(angle);
 
 }

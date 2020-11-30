@@ -27,7 +27,7 @@ static bool desiredMultiBones[] = {true, true, true, true, true, true};
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
-static float HitChance = 0.f;
+static int HitChance = 0.f;
 static float MinDamage = 0.f;
 static float DamageOverride = 0.f;
 static bool autoSlow = false;
@@ -87,10 +87,10 @@ void UI::UpdateRageWeaponSettings()
 			.OnShot = OnShot,
 			.OnShotOnKey = OnSHotOnKey,
 			.MinDamage = MinDamage,
-			.HitChance = HitChance,
 			.DamageOverride = DamageOverride,
 	};
 
+	settings.HitChance = HitChance;
 	settings.hitchanceType = hitchanceType;
 
 	for (int BONE = 0; BONE < 6; BONE++){
@@ -160,11 +160,11 @@ void RagebotTab::AutoShoot()
 	
 	ImGui::PushItemWidth(-1);
 	if (HitChance == 0) {
-		if( ImGui::SliderFloat(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("HitChance Off")) )
+		if( ImGui::SliderInt(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("HitChance Off")) )
 			UI::UpdateRageWeaponSettings();
 	}
 	else {
-		if( ImGui::SliderFloat(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("Hitchance %0.0f")) )
+		if( ImGui::SliderInt(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("Hitchance %d")) )
 			UI::UpdateRageWeaponSettings();
 		if ( ImGui::Combo(XORSTR("##HitChanceType"), (int*)&hitchanceType, HitChanceType, IM_ARRAYSIZE(HitChanceType)) ){
 			UI::UpdateRageWeaponSettings();
@@ -300,7 +300,6 @@ void RagebotTab::Guns(){
 
 void RagebotTab::RenderTab()
 {
-
 	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Ragebot::enabled))
 	{	
 		Settings::Legitbot::enabled = false;

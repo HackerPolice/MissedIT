@@ -272,9 +272,9 @@ struct RageWeapon_t
 		 OnShot = false,
 		 OnShotOnKey = false;
 	float MinDamage = 50.f,
-		  HitChance = 50.f,
 		  DamageOverride = 100.f,
 		  MinDamageOnshot = 100.f;
+	int HitChance = 50;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
 	HitchanceType hitchanceType = HitchanceType::Normal;
@@ -515,11 +515,14 @@ namespace Settings
 		inline bool JitterFake = false;
 		inline bool autoDirection = false;
 		inline float offset = 0.f;
-		inline float JitterAmmount = 0.f;
 		inline float NetFake = 0.f;
 		
 		inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
 		
+		namespace Jitter{
+			inline int Value = 0.f;
+			inline bool SyncWithLag = false;
+		}
 		namespace ManualAntiAim
 		{
 			inline bool Enable = false;
@@ -547,6 +550,12 @@ namespace Settings
 			inline bool enabled = false;
 			inline ButtonCode_t Key = ButtonCode_t::KEY_LSHIFT;
 			inline float Speed = 50;
+		}
+
+		namespace lbyBreak {
+			inline bool Enabled = false;
+			inline bool notSend = false;
+			inline int angle = 90; // max is 180
 		}
 	}
 
@@ -1245,8 +1254,24 @@ namespace Settings
 	namespace FakeLag
 	{
 		inline bool enabled = false;
+		inline bool impulseLag = false;
 		inline int value = 9;
-		inline bool adaptive = false;
+		namespace OnShot{
+			inline bool Enable = false;
+			inline int Value = 5;
+		}
+
+		namespace AfterShot
+		{
+			inline bool Enable = false;
+			inline int Value = 5;
+		} 
+		
+		namespace InAir{
+			inline bool Enable = false;
+			inline int Value = 5;
+		}
+		
 	}
 
 	namespace AutoAccept

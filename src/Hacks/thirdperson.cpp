@@ -65,23 +65,23 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 			}else {
 				obs = localplayer;
 			
-			QAngle viewAngles;
-			engine->GetViewAngles(viewAngles);
-			trace_t tr;
-			Ray_t traceRay;
-			Vector eyePos = obs->GetEyePosition();
+				QAngle viewAngles;
+				engine->GetViewAngles(viewAngles);
+				trace_t tr;
+				Ray_t traceRay;
+				Vector eyePos = obs->GetEyePosition();
 
-			Vector camOff = Vector(cos(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
-							   		sin(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
-							   		sin(DEG2RAD(-viewAngles.x)) * Settings::ThirdPerson::distance);
+				Vector camOff = Vector(cos(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
+							   			sin(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
+							   			sin(DEG2RAD(-viewAngles.x)) * Settings::ThirdPerson::distance);
 
-			traceRay.Init(eyePos, (eyePos - camOff));
-			CTraceFilter traceFilter;
-			traceFilter.pSkip = localplayer;
-			trace->TraceRay(traceRay, MASK_SOLID, &traceFilter, &tr);
+				traceRay.Init(eyePos, (eyePos - camOff));
+				CTraceFilter traceFilter;
+				traceFilter.pSkip = localplayer;
+				trace->TraceRay(traceRay, MASK_SOLID, &traceFilter, &tr);
 
-       	 	input->m_fCameraInThirdPerson = true;
-			input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
+       	 		input->m_fCameraInThirdPerson = true;
+				input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
 			
 			}
 		}

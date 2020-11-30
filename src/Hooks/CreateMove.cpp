@@ -70,14 +70,17 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		PredictionSystem::StartPrediction(cmd);
 		if (Settings::FakeLag::enabled) { FakeLag::CreateMove(cmd); }
+
 		if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
-		if ( Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
+		if (Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
 		if (Settings::AntiAim::FakeDuck::enabled)  { FakeDuck::CreateMove(cmd); }
-		
 		if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
+
 		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
 		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
-		RapidFire::CreateMove(cmd);
+		
+		FakeLag2::CreateMove(cmd);
+
 		DesyncChams::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
@@ -94,10 +97,6 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		EdgeJump::PostPredictionCreateMove(cmd);
 		NoFall::PostPredictionCreateMove(cmd);
-
-
-		if (cmd->buttons & IN_ATTACK)
-			CreateMove::sendPacket = true;
 
         *sendPacket = CreateMove::sendPacket;
 

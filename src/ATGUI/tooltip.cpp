@@ -8,5 +8,5 @@ void ToolTip::Show(const char* tooltip, bool IsItemHovered)
         return;
     // auto massage = tooltip;
     ImGui::SetNextWindowSize(ImVec2(), ImGuiSetCond_Always);
-    ImGui::SetTooltip(XORSTR("%s"), tooltip);
+    ImGui::SetTooltip("%s", tooltip);
 }
