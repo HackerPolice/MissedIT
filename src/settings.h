@@ -521,7 +521,7 @@ namespace Settings
 		
 		namespace Jitter{
 			inline int Value = 0.f;
-			inline bool SyncWithLag = false;
+			inline bool SyncWithLag = true;
 		}
 		namespace ManualAntiAim
 		{

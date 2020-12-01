@@ -31,7 +31,8 @@ void HvH::Jitter(){
     {
         ImGui::Columns();
         {
-            ImGui::Checkbox(XORSTR("Sync With FakeLag"), &Settings::AntiAim::Jitter::SyncWithLag);
+            ImGui::Checkbox(XORSTR("Sync With Lag"), &Settings::AntiAim::Jitter::SyncWithLag);
+            ToolTip::Show(XORSTR("If you turn it off Jitter will work as a anti aim You can invert with Invert Key"), ImGui::IsItemHovered());
         }
         
         ImGui::Columns();

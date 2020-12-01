@@ -16,5 +16,5 @@ bool Hooks::WriteUsercmdDeltaToBuffer(void* thisptr, int slot, bf_write *buf, in
     // cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("in delta 2\n"));
 
 
-    return funcAdd(thisptr, slot, buf, from, to, isnewcommand );
+    return true;
 }

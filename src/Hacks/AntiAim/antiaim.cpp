@@ -440,16 +440,29 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
         if ( Settings::AntiAim::Jitter::Value > 0){
             static bool Bflip = false;
-            if (Settings::AntiAim::Jitter::SyncWithLag)
-                AntiAim::bSend ? Bflip = !Bflip : Bflip;
-            else 
-                Bflip = !Bflip;
 
-            if (Bflip){
-                angle.y -= Settings::AntiAim::Jitter::Value;
-            }else {
-                angle.y += Settings::AntiAim::Jitter::Value;
-            } 
+            if (Settings::AntiAim::inverted){
+                if (Bflip){
+                    angle.y -= Settings::AntiAim::Jitter::Value;
+                }else {
+                    angle.y += Settings::AntiAim::Jitter::Value;
+                } 
+            }
+            else {
+                if (Bflip){
+                    angle.y += Settings::AntiAim::Jitter::Value;
+                }else {
+                    angle.y -= Settings::AntiAim::Jitter::Value;
+                } 
+            }   
+            
+
+            if (Settings::AntiAim::Jitter::SyncWithLag)
+                CreateMove::sendPacket ? Bflip = !Bflip : Bflip;
+            else {
+                Bflip = !Bflip;
+            }
+               
         }
         else if (Settings::AntiAim::lbyBreak::Enabled){
             if (LBYBreak(localplayer) && AntiAim::bSend)  
@@ -476,7 +489,8 @@ void AntiAim::FrameStageNotify(ClientFrameStage_t stage)
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
     if (!localplayer || !localplayer->GetAlive())
         return;
-
+    else if (Settings::AntiAim::Jitter::Value > 0)
+        return;
     else if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_START)
     {
         // localplayer->updateClientAnimation();
