@@ -53,12 +53,6 @@ GetSequenceActivityFn GetSeqActivity;
 
 uintptr_t SetAbsOriginFnAddr;
 
-RandomSeedFn RandomSeed;
-RandomFloatFn RandomFloat;
-RandomFloatExpFn RandomFloatExp;
-RandomIntFn RandomInt;
-RandomGaussianFloatFn RandomGaussianFloat;
-
 SetNamedSkyBoxFn SetNamedSkyBox;
 
 std::vector<dlinfo_t> libraries;
@@ -328,20 +322,6 @@ void Hooker::FindLoadFromBuffer()
 }
 
 
-void Hooker::FindVstdlibFunctions()
-{
-	void* handle = dlopen(XORSTR("./bin/linux64/libvstdlib_client.so"), RTLD_NOLOAD | RTLD_NOW);
-
-	RandomSeed = reinterpret_cast<RandomSeedFn>(dlsym(handle, XORSTR("RandomSeed")));
-	RandomFloat = reinterpret_cast<RandomFloatFn>(dlsym(handle, XORSTR("RandomFloat")));
-	RandomFloatExp = reinterpret_cast<RandomFloatExpFn>(dlsym(handle, XORSTR("RandomFloatExp")));
-	RandomInt = reinterpret_cast<RandomIntFn>(dlsym(handle, XORSTR("RandomInt")));
-	RandomGaussianFloat = reinterpret_cast<RandomGaussianFloatFn>(dlsym(handle, XORSTR("RandomGaussianFloat")));
-
-	dlclose(handle);
-}
-
-
 void Hooker::FindOverridePostProcessingDisable()
 {
 	uintptr_t bool_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
@@ -527,16 +507,17 @@ void Hooker::FindItemSystem()
 }
 
 void Hooker::FindWriteUserCmd(){
-																		   
+
 	// Inside WriteUserCmdDelta Function > WriteUserCmd is calling
+	// look for string > WARNING! User command buffer overflow
 	// loc_96F07F:
 	// mov     rsi, rax
 	// mov     rdx, r14
 	// mov     rdi, rbx
-	// call    WriteUserCmdOriginal ; Call Procedure // may be this one is writeusercmd hope for best
-	// cmp     byte ptr [rbx+14h], 0 ; Compare Two Operands
+	// call    WriteUserCmdOriginal; Call Procedure // may be this one is writeusercmd hope for best
+	// cmp     byte ptr [rbx+14h], 0; Compare Two Operands
 	// mov     eax, 1
-	// jz      short loc_96F0B7 ;
+	// jz      short loc_96F0B7;
 
 	// 48 89 C6
 	// 4C 89 F2
@@ -564,10 +545,9 @@ void Hooker::FindWriteUserCmd(){
 
 	func_address += 9;
 	func_address = GetAbsoluteAddress( func_address, 1, 5 );
-	func_address += 4; 
-    func_address = GetAbsoluteAddress( func_address, 1, 5 ); // Deref again for the final address.
+
 	WriteUserCmd = reinterpret_cast<WriteUserCmdFn>(func_address);
-	
+
 }
 
 void Hooker::FindClSendMove(){
