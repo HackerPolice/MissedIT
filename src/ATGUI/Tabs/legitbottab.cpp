@@ -1,25 +1,21 @@
 #include "legitbottab.h"
-#include "ragebottab.h"
 
 #include "../../SDK/definitions.h"
 #include "../../settings.h"
 #include "../../Utils/xorstring.h"
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
-#include "../Windows/configs.h"
-#include "../../Hacks/AimBot/legitbot.h"
-#include "triggerbottab.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool silent = false;
 static bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
-							  true, true, true, true, true, true, true, // left arm
-							  true, true, true, true, true, true, true, // right arm
-							  true, true, true, true, true, // left leg
-							  true, true, true, true, true  // right leg
-							 };
+                              true, true, true, true, true, true, true, // left arm
+                              true, true, true, true, true, true, true, // right arm
+                              true, true, true, true, true, // left leg
+                              true, true, true, true, true  // right leg
+};
 
 static Bone bone = BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
@@ -57,8 +53,7 @@ static bool autowall = false;
 void UI::ReloadWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Legitbot::weapons.find(currentWeapon) != Settings::Legitbot::weapons.end())
-	{
+	if (Settings::Legitbot::weapons.find(currentWeapon) != Settings::Legitbot::weapons.end()) {
 		index = currentWeapon;
 	}
 
@@ -96,14 +91,15 @@ void UI::ReloadWeaponSettings()
 	TriggerBot = Settings::Legitbot::weapons.at(index).TriggerBot;
 	autowall = Settings::Legitbot::weapons.at(index).autoWall;
 
-	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
+	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++) {
 		desiredBones[bone] = Settings::Legitbot::weapons.at(index).desiredBones[bone];
+	}
 }
 
 void UI::UpdateWeaponSettings()
 {
-	if (Settings::Legitbot::weapons.find(currentWeapon) == Settings::Legitbot::weapons.end() && Settings::Legitbot::enabled)
-	{
+	if (Settings::Legitbot::weapons.find(currentWeapon) == Settings::Legitbot::weapons.end() &&
+	    Settings::Legitbot::enabled) {
 		Settings::Legitbot::weapons[currentWeapon] = LegitWeapon_t();
 	}
 
@@ -143,101 +139,113 @@ void UI::UpdateWeaponSettings()
 			.hitchance = hitchance,
 	};
 
-
-
-	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
+	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++) {
 		settings.desiredBones[bone] = desiredBones[bone];
+	}
 
 	Settings::Legitbot::weapons.at(currentWeapon) = settings;
 
 	if (Settings::Legitbot::weapons.at(currentWeapon) == Settings::Legitbot::weapons.at(ItemDefinitionIndex::INVALID) &&
-		currentWeapon != ItemDefinitionIndex::INVALID)
-	{
+	    currentWeapon != ItemDefinitionIndex::INVALID) {
 		Settings::Legitbot::weapons.erase(currentWeapon);
 		UI::ReloadWeaponSettings();
 		return;
 	}
 }
 
-void Legitbot::Aimbot(){
+void Legitbot::Aimbot()
+{
 
-	static const char* targets[] = 
-		{ 
-			"PELVIS", 
-			"HIP", 
-			"LOWER SPINE", 
-			"MIDDLE SPINE", 
-			"UPPER SPINE", 
-			"NECK", 
-			"HEAD" 
-		};
+	static const char *targets[] =
+			{
+					"PELVIS",
+					"HIP",
+					"LOWER SPINE",
+					"MIDDLE SPINE",
+					"UPPER SPINE",
+					"NECK",
+					"HEAD"
+			};
 
-	if (ImGui::Checkbox(XORSTR("Aimkey Only"), &aimkeyOnly))
+	if (ImGui::Checkbox(XORSTR("Aimkey Only"), &aimkeyOnly)) {
 		UI::UpdateWeaponSettings();
-			
-	if (aimkeyOnly)
-	{
+	}
+
+	if (aimkeyOnly) {
 		ImGui::SameLine();
 		UI::KeyBindButton(&aimkey);
-	}	
+	}
 
-	if (ImGui::Checkbox(XORSTR("Aim Step"), &aimStepEnabled))
+	if (ImGui::Checkbox(XORSTR("Aim Step"), &aimStepEnabled)) {
 		UI::UpdateWeaponSettings();
-				
-	if ( aimStepEnabled )
-	{
-		ImGui::PushItemWidth(-1);
-		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &aimStepMin, 5, 35, XORSTR("MIN : %0.0f")))
-			UI::UpdateWeaponSettings();
+	}
 
-		if (ImGui::SliderFloat(XORSTR("##STEPMAX"), &aimStepMax, (aimStepMin) + 1.0f, 35, XORSTR("MAX : %0.0f")))
+	if (aimStepEnabled) {
+		ImGui::PushItemWidth(-1);
+		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &aimStepMin, 5, 35, XORSTR("MIN : %0.0f"))) {
 			UI::UpdateWeaponSettings();
-		
+		}
+
+		if (ImGui::SliderFloat(XORSTR("##STEPMAX"), &aimStepMax, (aimStepMin) + 1.0f, 35, XORSTR("MAX : %0.0f"))) {
+			UI::UpdateWeaponSettings();
+		}
+
 		ImGui::PopItemWidth();
 	}
 
-	if (ImGui::Checkbox(XORSTR("##Auto Aim"), &autoAimEnabled))
+	if (ImGui::Checkbox(XORSTR("##Auto Aim"), &autoAimEnabled)) {
 		UI::UpdateWeaponSettings();
+	}
 	ImGui::SameLine();
 	ImGui::PushItemWidth(-1);
-	if (ImGui::SliderFloat(XORSTR("##Fov"), &LegitautoAimValue, 0, 30, XORSTR("Auto Aim FOV : %0.f")))
+	if (ImGui::SliderFloat(XORSTR("##Fov"), &LegitautoAimValue, 0, 30, XORSTR("Auto Aim FOV : %0.f"))) {
 		UI::UpdateWeaponSettings();
+	}
 	ImGui::PopItemWidth();
 
 	ImGui::PushItemWidth(-1);
-	if (ImGui::Combo(XORSTR("##AIMTARGET"), (int*)&bone, targets, IM_ARRAYSIZE(targets)))
+	if (ImGui::Combo(XORSTR("##AIMTARGET"), (int *) &bone, targets, IM_ARRAYSIZE(targets))) {
 		UI::UpdateWeaponSettings();
-	ImGui::PopItemWidth();
-}
-
-void Legitbot::Recoil(){
-
-	if (ImGui::Checkbox(XORSTR("Recoil Control"), &rcsEnabled))
-		UI::UpdateWeaponSettings();
-	
-	if (ImGui::Checkbox(XORSTR("ALLWays On"), &rcsAlwaysOn))
-		UI::UpdateWeaponSettings();
-	ImGui::PushItemWidth(-1);
-	{
-		if (ImGui::SliderFloat(XORSTR("##RCSX"), &rcsAmountX, 0, 2, XORSTR("Pitch: %0.2f")))
-			UI::UpdateWeaponSettings();
-		if (ImGui::SliderFloat(XORSTR("##RCSY"), &rcsAmountY, 0, 2, XORSTR("Yaw: %0.2f")))
-			UI::UpdateWeaponSettings();
 	}
 	ImGui::PopItemWidth();
 }
 
-void Legitbot::Semirage(){
+void Legitbot::Recoil()
+{
 
-	if (ImGui::Checkbox(XORSTR("AutoShoot"), &autoShootEnabled))
+	if (ImGui::Checkbox(XORSTR("Recoil Control"), &rcsEnabled)) {
 		UI::UpdateWeaponSettings();
-	if (ImGui::Checkbox(XORSTR("Auto Slow"), &autoSlow))
+	}
+
+	if (ImGui::Checkbox(XORSTR("ALLWays On"), &rcsAlwaysOn)) {
 		UI::UpdateWeaponSettings();
-	if (ImGui::Checkbox(XORSTR("AutoWall"), &autowall))
-		UI::UpdateWeaponSettings();
-	
-	switch (currentWeapon)
+	}
+	ImGui::PushItemWidth(-1);
 	{
+		if (ImGui::SliderFloat(XORSTR("##RCSX"), &rcsAmountX, 0, 2, XORSTR("Pitch: %0.2f"))) {
+			UI::UpdateWeaponSettings();
+		}
+		if (ImGui::SliderFloat(XORSTR("##RCSY"), &rcsAmountY, 0, 2, XORSTR("Yaw: %0.2f"))) {
+			UI::UpdateWeaponSettings();
+		}
+	}
+	ImGui::PopItemWidth();
+}
+
+void Legitbot::Semirage()
+{
+
+	if (ImGui::Checkbox(XORSTR("AutoShoot"), &autoShootEnabled)) {
+		UI::UpdateWeaponSettings();
+	}
+	if (ImGui::Checkbox(XORSTR("Auto Slow"), &autoSlow)) {
+		UI::UpdateWeaponSettings();
+	}
+	if (ImGui::Checkbox(XORSTR("AutoWall"), &autowall)) {
+		UI::UpdateWeaponSettings();
+	}
+
+	switch (currentWeapon) {
 		case ItemDefinitionIndex::INVALID:
 		case ItemDefinitionIndex::WEAPON_DEAGLE:
 		case ItemDefinitionIndex::WEAPON_ELITE:
@@ -249,39 +257,46 @@ void Legitbot::Semirage(){
 		case ItemDefinitionIndex::WEAPON_P250:
 		case ItemDefinitionIndex::WEAPON_CZ75A:
 		case ItemDefinitionIndex::WEAPON_REVOLVER:
-			if (ImGui::Checkbox(XORSTR("Auto Pistol"), &autoPistolEnabled))
+			if (ImGui::Checkbox(XORSTR("Auto Pistol"), &autoPistolEnabled)) {
 				UI::UpdateWeaponSettings();
+			}
 			break;
 		default:
 			break;
 	}
 
-	if (ImGui::Checkbox(XORSTR("##HitChance"), &hitchanceEnaled))
+	if (ImGui::Checkbox(XORSTR("##HitChance"), &hitchanceEnaled)) {
 		UI::UpdateWeaponSettings();
+	}
 	ImGui::SameLine();
 	ImGui::PushItemWidth(-1);
-	if ( ImGui::SliderFloat(XORSTR("##HitchanceValue"), &hitchance, 0, 100, XORSTR("Hitchance: %0.f")) )
+	if (ImGui::SliderFloat(XORSTR("##HitchanceValue"), &hitchance, 0, 100, XORSTR("Hitchance: %0.f"))) {
 		UI::UpdateWeaponSettings();
+	}
 	ImGui::PopItemWidth();
 
-	if (ImGui::Checkbox(XORSTR("##MINDAMAGEENEBLED"), &mindamage))
+	if (ImGui::Checkbox(XORSTR("##MINDAMAGEENEBLED"), &mindamage)) {
 		UI::UpdateWeaponSettings();
+	}
 	ImGui::SameLine();
 	ImGui::PushItemWidth(-1);
-	if (ImGui::SliderFloat(XORSTR("##MINDAMAGE"), &mindamagevalue, 0, 100, XORSTR("Min Damage: %.0f")))
+	if (ImGui::SliderFloat(XORSTR("##MINDAMAGE"), &mindamagevalue, 0, 100, XORSTR("Min Damage: %.0f"))) {
 		UI::UpdateWeaponSettings();
+	}
 	ImGui::PopItemWidth();
-	
+
 }
 
-void Legitbot::Others(){
-	if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
+void Legitbot::Others()
+{
+	if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent)) {
 		UI::UpdateWeaponSettings();
-	if (ImGui::Checkbox(XORSTR("Prediction"), &predEnabled))
+	}
+	if (ImGui::Checkbox(XORSTR("Prediction"), &predEnabled)) {
 		UI::UpdateWeaponSettings();
+	}
 
-	switch (currentWeapon)
-	{
+	switch (currentWeapon) {
 		case ItemDefinitionIndex::WEAPON_DEAGLE:
 		case ItemDefinitionIndex::WEAPON_ELITE:
 		case ItemDefinitionIndex::WEAPON_FIVESEVEN:
@@ -294,52 +309,64 @@ void Legitbot::Others(){
 		case ItemDefinitionIndex::WEAPON_REVOLVER:
 			break;
 		default:
-			if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled))
+			if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled)) {
 				UI::UpdateWeaponSettings();
+			}
 	}
-	
-	if (ImGui::Checkbox(XORSTR("Ignore Jump (Self)"), &ignoreJumpEnabled))
+
+	if (ImGui::Checkbox(XORSTR("Ignore Jump (Self)"), &ignoreJumpEnabled)) {
 		UI::UpdateWeaponSettings();
-	if (ImGui::Checkbox(XORSTR("Ignore Jump (Enemies)"), &ignoreEnemyJumpEnabled))
+	}
+	if (ImGui::Checkbox(XORSTR("Ignore Jump (Enemies)"), &ignoreEnemyJumpEnabled)) {
 		UI::UpdateWeaponSettings();
+	}
 }
 
-void Legitbot::Humanising(){
-	static const char* smoothTypes[] = 
-		{ 
-			"Slow Near End", 
-			"Constant Speed", 
-			"Fast Near End" 
-		};
+void Legitbot::Humanising()
+{
+	static const char *smoothTypes[] =
+			{
+					"Slow Near End",
+					"Constant Speed",
+					"Fast Near End"
+			};
 
 	ImGui::PushItemWidth(-1);
 	{
-		if (ImGui::Checkbox(XORSTR("##Smoothing"), &smoothEnabled))	
+		if (ImGui::Checkbox(XORSTR("##Smoothing"), &smoothEnabled)) {
 			UI::UpdateWeaponSettings();
+		}
 		ImGui::SameLine();
-		if ( ImGui::SliderFloat(XORSTR("##SMOOTH"), &smoothValue, 0, 1, XORSTR("Smoothing : %0.2f")) )
+		if (ImGui::SliderFloat(XORSTR("##SMOOTH"), &smoothValue, 0, 1, XORSTR("Smoothing : %0.2f"))) {
 			UI::UpdateWeaponSettings();
+		}
 	}
 
 	{
-		if (ImGui::Checkbox(XORSTR("##SmoothSalting"), &smoothSaltEnabled))	
+		if (ImGui::Checkbox(XORSTR("##SmoothSalting"), &smoothSaltEnabled)) {
 			UI::UpdateWeaponSettings();
+		}
 		ImGui::SameLine();
-		if (ImGui::SliderFloat(XORSTR("##SALT"), &smoothSaltMultiplier, 0, smoothValue, XORSTR("Smooth Salting : %0.2f")))
+		if (ImGui::SliderFloat(XORSTR("##SALT"), &smoothSaltMultiplier, 0, smoothValue,
+		                       XORSTR("Smooth Salting : %0.2f"))) {
 			UI::UpdateWeaponSettings();
-	}	
-	
-	{
-		if (ImGui::Checkbox(XORSTR("##ErrorMargin"), &errorMarginEnabled))	
-			UI::UpdateWeaponSettings();
-		ImGui::SameLine();
-		if (ImGui::SliderFloat(XORSTR("##ERROR"), &errorMarginValue, 0, 2, XORSTR("Error In Shot : %0.2f")))
-			UI::UpdateWeaponSettings();
+		}
 	}
 
 	{
-		if (ImGui::Combo(XORSTR("##SMOOTHTYPE"), (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
+		if (ImGui::Checkbox(XORSTR("##ErrorMargin"), &errorMarginEnabled)) {
 			UI::UpdateWeaponSettings();
+		}
+		ImGui::SameLine();
+		if (ImGui::SliderFloat(XORSTR("##ERROR"), &errorMarginValue, 0, 2, XORSTR("Error In Shot : %0.2f"))) {
+			UI::UpdateWeaponSettings();
+		}
+	}
+
+	{
+		if (ImGui::Combo(XORSTR("##SMOOTHTYPE"), (int *) &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes))) {
+			UI::UpdateWeaponSettings();
+		}
 	}
 
 	ImGui::PopItemWidth();
@@ -347,11 +374,10 @@ void Legitbot::Humanising(){
 
 void Legitbot::RenderTab()
 {
-	
+
 	static char filterWeapons[32];
 
-	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Legitbot::enabled))
-	{	
+	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Legitbot::enabled)) {
 		Settings::Ragebot::enabled = false;
 		UI::UpdateWeaponSettings();
 	}
@@ -364,25 +390,28 @@ void Legitbot::RenderTab()
 		ImGui::InputText(XORSTR("##FILTERWEAPONS"), filterWeapons, IM_ARRAYSIZE(filterWeapons));
 		ImGui::PopItemWidth();
 		ImGui::ListBoxHeader(XORSTR("##GUNS"), ImVec2(-1, -1));
-		for (auto it : ItemDefinitionIndexMap)
-		{
+		for (auto it : ItemDefinitionIndexMap) {
 			bool isDefault = (int) it.first < 0;
-			if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str())))
+			if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)),
+			                                  Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str()))) {
 				continue;
+			}
 
-			if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) || Util::Items::IsUtility(it.first))
+			if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) || Util::Items::IsUtility(it.first)) {
 				continue;
+			}
 
 			const bool item_selected = ((int) it.first == (int) currentWeapon);
 			ImGui::PushID((int) it.first);
 			std::string formattedName;
 			char changeIndicator = ' ';
 			bool isChanged = Settings::Legitbot::weapons.find(it.first) != Settings::Legitbot::weapons.end();
-			if (!isDefault && isChanged)
+			if (!isDefault && isChanged) {
 				changeIndicator = '*';
-			formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str() : Util::Items::GetItemDisplayName(it.first));
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-			{
+			}
+			formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str()
+			                                             : Util::Items::GetItemDisplayName(it.first));
+			if (ImGui::Selectable(formattedName.c_str(), item_selected)) {
 				currentWeapon = it.first;
 				UI::ReloadWeaponSettings();
 			}
@@ -400,45 +429,49 @@ void Legitbot::RenderTab()
 			{
 				Aimbot();
 
-			}ImGui::EndGroupPanel();
+			}
+			ImGui::EndGroupPanel();
 
 			ImGui::BeginGroupPanel(XORSTR("RCS"));
 			{
 				Recoil();
 
-			}ImGui::EndGroupPanel();
+			}
+			ImGui::EndGroupPanel();
 
 			ImGui::BeginGroupPanel(XORSTR("Humanising"));
 			{
 				Humanising();
 
-			}ImGui::EndGroupPanel();
+			}
+			ImGui::EndGroupPanel();
 
 		}
 		ImGui::EndChild();
 	}
-	
+
 	ImGui::NextColumn();
 	{
 		ImGui::BeginChild(XORSTR("COL2"), ImVec2(0, 0), false);
 		{
-			
+
 			ImGui::BeginGroupPanel(XORSTR("SemiRage"));
 			{
 				Semirage();
-			}ImGui::EndGroupPanel();
-			
+			}
+			ImGui::EndGroupPanel();
+
 			ImGui::BeginGroupPanel(XORSTR("Others"));
 			{
 				Others();
-			}ImGui::EndGroupPanel();
+			}
+			ImGui::EndGroupPanel();
 
 			ImGui::Spacing();
 
-			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Legitbot::weapons.find(currentWeapon) != Settings::Legitbot::weapons.end())
-			{
-				if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0)))
-				{
+			if (currentWeapon > ItemDefinitionIndex::INVALID &&
+			    Settings::Legitbot::weapons.find(currentWeapon) != Settings::Legitbot::weapons.end()) {
+				if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0))) {
 					Settings::Legitbot::weapons.erase(currentWeapon);
 					UI::ReloadWeaponSettings();
 				}
@@ -446,9 +479,9 @@ void Legitbot::RenderTab()
 			ImGui::EndChild();
 		}
 	}
-	
+
 	ImGui::EndColumns();
-	
+
 }
 
 

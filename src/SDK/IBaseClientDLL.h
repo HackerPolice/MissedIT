@@ -22,7 +22,7 @@ struct DVariant
 
 struct CRecvProxyData
 {
-	const RecvProp* m_pRecvProp;
+	const RecvProp *m_pRecvProp;
 	DVariant m_Value;
 	int m_iElement;
 	int m_ObjectID;
@@ -38,7 +38,7 @@ struct RecvTable
 	bool m_bInMainList;
 };
 
-typedef void (*RecvVarProxyFn) (const CRecvProxyData *pData, void *pStruct, void *pOut);
+typedef void (*RecvVarProxyFn)(const CRecvProxyData *pData, void *pStruct, void *pOut);
 
 struct RecvProp
 {
@@ -60,26 +60,28 @@ struct RecvProp
 };
 
 class IClientNetworkable;
-typedef IClientNetworkable* (*CreateClientClassFn)(int entnum, int serialNum);
-typedef IClientNetworkable* (*CreateEventFn)();
+
+typedef IClientNetworkable *(*CreateClientClassFn)(int entnum, int serialNum);
+
+typedef IClientNetworkable *(*CreateEventFn)();
 
 class ClientClass
 {
 public:
 	CreateClientClassFn m_pCreateFn;
 	CreateEventFn *m_pCreateEventFn;
-	char* m_pNetworkName;
+	char *m_pNetworkName;
 	RecvTable *m_pRecvTable;
-	ClientClass* m_pNext;
+	ClientClass *m_pNext;
 	EClassIds m_ClassID;
 };
 
 class IBaseClientDLL
 {
 public:
-	ClientClass* GetAllClasses()
+	ClientClass *GetAllClasses()
 	{
-		typedef ClientClass* (* oGetAllClasses)(void*);
+		typedef ClientClass *(*oGetAllClasses)(void *);
 		return getvfunc<oGetAllClasses>(this, 8)(this);
 	}
 };

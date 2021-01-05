@@ -1,9 +1,12 @@
 #pragma once
 
 #include "CViewRender.h"
-class IClientMode {
+
+class IClientMode
+{
 public:
-	virtual ~IClientMode() {}
+	virtual ~IClientMode()
+	{}
 
 	virtual int ClientModeCSNormal(void *) = 0;
 

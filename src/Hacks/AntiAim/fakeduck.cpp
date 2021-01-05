@@ -1,28 +1,23 @@
 #include "fakeduck.h"
 
-#include "../Hooks/hooks.h"
-#include "../interfaces.h"
-#include "../settings.h"
-
-
 void FakeDuck::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::AntiAim::FakeDuck::enabled)
+	if (!Settings::AntiAim::FakeDuck::enabled) {
 		return;
+	}
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->GetAlive()) {
 		return;
+	}
 
-	if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeDuck::fakeDuckKey)){
+	if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeDuck::fakeDuckKey)) {
 		FakeDuck::FakeDucking = false;
 		return;
-	}	
-		
-	
+	}
+
 	FakeDuck::FakeDucking = true;
-	if ( cmd->buttons&IN_ATTACK )
-	{
+	if (cmd->buttons & IN_ATTACK) {
 		cmd->buttons &= ~IN_DUCK;
 		CreateMove::sendPacket = true;
 	}
@@ -30,44 +25,45 @@ void FakeDuck::CreateMove(CUserCmd *cmd)
 	static bool counter = true;
 	static int counters = 0;
 
-	if (counters == 9 )
-	{
+	if (counters == 9) {
 		counters = 0;
 		counter = !counter;
 	}
 
 	counters++;
 
-	if (counter)
-	{
+	if (counter) {
 		cmd->buttons |= IN_BULLRUSH | IN_DUCK;
-		if ( counters == 9)
+		if (counters == 9) {
 			CreateMove::sendPacket = true;
-		else 
+		} else {
 			CreateMove::sendPacket = false;
-	}
-	else
-	{
+		}
+	} else {
 		cmd->buttons &= ~IN_DUCK;
-		if ( counters == 1)
+		if (counters == 1) {
 			CreateMove::sendPacket = true;
-		else 
+		} else {
 			CreateMove::sendPacket = false;
-	}		
+		}
+	}
 }
 
 void FakeDuck::OverrideView(CViewSetup *pSetup)
 {
-	if (!Settings::AntiAim::FakeDuck::enabled)
+	if (!Settings::AntiAim::FakeDuck::enabled) {
 		return;
+	}
 
-	if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeDuck::fakeDuckKey))
+	if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeDuck::fakeDuckKey)) {
 		return;
+	}
 
-	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->GetAlive()) {
 		return;
+	}
 
 	pSetup->origin.z = localplayer->GetAbsOrigin().z + 64.0f;
 }

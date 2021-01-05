@@ -4,19 +4,22 @@
 #include "../interfaces.h"
 #include "../Utils/math.h"
 
-static void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
+static void LegitStrafe(C_BasePlayer *localplayer, CUserCmd *cmd)
 {
-	if (localplayer->GetFlags() & FL_ONGROUND)
+	if (localplayer->GetFlags() & FL_ONGROUND) {
 		return;
+	}
 
-	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT)
+	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT ||
+	    cmd->buttons & IN_MOVERIGHT) {
 		return;
+	}
 
-	if (cmd->mousedx <= 1 && cmd->mousedx >= -1)
+	if (cmd->mousedx <= 1 && cmd->mousedx >= -1) {
 		return;
+	}
 
-	switch (Settings::AutoStrafe::type)
-	{
+	switch (Settings::AutoStrafe::type) {
 		case AutostrafeType::AS_FORWARDS:
 			cmd->sidemove = cmd->mousedx < 0.f ? -250.f : 250.f;
 			break;
@@ -34,34 +37,35 @@ static void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	}
 }
 
-static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
+static void RageStrafe(C_BasePlayer *localplayer, CUserCmd *cmd)
 {
 	static bool leftRight;
-	bool inMove = cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT;
+	bool inMove = cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT ||
+	              cmd->buttons & IN_MOVERIGHT;
 
-	if (cmd->buttons & IN_FORWARD && localplayer->GetVelocity().Length() <= 50.0f)
+	if (cmd->buttons & IN_FORWARD && localplayer->GetVelocity().Length() <= 50.0f) {
 		cmd->forwardmove = 250.0f;
+	}
 
 	float yaw_change = 0.0f;
-	if (localplayer->GetVelocity().Length() > 50.f)
+	if (localplayer->GetVelocity().Length() > 50.f) {
 		yaw_change = 30.0f * fabsf(30.0f / localplayer->GetVelocity().Length());
+	}
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (activeWeapon && !activeWeapon->GetAmmo() == 0 && cmd->buttons & IN_ATTACK)
+	C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
+			localplayer->GetActiveWeapon());
+	if (activeWeapon && !activeWeapon->GetAmmo() == 0 && cmd->buttons & IN_ATTACK) {
 		yaw_change = 0.0f;
+	}
 
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
 
-	if (!(localplayer->GetFlags() & FL_ONGROUND) && !inMove)
-	{
-		if (leftRight || cmd->mousedx > 1)
-		{
+	if (!(localplayer->GetFlags() & FL_ONGROUND) && !inMove) {
+		if (leftRight || cmd->mousedx > 1) {
 			viewAngles.y += yaw_change;
 			cmd->sidemove = 250.0f;
-		}
-		else if (!leftRight || cmd->mousedx < 1)
-		{
+		} else if (!leftRight || cmd->mousedx < 1) {
 			viewAngles.y -= yaw_change;
 			cmd->sidemove = -250.0f;
 		}
@@ -74,27 +78,31 @@ static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 
 	Math::CorrectMovement(viewAngles, cmd, cmd->forwardmove, cmd->sidemove);
 
-	if (!Settings::AutoStrafe::silent)
+	if (!Settings::AutoStrafe::silent) {
 		cmd->viewangles = viewAngles;
+	}
 }
 
-void AutoStrafe::CreateMove(CUserCmd* cmd)
+void AutoStrafe::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::AutoStrafe::enabled)
+	if (!Settings::AutoStrafe::enabled) {
 		return;
+	}
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer) {
 		return;
+	}
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->GetAlive()) {
 		return;
+	}
 
-	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
+	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP) {
 		return;
+	}
 
-	switch (Settings::AutoStrafe::type)
-	{
+	switch (Settings::AutoStrafe::type) {
 		case AutostrafeType::AS_FORWARDS:
 		case AutostrafeType::AS_BACKWARDS:
 		case AutostrafeType::AS_LEFTSIDEWAYS:

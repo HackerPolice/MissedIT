@@ -1,31 +1,37 @@
 #pragma once
 
 #include "../HeaderFiles.h"
-namespace Aimbot {
 
-    #define RandomeFloat(x) (static_cast<double>( static_cast<double>(std::rand())/ static_cast<double>(RAND_MAX/x)))
+namespace Aimbot
+{
 
-    inline QAngle RCSLastPunch;
+#define RandomeFloat(x) (static_cast<double>( static_cast<double>(std::rand())/ static_cast<double>(RAND_MAX/x)))
 
-    QAngle ApplyErrorToAngle(QAngle* angles, float margin);
+	inline QAngle RCSLastPunch;
 
-    void NoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const bool& silent);
+	QAngle ApplyErrorToAngle(QAngle *angles, float margin);
 
-    void AutoCrouch(CUserCmd* cmd, C_BaseCombatWeapon* activeWeapon, const bool& autoCroutch);
+	void NoRecoil(QAngle &angle, CUserCmd *cmd, C_BasePlayer *localplayer, C_BaseCombatWeapon *activeWeapon,
+	              const bool &silent);
 
-    void AutoSlow(C_BasePlayer* localplayer, CUserCmd* cmd, const bool& autoSlow);
+	void AutoCrouch(CUserCmd *cmd, C_BaseCombatWeapon *activeWeapon, const bool &autoCroutch);
 
-    void AutoR8(C_BasePlayer *player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const bool& autoShoot);
+	void AutoSlow(C_BasePlayer *localplayer, CUserCmd *cmd, const bool &autoSlow);
 
-    void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, Vector& bestspot, QAngle& angle, float& forrwordMove, float& sideMove, const RageWeapon_t& currentSettings);
+	void AutoR8(C_BasePlayer *player, C_BaseCombatWeapon *activeWeapon, CUserCmd *cmd, const bool &autoShoot);
 
-    void FixMouseDeltas(CUserCmd* cmd, QAngle& angle, QAngle& oldAngle);
+	void AutoShoot(C_BasePlayer *player, C_BasePlayer *localplayer, C_BaseCombatWeapon *activeWeapon, CUserCmd *cmd,
+	               Vector &bestspot, QAngle &angle, float &forrwordMove, float &sideMove,
+	               const RageWeapon_t &currentSettings);
 
-    bool canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings);
+	void FixMouseDeltas(CUserCmd *cmd, QAngle &angle, QAngle &oldAngle);
 
-    bool canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const int& hitchance);
+	bool canShoot(CUserCmd *cmd, C_BasePlayer *localplayer, C_BaseCombatWeapon *activeWeapon, Vector &bestSpot,
+	              C_BasePlayer *enemy, const RageWeapon_t &currentSettings);
 
-    void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const bool& autoPistol);
+	bool canShoot(C_BasePlayer *localplayer, C_BaseCombatWeapon *activeWeapon, const int &hitchance);
 
-    void VelocityExtrapolate(C_BasePlayer* player, Vector& aimPos);
+	void AutoPistol(C_BaseCombatWeapon *activeWeapon, CUserCmd *cmd, const bool &autoPistol);
+
+	void VelocityExtrapolate(C_BasePlayer *player, Vector &aimPos);
 };

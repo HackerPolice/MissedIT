@@ -3,7 +3,8 @@
 #include <cstdint>
 #include "vector.h"
 
-struct CViewSetup {
+struct CViewSetup
+{
 	int x;
 	int oldX;
 	int y;
@@ -42,15 +43,15 @@ struct CViewSetup {
 	float m_flOffCenterLeft;
 	float m_flOffCenterRight;
 
-	bool m_bOffCenter : 1;
-	bool m_bRenderToSubrectOfLargerScreen : 1;
-	bool m_bDoBloomAndToneMapping : 1;
-	bool m_bDoDepthOfField : 1;
-	bool m_bHDRTarget : 1;
-	bool m_bDrawWorldNormal : 1;
-	bool m_bCullFrontFaces : 1;
-	bool m_bCacheFullSceneState : 1;
-	bool m_bRenderFlashlightDepthTranslucents : 1;
+	bool m_bOffCenter: 1;
+	bool m_bRenderToSubrectOfLargerScreen: 1;
+	bool m_bDoBloomAndToneMapping: 1;
+	bool m_bDoDepthOfField: 1;
+	bool m_bHDRTarget: 1;
+	bool m_bDrawWorldNormal: 1;
+	bool m_bCullFrontFaces: 1;
+	bool m_bCacheFullSceneState: 1;
+	bool m_bRenderFlashlightDepthTranslucents: 1;
 };
 
 class CViewRender

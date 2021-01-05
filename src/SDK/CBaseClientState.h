@@ -1,10 +1,12 @@
 #pragma once
+
 #include "INetChannel.h"
 
-class CBaseClientState {
+class CBaseClientState
+{
 public:
 	char pad_0000[296]; //0x0000
-	class INetChannel* m_NetChannel; //0x0128
+	class INetChannel *m_NetChannel; //0x0128
 	char pad_0130[124]; //0x0130
 	float m_flNextCmdTime; //0x01AC
 	int32_t m_nServerCount; //0x01B0

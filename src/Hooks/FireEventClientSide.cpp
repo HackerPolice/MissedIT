@@ -3,12 +3,11 @@
 #include "../interfaces.h"
 
 #include "../Hacks/skinchanger.h"
-#include "../Utils/xorstring.h"
 
-typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
+typedef bool (*FireEventClientSideFn)(void *, IGameEvent *);
 
-bool Hooks::FireEventClientSide(void* thisptr, IGameEvent* event)
-{	
+bool Hooks::FireEventClientSide(void *thisptr, IGameEvent *event)
+{
 	// cvar->ConsoleDPrintf(XORSTR("local fire %s\n"), event->GetName());
 	SkinChanger::FireEventClientSide(event);
 

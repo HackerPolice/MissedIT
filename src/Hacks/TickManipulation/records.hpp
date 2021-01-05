@@ -25,8 +25,12 @@ namespace Records
 	inline std::vector<Records::TickInfo> Ticks;
 
 	float GetLerpTime();
+
 	bool IsTickValid(float time);
+
 	void RemoveInvalidTicks();
+
 	void RegisterTicks();
+
 	void RemoveBackTrackTicks(const int &maxTick);
 };

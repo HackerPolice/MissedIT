@@ -6,5 +6,6 @@ namespace Spammer
 {
 	//Hooks
 	void BeginFrame(float frameTime);
-	void FireGameEvent(IGameEvent* event);
+
+	void FireGameEvent(IGameEvent *event);
 }

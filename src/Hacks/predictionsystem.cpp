@@ -1,15 +1,13 @@
 #include "predictionsystem.h"
 
 #include "../interfaces.h"
-#include "../Hooks/hooks.h"
-#include "AimBot/ragebot.hpp"
 
 float m_flOldCurtime;
 float m_flOldFrametime;
 
-void PredictionSystem::StartPrediction(CUserCmd* cmd)
+void PredictionSystem::StartPrediction(CUserCmd *cmd)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	*nPredictionRandomSeed = MD5_PseudoRandom(cmd->command_number) & 0x7FFFFFFF;
 
@@ -29,7 +27,7 @@ void PredictionSystem::StartPrediction(CUserCmd* cmd)
 
 void PredictionSystem::EndPrediction()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	gameMovement->FinishTrackPredictionErrors(localplayer);
 	moveHelper->SetHost(0);

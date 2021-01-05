@@ -5,5 +5,5 @@
 
 namespace MemoryProtection
 {
-    unsigned int GetProtectionFlags( uintptr_t address );
+	unsigned int GetProtectionFlags(uintptr_t address);
 }

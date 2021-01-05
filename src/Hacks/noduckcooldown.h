@@ -5,5 +5,5 @@
 namespace NoDuckCooldown
 {
 	//Hooks
-	void CreateMove(CUserCmd* cmd);
+	void CreateMove(CUserCmd *cmd);
 }

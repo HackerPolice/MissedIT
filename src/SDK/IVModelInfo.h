@@ -1,6 +1,7 @@
 #pragma once
 
 class Quaternion;
+
 struct mstudioanimdesc_t;
 struct mstudioseqdesc_t;
 struct mstudiobodyparts_t;
@@ -9,7 +10,8 @@ struct mstudiotexture_t;
 class RadianEuler
 {
 public:
-	inline RadianEuler(void) { }
+	inline RadianEuler(void)
+	{}
 
 	inline RadianEuler(float X, float Y, float Z)
 	{
@@ -54,12 +56,14 @@ public:
 	float x, y, z;
 };
 
-class Quaternion				// same data-layout as engine's vec4_t,
+class Quaternion                // same data-layout as engine's vec4_t,
 {                                //		which is a float[4]
 public:
-	inline Quaternion(void) { }
+	inline Quaternion(void)
+	{}
 
-	inline Quaternion(float ix, float iy, float iz, float iw) : x(ix), y(iy), z(iz), w(iw) { }
+	inline Quaternion(float ix, float iy, float iz, float iw) : x(ix), y(iy), z(iz), w(iw)
+	{}
 
 	inline Quaternion(RadianEuler const &angle);    // evil auto type promotion!!!
 
@@ -97,7 +101,8 @@ public:
 	float x, y, z, w;
 };
 
-struct mstudiobone_t {
+struct mstudiobone_t
+{
 	int sznameindex;
 
 	inline char *const pszName(void) const
@@ -125,10 +130,11 @@ struct mstudiobone_t {
 
 	inline void *pProcedure() const
 	{
-		if (procindex == 0)
+		if (procindex == 0) {
 			return nullptr;
-		else
+		} else {
 			return (void *) (((unsigned char *) this) + procindex);
+		}
 	};
 
 	int surfacepropidx;    // index into string tablefor property name
@@ -148,7 +154,8 @@ struct mstudiobone_t {
 	int unused[7];        // remove as appropriate
 };
 
-struct mstudiobbox_t {
+struct mstudiobbox_t
+{
 	int bone;
 	int group;
 	Vector bbmin;
@@ -160,14 +167,16 @@ struct mstudiobbox_t {
 
 	char *pszHitboxName()
 	{
-		if (hitboxnameindex == 0)
+		if (hitboxnameindex == 0) {
 			return nullptr;
+		}
 
 		return ((char *) this) + hitboxnameindex;
 	}
 };
 
-struct mstudiohitboxset_t {
+struct mstudiohitboxset_t
+{
 	int sznameindex;
 
 	inline char *const pszName() const
@@ -184,7 +193,8 @@ struct mstudiohitboxset_t {
 	};
 };
 
-struct studiohdr_t {
+struct studiohdr_t
+{
 	int id;
 	int version;
 	int checksum;        // this has to be the same in the phy and vtx files to load!
@@ -201,10 +211,11 @@ struct studiohdr_t {
 	int flags;
 	int numbones;            // bones
 	int boneindex;
+
 	inline mstudiobone_t *pBone(int i) const
 	{
 		Assert(i >= 0 && i < numbones);
-		return (mstudiobone_t *)(((unsigned char * ) this) + boneindex ) + i;
+		return (mstudiobone_t *) (((unsigned char *) this) + boneindex) + i;
 	};
 
 	int RemapSeqBone(int iSequence, int iLocalBone) const;    // maps local sequence bone to global bone
@@ -218,15 +229,16 @@ struct studiohdr_t {
 	mstudiohitboxset_t *pHitboxSet(int i) const
 	{
 		(i >= 0 && i < numhitboxsets);
-		return (mstudiohitboxset_t * )(((unsigned char * ) this ) +hitboxsetindex ) +i;
+		return (mstudiohitboxset_t *) (((unsigned char *) this) + hitboxsetindex) + i;
 	};
 
 	// Calls through to hitbox to determine size of specified set
 	inline mstudiobbox_t *pHitbox(int i, int set) const
 	{
 		mstudiohitboxset_t const *s = pHitboxSet(set);
-		if (!s)
+		if (!s) {
 			return nullptr;
+		}
 
 		return s->pHitbox(i);
 	};
@@ -235,8 +247,9 @@ struct studiohdr_t {
 	inline int iHitboxCount(int set) const
 	{
 		mstudiohitboxset_t const *s = pHitboxSet(set);
-		if (!s)
+		if (!s) {
 			return 0;
+		}
 
 		return s->numhitboxes;
 	};
@@ -283,7 +296,7 @@ struct studiohdr_t {
 
 	inline char *pCdtexture(int i) const
 	{
-		return (((char *) this) + *((int *) (((unsigned char *) this) +cdtextureindex) + i));
+		return (((char *) this) + *((int *) (((unsigned char *) this) + cdtextureindex) + i));
 	};
 
 	// replaceable textures tables
@@ -293,7 +306,7 @@ struct studiohdr_t {
 
 	inline short *pSkinref(int i) const
 	{
-		return (short *) (((unsigned char *) this) +skinindex) +i;
+		return (short *) (((unsigned char *) this) + skinindex) + i;
 	};
 	int numbodyparts;
 	int bodypartindex;
@@ -326,7 +339,7 @@ struct studiohdr_t {
 	inline unsigned char *pLocalTransition(int i) const
 	{
 		(i >= 0 && i < (numlocalnodes * numlocalnodes));
-		return (unsigned char * )(((unsigned char *) this) + localnodeindex) + i;
+		return (unsigned char *) (((unsigned char *) this) + localnodeindex) + i;
 	};
 
 	//public:
@@ -455,7 +468,9 @@ struct studiohdr_t {
 	// or add your stuff to studiohdr2_t. See NumSrcBoneTransforms/SrcBoneTransform for the pattern to use.
 	int unused2[1];
 
-	studiohdr_t() { }
+	studiohdr_t()
+	{}
+
 private:
 	// No copy constructors allowed
 	studiohdr_t(const studiohdr_t &vOther);
@@ -466,33 +481,33 @@ private:
 class IVModelInfo
 {
 public:
-	model_t* GetModel(int index)
+	model_t *GetModel(int index)
 	{
-		typedef model_t* (* oGetModel)(void*, int);
+		typedef model_t *(*oGetModel)(void *, int);
 		return getvfunc<oGetModel>(this, 2)(this, index);
 	}
 
-	int GetModelIndex(const char* Filename)
+	int GetModelIndex(const char *Filename)
 	{
-		typedef int (* oGetModelIndex)(void*, const char*);
+		typedef int (*oGetModelIndex)(void *, const char *);
 		return getvfunc<oGetModelIndex>(this, 3)(this, Filename);
 	}
 
-	const char* GetModelName(const model_t *model)
+	const char *GetModelName(const model_t *model)
 	{
-		typedef const char* (* oGetModelName)(void*, const model_t*);
+		typedef const char *(*oGetModelName)(void *, const model_t *);
 		return getvfunc<oGetModelName>(this, 4)(this, model);
 	}
 
-	void GetModelMaterials(const model_t *model, int count, IMaterial** ppMaterial)
+	void GetModelMaterials(const model_t *model, int count, IMaterial **ppMaterial)
 	{
-		typedef studiohdr_t* (* oGetModelMaterials)(void*, const model_t*, int, IMaterial**);
+		typedef studiohdr_t *(*oGetModelMaterials)(void *, const model_t *, int, IMaterial **);
 		getvfunc<oGetModelMaterials>(this, 18)(this, model, count, ppMaterial);
 	}
 
-	studiohdr_t* GetStudioModel(const model_t* model)
+	studiohdr_t *GetStudioModel(const model_t *model)
 	{
-		typedef studiohdr_t* (* oGetStudioModel)(void*, const model_t*);
+		typedef studiohdr_t *(*oGetStudioModel)(void *, const model_t *);
 		return getvfunc<oGetStudioModel>(this, 31)(this, model);
 	}
 };

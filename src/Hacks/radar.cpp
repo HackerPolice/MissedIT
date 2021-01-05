@@ -9,7 +9,9 @@
 #include "../settings.h"
 
 std::set<int> visible_players;
-static Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
+
+static Vector2D
+WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
 {
 	float x_diff = location.x - origin.x;
 	float y_diff = location.y - origin.y;
@@ -20,12 +22,13 @@ static Vector2D WorldToRadar(const Vector location, const Vector origin, const Q
 	flOffset *= 180;
 	flOffset /= M_PI;
 
-	if ((x_diff < 0) && (y_diff >= 0))
+	if ((x_diff < 0) && (y_diff >= 0)) {
 		flOffset = 180 + flOffset;
-	else if ((x_diff < 0) && (y_diff < 0))
+	} else if ((x_diff < 0) && (y_diff < 0)) {
 		flOffset = 180 + flOffset;
-	else if ((x_diff >= 0) && (y_diff < 0))
+	} else if ((x_diff >= 0) && (y_diff < 0)) {
 		flOffset = 360 + flOffset;
+	}
 
 	y_diff = -1 * (sqrtf((x_diff * x_diff) + (y_diff * y_diff)));
 	x_diff = 0;
@@ -46,62 +49,63 @@ static Vector2D WorldToRadar(const Vector location, const Vector origin, const Q
 
 	// clamp x & y
 	// FIXME: instead of using hardcoded "4" we should fix cliprect of the radar window
-	if (xnew_diff > iRadarRadius)
+	if (xnew_diff > iRadarRadius) {
 		xnew_diff = iRadarRadius - 4;
-	else if (xnew_diff < 4)
+	} else if (xnew_diff < 4) {
 		xnew_diff = 4;
+	}
 
-	if (ynew_diff> iRadarRadius)
+	if (ynew_diff > iRadarRadius) {
 		ynew_diff = iRadarRadius;
-	else if (ynew_diff < 4)
+	} else if (ynew_diff < 4) {
 		ynew_diff = 0;
+	}
 
 	return Vector2D(xnew_diff, ynew_diff);
 }
+
 static void SquareConstraint(ImGuiSizeCallbackData *data)
 {
-	data->DesiredSize = ImVec2(std::max(data->DesiredSize.x, data->DesiredSize.y), std::max(data->DesiredSize.x, data->DesiredSize.y));
+	data->DesiredSize = ImVec2(std::max(data->DesiredSize.x, data->DesiredSize.y),
+	                           std::max(data->DesiredSize.x, data->DesiredSize.y));
 }
-static ImColor GetRadarPlayerColor(C_BasePlayer* player, bool visible)
+
+static ImColor GetRadarPlayerColor(C_BasePlayer *player, bool visible)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer) {
 		return ImColor(255, 255, 255, 255);
+	}
 
 	ImColor playerColor;
 
-	if (Settings::Radar::teamColorType == TeamColorType::RELATIVE)
-	{
-		if (!Entity::IsTeamMate(player, localplayer))
-		{
-			if (visible)
+	if (Settings::Radar::teamColorType == TeamColorType::RELATIVE) {
+		if (!Entity::IsTeamMate(player, localplayer)) {
+			if (visible) {
 				playerColor = Settings::Radar::enemyVisibleColor.Color(player);
-			else
+			} else {
 				playerColor = Settings::Radar::enemyColor.Color(player);
-		}
-		else
-		{
-			if (visible)
+			}
+		} else {
+			if (visible) {
 				playerColor = Settings::Radar::allyVisibleColor.Color(player);
-			else
+			} else {
 				playerColor = Settings::Radar::allyColor.Color(player);
+			}
 		}
-	}
-	else if (Settings::Radar::teamColorType == TeamColorType::ABSOLUTE)
-	{
-		if (player->GetTeam() == TeamID::TEAM_TERRORIST)
-		{
-			if (visible)
+	} else if (Settings::Radar::teamColorType == TeamColorType::ABSOLUTE) {
+		if (player->GetTeam() == TeamID::TEAM_TERRORIST) {
+			if (visible) {
 				playerColor = Settings::Radar::tVisibleColor.Color(player);
-			else
+			} else {
 				playerColor = Settings::Radar::tColor.Color(player);
-		}
-		else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
-		{
-			if (visible)
+			}
+		} else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST) {
+			if (visible) {
 				playerColor = Settings::Radar::ctVisibleColor.Color(player);
-			else
+			} else {
 				playerColor = Settings::Radar::ctColor.Color(player);
+			}
 		}
 	}
 
@@ -110,36 +114,42 @@ static ImColor GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 
 void Radar::RenderWindow()
 {
-	if (!Settings::ESP::enabled)
+	if (!Settings::ESP::enabled) {
 		return;
+	}
 
-	if (!Settings::Radar::enabled)
+	if (!Settings::Radar::enabled) {
 		return;
+	}
 
-	if (!UI::isVisible && !engine->IsInGame())
+	if (!UI::isVisible && !engine->IsInGame()) {
 		return;
+	}
 
 	ImGui::SetNextWindowSize(ImVec2(256, 256), ImGuiSetCond_FirstUseEver);
 	ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
 	ImGui::SetNextWindowPos(Settings::Radar::pos, ImGuiSetCond_FirstUseEver);
 
-	if (ImGui::Begin("Radar", &Settings::Radar::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar))
-	{
-		ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	if (ImGui::Begin("Radar", &Settings::Radar::enabled,
+	                 ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar)) {
+		ImDrawList *draw_list = ImGui::GetWindowDrawList();
 
 		ImVec2 winpos = ImGui::GetWindowPos();
 		Settings::Radar::pos = winpos;
 		ImVec2 winsize = ImGui::GetWindowSize();
 
-		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y), ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y), ImColor(70,70,70, 255), 1.f);
-		draw_list->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5f ), ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5f), ImColor(70,70,70, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y),
+		                   ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y), ImColor(70, 70, 70, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5f),
+		                   ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5f), ImColor(70, 70, 70, 255), 1.f);
 
-		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x, winpos.y), ImColor(90,90,90, 255), 1.f);
-		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x + winsize.x, winpos.y), ImColor(90,90,90, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x, winpos.y),
+		                   ImColor(90, 90, 90, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f),
+		                   ImVec2(winpos.x + winsize.x, winpos.y), ImColor(90, 90, 90, 255), 1.f);
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-		{
+		C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+		if (!localplayer) {
 			ImGui::End();
 			return;
 		}
@@ -148,57 +158,72 @@ void Radar::RenderWindow()
 		engine->GetViewAngles(localplayer_angles);
 
 		// draw localplayer
-		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), Settings::Radar::iconsScale, ImColor(255, 255, 255, 255));
+		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f),
+		                           Settings::Radar::iconsScale, ImColor(255, 255, 255, 255));
 
 		float scale = Settings::Radar::iconsScale;
 
-		for (int i = 1; i < entityList->GetHighestEntityIndex(); i++)
-		{
-			C_BaseEntity* entity = entityList->GetClientEntity(i);
-			if (!entity)
+		for (int i = 1; i < entityList->GetHighestEntityIndex(); i++) {
+			C_BaseEntity *entity = entityList->GetClientEntity(i);
+			if (!entity) {
 				continue;
+			}
 
-			Vector2D screenpos = WorldToRadar(entity->GetVecOrigin(), localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
+			Vector2D screenpos = WorldToRadar(entity->GetVecOrigin(), localplayer->GetVecOrigin(), localplayer_angles,
+			                                  winsize.x, Settings::Radar::zoom);
 			EClassIds classId = entity->GetClientClass()->m_ClassID;
 
 			ImColor color;
 			int shape = -1;
 
-			if (classId == EClassIds::CCSPlayer)
-			{
-				C_BasePlayer* player = (C_BasePlayer*) entity;
+			if (classId == EClassIds::CCSPlayer) {
+				C_BasePlayer *player = (C_BasePlayer *) entity;
 
-				if (player == localplayer)
+				if (player == localplayer) {
 					continue;
+				}
 
-				if (player->GetDormant() || !player->GetAlive())
+				if (player->GetDormant() || !player->GetAlive()) {
 					continue;
+				}
 
-				if (Entity::IsTeamMate(player, localplayer) && !Settings::Radar::allies)
+				if (Entity::IsTeamMate(player, localplayer) && !Settings::Radar::allies) {
 					continue;
+				}
 
-				if (!Entity::IsTeamMate(player, localplayer) && !Settings::Radar::enemies)
+				if (!Entity::IsTeamMate(player, localplayer) && !Settings::Radar::enemies) {
 					continue;
+				}
 
-				bool bIsVisible = Entity::IsTeamMate(player, localplayer) || (Settings::Radar::visibilityCheck && (*player->GetSpotted() || std::find(visible_players.begin(), visible_players.end(), i) != visible_players.end()));
-				if (!bIsVisible && Settings::Radar::legit)
+				bool bIsVisible = Entity::IsTeamMate(player, localplayer) || (Settings::Radar::visibilityCheck &&
+				                                                              (*player->GetSpotted() ||
+				                                                               std::find(visible_players.begin(),
+				                                                                         visible_players.end(), i) !=
+				                                                               visible_players.end()));
+				if (!bIsVisible && Settings::Radar::legit) {
 					continue;
+				}
 
-				C_BasePlayer* observer_target = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
-				if (observer_target && player == observer_target && (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE || *localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_CHASE))
+				C_BasePlayer *observer_target = (C_BasePlayer *) entityList->GetClientEntityFromHandle(
+						localplayer->GetObserverTarget());
+				if (observer_target && player == observer_target &&
+				    (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE ||
+				     *localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_CHASE)) {
 					continue;
+				}
 
 				color = GetRadarPlayerColor(player, bIsVisible);
 
 				Vector localPos = localplayer->GetVecOrigin();
 				Vector playerPos = player->GetVecOrigin();
 
-				if (playerPos.z + 64.0f < localPos.z)
+				if (playerPos.z + 64.0f < localPos.z) {
 					shape = EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN;
-				else if (playerPos.z - 64.0f > localPos.z)
+				} else if (playerPos.z - 64.0f > localPos.z) {
 					shape = EntityShape_t::SHAPE_TRIANGLE;
-				else
+				} else {
 					shape = EntityShape_t::SHAPE_CIRCLE;
+				}
 
 				Vector forward;
 				Math::AngleVectors(*player->GetEyeAngles(), forward);
@@ -207,7 +232,8 @@ void Radar::RenderWindow()
 				float arrowWidth = scale;
 				float arrowTheta = 45.f;
 
-				Vector2D dirArrowPos = WorldToRadar(dirArrowVec, localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
+				Vector2D dirArrowPos = WorldToRadar(dirArrowVec, localplayer->GetVecOrigin(), localplayer_angles,
+				                                    winsize.x, Settings::Radar::zoom);
 
 				Vector2D line = dirArrowPos - screenpos;
 				float length = sqrtf(powf(line.x, 2.f) + powf(line.y, 2.f));
@@ -222,58 +248,58 @@ void Radar::RenderWindow()
 				                             ImVec2(winpos.x + right.x, winpos.y + right.y),
 				                             ImVec2(winpos.x + dirArrowPos.x, winpos.y + dirArrowPos.y),
 				                             ImColor(230, 230, 230));
-			}
-			else if (classId == EClassIds::CC4)
-			{
-				if (!Settings::Radar::bomb)
+			} else if (classId == EClassIds::CC4) {
+				if (!Settings::Radar::bomb) {
 					continue;
+				}
 
-				if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
+				if (!(*csGameRules) || !(*csGameRules)->IsBombDropped()) {
 					continue;
+				}
 
 				color = Settings::Radar::bombColor.Color();
 				shape = EntityShape_t::SHAPE_SQUARE;
-			}
-			else if (classId == EClassIds::CPlantedC4)
-			{
-				if (!Settings::Radar::bomb)
+			} else if (classId == EClassIds::CPlantedC4) {
+				if (!Settings::Radar::bomb) {
 					continue;
+				}
 
-				if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted())
+				if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted()) {
 					continue;
+				}
 
-				C_PlantedC4* bomb = (C_PlantedC4*) entity;
+				C_PlantedC4 *bomb = (C_PlantedC4 *) entity;
 
-				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::Radar::bombDefusingColor.Color() : Settings::Radar::bombColor.Color();
+				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused()
+				        ? Settings::Radar::bombDefusingColor.Color() : Settings::Radar::bombColor.Color();
 				shape = EntityShape_t::SHAPE_SQUARE;
-			}
-			else if (classId == EClassIds::CBaseAnimating)
-			{
-				if (!Settings::Radar::defuser)
+			} else if (classId == EClassIds::CBaseAnimating) {
+				if (!Settings::Radar::defuser) {
 					continue;
+				}
 
-				if (localplayer->HasDefuser() || localplayer->GetTeam() != TeamID::TEAM_COUNTER_TERRORIST)
+				if (localplayer->HasDefuser() || localplayer->GetTeam() != TeamID::TEAM_COUNTER_TERRORIST) {
 					continue;
+				}
 
 				color = Settings::Radar::defuserColor.Color();
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
 
-			switch (shape)
-			{
+			switch (shape) {
 				case EntityShape_t::SHAPE_CIRCLE:
 					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), scale, color);
 					break;
 				case EntityShape_t::SHAPE_SQUARE:
 					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y - scale),
-											 ImVec2(winpos.x + screenpos.x + scale, winpos.y + screenpos.y + scale),
-											 color, 0.0f, 0);
+					                         ImVec2(winpos.x + screenpos.x + scale, winpos.y + screenpos.y + scale),
+					                         color, 0.0f, 0);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE:
 					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x + scale, winpos.y + screenpos.y + scale),
-												 ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y + scale),
-												 ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y - scale),
-												 color);
+					                             ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y + scale),
+					                             ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y - scale),
+					                             color);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN:
 					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y - scale),
@@ -288,48 +314,56 @@ void Radar::RenderWindow()
 		ImGui::End();
 	}
 }
-static void InGameRadar(C_BasePlayer* player)
+
+static void InGameRadar(C_BasePlayer *player)
 {
-	if (!player->GetAlive() || player->GetDormant())
+	if (!player->GetAlive() || player->GetDormant()) {
 		return;
+	}
 
 	*player->GetSpotted() = true;
 }
 
-
 void Radar::BeginFrame()
 {
-	if (!Settings::ESP::enabled)
+	if (!Settings::ESP::enabled) {
 		return;
+	}
 
-	if (!Settings::Radar::enabled && !Settings::Radar::InGame::enabled)
+	if (!Settings::Radar::enabled && !Settings::Radar::InGame::enabled) {
 		return;
+	}
 
-	if (!engine->IsInGame())
+	if (!engine->IsInGame()) {
 		return;
+	}
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer) {
 		return;
+	}
 
-	for (int i = 1; i < engine->GetMaxClients(); i++)
-	{
-		C_BaseEntity* entity = entityList->GetClientEntity(i);
-		if (!entity)
+	for (int i = 1; i < engine->GetMaxClients(); i++) {
+		C_BaseEntity *entity = entityList->GetClientEntity(i);
+		if (!entity) {
 			continue;
+		}
 
-		C_BasePlayer* player = (C_BasePlayer*) entity;
+		C_BasePlayer *player = (C_BasePlayer *) entity;
 
-		if (Settings::Radar::InGame::enabled)
+		if (Settings::Radar::InGame::enabled) {
 			InGameRadar(player);
+		}
 
-		if (!Settings::Radar::enabled)
+		if (!Settings::Radar::enabled) {
 			continue;
+		}
 
 		// we shouldn't see people behind us
-		if (Entity::IsVisible(player, CONST_BONE_HEAD, 55.f, Settings::Radar::smokeCheck))
+		if (Entity::IsVisible(player, CONST_BONE_HEAD, 55.f, Settings::Radar::smokeCheck)) {
 			visible_players.insert(i);
-		else
+		} else {
 			visible_players.erase(i);
+		}
 	}
 }

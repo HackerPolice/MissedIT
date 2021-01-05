@@ -3,7 +3,7 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
-namespace RagdollGravity 
+namespace RagdollGravity
 {
-    void CreateMove(ICvar*);
+	void CreateMove(ICvar *);
 }

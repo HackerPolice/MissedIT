@@ -26,10 +26,15 @@ namespace Util
 		std::string GetItemDisplayName(ItemDefinitionIndex index);
 
 		bool IsKnife(ItemDefinitionIndex index);
+
 		bool IsUtility(ItemDefinitionIndex index);
+
 		bool IsGlove(ItemDefinitionIndex index);
+
 		bool IsCTWeapon(ItemDefinitionIndex index);
+
 		bool IsTWeapon(ItemDefinitionIndex index);
+
 		bool IsScopeable(ItemDefinitionIndex index);
 	}
 }

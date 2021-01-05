@@ -3,12 +3,13 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-void NoDuckCooldown::CreateMove(CUserCmd* cmd)
+void NoDuckCooldown::CreateMove(CUserCmd *cmd)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->GetAlive()) {
 		return;
+	}
 
 	cmd->buttons |= IN_BULLRUSH;
 }

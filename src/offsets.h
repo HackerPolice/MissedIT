@@ -144,7 +144,7 @@ struct COffsets
 	{
 		std::ptrdiff_t m_bReloadVisuallyComplete;
 		std::ptrdiff_t m_fAccuracyPenalty;
-        std::ptrdiff_t m_flPostponeFireReadyTime;
+		std::ptrdiff_t m_flPostponeFireReadyTime;
 	} DT_WeaponCSBase;
 
 	struct
@@ -285,7 +285,7 @@ namespace Offsets
 	void GetNetVarOffsets();
 
 	extern unsigned int playerAnimStateOffset;
-    extern unsigned int playerAnimOverlayOffset;
+	extern unsigned int playerAnimOverlayOffset;
 }
 
 extern COffsets offsets;

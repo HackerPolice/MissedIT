@@ -13,9 +13,14 @@ namespace Visuals
 	void RenderTab();
 
 	void Visibility();
+
 	void Items();
+
 	void PlayerDetails();
+
 	void DangerZone();
+
 	void Supportive();
+
 	void Others();
 }

@@ -8,8 +8,12 @@ namespace Legitbot
 
 	// Features
 	void Aimbot();
+
 	void Recoil();
+
 	void Semirage();
+
 	void Others();
+
 	void Humanising();
 }
