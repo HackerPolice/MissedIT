@@ -2,7 +2,7 @@
 
 #include "../HeaderFiles.h"
 
-namespace DesyncChams{
+namespace DsyncChams{
 
     inline matrix3x4_t fakeboneMatrix[128];
     inline bool Desync = true;

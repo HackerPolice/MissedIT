@@ -5,7 +5,7 @@
 
 
 /*
- * FOund a glithch if I trigger fake lag for certain amount it glitches but it triggers after some time
+ * Found a glitch if I trigger fake lag for certain amount it glitches but it triggers after some time
  * 
  */
 void FakeWalk::CreateMove(CUserCmd* cmd){
@@ -15,27 +15,32 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
     if (!localplayer || !localplayer->IsAlive()){
 		return;
 	}   
-	else if ( cmd->buttons & IN_ATTACK ){
+	if ( cmd->buttons & IN_ATTACK ){
 		return;
 	}
-    else if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::Key)){    
+    if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeWalk::Key)){    
 		return;
 	}
 	FakeWalking = true;
 
-	
+	int maxTick;
+	if (Settings::AntiAim::FakeWalk::Speed != 100 ){
+		maxTick = GetPercentVal(14, Settings::AntiAim::FakeWalk::Speed);
+	}
+	else {
+		maxTick = 14;
+	}
 
-	int maxTick = GetPercentVal(14, Settings::AntiAim::FakeWalk::Speed);
-	bool canMove = ticks >= maxTick;
-
-	if (canMove)
+	if (FakeWalk::ticks >= maxTick)
 	{
 		CreateMove::sendPacket = true;
 		cmd->forwardmove = 0;
 		cmd->sidemove = 0;
-		ticks = 0;
+		FakeWalk::ticks = 0;
 	}else {
 		CreateMove::sendPacket = false;
 	}
+
+	FakeWalk::ticks++;
    	
 }

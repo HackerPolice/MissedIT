@@ -31,7 +31,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	NoSmoke::FrameStageNotify(stage);
 	ThirdPerson::FrameStageNotify(stage);
 	AntiAim::FrameStageNotify(stage);
-	DesyncChams::FrameStageNotify(stage);
+	DsyncChams::FrameStageNotify(stage);
 
 	if (SkinChanger::forceFullUpdate)
 	{

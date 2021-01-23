@@ -17,7 +17,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 
 	else if (FakeLag::ticks >= Settings::FakeLag::value){
 		CreateMove::sendPacket = true;
-		FakeLag::ticks = Settings::FakeLag::impulseLag ? -16 : -1;
+		FakeLag::ticks = Settings::FakeLag::impulseLag ? -1*Settings::FakeLag::value : -1;
 	}else if (FakeLag::ticks > 0){
 		CreateMove::sendPacket = false;
 	}

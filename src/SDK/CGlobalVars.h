@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IClientEntity.h"
+
 class CGlobalVars
 {
 public:
@@ -18,6 +20,7 @@ public:
 	void* pSaveData;
 	bool m_bClient;
 	bool m_bRemoteClient;
+	C_BasePlayer* localplayer;
 private:
 	int nTimestampNetworkingBase;
 	int nTimestampRandomizeWindow;

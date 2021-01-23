@@ -3,7 +3,7 @@
  */
 #include "DesyncChams.hpp"
 
-void DesyncChams::FrameStageNotify(ClientFrameStage_t stage){
+void DsyncChams::FrameStageNotify(ClientFrameStage_t stage){
 
     C_BasePlayer *localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
@@ -36,7 +36,7 @@ void DesyncChams::FrameStageNotify(ClientFrameStage_t stage){
     }
 }
 
-void DesyncChams::CreateMove(CUserCmd* cmd){
+void DsyncChams::CreateMove(CUserCmd* cmd){
     // C_BasePlayer *localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
     // if (!localplayer || !localplayer->IsAlive())

@@ -81,7 +81,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		
 		FakeLag2::CreateMove(cmd);
 
-		DesyncChams::CreateMove(cmd);
+		DsyncChams::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		AutoKnife::CreateMove(cmd);
 		

@@ -1,5 +1,9 @@
 #include "fakelag2.hpp"
 
+/**
+ * @brief Allow to manupulate fakelab after the player movement done so be creative with it
+ */
+
 void FakeLag2::CreateMove(CUserCmd* cmd){
 
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -16,7 +20,7 @@ void FakeLag2::CreateMove(CUserCmd* cmd){
             FakeLag2::Ticks++;
         }
 	}
-    else if (Settings::FakeLag::OnShot::Enable && cmd->buttons & IN_ATTACK && !FakeLag2::Shooted){
+    else if (Settings::FakeLag::OnShot::Enable && (cmd->buttons & IN_ATTACK) && !FakeLag2::Shooted){
         CreateMove::sendPacket = false;
         FakeLag2::Ticks = 0;
         FakeLag2::Shooted = true;

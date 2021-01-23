@@ -18,6 +18,7 @@ void PredictionSystem::StartPrediction(CUserCmd* cmd)
 
 	globalVars->curtime = localplayer->GetTickBase() * globalVars->interval_per_tick;
 	globalVars->frametime = globalVars->interval_per_tick;
+	globalVars->localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	gameMovement->StartTrackPredictionErrors(localplayer);
 
