@@ -305,7 +305,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			if (!player 
 			|| player == localplayer 
 			|| player->GetDormant() 
-			|| !player->GetAlive() 
+			|| !player->IsAlive() 
 			|| player->GetImmune()
 			|| Entity::IsTeamMate(player, localplayer))
 				continue;

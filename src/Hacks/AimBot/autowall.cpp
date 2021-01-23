@@ -173,7 +173,7 @@ bool AutoWall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, AutoWall::Fire
 bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive()) return false;
+	if (!localplayer || !localplayer->IsAlive()) return false;
 	if (!pWeapon || pWeapon->GetInReload()) return false;
 	CCSWeaponInfo* weaponInfo = pWeapon->GetCSWpnData();
 
@@ -220,7 +220,7 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck)
 {
 	Vector dst = point;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if ( !localplayer || !localplayer->GetAlive())
+	if ( !localplayer || !localplayer->IsAlive())
 		return -1;
 		
 	AutoWall::FireBulletData data;
@@ -249,7 +249,7 @@ int AutoWall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& fda
 	Vector dst = point;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->IsAlive())
 		return -1;
 	FireBulletData data;
 	data.src = localplayer->GetEyePosition();
@@ -277,7 +277,7 @@ int AutoWall::GetDamage(C_BasePlayer* player, const Vector& point, bool teamChec
 {
 	int damage = -1;
 	Vector dst = point;
-	if (!player || !player->GetAlive())
+	if (!player || !player->IsAlive())
 		return -1;
 
 	FireBulletData data;

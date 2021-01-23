@@ -111,7 +111,7 @@ void Spammer::BeginFrame(float frameTime)
 
 			if (!player
 				|| player->GetDormant()
-				|| !player->GetAlive())
+				|| !player->IsAlive())
 				continue;
 
 			if (Settings::Spammer::PositionSpammer::team == 0 && !Entity::IsTeamMate(player, localplayer))

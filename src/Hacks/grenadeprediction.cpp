@@ -25,7 +25,7 @@ static void TraceHull( const Vector& src, const Vector& end, trace_t& tr, bool *
         return;
 
     C_BasePlayer* pLocal = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !pLocal || !pLocal->GetAlive() )
+    if ( !pLocal || !pLocal->IsAlive() )
         return;
 
     Ray_t ray;
@@ -51,7 +51,7 @@ static void Setup( Vector& vecSrc, Vector& vecThrow, Vector viewangles ) {
         return;
 
     C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !localplayer || !localplayer->GetAlive() )
+    if ( !localplayer || !localplayer->IsAlive() )
         return;
 
     C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle(
@@ -303,7 +303,7 @@ void GrenadePrediction::OverrideView( CViewSetup* pSetup ) {
         return;
 
     C_BasePlayer* pLocal = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !pLocal || !pLocal->GetAlive() )
+    if ( !pLocal || !pLocal->IsAlive() )
         return;
 
     C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle(
@@ -329,7 +329,7 @@ void GrenadePrediction::Paint( ) {
         return;
 
     C_BasePlayer* pLocal = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !pLocal || !pLocal->GetAlive() )
+    if ( !pLocal || !pLocal->IsAlive() )
         return;
 
     C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle(
@@ -379,7 +379,7 @@ void GrenadePrediction::RenderView( void* thisptr, CViewSetup& setup, CViewSetup
     lastCalled = Util::GetEpochTime();
 
     C_BasePlayer* localPlayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !localPlayer || !localPlayer->GetAlive() )
+    if ( !localPlayer || !localPlayer->IsAlive() )
         return;
 
     C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle(
@@ -474,7 +474,7 @@ void GrenadePrediction::RenderView( void* thisptr, CViewSetup& setup, CViewSetup
 void GrenadePrediction::CreateMove( CUserCmd *cmd ) {
 
     C_BasePlayer* localPlayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !localPlayer || !localPlayer->GetAlive() )
+    if ( !localPlayer || !localPlayer->IsAlive() )
         return;
 
     C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle( localPlayer->GetActiveWeapon() );

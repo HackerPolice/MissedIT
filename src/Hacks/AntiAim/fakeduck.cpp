@@ -11,7 +11,7 @@ void FakeDuck::CreateMove(CUserCmd *cmd)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
 		return;
 
 	if (!inputSystem->IsButtonDown(Settings::AntiAim::FakeDuck::fakeDuckKey)){
@@ -66,7 +66,7 @@ void FakeDuck::OverrideView(CViewSetup *pSetup)
 
 	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->IsAlive())
 		return;
 
 	pSetup->origin.z = localplayer->GetAbsOrigin().z + 64.0f;

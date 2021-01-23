@@ -83,7 +83,7 @@ static void AimAssist(CUserCmd* cmd)
 		return;
 
 	C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer || !localPlayer->GetAlive())
+	if (!localPlayer || !localPlayer->IsAlive())
 		return;
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localPlayer->GetActiveWeapon());

@@ -12,7 +12,7 @@ void FakeWalk::CreateMove(CUserCmd* cmd){
 	
 	FakeWalking = false;
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive()){
+    if (!localplayer || !localplayer->IsAlive()){
 		return;
 	}   
 	else if ( cmd->buttons & IN_ATTACK ){

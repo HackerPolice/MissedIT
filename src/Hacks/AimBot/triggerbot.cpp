@@ -15,7 +15,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->IsAlive())
 		return;
 
 	if (Settings::Triggerbot::Filters::flashCheck && localplayer->IsFlashed())
@@ -79,7 +79,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	if (player == localplayer
 		|| player->GetDormant()
-		|| !player->GetAlive()
+		|| !player->IsAlive()
 		|| player->GetImmune())
 		return;
 

@@ -10,7 +10,7 @@ void Recoilcrosshair::Paint( ) {
 	if( !Settings::Recoilcrosshair::enabled )
 		return;
 	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-	if ( !localplayer || !localplayer->GetAlive() )
+	if ( !localplayer || !localplayer->IsAlive() )
 		return;
 
 	if ( localplayer->GetShotsFired() < 1 && Settings::Recoilcrosshair::showOnlyWhenShooting )

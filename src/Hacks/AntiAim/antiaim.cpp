@@ -48,7 +48,7 @@ float AntiAim::GetMaxDelta( CCSGOAnimState *animState)
 static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
         return nullptr; 
 	C_BasePlayer* closestPlayer = nullptr;
 	Vector pVecTarget = localplayer->GetEyePosition();
@@ -64,7 +64,7 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 		if (!player
 	    	|| player == localplayer
 	    	|| player->GetDormant()
-	    	|| !player->GetAlive()
+	    	|| !player->IsAlive()
 	    	|| player->GetImmune())
 	    	continue;
 
@@ -93,7 +93,7 @@ static float GetBestHeadAngle(CUserCmd* cmd)
 {    
     C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
 	
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
 		return 0;
 
     // C_BasePlayer* target = GetClosestEnemy(cmd);
@@ -112,7 +112,7 @@ static float GetBestHeadAngle(CUserCmd* cmd)
 		if (!player || 
 			player == localplayer || 
 			player->GetDormant() || 
-			!player->GetAlive() || 
+			!player->IsAlive() || 
 			player->GetImmune())
 			continue;
 
@@ -155,7 +155,7 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 	CTraceFilter filter;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive( ))
+	if (!localplayer || !localplayer->IsAlive( ))
 		return false;
 
 	QAngle viewAngles;
@@ -178,7 +178,7 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 			if (!player
 				|| player == localplayer
 				|| player->GetDormant()
-				|| !player->GetAlive()
+				|| !player->IsAlive()
 				|| player->GetImmune()
 				|| player->GetTeam() == localplayer->GetTeam())
 				continue;
@@ -373,7 +373,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         return;
 
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
         return;
     C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
     
@@ -487,7 +487,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 void AntiAim::FrameStageNotify(ClientFrameStage_t stage)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
         return;
     else if (Settings::AntiAim::Jitter::Value > 0)
         return;

@@ -13,7 +13,7 @@ void AngleIndicator::Paint( ) {
 
     C_BasePlayer* localPlayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
 
-    if ( !localPlayer || !localPlayer->GetAlive() )
+    if ( !localPlayer || !localPlayer->IsAlive() )
         return;
 
     if (Settings::ThirdPerson::toggled) 

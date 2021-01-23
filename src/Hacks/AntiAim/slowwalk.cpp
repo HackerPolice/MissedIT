@@ -6,7 +6,7 @@ void SlowWalk::CreateMove(CUserCmd* cmd){
 
 	SlowWalking = false;
     C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
 		return;
     if (!inputSystem->IsButtonDown(Settings::AntiAim::SlowWalk::Key))
 		return;

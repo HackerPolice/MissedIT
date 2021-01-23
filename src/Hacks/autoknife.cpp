@@ -75,7 +75,7 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->IsAlive())
 		return;
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
@@ -116,7 +116,7 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 
 	if (player == localplayer
 		|| player->GetDormant()
-		|| !player->GetAlive()
+		|| !player->IsAlive()
 		|| player->GetImmune())
 		return;
 

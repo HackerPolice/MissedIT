@@ -12,7 +12,7 @@ void FOVChanger::OverrideView(CViewSetup* pSetup)
 	if (!localplayer)
 		return;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
@@ -34,7 +34,7 @@ void FOVChanger::GetViewModelFOV(float& fov)
 	if (!localplayer)
 		return;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());

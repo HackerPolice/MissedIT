@@ -17,7 +17,7 @@
 static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 {
     C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive()){
+    if (!localplayer || !localplayer->IsAlive()){
 		return nullptr;
 	}
          
@@ -35,7 +35,7 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 		if (!player
 	    	|| player == localplayer
 	    	|| player->GetDormant()
-	    	|| !player->GetAlive()
+	    	|| !player->IsAlive()
 	    	|| player->GetImmune())
 	    	continue;
 
@@ -69,7 +69,7 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	}
 
 	C_BasePlayer *localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->IsAlive())
 		return;
 
 	C_BaseCombatWeapon *weapon = (C_BaseCombatWeapon *)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
@@ -80,12 +80,12 @@ void LagComp::CreateMove(CUserCmd *cmd)
 
 	C_BasePlayer *closestEnemy = nullptr;
 
-	if (Ragebot::data.player && Ragebot::data.player->GetAlive())
+	if (Ragebot::data.player && Ragebot::data.player->IsAlive())
 		closestEnemy = Ragebot::data.player;
 	else
 		closestEnemy = GetClosestEnemy(cmd);
 		
-	if (!closestEnemy || !closestEnemy->GetAlive())
+	if (!closestEnemy || !closestEnemy->IsAlive())
 		return;
 
 	for ( auto &Tick : Records::Ticks){

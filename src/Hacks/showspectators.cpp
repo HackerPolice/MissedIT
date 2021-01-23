@@ -18,7 +18,7 @@ std::list<int> ShowSpectators::GetObservervators(int playerId)
 	if (!player)
 		return list;
 
-	if (!player->GetAlive())
+	if (!player->IsAlive())
 	{
 		C_BasePlayer* observerTarget = (C_BasePlayer*) entityList->GetClientEntityFromHandle(player->GetObserverTarget());
 		if (!observerTarget)
@@ -33,7 +33,7 @@ std::list<int> ShowSpectators::GetObservervators(int playerId)
 		if (!pPlayer)
 			continue;
 
-		if (pPlayer->GetDormant() || pPlayer->GetAlive())
+		if (pPlayer->GetDormant() || pPlayer->IsAlive())
 			continue;
 
 		C_BasePlayer* target = (C_BasePlayer*) entityList->GetClientEntityFromHandle(pPlayer->GetObserverTarget());

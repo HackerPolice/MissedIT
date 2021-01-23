@@ -171,7 +171,7 @@ void Radar::RenderWindow()
 				if (player == localplayer)
 					continue;
 
-				if (player->GetDormant() || !player->GetAlive())
+				if (player->GetDormant() || !player->IsAlive())
 					continue;
 
 				if (Entity::IsTeamMate(player, localplayer) && !Settings::Radar::allies)
@@ -290,7 +290,7 @@ void Radar::RenderWindow()
 }
 static void InGameRadar(C_BasePlayer* player)
 {
-	if (!player->GetAlive() || player->GetDormant())
+	if (!player->IsAlive() || player->GetDormant())
 		return;
 
 	*player->GetSpotted() = true;

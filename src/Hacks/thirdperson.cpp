@@ -22,7 +22,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		return;
 	}
 
-	// if ( !localplayer->GetAlive() ){
+	// if ( !localplayer->IsAlive() ){
 	// 	if (input->m_fCameraInThirdPerson){
 	// 		input->m_fCameraInThirdPerson = false;
 	// 		input->m_vecCameraOffset = Vector(0.f, 0.f, 0.f);
@@ -59,7 +59,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		if (Settings::ThirdPerson::toggled)
 		{	
 			C_BasePlayer* obs = nullptr;
-			if (!localplayer->GetAlive()){
+			if (!localplayer->IsAlive()){
 				*localplayer->GetObserverMode() = ObserverMode_t::OBS_MODE_CHASE;
 				// obs = (C_BasePlayer*)localplayer->GetObserverTarget();
 			}else {
@@ -101,7 +101,7 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 	// if (stage != ClientFrameStage_t::FRAME_RENDER_START) return;
 	// C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	// if ( !localplayer || !localplayer->GetAlive()) return;
+	// if ( !localplayer || !localplayer->IsAlive()) return;
 
 	// if (!Settings::ThirdPerson::enabled && !input->m_fCameraInThirdPerson) return;
 		

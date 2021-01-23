@@ -106,7 +106,7 @@ void TracerEffect::CreateMove(CUserCmd* cmd) {
     }
 
     C_BasePlayer *localplayer = ( C_BasePlayer * )entityList->GetClientEntity( engine->GetLocalPlayer( ) );
-    if ( !engine->IsInGame( ) || !localplayer || !localplayer->GetAlive( ) )
+    if ( !engine->IsInGame( ) || !localplayer || !localplayer->IsAlive( ) )
         return;
     C_BaseCombatWeapon *localWeapon = ( C_BaseCombatWeapon * )entityList->GetClientEntityFromHandle( localplayer->GetActiveWeapon( ) );
     if ( !localWeapon || localWeapon->GetInReload() )

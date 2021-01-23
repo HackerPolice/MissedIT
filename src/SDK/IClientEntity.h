@@ -442,7 +442,7 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWearables);
 	}
 
-	bool GetAlive()
+	bool IsAlive()
 	{
 		return this->GetHealth() > 0 && this->GetLifeState() == LIFE_ALIVE;
 	}

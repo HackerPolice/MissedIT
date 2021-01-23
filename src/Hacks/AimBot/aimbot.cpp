@@ -35,9 +35,9 @@ void Aimbot::NoRecoil(QAngle& angle, CUserCmd* cmd, C_BasePlayer* localplayer, C
 	RCSLastPunch = *CurrentPunch;
 }
 
-void Aimbot::AutoCrouch(CUserCmd* cmd, C_BaseCombatWeapon* activeWeapon, const bool& autoCroutch)
+void Aimbot::AutoCrouch(CUserCmd* cmd, C_BaseCombatWeapon* activeWeapon, const bool& autoCrouch)
 {
-     if (!autoCroutch)
+    if (!autoCrouch)
 		return;
 	else if ( !(cmd->buttons & IN_ATTACK) )
 		return;
@@ -51,9 +51,9 @@ void Aimbot::AutoSlow(C_BasePlayer* localplayer, CUserCmd* cmd, const bool& auto
 	
 	static float speed = 0;
 
-	float lenth = localplayer->GetVelocity().Length();
+	float length = localplayer->GetVelocity().Length();
 
-	if (lenth > speed){
+	if (length > speed){
 		cmd->forwardmove = 0;
 		cmd->sidemove = 0;
 	}else {
@@ -61,7 +61,7 @@ void Aimbot::AutoSlow(C_BasePlayer* localplayer, CUserCmd* cmd, const bool& auto
 		cmd->sidemove > 0 ? cmd->sidemove = -1 : cmd->sidemove = 1;			
 	}
 	
-	speed = lenth;
+	speed = length;
 }
 
 void Aimbot::AutoR8(C_BasePlayer *player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, const bool& autoShoot)
@@ -130,7 +130,7 @@ bool Aimbot::canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeap
 {
 	if (currentSettings.HitChance == 0)
 		return true;
-	if (!enemy || !enemy->GetAlive())
+	if (!enemy || !enemy->IsAlive())
 		return false;
 
     Vector src = localplayer->GetEyePosition();
@@ -194,7 +194,7 @@ bool Aimbot::canShoot(CUserCmd* cmd, C_BasePlayer* localplayer, C_BaseCombatWeap
 
 bool Aimbot::canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, const int& ReqHitchance )
 {
-	if(!localplayer || !localplayer->GetAlive() )
+	if(!localplayer || !localplayer->IsAlive() )
 		return false;
 	if (!activeWeapon || activeWeapon->GetInReload())
 		return false;
@@ -217,7 +217,7 @@ bool Aimbot::canShoot(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapo
 
 void Aimbot::VelocityExtrapolate(C_BasePlayer* player, Vector& aimPos)
 {
-	if (!player || !player->GetAlive())
+	if (!player || !player->IsAlive())
 		return;
 	aimPos += (player->GetVelocity() * globalVars->interval_per_tick);
 }

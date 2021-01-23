@@ -73,7 +73,7 @@ void Records::RegisterTicks()
 		if (!player
 		|| player == localplayer
 		|| player->GetDormant()
-		|| !player->GetAlive()
+		|| !player->IsAlive()
 		|| Entity::IsTeamMate(player, localplayer)
 		|| player->GetImmune())
 			continue;

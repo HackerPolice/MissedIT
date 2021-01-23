@@ -15,7 +15,7 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_che
 	if (player == localplayer)
 		return true;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
@@ -56,7 +56,7 @@ bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool sm
 	if (player == localplayer)
 		return true;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
@@ -96,7 +96,7 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 	if (player == localplayer || player->GetDormant())
 		return false;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
@@ -139,7 +139,7 @@ bool Entity::IsSpotVisibleThroughEnemies(C_BasePlayer *player, Vector spot, floa
 	if (player == localplayer || player->GetDormant())
 		return false;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());

@@ -67,7 +67,7 @@ const char* ESP::ranks[] = {
 
 bool dzShouldDraw(C_BaseEntity* ent, C_BasePlayer* localplayer) // Ghetto way to fix a CTD.
 {
-	if (!localplayer || !ent || !localplayer->GetAlive())
+	if (!localplayer || !ent || !localplayer->IsAlive())
 		return false;
 	return !(Settings::ESP::DangerZone::drawDistEnabled &&
 			(localplayer->GetVecOrigin().DistTo(ent->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist));
@@ -412,7 +412,7 @@ static void DrawBulletTracers(CUserCmd* cmd)
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(ESP::bulletBeam.enemyIndex);
     if (ESP::bulletBeam.bulletPosition.empty())
 		return;
-	if (!entity || !entity->GetAlive())
+	if (!entity || !entity->IsAlive())
 		return;
 	
 	bool isteammate = Entity::IsTeamMate(entity, localplayer);
@@ -497,7 +497,7 @@ static void DrawTracer( C_BasePlayer* player, TracerType& tracerType ) {
 
 static void DrawAimbotSpot( ) {
 	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-	if ( !localplayer || !localplayer->GetAlive() ){
+	if ( !localplayer || !localplayer->IsAlive() ){
 		Settings::Debug::AutoAim::target = {0,0,0};
 		return;
 	}
@@ -1314,7 +1314,7 @@ static void DrawGlow()
 		{
 			C_BasePlayer* player = (C_BasePlayer*) glow_object.m_pEntity;
 
-			if (player->GetDormant() || !player->GetAlive())
+			if (player->GetDormant() || !player->IsAlive())
 				continue;
 
 			if (player == localplayer)
@@ -1376,7 +1376,7 @@ static void DrawFOVCrosshair()
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 		return;
 
 	if (Settings::Legitbot::AutoAim::fov > OverrideView::currentFOV)
@@ -1506,7 +1506,7 @@ void ESP::Paint()
 		{
 			C_BasePlayer* player = (C_BasePlayer*) entity;
 
-			if (player->GetDormant() || !player->GetAlive())
+			if (player->GetDormant() || !player->IsAlive())
 				continue;
 
 			DrawPlayer(player);

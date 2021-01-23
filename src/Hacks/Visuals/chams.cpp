@@ -39,7 +39,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
 	if (!entity
 		|| entity->GetDormant()
-		|| !entity->GetAlive())
+		|| !entity->IsAlive())
 		return;
 
 	if ( Entity::IsTeamMate(entity,localplayer) && Settings::ESP::FilterAlise::Chams::enabled && entity != localplayer)
@@ -157,7 +157,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
+	if (!localplayer || !localplayer->IsAlive())
 		return;
 	
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
@@ -165,7 +165,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 	if (!entity
 		|| entity != localplayer
 		|| entity->GetDormant()
-		|| !entity->GetAlive() )
+		|| !entity->IsAlive() )
 		return;
 
 	IMaterial* Fake_meterial = nullptr;
@@ -340,7 +340,7 @@ static void DrawBackTrack(void* thisptr, void* context, void *state, const Model
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
 	if (!entity
 		|| entity->GetDormant()
-		|| !entity->GetAlive()
+		|| !entity->IsAlive()
 		|| entity == localplayer)
 		return;
 

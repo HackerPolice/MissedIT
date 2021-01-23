@@ -128,7 +128,7 @@ bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_Base
 {
 	if (currentSettings.HitChance == 0)
 		return false;
-	if (!enemy || !enemy->GetAlive())
+	if (!enemy || !enemy->IsAlive())
 		return false;
 
     Vector src = localplayer->GetEyePosition();
@@ -443,7 +443,7 @@ void Ragebot::GetBestEnemy()
 		if (!player || 
 			i == engine->GetLocalPlayer() || 
 			player->GetDormant() || 
-			!player->GetAlive() || 
+			!player->IsAlive() || 
 			player->GetImmune() || 
 			player->GetTeam() == localplayer->GetTeam() )
 			continue;			
@@ -591,7 +591,7 @@ void Ragebot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseC
 
 void Ragebot::CreateMove(CUserCmd* cmd)
 {
-	if (Ragebot::data.player && Ragebot::data.player->GetAlive() )
+	if (Ragebot::data.player && Ragebot::data.player->IsAlive() )
     {
 		if (Ragebot::data.Hited && Ragebot::data.player->GetHealth() >= Ragebot::data.playerhelth){
             cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("Miss Due To Resolver\n"));
@@ -604,7 +604,7 @@ void Ragebot::CreateMove(CUserCmd* cmd)
 	Ragebot::data.Hited = false;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->GetAlive())
+    if (!localplayer || !localplayer->IsAlive())
 		return;
     C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
     if (!activeWeapon || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)

@@ -32,7 +32,7 @@ void Hooks::SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed)
 
             if ( !player
                  || player->GetDormant( )
-                 || !player->GetAlive( )
+                 || !player->IsAlive( )
                  || player->GetImmune( ) )
                 continue;
             cvar->ConsoleDPrintf(XORSTR("Setting player modelindex to %d\n"),  modelInfo->GetModelIndex( item->m_szModel ) );

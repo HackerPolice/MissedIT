@@ -32,7 +32,7 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 		if (!engine->GetPlayerInfo(engine->GetLocalPlayer(), &localplayer_info))
 			return;
 
-		if (!localplayer->GetAlive())
+		if (!localplayer->IsAlive())
 		{
 			C_BaseAttributableItem* glove = (C_BaseAttributableItem* ) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 			if (!glove)
@@ -151,7 +151,7 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 			return;
 
 		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer || !localplayer->GetAlive())
+		if (!localplayer || !localplayer->IsAlive())
 			return;
 
 		IEngineClient::player_info_t localplayer_info;

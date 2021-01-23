@@ -26,7 +26,7 @@ void Eventlog::Paint( ) {
 	if ( !localplayer )
 		return;
 
-	if ( !localplayer->GetAlive() )
+	if ( !localplayer->IsAlive() )
 		return;
 
 	int duration = Settings::Eventlog::duration;

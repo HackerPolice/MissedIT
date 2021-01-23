@@ -87,7 +87,7 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 	if (!localplayer)
 		return;
 
-	if (!localplayer->GetAlive())
+	if (!localplayer->IsAlive())
 		return;
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)

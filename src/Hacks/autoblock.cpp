@@ -20,7 +20,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 		if (!entity)
 			continue;
 
-		if (!entity->GetAlive() || entity->GetDormant() || entity == localplayer)
+		if (!entity->IsAlive() || entity->GetDormant() || entity == localplayer)
 			continue;
 
 		float dist = localplayer->GetVecOrigin().DistTo(entity->GetVecOrigin());
