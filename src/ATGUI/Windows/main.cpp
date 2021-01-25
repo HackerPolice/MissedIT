@@ -48,7 +48,7 @@ void Main::RenderWindow()
 
 	ImVec2 temp = ImGui::GetWindowSize();
 	
-	if (ImGui::Begin(XORSTR("##MissedIt"), &Main::showWindow, ImGuiWindowFlags_NoCollapse /*| ImGuiWindowFlags_NoMove*/ | ImGuiWindowFlags_NoScrollbar /*| ImGuiWindowFlags_NoResize*/ | ImGuiWindowFlags_NoTitleBar | ImGuiConfigFlags_NoMouseCursorChange ) )
+	if (ImGui::Begin(XORSTR("MissedIt"), &Main::showWindow, ImGuiWindowFlags_NoCollapse /*| ImGuiWindowFlags_NoMove*/ | ImGuiWindowFlags_NoScrollbar /*| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar */ | ImGuiConfigFlags_NoMouseCursorChange ) )
 	{
 		Settings::UI::Windows::Main::open = true;
 
@@ -63,10 +63,10 @@ void Main::RenderWindow()
 				"Trigger Bot",
 				"Anti Aim",
 				"Visuals",
-				"Colors",
+				"Other Visuals",
 				"Skin/Model",
 				"Misc",
-				"Others",
+				"Colors",
 				"Config",
 		};
 
@@ -118,7 +118,7 @@ void Main::RenderWindow()
 					Visuals::RenderTab();
 					break;
 				case 5:
-					Colors::RenderTab();
+					Other::Render();
 					break;
 				case 6:
 					SkinsAndModel::RenderTab();
@@ -127,7 +127,7 @@ void Main::RenderWindow()
 					Misc::RenderTab();
 					break;
 				case 8:
-					Other::Render();
+					Colors::RenderTab();
 					break;
 				case 9:
 					Configs::RenderTab();

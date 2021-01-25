@@ -15,14 +15,6 @@
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
-#ifndef LessThan
-    #define LessThan(x, y) (x < x)
-#endif
-
-#ifndef IsEqual
-    #define IsEqual(x, y) (x == x)
-#endif
-
 QAngle AntiAim::LastTickViewAngle;
 
 float AntiAim::GetMaxDelta( CCSGOAnimState *animState) 
@@ -88,6 +80,7 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 	}
 	return closestPlayer;
 }
+
 /*
 static float GetBestHeadAngle(CUserCmd* cmd)
 {    
@@ -240,7 +233,7 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 	return true;
 }
 
-static bool LBYBreak(C_BasePlayer* localplayer)
+static bool LBYBreak(C_BasePlayer* localplayer, bool notsendBreak)
 {
     static bool lbyBreak;
     static float lastCheck = 0.f;
@@ -248,7 +241,7 @@ static bool LBYBreak(C_BasePlayer* localplayer)
     if( !lbyBreak && ( globalVars->curtime - lastCheck ) > 0.22 ){
         lbyBreak = true;
         lastCheck = globalVars->curtime;
-        if (Settings::AntiAim::lbyBreak::notSend) CreateMove::sendPacket = AntiAim::bSend = false;
+        if (notsendBreak) CreateMove::sendPacket = AntiAim::bSend = false;
     } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
         lbyBreak = false;
         lastCheck = globalVars->curtime;
@@ -259,35 +252,35 @@ static bool LBYBreak(C_BasePlayer* localplayer)
     return lbyBreak;
 }
 
-static void DoManuaAntiAim()
+static void DoManualAntiAim()
 {
-    static bool Bpressed = false;
+    static bool B_pressed = false;
     
     if (!Settings::AntiAim::ManualAntiAim::Enable)
         return;
 
-    if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton) && !Bpressed )
+    if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton) && !B_pressed )
 	{
 		AntiAim::ManualAntiAim::alignBack = !AntiAim::ManualAntiAim::alignBack;
 		AntiAim::ManualAntiAim::alignLeft = AntiAim::ManualAntiAim::alignRight = false;
-        Bpressed = true;
+        B_pressed = true;
 	}	
-    else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::RightButton) && !Bpressed)
+    else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::RightButton) && !B_pressed)
 	{
 		AntiAim::ManualAntiAim::alignRight = !AntiAim::ManualAntiAim::alignRight;
         AntiAim::ManualAntiAim::alignBack = AntiAim::ManualAntiAim::alignLeft = false;
-        Bpressed = true;
+        B_pressed = true;
 	}	
-    else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::LeftButton) && !Bpressed )
+    else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::LeftButton) && !B_pressed )
     {
 		AntiAim::ManualAntiAim::alignBack = AntiAim::ManualAntiAim::alignRight = false;
         AntiAim::ManualAntiAim::alignLeft = !AntiAim::ManualAntiAim::alignLeft;
-        Bpressed = true;
+        B_pressed = true;
 	}
     bool buttonNotPressed = !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::LeftButton ) && !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::RightButton ) && !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton );	
     
-    if (buttonNotPressed && Bpressed)
-        Bpressed = false;    
+    if (buttonNotPressed && B_pressed)
+        B_pressed = false;    
 }
 
 static bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon, CUserCmd* cmd)
@@ -326,32 +319,23 @@ static void DoAntiAim(CUserCmd* cmd,C_BasePlayer* localplayer, QAngle& angle){
 
     float maxDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
 
-    if (LBYBreak(localplayer)){
+    if (LBYBreak(localplayer, true)){
          if (Settings::AntiAim::inverted) {
             AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
             AntiAim::fakeAngle.x = AntiAim::realAngle.x = angle.x; 
-            angle.y += maxDelta*2;          
+            angle.y += maxDelta;          
         }
         else {
             AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
             AntiAim::realAngle.x = angle.x;    
-            angle.y -= maxDelta*2;
+            angle.y -= maxDelta;
         }
     }
     else if ( !AntiAim::bSend ){
-        static bool Bflip = false;
-        if (Settings::AntiAim::inverted) {
-            AntiAim::realAngle.y = angle.y+28.f;
-            AntiAim::realAngle.x = angle.x; 
-            Bflip ? angle.y += maxDelta*2 : angle.y -= maxDelta*2;          
-        }
-        else {
-            AntiAim::realAngle.y = angle.y-28.f;
-            AntiAim::realAngle.x = angle.x;    
-            Bflip ? angle.y -= maxDelta*2 : angle.y += maxDelta*2;
-        }
-
-        Bflip = !Bflip;
+        
+        AntiAim::realAngle.y = angle.y-28.f;
+        AntiAim::realAngle.x = angle.x;    
+        Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
     }
     else {
         if (Settings::AntiAim::inverted) {
@@ -384,19 +368,15 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         CreateMove::lastTickViewAngles = AntiAim::realAngle = AntiAim::fakeAngle = cmd->viewangles;
         return;
     }
-    
-    // if (!CreateMove::sendPacket)
-    //     AntiAim::bSend = false;
-    // else 
-    //     CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
-    if (Settings::FakeLag::enabled)
-        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true; 
+
+    if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
+        AntiAim::bSend = CreateMove::sendPacket;
     else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
-        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true;
+        AntiAim::bSend = CreateMove::sendPacket;
     else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
-        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true;
-    else if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
-        AntiAim::bSend = !CreateMove::sendPacket ? !AntiAim::bSend : true;
+        AntiAim::bSend = CreateMove::sendPacket;
+    if (Settings::FakeLag::enabled)
+        AntiAim::bSend = CreateMove::sendPacket; 
     else{
         CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;            
     }
@@ -417,7 +397,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         angle.x = 89.f;
     }
 
-    DoManuaAntiAim();
+    DoManualAntiAim();
     if (AntiAim::ManualAntiAim::alignBack){
         angle.y += 180;
         AntiAim::realAngle = AntiAim::fakeAngle = angle;
@@ -427,48 +407,40 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     }else if ( AntiAim::ManualAntiAim::alignLeft){
         angle.y += 90;
         AntiAim::realAngle = AntiAim::fakeAngle = angle;
+    }else if ( Settings::AntiAim::Jitter::Value > 0 ){
+
+        angle.y += Settings::AntiAim::offset;
+
+        static bool flip = false;
+
+        if (flip){
+            angle.y += Settings::AntiAim::Jitter::Value;
+        }else {
+            angle.y -= Settings::AntiAim::Jitter::Value;
+        } 
+
+        if (Settings::AntiAim::Jitter::SyncWithLag){
+            CreateMove::sendPacket ? flip = !flip : flip;
+        }
+        else {
+            flip = !flip;
+        }
     }else {
         angle.y += Settings::AntiAim::offset;
 
-        static bool Bpressed = false;
-        if ( inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !Bpressed )
+        static bool B_pressed = false;
+        if ( inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !B_pressed )
 	    {
 		    Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
-            Bpressed = true;
-	    }else if (!inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && Bpressed)
-            Bpressed = false;
+            B_pressed = true;
+	    }else if (!inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && B_pressed)
+            B_pressed = false;
 
-        if ( Settings::AntiAim::Jitter::Value > 0){
-            static bool Bflip = false;
-
-            if (Settings::AntiAim::inverted){
-                if (Bflip){
-                    angle.y -= Settings::AntiAim::Jitter::Value;
-                }else {
-                    angle.y += Settings::AntiAim::Jitter::Value;
-                } 
-            }
-            else {
-                if (Bflip){
-                    angle.y += Settings::AntiAim::Jitter::Value;
-                }else {
-                    angle.y -= Settings::AntiAim::Jitter::Value;
-                } 
-            }   
-            
-
-            if (Settings::AntiAim::Jitter::SyncWithLag)
-                CreateMove::sendPacket ? Bflip = !Bflip : Bflip;
-            else {
-                Bflip = !Bflip;
-            }
-               
-        }
-        else if (Settings::AntiAim::lbyBreak::Enabled){
-            if (LBYBreak(localplayer) && AntiAim::bSend)  
+        if (Settings::AntiAim::lbyBreak::Enabled){
+            if (LBYBreak(localplayer, Settings::AntiAim::lbyBreak::notSend) && AntiAim::bSend)  
                 angle.y += Settings::AntiAim::inverted ? Settings::AntiAim::lbyBreak::angle : Settings::AntiAim::lbyBreak::angle*-1 ;
         }
-        else 
+        else if (Settings::AntiAim::EnableFakAngle)
             DoAntiAim(cmd, localplayer, angle); 
     }
 
@@ -486,23 +458,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 void AntiAim::FrameStageNotify(ClientFrameStage_t stage)
 {
-    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->IsAlive())
-        return;
-    else if (Settings::AntiAim::Jitter::Value > 0)
-        return;
-    else if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_START)
-    {
-        // localplayer->updateClientAnimation();
-        // localplayer->SetupBones(Chams::BodyBoneMatrix, 256, 128);./b
-        QAngle Angle;
-            engine->GetViewAngles(Angle);
-        Angle += Settings::AntiAim::offset;
-        if (Settings::AntiAim::inverted) 
-            *localplayer->GetLowerBodyYawTarget() = Angle.y + GetMaxDelta(localplayer->GetAnimState());         
-        else
-            *localplayer->GetLowerBodyYawTarget() = Angle.y - GetMaxDelta(localplayer->GetAnimState());
-    }
+
 }
 
 void AntiAim::OverrideView(CViewSetup *pSetup)

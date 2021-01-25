@@ -9,6 +9,32 @@
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
+static const char* modelNames[] = { 
+	"Ricksaw",  
+	"Operator | FBI SWAT", 
+	"Ava", 
+	"Seal Team 6 Soldier | NSWC SEAL",
+	"3rd Commando Company | KSK", 
+	"B Squadron Officer | SAS",
+	"Chem-Haz Specialist | SWAT",
+	"Bio-Haz Specialist | SWAT",
+	"Enforcer | Phoenix",
+	"Soldier | Phoenix",
+	"Ground Rebel  | Elite Crew",
+	"Street Soldier | Phoenix",
+	"Dragomir | Sabre Footsoldier",
+	"Markus Delrow | FBI",
+	"Buckshot | NSWC SEAL",
+	"John 'Van Healen' Kask | SWAT",
+	"Sergeant Bombson | SWAT",
+	"'Blueberries' Buckshot | NSWC SEAL"
+	"NONE"
+};
+
+static void CTModels(){
+	
+}
+
 void Models::RenderTab()
 {
 	static int originalModelCT = (int) ItemDefinitionIndex::WEAPON_KNIFE;
@@ -20,7 +46,7 @@ void Models::RenderTab()
 	static char filterOriginalModelsT[18];
 	static char filterReplacementModelsT[18];
 
-	ImGui::Checkbox(XORSTR("Enabled"), &Settings::Skinchanger::Models::enabled);
+	ImGui::CheckboxFill(XORSTR("Enabled##ModelChanger"), &Settings::Skinchanger::Models::enabled);
 	ImGui::Separator();
 
 	ImGui::Columns(2);
@@ -189,11 +215,8 @@ void Models::RenderTab()
 		ImGui::Separator();
 		ImGui::PopID();
 	}
-	ImGui::GetCurrentContext()->FontBaseSize = 18.0f; // Has to go specifically here, or it wont reset the size.
+	// ImGui::GetCurrentContext()->FontBaseSize = 18.0f; // Has to go specifically here, or it wont reset the size.
 	ImGui::ListBoxFooter();
-
-	ImGui::Columns(1);
-	ImGui::Separator();
 
 	ImGui::Columns(2);
 
@@ -227,7 +250,12 @@ void Models::RenderTab()
 
 		SkinChanger::glovesUpdated = true;
 	}
-	ImGui::Columns(1);
-
 	ImGui::Separator();
+
+	ImGui::EndColumns();
+
+	ImGui::BeginGroupPanel(XORSTR("Player Model Changer"));
+	{
+		ImGui::Combo(XORSTR("##SelectPlayerModel"), (int*)&Settings::Skinchanger::Models::playerModel, modelNames, IM_ARRAYSIZE(modelNames));
+	}ImGui::EndGroupPanel();
 }

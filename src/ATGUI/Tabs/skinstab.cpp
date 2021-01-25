@@ -425,14 +425,14 @@ void Skins::RenderTab()
 {
 	ImGui::Columns(2, nullptr, false);
 
-	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Skinchanger::Skins::enabled))
+	if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Skinchanger::Skins::enabled))
 	{
 		SkinChanger::forceFullUpdate = true;
 		SkinChanger::glovesUpdated = true;
 	}
 	ImGui::NextColumn();
 
-	if (ImGui::Checkbox(XORSTR("Per-Team"), &Settings::Skinchanger::Skins::perTeam))
+	if (ImGui::CheckboxFill(XORSTR("Per-Team"), &Settings::Skinchanger::Skins::perTeam))
 	{
 		SkinChanger::forceFullUpdate = true;
 		SkinChanger::glovesUpdated = true;

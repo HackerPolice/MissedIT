@@ -6,10 +6,7 @@
 #include "skinstab.h"
 #include "modelstab.h"
 
-const char* skinORmodel[] = {
-                            "Skins",
-                            "Models"
-                            };
+const char* skinORmodel[] = { "Skins", "Models" };
                             
 void SkinsAndModel::RenderTab()
 {

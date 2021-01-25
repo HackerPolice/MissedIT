@@ -15,6 +15,7 @@
 #include "../Hacks/TickManipulation/lagcomp.hpp"
 #include "../Hacks/AntiAim/antiaim.h"
 #include "../Hacks/Visuals/DesyncChams.hpp"
+#include "../Hacks/Customisation/PlayerModelChanger.hpp"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 
@@ -23,6 +24,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	CustomGlow::FrameStageNotify(stage);
 	SkinChanger::FrameStageNotifyModels(stage);
 	SkinChanger::FrameStageNotifySkins(stage);
+	PlayerModelChanger::FrameStageNotifyModels(stage);
 	Noflash::FrameStageNotify(stage);
 	View::FrameStageNotify(stage);
 	Resolver::FrameStageNotify(stage);

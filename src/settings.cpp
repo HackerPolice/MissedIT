@@ -192,7 +192,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     	    LegitweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
     	    LegitweaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")] = i.second.ignoreJumpEnabled;
 	        LegitweaponSetting[XORSTR("IgnoreEnemyJump")][XORSTR("Enabled")] = i.second.ignoreEnemyJumpEnabled;
-    	    LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnaled;
+    	    LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")] = i.second.hitchanceEnabled;
 	        LegitweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.hitchance;
     	    LegitweaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
 	        LegitweaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
@@ -226,7 +226,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	        RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")] = i.second.autoSlow;
 	        RageweaponSetting[XORSTR("DoubleFire")][XORSTR("Enabled")] = i.second.DoubleFire;
 	        RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
-            RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")] = i.second.AutoCroutch;
+            RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")] = i.second.AutoCrouch;
             RageweaponSetting[XORSTR("DamageOverride")] = i.second.DamageOverride;
             RageweaponSetting[XORSTR("hitchanceType")] = (int)i.second.hitchanceType;
 
@@ -263,6 +263,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("Triggerbot")][XORSTR("RandomDelay")][XORSTR("highBound")] = Settings::Triggerbot::RandomDelay::highBound;
     
     settings[XORSTR("AntiAim")][XORSTR("Enabled")] = Settings::AntiAim::Enabled;
+    settings[XORSTR("AntiAim")][XORSTR("EnableFakAngle")] = Settings::AntiAim::EnableFakAngle;
     settings[XORSTR("AntiAim")][XORSTR("ShowReal")] = Settings::AntiAim::ShowReal;
     settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")] = Settings::AntiAim::InvertOnShoot;
     settings[XORSTR("AntiAim")][XORSTR("inverted")] = Settings::AntiAim::inverted;
@@ -401,19 +402,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("PlayerInfo")][XORSTR("enabled")] = Settings::ESP::FilterLocalPlayer::playerInfo::enabled;
     
     // For Alise
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Boxes::enabled;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::Boxes::type;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Skeleton::enabled;
-    LoadColor(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("ally_color")], Settings::ESP::FilterAlise::Skeleton::allyColor);
-    LoadColor(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enemy_color")], Settings::ESP::FilterAlise::Skeleton::enemyColor);
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("enabled")] = Settings::ESP::FilterAlise::HelthBar::enabled;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("color_type")] = (int)Settings::ESP::FilterAlise::HelthBar::colorType;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::HelthBar::type;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Tracers::enabled;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::Tracers::type;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletTracers")][XORSTR("enabled")] = Settings::ESP::FilterAlise::BulletTracers::enabled;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletBeam")][XORSTR("enabled")] = Settings::ESP::FilterAlise::BulletBeam::enabled;
-    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("PlayerInfo")][XORSTR("enabled")] = Settings::ESP::FilterAlise::playerInfo::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")] = Settings::ESP::FilterAlice::Boxes::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("type")] = (int)Settings::ESP::FilterAlice::Boxes::type;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::FilterAlice::Skeleton::enabled;
+    LoadColor(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("ally_color")], Settings::ESP::FilterAlice::Skeleton::allyColor);
+    LoadColor(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enemy_color")], Settings::ESP::FilterAlice::Skeleton::enemyColor);
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("enabled")] = Settings::ESP::FilterAlice::HelthBar::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("color_type")] = (int)Settings::ESP::FilterAlice::HelthBar::colorType;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Bars")][XORSTR("type")] = (int)Settings::ESP::FilterAlice::HelthBar::type;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("enabled")] = Settings::ESP::FilterAlice::Tracers::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("type")] = (int)Settings::ESP::FilterAlice::Tracers::type;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletTracers")][XORSTR("enabled")] = Settings::ESP::FilterAlice::BulletTracers::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletBeam")][XORSTR("enabled")] = Settings::ESP::FilterAlice::BulletBeam::enabled;
+    settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("PlayerInfo")][XORSTR("enabled")] = Settings::ESP::FilterAlice::playerInfo::enabled;
     
     //Various Settings for Helth vae
     // For Enemy
@@ -435,8 +436,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Fake")] = (int)Settings::ESP::FilterLocalPlayer::Chams::type;
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Real")] = (int)Settings::ESP::FilterLocalPlayer::RealChams::type;
     // For Alise
-    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("enabled")] = Settings::ESP::FilterAlise::Chams::enabled;
-    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("type")] = (int)Settings::ESP::FilterAlise::Chams::type;
+    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("enabled")] = Settings::ESP::FilterAlice::Chams::enabled;
+    settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("type")] = (int)Settings::ESP::FilterAlice::Chams::type;
     
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Arms")][XORSTR("enabled")] = Settings::ESP::Chams::Arms::enabled;
     settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Arms")][XORSTR("type")] = (int)Settings::ESP::Chams::Arms::type;
@@ -579,6 +580,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
     settings[XORSTR("SkinChanger")][XORSTR("Skins")][XORSTR("enabled")] = Settings::Skinchanger::Skins::enabled;
     settings[XORSTR("SkinChanger")][XORSTR("Models")][XORSTR("enabled")] = Settings::Skinchanger::Models::enabled;
+    settings[XORSTR("SkinChanger")][XORSTR("Models")][XORSTR("playerModel")] = (int)Settings::Skinchanger::Models::playerModel;
     settings[XORSTR("SkinChanger")][XORSTR("Skins")][XORSTR("perTeam")] = Settings::Skinchanger::Skins::perTeam;
 
     for (const auto& item : Settings::Skinchanger::skinsCT)
@@ -802,7 +804,7 @@ void Settings::LoadConfig(std::string path)
 	        .aimStepEnabled = LegitweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")].asBool(),
 	        .rcsEnabled = LegitweaponSetting[XORSTR("RCS")][XORSTR("Enabled")].asBool(),
 	        .rcsAlwaysOn = LegitweaponSetting[XORSTR("RCS")][XORSTR("AlwaysOn")].asBool(),
-	        .hitchanceEnaled = LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
+	        .hitchanceEnabled = LegitweaponSetting[XORSTR("HitChance")][XORSTR("Enabled")].asBool(),
 	        .autoPistolEnabled = LegitweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
 	        .autoScopeEnabled = LegitweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
 	        .ignoreJumpEnabled = LegitweaponSetting[XORSTR("IgnoreJump")][XORSTR("Enabled")].asBool(),
@@ -867,7 +869,7 @@ void Settings::LoadConfig(std::string path)
 	        .autoSlow = RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")].asBool(),
 	        .scopeControlEnabled = RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")].asBool(),
 		    .DoubleFire = RageweaponSetting[XORSTR("Prediction")][XORSTR("Enabled")].asBool(),
-            .AutoCroutch = RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")].asBool(),
+            .AutoCrouch = RageweaponSetting[XORSTR("AutoCoutch")][XORSTR("enabled")].asBool(),
             .OnShot = RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")].asBool(),
             .OnShotOnKey = RageweaponSetting[XORSTR("OnShotOnKey")][XORSTR("Enabled")].asBool(),
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
@@ -913,6 +915,7 @@ void Settings::LoadConfig(std::string path)
     
     // Settings for RageAntiAIm
     GetVal(settings[XORSTR("AntiAim")][XORSTR("Enabled")], &Settings::AntiAim::Enabled);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("EnableFakAngle")], &Settings::AntiAim::EnableFakAngle);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("ShowReal")], &Settings::AntiAim::ShowReal);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("InvertOnShoot")], &Settings::AntiAim::InvertOnShoot);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("offset")], &Settings::AntiAim::offset);
@@ -1050,18 +1053,18 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("BulletBeam")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::BulletBeam::enabled);
     GetVal(settings[XORSTR("ESP")][XORSTR("Localplayer")][XORSTR("PlayerInfo")][XORSTR("enabled")], &Settings::ESP::FilterLocalPlayer::playerInfo::enabled);
     //For Alise
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Boxes::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::Boxes::type);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Skeleton::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("ally_color")], &Settings::ESP::FilterAlise::Skeleton::allyColor);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enemy_color")], &Settings::ESP::FilterAlise::Skeleton::enemyColor);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("HelthBar")][XORSTR("enabled")], &Settings::ESP::FilterAlise::HelthBar::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("HelthBar")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::HelthBar::type);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Tracers::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::Tracers::type);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletTracers")][XORSTR("enabled")], &Settings::ESP::FilterAlise::BulletTracers::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletBeam")][XORSTR("enabled")], &Settings::ESP::FilterAlise::BulletBeam::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("PlayerInfo")][XORSTR("enabled")], &Settings::ESP::FilterAlise::playerInfo::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::FilterAlice::Boxes::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Boxes")][XORSTR("type")], (int*)&Settings::ESP::FilterAlice::Boxes::type);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::FilterAlice::Skeleton::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("ally_color")], &Settings::ESP::FilterAlice::Skeleton::allyColor);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Skeleton")][XORSTR("enemy_color")], &Settings::ESP::FilterAlice::Skeleton::enemyColor);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("HelthBar")][XORSTR("enabled")], &Settings::ESP::FilterAlice::HelthBar::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("HelthBar")][XORSTR("type")], (int*)&Settings::ESP::FilterAlice::HelthBar::type);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("enabled")], &Settings::ESP::FilterAlice::Tracers::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("Tracers")][XORSTR("type")], (int*)&Settings::ESP::FilterAlice::Tracers::type);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletTracers")][XORSTR("enabled")], &Settings::ESP::FilterAlice::BulletTracers::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("BulletBeam")][XORSTR("enabled")], &Settings::ESP::FilterAlice::BulletBeam::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Alise")][XORSTR("PlayerInfo")][XORSTR("enabled")], &Settings::ESP::FilterAlice::playerInfo::enabled);
     // END
 
     GetVal(settings[XORSTR("ESP")][XORSTR("FOVCrosshair")][XORSTR("enabled")], &Settings::ESP::FOVCrosshair::enabled);
@@ -1077,8 +1080,8 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Fake")], (int*)&Settings::ESP::FilterLocalPlayer::Chams::type);
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Localplayer")][XORSTR("Real")], (int*)&Settings::ESP::FilterLocalPlayer::RealChams::type);
     // For Alise
-    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("enabled")], &Settings::ESP::FilterAlise::Chams::enabled);
-    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("type")], (int*)&Settings::ESP::FilterAlise::Chams::type);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("enabled")], &Settings::ESP::FilterAlice::Chams::enabled);
+    GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Alise")][XORSTR("type")], (int*)&Settings::ESP::FilterAlice::Chams::type);
     // END Visual Settings
 
     GetVal(settings[XORSTR("ESP")][XORSTR("Chams")][XORSTR("Arms")][XORSTR("enabled")], &Settings::ESP::Chams::Arms::enabled);
@@ -1302,6 +1305,7 @@ void Settings::LoadConfig(std::string path)
 
     GetVal(settings[XORSTR("SkinChanger")][XORSTR("Skins")][XORSTR("enabled")], &Settings::Skinchanger::Skins::enabled);
     GetVal(settings[XORSTR("SkinChanger")][XORSTR("Models")][XORSTR("enabled")], &Settings::Skinchanger::Models::enabled);
+    GetVal(settings[XORSTR("SkinChanger")][XORSTR("Models")][XORSTR("playerModel")], (int*)&Settings::Skinchanger::Models::playerModel);
     GetVal(settings[XORSTR("SkinChanger")][XORSTR("Skins")][XORSTR("perTeam")], &Settings::Skinchanger::Skins::perTeam);
 
     GetVal(settings[XORSTR("ShowRanks")][XORSTR("enabled")], &Settings::ShowRanks::enabled);

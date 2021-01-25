@@ -11,11 +11,11 @@ namespace Ragebot {
         C_BasePlayer* player = nullptr;
         Vector PrevTickEyePosition = Vector(0);
         bool shooted = false;
-        int playerhelth = 0;
+        int playerhealth = 0;
         bool autoslow = false;
         QAngle prevAngle = QAngle(0);
         bool needToStop = false;
-        bool Hited = false;
+        bool Hitted = false;
         bool IHit = false;
     };
 
@@ -27,6 +27,7 @@ namespace Ragebot {
     inline int BestDamage = 0;
     inline int ShootEnemyIndex = 0;
     inline int prevDamage = 0;
+    inline matrix3x4_t BoneMatrix[128];
 
     void CreateMove(CUserCmd*);
     void FireGameEvent(IGameEvent* event);

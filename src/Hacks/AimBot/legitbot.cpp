@@ -6,8 +6,9 @@ bool Legitbot::aimStepInProgress = false;
 std::vector<int64_t> Legitbot::friends = { };
 std::vector<long> killTimes = { 0 }; // the Epoch time from when we kill someone
 
-QAngle AimStepLastAngle;
-QAngle LastPunch;
+QAngle AimStepLastAngle = QAngle(0);
+QAngle lastRandom = QAngle(0);
+QAngle LastPunch = QAngle(0);
 static bool shouldAim = false;
 int Legitbot::targetAimbot = -1;
 
@@ -114,37 +115,6 @@ static void GetClosestSpot(C_BasePlayer* enemy, Vector &BestSpot,const std::unor
 		}
 		
 	}
-}
-
-static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, Vector& bestSpot, float& bestDamage, const LegitWeapon_t& currentSettings)
-{
-	if (!currentSettings.autoAimEnabled) return nullptr;
-	if (!globalVars->localplayer || !globalVars->localplayer->IsAlive() )	return nullptr;
-	if ( globalVars->localplayer->IsFlashed() )	return nullptr;
-
-	C_BasePlayer *player = nullptr;
-	player = GetClosestEnemy(currentSettings); // getting the closest enemy to the crosshair
-
-	if ( !player || !player->IsAlive())	return nullptr;
-
-	int BoneId = (int)(currentSettings.bone);
-
-	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
-
-	BoneId = (*modelType).at(BoneId);
-	Vector bone3d = player->GetBonePosition( BoneId );
-
-	GetClosestSpot(player, bone3d,modelType, currentSettings);
-	
-	if ( LineGoesThroughSmoke( globalVars->localplayer->GetEyePosition( ), bone3d, true ) )
-		return nullptr;
-
-	bestSpot = bone3d;
-
-	if (AutoWall::GetDamage(bone3d, true) <= 0 || !Entity::IsSpotVisible(player, bone3d))
-		return nullptr;
-
-	return player;
 }
 
 static void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd, bool& shouldAim, const LegitWeapon_t& currentSettings)
@@ -269,6 +239,38 @@ static void AutoShoot(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, LegitWeap
 	Aimbot::AutoSlow(globalVars->localplayer, cmd, currentSettings->autoSlow);
 }
 
+static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, Vector& bestSpot, float& bestDamage, const LegitWeapon_t& currentSettings)
+{
+	if (!currentSettings.autoAimEnabled) return nullptr;
+	if (!globalVars->localplayer || !globalVars->localplayer->IsAlive() )	return nullptr;
+	if ( globalVars->localplayer->IsFlashed() )	return nullptr;
+
+	C_BasePlayer *player = nullptr;
+	player = GetClosestEnemy(currentSettings); // getting the closest enemy to the crosshair
+
+	if ( !player || !player->IsAlive())	return nullptr;
+
+	int BoneId = (int)(currentSettings.bone);
+
+	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
+
+	BoneId = (*modelType).at(BoneId);
+	Vector bone3d = player->GetBonePosition( BoneId );
+
+	GetClosestSpot(player, bone3d,modelType, currentSettings);
+	
+	if ( LineGoesThroughSmoke( globalVars->localplayer->GetEyePosition( ), bone3d, true ) )
+		return nullptr;
+
+	bestSpot = bone3d;
+
+	if (AutoWall::GetDamage(bone3d, true) <= 0 || !Entity::IsSpotVisible(player, bone3d))
+		return nullptr;
+
+	return player;
+}
+
+
 void Legitbot::CreateMove(CUserCmd* cmd)
 {
 	if (!globalVars->localplayer || !globalVars->localplayer->IsAlive())
@@ -291,8 +293,7 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 	angle = cmd->viewangles;
 	engine->GetViewAngles(oldAngle);	
 
-	
-	static QAngle lastRandom = QAngle(0);
+
 	Vector localEye = globalVars->localplayer->GetEyePosition();
 
 	if (currentWeaponSetting->ignoreJumpEnabled && (!(globalVars->localplayer->GetFlags() & FL_ONGROUND) && globalVars->localplayer->GetMoveType() != MOVETYPE_LADDER))
@@ -309,14 +310,14 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 
 	if (player)
 	{
-		if ( cmd->buttons & IN_ATTACK )
+		if (currentWeaponSetting->aimkeyOnly && inputSystem->IsButtonDown(currentWeaponSetting->aimkey))
 			shouldAim = true;
-		else if (currentWeaponSetting->aimkeyOnly && inputSystem->IsButtonDown(currentWeaponSetting->aimkey))
+		else if ( cmd->buttons & IN_ATTACK )
 			shouldAim = true;
 		else if ( currentWeaponSetting->autoShoot )
 			shouldAim = true;
 		else
-			shouldAim = false;
+			goto DoNothing;
 		
 		
 		Settings::Debug::AutoAim::target = bestSpot; // For Debug showing aimspot.
@@ -356,14 +357,17 @@ void Legitbot::CreateMove(CUserCmd* cmd)
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
 
-	Aimbot::FixMouseDeltas(cmd, angle, oldAngle);
+	DoNothing:
+		
+		Aimbot::FixMouseDeltas(cmd, angle, oldAngle);
 	
-	if (cmd->buttons & IN_ATTACK)
-		cmd->viewangles = angle;
+		if (cmd->buttons & IN_ATTACK)
+			cmd->viewangles = angle;
 
-	if( !currentWeaponSetting->silent && CreateMove::sendPacket)
-    	engine->SetViewAngles(angle);
+		if( !currentWeaponSetting->silent && CreateMove::sendPacket)
+    		engine->SetViewAngles(angle);
 
+	
 }
 
 void Legitbot::FireGameEvent(IGameEvent* event)

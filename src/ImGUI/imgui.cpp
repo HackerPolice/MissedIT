@@ -5731,6 +5731,7 @@ void ImGui::BeginGroupPanel(const char* name, const ImVec2& size)
 
 void ImGui::EndGroupPanel()
 {
+    ImGui::Dummy(ImVec2(1.5,0));
     ImGui::PopItemWidth();
 
     auto itemSpacing = ImGui::GetStyle().ItemSpacing;
@@ -5796,7 +5797,8 @@ void ImGui::EndGroupPanel()
 #endif
     ImGui::GetCurrentWindow()->Size.x                   += frameHeight;
 
-    ImGui::Dummy(ImVec2(0.0f, 0.0f));
+    // ImGui::Dummy(ImVec2(1.0f, 0.0f));
+    ImGui::Spacing();
 
     ImGui::EndGroup();
 }
@@ -10294,6 +10296,44 @@ void ImGui::ProgressBar(float fraction, const ImVec2& size_arg, const char* over
         RenderTextClipped(ImVec2(ImClamp(fill_br.x + style.ItemSpacing.x, bb.Min.x, bb.Max.x - overlay_size.x - style.ItemInnerSpacing.x), bb.Min.y), bb.Max, overlay, NULL, &overlay_size, ImVec2(0.0f,0.5f), &bb);
 }
 
+bool ImGui::ToggleButton(const char* label, bool* v)
+{
+    bool prevVal = *v;
+    ImVec2 p = ImGui::GetCursorScreenPos();
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+    float height = ImGui::GetFrameHeight();
+    float width = height * 1.55f;
+    float radius = height * 0.50f;
+
+    ImGui::InvisibleButton(label, ImVec2(width, height));
+    if (ImGui::IsItemClicked())
+        *v = !*v;
+
+    float t = *v ? 1.0f : 0.0f;
+
+    ImGuiContext& g = *GImGui;
+    float ANIM_SPEED = 0.08f;
+    if (g.LastActiveId == g.CurrentWindow->GetID(label))// && g.LastActiveIdTimer < ANIM_SPEED)
+    {
+        float t_anim = ImSaturate(g.LastActiveIdTimer / ANIM_SPEED);
+        t = *v ? (t_anim) : (1.0f - t_anim);
+    }
+
+    ImU32 col_bg;
+    if (ImGui::IsItemHovered())
+        col_bg = ImGui::GetColorU32(ImLerp(ImVec4(0.78f, 0.78f, 0.78f, 1.0f), ImVec4(0.64f, 0.83f, 0.34f, 1.0f), t));
+    else
+        col_bg = ImGui::GetColorU32(ImLerp(ImVec4(0.85f, 0.85f, 0.85f, 1.0f), ImVec4(0.56f, 0.83f, 0.26f, 1.0f), t));
+
+    draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), col_bg, height * 0.1f);
+    draw_list->AddCircleFilled(ImVec2(p.x + radius + t * (width - radius * 2.0f), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
+    
+    if (prevVal != *v)
+        return true;
+    return false;
+}
+
 bool ImGui::Checkbox(const char* label, bool* v)
 {
     ImGuiWindow* window = GetCurrentWindow();
@@ -10343,6 +10383,54 @@ bool ImGui::Checkbox(const char* label, bool* v)
     if (label_size.x > 0.0f)
         RenderText(text_bb.Min, label);
 
+    return pressed;
+}
+
+bool ImGui::CheckboxFill(const char * label, bool * v)
+{
+    ImGuiWindow * window = GetCurrentWindow ();
+    if (window-> SkipItems)
+        return false;
+     
+    ImGuiContext & g = * GImGui;
+    const ImGuiStyle & style = g.Style;
+    const ImGuiID id = window-> GetID (label);
+    const ImVec2 label_size = CalcTextSize (label, NULL, true);
+     
+    const ImRect check_bb (window-> DC.CursorPos, window-> DC.CursorPos + ImVec2 (label_size.y + style.FramePadding.y * 2, label_size.y + style.FramePadding.y * 2));
+    ItemSize (check_bb, style.FramePadding.y);
+     
+    ImRect total_bb = check_bb;
+    if (label_size.x> 0)
+        SameLine(0, style.ItemInnerSpacing.x);
+    const ImRect text_bb(window-> DC.CursorPos + ImVec2 (0, style.FramePadding.y), window-> DC.CursorPos + ImVec2 (0, style.FramePadding.y) + label_size);
+    if (label_size.x> 0)
+    {
+        ItemSize (ImVec2 (text_bb.GetWidth (), check_bb.GetHeight ()), style.FramePadding.y);
+        total_bb = ImRect (ImMin (check_bb.Min, text_bb.Min), ImMax (check_bb.Max, text_bb.Max));
+    }
+     
+    if (! ItemAdd(total_bb, id))
+        return false;
+     
+    bool hovered, held;
+    bool pressed = ButtonBehavior(total_bb, id, & hovered, & held);
+    if (pressed)
+        * v =! (* v);
+    RenderNavHighlight(total_bb, id);
+    RenderFrame(check_bb.Min, check_bb.Max, GetColorU32((held && hovered) ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_Border), true, style.FrameRounding);
+    if (* v)
+    {
+        const float check_sz = ImMin (check_bb.GetWidth (), check_bb.GetHeight ());
+        const float pad = ImMax (1.0f, (float) (int) (check_sz / 6.0f));
+        window-> DrawList-> AddRectFilled (check_bb.Min + ImVec2 (pad, pad), check_bb.Max-ImVec2 (pad, pad), GetColorU32 (ImGuiCol_CheckMark), style.FrameRounding);
+    }
+     
+    if (g.LogEnabled)
+        LogRenderedText(&text_bb.Min, * v? "[X]": "[]");
+    if (label_size.x> 0.0f)
+        RenderText (text_bb.Min, label);
+     
     return pressed;
 }
 

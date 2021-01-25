@@ -33,7 +33,7 @@ static float DamageOverride = 0.f;
 static bool autoSlow = false;
 static bool doubleFire = false;
 static bool scopeControlEnabled = false;
-static bool AutoCroutch = false;
+static bool AutoCrouch = false;
 static bool OnShot = false;
 static bool OnSHotOnKey = false;
 static HitchanceType hitchanceType = HitchanceType::Normal;
@@ -83,7 +83,7 @@ void UI::UpdateRageWeaponSettings()
 			.autoSlow = autoSlow,
 			.scopeControlEnabled = scopeControlEnabled,
 			.DoubleFire = doubleFire,
-			.AutoCroutch = AutoCroutch,
+			.AutoCrouch = AutoCrouch,
 			.OnShot = OnShot,
 			.OnShotOnKey = OnSHotOnKey,
 			.MinDamage = MinDamage,
@@ -115,9 +115,9 @@ void RagebotTab::AutoShoot()
 {
 	// all the auto shoot related features are in this section
 
-	if (ImGui::Checkbox(XORSTR("Auto Shoot"), &autoShootEnabled))
+	if (ImGui::CheckboxFill(XORSTR("Auto Shoot"), &autoShootEnabled))
 		UI::UpdateRageWeaponSettings();
-	if (ImGui::Checkbox(XORSTR("AutoSlow"), &autoSlow))
+	if (ImGui::CheckboxFill(XORSTR("AutoSlow"), &autoSlow))
 		UI::UpdateRageWeaponSettings();
 	
 	switch (currentWeapon)
@@ -134,7 +134,7 @@ void RagebotTab::AutoShoot()
 		case ItemDefinitionIndex::WEAPON_REVOLVER:
 			break;
 		default:
-			if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled))
+			if (ImGui::CheckboxFill(XORSTR("Auto Scope"), &autoScopeEnabled))
 				UI::UpdateRageWeaponSettings();
 			break;
 	}
@@ -151,7 +151,7 @@ void RagebotTab::AutoShoot()
 		case ItemDefinitionIndex::WEAPON_P250:
 		case ItemDefinitionIndex::WEAPON_CZ75A:
 		case ItemDefinitionIndex::WEAPON_REVOLVER:
-			if (ImGui::Checkbox(XORSTR("Auto Pistol"), &autoPistolEnabled))
+			if (ImGui::CheckboxFill(XORSTR("Auto Pistol"), &autoPistolEnabled))
 				UI::UpdateRageWeaponSettings();
 			break;
 		default:
@@ -176,14 +176,14 @@ void RagebotTab::AutoShoot()
 
 void RagebotTab::OtherSettings(){
 	// Others Settings for Aimbot basically those that are not directly related to aimbot
-	if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
+	if (ImGui::CheckboxFill(XORSTR("Silent Aim"), &silent))
 		UI::UpdateRageWeaponSettings();
-	if ( ImGui::Checkbox(XORSTR("Auto Crouch"), &AutoCroutch) )
+	if ( ImGui::CheckboxFill(XORSTR("Auto Crouch"), &AutoCrouch) )
 		UI::UpdateRageWeaponSettings();
 	
-	ImGui::Checkbox(XORSTR("LagCom"), &Settings::LagComp::enabled);
-	ImGui::Checkbox(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
-	ImGui::Checkbox(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
+	ImGui::CheckboxFill(XORSTR("LagCom"), &Settings::LagComp::enabled);
+	ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
+	ImGui::CheckboxFill(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 }
 
 void RagebotTab::DamageSettings(){
@@ -256,9 +256,9 @@ void RagebotTab::MultiBone(){
 }
 
 void RagebotTab::OnshotSettings(){
-	if (ImGui::Checkbox(XORSTR("On Shot"), &OnShot))
+	if (ImGui::CheckboxFill(XORSTR("On Shot"), &OnShot))
 		UI::UpdateRageWeaponSettings();
-	if (ImGui::Checkbox(XORSTR("On Shot On Key"), &OnSHotOnKey))
+	if (ImGui::CheckboxFill(XORSTR("On Shot On Key"), &OnSHotOnKey))
 		UI::UpdateRageWeaponSettings();
 	UI::KeyBindButton(&Settings::Ragebot::OnShotBtn);
 }
@@ -300,7 +300,7 @@ void RagebotTab::Guns(){
 
 void RagebotTab::RenderTab()
 {
-	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Ragebot::enabled))
+	if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Ragebot::enabled))
 	{	
 		Settings::Legitbot::enabled = false;
 		UI::UpdateRageWeaponSettings();

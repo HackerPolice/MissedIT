@@ -12,12 +12,13 @@
 #include "../Visuals/DesyncChams.hpp"
 #include "../AntiAim/fakeduck.h"
 
-IMaterial *materialChamsFlat, *materialChamsFlatIgnorez;
-IMaterial *WhiteAdditive,*WhiteAdditiveIgnoreZ;
-IMaterial *AdditiveTwo, *AdditiveTwoIgnoreZ;
-IMaterial *materialChamsPearl;
-IMaterial* materialChamsGlow;
-IMaterial* materialChamsPulse;
+IMaterial 	*materialChamsFlat, *materialChamsFlatIgnorez;
+IMaterial 	*WhiteAdditive,*WhiteAdditiveIgnoreZ;
+IMaterial 	*AdditiveTwo, *AdditiveTwoIgnoreZ;
+IMaterial 	*materialChamsPearl;
+IMaterial	*materialChamsGlow;
+IMaterial	*materialChamsPulse;
+IMaterial	*GlowF;
 
 Vector colro = Vector(0.5, 0, 1);
 
@@ -27,7 +28,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 {
 	using namespace Settings::ESP;
  
-	if ( !FilterEnemy::Chams::enabled && !FilterLocalPlayer::RealChams::enabled && !FilterAlise::Chams::enabled)
+	if ( !FilterEnemy::Chams::enabled && !FilterLocalPlayer::RealChams::enabled && !FilterAlice::Chams::enabled)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -42,8 +43,8 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 		|| !entity->IsAlive())
 		return;
 
-	if ( Entity::IsTeamMate(entity,localplayer) && Settings::ESP::FilterAlise::Chams::enabled && entity != localplayer)
-		chamsType = Settings::ESP::FilterAlise::Chams::type;
+	if ( Entity::IsTeamMate(entity,localplayer) && Settings::ESP::FilterAlice::Chams::enabled && entity != localplayer)
+		chamsType = Settings::ESP::FilterAlice::Chams::type;
 	else if (!Entity::IsTeamMate(entity, localplayer) && FilterEnemy::Chams::enabled)
 		chamsType = Settings::ESP::FilterEnemy::Chams::type;
 	else if ( entity == localplayer && FilterLocalPlayer::RealChams::enabled)
@@ -79,7 +80,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
             hidden_material = materialChamsFlatIgnorez;
 			break;
             case ChamsType::GLOWF:
-                visible_material = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
+                visible_material = GlowF;
                 hidden_material = materialChamsFlatIgnorez;
 				break;
 		default :
@@ -148,14 +149,19 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 
 static void DrawFake(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
-	if 	(
-			!Settings::ESP::FilterLocalPlayer::Chams::enabled 	&& 
-			!Settings::ThirdPerson::toggled 					&& 
-			Settings::AntiAim::lbyBreak::Enabled 				&& 
-			Settings::AntiAim::Jitter::Value > 0				
-		)
+	if ( !Settings::ESP::FilterLocalPlayer::Chams::enabled )
 		return;
-
+	if (!Settings::AntiAim::EnableFakAngle)
+		return;
+	if ( Settings::ESP::FilterLocalPlayer::Chams::type == ChamsType::NONE)
+		return;
+	if ( !Settings::ThirdPerson::toggled )
+		return;
+	if ( Settings::AntiAim::lbyBreak::Enabled )
+		return;
+	if 	( Settings::AntiAim::Jitter::Value > 0 )
+		return;
+	
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->IsAlive())
 		return;
@@ -189,7 +195,7 @@ static void DrawFake(void* thisptr, void* context, void *state, const ModelRende
 			Fake_meterial = materialChamsFlat;
 			break;
         case ChamsType::GLOWF:
-            Fake_meterial = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
+            Fake_meterial = GlowF;
 			break;
 		default:
 			return;
@@ -264,7 +270,7 @@ static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 			mat = materialChamsFlat;
 			break;
         case ChamsType::GLOWF:
-            mat = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
+            mat = GlowF;
 			break;
 		default :
 			return;
@@ -309,7 +315,7 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 			mat = materialChamsFlat;
 			break;
         case ChamsType::GLOWF:
-            mat = material->FindMaterial("vgui/achievements/glow", TEXTURE_GROUP_MODEL);
+            mat = GlowF;
 			break;
 		default :
 			return;
@@ -394,7 +400,7 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	if (!materialsCreated)
 	{
 		
-		materialChamsPearl = Util::CreateMaterial2(XORSTR("VertexLitGeneric"), XORSTR("models/inventory_items/dogtags/dogtags_outline"), false, true, true, true, 1.f);
+		materialChamsPearl = material->FindMaterial(XORSTR("models/inventory_items/dogtags/dogtags_outline"), TEXTURE_GROUP_MODEL);
         materialChamsGlow = Util::CreateMaterial3(XORSTR("VertexLitGeneric"), XORSTR("csgo/materials/glowOverlay.vmt"), false, true, true, true, 1.f, colro);
         materialChamsPulse = Util::CreateMaterial4(XORSTR("VertexLitGeneric"), XORSTR("models/inventory_items/dogtags/dogtags_outline"), false, true, true, true, 1.f, colro);
 
@@ -407,13 +413,13 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		AdditiveTwo = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
 		AdditiveTwoIgnoreZ = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, false, true, true, true, "models/effects/cube_white", "[1 1 1]", 1, "[0 1 1]" );
 		
+		GlowF = material->FindMaterial(XORSTR("vgui/achievements/glow"), TEXTURE_GROUP_MODEL);
 		materialsCreated = true;
 	}
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
 	
-
 	if (modelName.find(XORSTR("models/player")) != std::string::npos)
 	{
 		DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
@@ -422,17 +428,14 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		modelRender->ForcedMaterialOverride(nullptr);
 	}
-	else if (modelName.find(XORSTR("arms")) != std::string::npos){
+	if (modelName.find(XORSTR("arms")) != std::string::npos){
 		DrawArms(pInfo);
 		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		modelRender->ForcedMaterialOverride(nullptr);
 	}
-	else if (modelName.find(XORSTR("weapon")) != std::string::npos){
+	if (modelName.find(XORSTR("weapon")) != std::string::npos){
 		DrawWeapon(pInfo);
 		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		modelRender->ForcedMaterialOverride(nullptr);
 	}
-	
-	
-	
 }

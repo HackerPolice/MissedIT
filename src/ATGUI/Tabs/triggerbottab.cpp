@@ -9,7 +9,7 @@
 
 void Triggerbot::KeyBind(){
 	
-	ImGui::Checkbox(XORSTR("Active On Key"), &Settings::Triggerbot::OnKey::enable);
+	ImGui::CheckboxFill(XORSTR("Active On Key"), &Settings::Triggerbot::OnKey::enable);
 	ImGui::PushItemWidth(-1);
 	UI::KeyBindButton(&Settings::Triggerbot::OnKey::key);
 	ImGui::PopItemWidth();
@@ -18,7 +18,7 @@ void Triggerbot::KeyBind(){
 void Triggerbot::Delay(){
 
 	
-	ImGui::Checkbox(XORSTR("Randome Delay"), &Settings::Triggerbot::RandomDelay::enabled);
+	ImGui::CheckboxFill(XORSTR("Randome Delay"), &Settings::Triggerbot::RandomDelay::enabled);
 	if( Settings::Triggerbot::RandomDelay::lastRoll != 0 )
 	{
 		ImGui::Text(XORSTR("Last delay: %dms"), Settings::Triggerbot::RandomDelay::lastRoll);
@@ -37,11 +37,11 @@ void Triggerbot::Delay(){
 
 void Triggerbot::AutoKnife(){
 
- 	ImGui::Checkbox(XORSTR("Auto Knife"), &Settings::AutoKnife::enabled);
- 	ImGui::Checkbox(XORSTR("On Key"), &Settings::AutoKnife::onKey);
+ 	ImGui::CheckboxFill(XORSTR("Auto Knife"), &Settings::AutoKnife::enabled);
+ 	ImGui::CheckboxFill(XORSTR("On Key"), &Settings::AutoKnife::onKey);
 
- 	ImGui::Checkbox(XORSTR("Enemies"), &Settings::AutoKnife::Filters::enemies);
-	ImGui::Checkbox(XORSTR("Allies"), &Settings::AutoKnife::Filters::allies);
+ 	ImGui::CheckboxFill(XORSTR("Enemies"), &Settings::AutoKnife::Filters::enemies);
+	ImGui::CheckboxFill(XORSTR("Allies"), &Settings::AutoKnife::Filters::allies);
 
 }
 
@@ -62,7 +62,7 @@ void Triggerbot::Filters(){
 }
 void Triggerbot::RenderTab()
 {
-	ImGui::Checkbox(XORSTR("Enabled"), &Settings::Triggerbot::enabled);
+	ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Triggerbot::enabled);
 	ImGui::Columns(2, nullptr, false);
 	{
 		ImGui::BeginChild(XORSTR("TRIG1"), ImVec2(0, 0), false);

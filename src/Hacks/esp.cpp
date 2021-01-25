@@ -417,7 +417,7 @@ static void DrawBulletTracers(CUserCmd* cmd)
 	
 	bool isteammate = Entity::IsTeamMate(entity, localplayer);
 
-	if ( isteammate && engine->GetLocalPlayer() != ESP::bulletBeam.enemyIndex  && !Settings::ESP::FilterAlise::BulletBeam::enabled)
+	if ( isteammate && engine->GetLocalPlayer() != ESP::bulletBeam.enemyIndex  && !Settings::ESP::FilterAlice::BulletBeam::enabled)
 		return;
 	else if ( !isteammate && !Settings::ESP::FilterEnemy::BulletBeam::enabled)
 		return;
@@ -895,23 +895,23 @@ static void DrawPlayer(C_BasePlayer* player)
 	}
 	else if ( player != localplayer ) // then it means it is our friend nigga
 	{
-		if (Settings::ESP::FilterAlise::Boxes::enabled)
-			DrawBox(playerColor, x, y, w, h, player, Settings::ESP::FilterAlise::Boxes::type);
+		if (Settings::ESP::FilterAlice::Boxes::enabled)
+			DrawBox(playerColor, x, y, w, h, player, Settings::ESP::FilterAlice::Boxes::type);
 		
-		if (Settings::ESP::FilterAlise::HelthBar::enabled) // Drawing the helth bar
-			DrawPlayerHealthBars(player, x, y, w, h, playerColor, Settings::ESP::FilterAlise::HelthBar::type);
+		if (Settings::ESP::FilterAlice::HelthBar::enabled) // Drawing the helth bar
+			DrawPlayerHealthBars(player, x, y, w, h, playerColor, Settings::ESP::FilterAlice::HelthBar::type);
 		
-		if ( Settings::ESP::FilterAlise::Tracers::enabled ) // Drawing tracers
-			DrawTracer(player, Settings::ESP::FilterAlise::Tracers::type);
+		if ( Settings::ESP::FilterAlice::Tracers::enabled ) // Drawing tracers
+			DrawTracer(player, Settings::ESP::FilterAlice::Tracers::type);
 		
-		if ( Settings::ESP::FilterAlise::Skeleton::enabled ) // Drawing Skeliton Bitch Fuzion is god
+		if ( Settings::ESP::FilterAlice::Skeleton::enabled ) // Drawing Skeliton Bitch Fuzion is god
 			DrawSkeleton(player, localplayer);
 		
-		if (Settings::ESP::FilterAlise::HeadDot::enabled) // Draw the head dot white indicate to kneck sry :P
+		if (Settings::ESP::FilterAlice::HeadDot::enabled) // Draw the head dot white indicate to kneck sry :P
 			DrawHeaddot(player);
 		
 		/* Checks various Text Settings */
-		if (Settings::ESP::FilterAlise::playerInfo::enabled)
+		if (Settings::ESP::FilterAlice::playerInfo::enabled)
 			DrawPlayerText( player, localplayer, x, y, w, h );
 	}
 	else if ( player == localplayer && Settings::ThirdPerson::toggled) // There is no need to check this must I try to be secure xd

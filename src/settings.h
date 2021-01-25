@@ -13,6 +13,28 @@
 #include "SDK/definitions.h"
 #include "SDK/Materialsystem_config.h"
 
+enum class PlayerModel : int {
+	Ricksaw,
+	Operator,
+	Ava,
+	SealTeam6Sodier,
+	thirdCommandoCompany,
+	BSquadronOfficer,
+	ChemHazSpecialist,
+	BioHazSpecialist,
+	Enforcer,
+	Soldier,
+	GroundRebel,
+	StreetSoldier,
+	Dragomir,
+	MarkusDelrow,
+	Buckshot,
+	John,
+	SergeantBombson,
+	BlueberriesBuckshot,
+	NONE,
+};
+
 enum class DesireBones : int {
 	BONE_HEAD = 0,
 	UPPER_CHEST,
@@ -190,7 +212,7 @@ struct LegitWeapon_t
 		 aimStepEnabled,
 		 rcsEnabled,
 		 rcsAlwaysOn,
-		 hitchanceEnaled,
+		 hitchanceEnabled,
 		 autoPistolEnabled,
 		 autoScopeEnabled,
 		 ignoreJumpEnabled,
@@ -247,7 +269,7 @@ struct LegitWeapon_t
 			this->autoPistolEnabled == another.autoPistolEnabled &&
 			this->autoScopeEnabled == another.autoScopeEnabled &&
 			this->ignoreEnemyJumpEnabled == another.ignoreEnemyJumpEnabled &&
-			this->hitchanceEnaled == another.hitchanceEnaled &&
+			this->hitchanceEnabled == another.hitchanceEnabled &&
 			this->hitchance == another.hitchance &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
@@ -268,7 +290,7 @@ struct RageWeapon_t
 		 autoSlow,
 		 scopeControlEnabled = false,
 		 DoubleFire = false,
-		 AutoCroutch = false,
+		 AutoCrouch = false,
 		 OnShot = false,
 		 OnShotOnKey = false;
 	float MinDamage = 50.f,
@@ -300,7 +322,7 @@ struct RageWeapon_t
 				this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 
 				this->HitChance == Ragebotanother.HitChance && 
 				this->DoubleFire == Ragebotanother.DoubleFire &&
-				this->AutoCroutch == Ragebotanother.AutoCroutch && 
+				this->AutoCrouch == Ragebotanother.AutoCrouch && 
 				this->DamageOverride == Ragebotanother.DamageOverride &&
 				this->hitchanceType == Ragebotanother.hitchanceType &&
 				this->OnShot == Ragebotanother.OnShot;
@@ -507,6 +529,7 @@ namespace Settings
     namespace AntiAim
     {
 		inline bool Enabled = false;
+		inline bool EnableFakAngle = false;
 		inline bool inverted = false;
 		inline bool ShowReal = false;
 		inline bool InvertOnShoot = false;
@@ -660,7 +683,7 @@ namespace Settings
 			}
 		}
 
-		namespace FilterAlise
+		namespace FilterAlice
 		{
 			namespace playerInfo
 			{
@@ -1016,7 +1039,7 @@ namespace Settings
 
 	namespace Spammer
 	{
-		inline SpammerType type = SpammerType::SPAMMER_NONE;
+		inline SpammerType type = SpammerType::SPAMMER_NORMAL;
 		inline bool say_team = false;
 
 		namespace KillSpammer
@@ -1148,6 +1171,7 @@ namespace Settings
 	{
 		inline SkinAndModel skin_or_model = SkinAndModel::Model;
 	}
+
 	namespace Skinchanger
 	{
 		namespace Skins
@@ -1159,6 +1183,7 @@ namespace Settings
 		namespace Models
 		{
 			inline bool enabled = false;
+			inline PlayerModel playerModel = PlayerModel::NONE;
 		}
 
 		inline std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsCT = {
@@ -1231,7 +1256,7 @@ namespace Settings
 
 	namespace ClanTagChanger
 	{
-		inline char value[30] = {0};
+		inline char value[30] = "MissedIT";
 		inline bool animation = false;
 		inline int animationSpeed = 650;
 		inline bool enabled = false;

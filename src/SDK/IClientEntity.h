@@ -463,6 +463,12 @@ public:
 
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
 	}
+
+	inline Vector GetBonePosition(int boneIndex, matrix3x4_t BoneMatrix[])
+	{
+		return Vector(BoneMatrix[boneIndex][0][3], BoneMatrix[boneIndex][1][3], BoneMatrix[boneIndex][2][3]);
+	}
+
 	/*
 	inline Vector GetNoInterpBonePosition(int boneIndex)
 	{

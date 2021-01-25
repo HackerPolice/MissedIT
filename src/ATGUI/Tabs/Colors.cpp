@@ -28,9 +28,9 @@ static void colorPicker()
 			if ( (int)Colors::colors[colorSelected].type == (int)Colors::ColorListVar::HEALTHCOLORVAR_TYPE)
 			{
 				UI::ColorPicker4((float*)Colors::colors[colorSelected].healthColorVarPtr);
-				ImGui::Checkbox(XORSTR("Rainbow"), &Colors::colors[colorSelected].healthColorVarPtr->rainbow);
+				ImGui::CheckboxFill(XORSTR("Rainbow"), &Colors::colors[colorSelected].healthColorVarPtr->rainbow);
 				ImGui::SameLine();
-				ImGui::Checkbox(XORSTR("Health-Based"), &Colors::colors[colorSelected].healthColorVarPtr->hp);
+				ImGui::CheckboxFill(XORSTR("Health-Based"), &Colors::colors[colorSelected].healthColorVarPtr->hp);
 				ImGui::PushItemWidth(-1);
 				ImGui::SliderFloat(XORSTR("##RAINBOWSPEED"), &Colors::colors[colorSelected].healthColorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
 				ImGui::PopItemWidth();
@@ -39,7 +39,7 @@ static void colorPicker()
 			{   
                 
 				UI::ColorPicker4((float*)Colors::colors[colorSelected].colorVarPtr);
-				ImGui::Checkbox(XORSTR("Rainbow"), &Colors::colors[colorSelected].colorVarPtr->rainbow);
+				ImGui::CheckboxFill(XORSTR("Rainbow"), &Colors::colors[colorSelected].colorVarPtr->rainbow);
 				ImGui::SliderFloat(XORSTR("##RAINBOWSPEED"), &Colors::colors[colorSelected].colorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
 				
 			}
