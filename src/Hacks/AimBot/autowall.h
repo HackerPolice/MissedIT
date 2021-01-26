@@ -1,8 +1,8 @@
 #pragma once
 
 
-#include "legitbot.h"
 #include "../HeaderFiles.h"
+#include "legitbot.hpp"
 
 namespace AutoWall
 {
@@ -17,6 +17,8 @@ namespace AutoWall
 		float current_damage = 0;
 		int penetrate_count = 0;
 	};
+
+	inline int targetAimbot = -1;
 
 	int GetDamage(const Vector& vecPoint, bool teamCheck);
 	int GetDamage(const Vector& point, bool teamCheck, FireBulletData& fdata);

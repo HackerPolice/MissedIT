@@ -1,6 +1,6 @@
 #include "EventListener.h"
 
-#include "Hacks/AimBot/legitbot.h"
+#include "Hacks/AimBot/legitbot.hpp"
 #include "Hacks/AimBot/ragebot.hpp"
 #include "Hacks/eventlog.h"
 #include "Hacks/hitmarkers.h"

@@ -477,6 +477,7 @@ void Ragebot::GetBestEnemy()
 				BestDamage = bestDamage;
 				BestSpot = bestSpot;
 				enemy = player;
+				AutoWall::targetAimbot = i;
 				return;
 			}
 			else if ( inputSystem->IsButtonDown(Settings::Ragebot::DamageOverrideBtn) ){
@@ -484,6 +485,7 @@ void Ragebot::GetBestEnemy()
 					BestDamage = bestDamage;
 					BestSpot = bestSpot;
 					enemy = player;
+					AutoWall::targetAimbot = i;
 				}
 				
 			}
@@ -492,6 +494,7 @@ void Ragebot::GetBestEnemy()
 				BestDamage = bestDamage;
 				BestSpot = bestSpot;
 				enemy = player;
+				AutoWall::targetAimbot = i;
 			}
 		}
 	}
@@ -613,8 +616,6 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
     if (!activeWeapon || activeWeapon->GetInReload() || activeWeapon->GetAmmo() == 0)
 		return;
-
-	
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime) // fix of shit granade bug cause by me :P
 		return;

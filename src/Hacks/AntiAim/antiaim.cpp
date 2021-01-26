@@ -3,7 +3,7 @@
 
 #include "antiaim.h"
 
-#include "../AimBot/legitbot.h"
+#include "../AimBot/legitbot.hpp"
 #include "../AimBot/autowall.h"
 #include "../valvedscheck.h"
 #include "../AimBot/ragebot.hpp"

@@ -7,7 +7,7 @@
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 #include "../Windows/configs.h"
-#include "../../Hacks/AimBot/legitbot.h"
+#include "../../Hacks/AimBot/legitbot.hpp"
 #include "triggerbottab.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
@@ -53,6 +53,18 @@ static bool autoSlow = false;
 static bool predEnabled = false;
 static bool TriggerBot = false;
 static bool autowall = false;
+static bool PriorityBone = false;
+
+static const char* targets[] = 
+	{
+		"BONE_PELVIS",
+		"HIP", 
+		"LOWER SPINE", 
+		"MIDDLE SPINE", 
+		"UPPER SPINE", 
+		"NECK", 
+		"HEAD" 
+	};
 
 void UI::ReloadWeaponSettings()
 {
@@ -64,7 +76,7 @@ void UI::ReloadWeaponSettings()
 
 	silent = Settings::Legitbot::weapons.at(index).silent;
 	autoShootEnabled = Settings::Legitbot::weapons.at(index).autoShoot;
-	bone = Settings::Legitbot::weapons.at(index).bone-3;
+	bone = Settings::Legitbot::weapons.at(index).bone;
 	aimkey = Settings::Legitbot::weapons.at(index).aimkey;
 	aimkeyOnly = Settings::Legitbot::weapons.at(index).aimkeyOnly;
 	smoothEnabled = Settings::Legitbot::weapons.at(index).smoothEnabled;
@@ -95,9 +107,8 @@ void UI::ReloadWeaponSettings()
 	predEnabled = Settings::Legitbot::weapons.at(index).predEnabled;
 	TriggerBot = Settings::Legitbot::weapons.at(index).TriggerBot;
 	autowall = Settings::Legitbot::weapons.at(index).autoWall;
+	PriorityBone = Settings::Legitbot::weapons.at(index).PriorityBone;
 
-	for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
-		desiredBones[bone] = Settings::Legitbot::weapons.at(index).desiredBones[bone];
 }
 
 void UI::UpdateWeaponSettings()
@@ -128,7 +139,8 @@ void UI::UpdateWeaponSettings()
 			.TriggerBot = TriggerBot,
 			.mindamage = mindamage,
 			.autoWall = autowall,
-			.bone = bone+3,
+			.PriorityBone = PriorityBone,
+			.bone = bone,
 			.smoothType = smoothType,
 			.aimkey = aimkey,
 			.smoothAmount = smoothValue,
@@ -157,18 +169,7 @@ void UI::UpdateWeaponSettings()
 
 static void Aimbot(){
 
-	static const char* targets[] = 
-	{
-		"HIP", 
-		"LOWER SPINE", 
-		"MIDDLE SPINE", 
-		"UPPER SPINE", 
-		"NECK", 
-		"HEAD" 
-	};
-
-
-	if (ImGui::CheckboxFill(XORSTR("##Auto Aim"), &autoAimEnabled))
+	if (ImGui::CheckboxFill(XORSTR("##AutoAim"), &autoAimEnabled))
 		UI::UpdateWeaponSettings();
 	ImGui::SameLine();
 	ImGui::Text("Auto Aim");
@@ -192,12 +193,18 @@ static void Aimbot(){
 		UI::KeyBindButton(&aimkey);
 	}	
 
-	ImGui::PushItemWidth(-1);
-	{
+	if (ImGui::CheckboxFill(XORSTR("##PriorityBone"), &PriorityBone))
+		UI::UpdateWeaponSettings();
+	ImGui::SameLine();
+	ImGui::Text("Priority Bone");
+	ToolTip::Show(XORSTR("When you enable it aimbot will always look for the desired bone first"), ImGui::IsItemHovered());
+	if (PriorityBone){
+		ImGui::PushItemWidth(-1);
 		if (ImGui::Combo(XORSTR("##AIMTARGET"), &bone, targets, IM_ARRAYSIZE(targets)))
 			UI::UpdateWeaponSettings();
+		ImGui::PopItemWidth();
 	}
-	ImGui::PopItemWidth();
+	
 }
 
 static void Recoil(){

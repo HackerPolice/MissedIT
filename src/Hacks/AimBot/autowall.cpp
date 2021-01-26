@@ -78,7 +78,7 @@ static bool TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vector 
 		{
 			if (exit_trace->m_pEntityHit)
 			{
-				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(Legitbot::targetAimbot))
+				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(AutoWall::targetAimbot))
 					return true;
 			}
 

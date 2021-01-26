@@ -5,7 +5,7 @@
 #include "../../settings.h"
 #include "../../Utils/xorstring.h"
 
-#include "../../Hacks/AimBot/legitbot.h"
+#include "../../Hacks/AimBot/legitbot.hpp"
 #include "../../Hacks/esp.h"
 #include "../../Hacks/AimBot/resolver.h"
 #include "../../Hacks/clantagchanger.h"

@@ -200,7 +200,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
             LegitweaponSetting[XORSTR("MinDamage")][XORSTR("enabled")] = i.second.mindamage;
             LegitweaponSetting[XORSTR("MinDamage")][XORSTR("Value")] = i.second.minDamagevalue;
             LegitweaponSetting[XORSTR("Autowall")][XORSTR("enabled")] = i.second.autoWall;
-	
+            LegitweaponSetting[XORSTR("AutoAim")][XORSTR("predEnabled")] = i.second.predEnabled;
+
 	        for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 	            LegitweaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
 
@@ -814,7 +815,8 @@ void Settings::LoadConfig(std::string path)
             .TriggerBot = LegitweaponSetting[XORSTR("TriggerBot")][XORSTR("enabled")].asBool(),
             .mindamage = LegitweaponSetting[XORSTR("MinDamage")][XORSTR("enabled")].asBool(),
             .autoWall = LegitweaponSetting[XORSTR("Autowall")][XORSTR("enabled")].asBool(),
-	        .bone = LegitweaponSetting[XORSTR("TargetBone")].asInt(),
+	        .PriorityBone = LegitweaponSetting[XORSTR("AutoAim")][XORSTR("PriorityBone")].asBool(),
+            .bone = LegitweaponSetting[XORSTR("TargetBone")].asInt(),
 	        .smoothType = (SmoothType)LegitweaponSetting[XORSTR("Smooth")][XORSTR("Type")].asInt(),
 	        .aimkey = Util::GetButtonCode(LegitweaponSetting[XORSTR("AimKey")].asCString()),
 	        .smoothAmount = LegitweaponSetting[XORSTR("Smooth")][XORSTR("Amount")].asFloat(),

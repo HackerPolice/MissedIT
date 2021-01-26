@@ -15,7 +15,7 @@
 #include "../Hacks/autoblock.h"
 #include "../Hacks/predictionsystem.h"
 #include "../Hacks/AimBot/ragebot.hpp"
-#include "../Hacks/AimBot/legitbot.h"
+#include "../Hacks/AimBot/legitbot.hpp"
 #include "../Hacks/AimBot/triggerbot.hpp"
 #include "../Hacks/autoknife.h"
 #include "../Hacks/AntiAim/antiaim.h"

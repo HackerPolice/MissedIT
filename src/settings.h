@@ -221,7 +221,8 @@ struct LegitWeapon_t
 		 predEnabled,
 		 TriggerBot,
 		 mindamage,
-		 autoWall;
+		 autoWall,
+		 PriorityBone;
 	Bone bone = BONE_HEAD;
 	SmoothType smoothType = SmoothType::SLOW_END;
 	ButtonCode_t aimkey = ButtonCode_t ::MOUSE_MIDDLE;
