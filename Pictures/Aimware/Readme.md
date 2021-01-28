@@ -1,5 +1,5 @@
-![LegitBot](Legitbot.png)
-![RageBot](Ragebot.png)
+![LegitBot](LegitBot.png)
+![RageBot](RageBot.png)
 ![TriggerBot](Triggerbot.png)
 ![AntiAim](AntiAim.png)
 ![Visuals](Visuals.png)

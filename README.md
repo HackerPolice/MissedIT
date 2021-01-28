@@ -143,8 +143,8 @@ To add a config, copy the folder containing it to `~/.config/MissedIT/CSGO`
 ![LegitBot](Pictures/Legacy/Legitbot.png)
 **To Check More Pictures *[Click Here](Pictures/Legacy/Readme.md)***
 ### 2 AimwareV5 (In Beta)
-![RageBot](Pictures/Aimware/Ragebot.png)
-**To Check More Pictures *[Click Here](Pictures/Aimware/Readme.md)******
+![RageBot](Pictures/Aimware/RageBot.png)
+**To Check More Pictures *[Click Here](Pictures/Aimware/Readme.md)***
 
 
 
