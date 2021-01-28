@@ -654,6 +654,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeX")] = Settings::UI::Windows::Spectators::sizeX;
     settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeY")] = Settings::UI::Windows::Spectators::sizeY;
 
+    settings[XORSTR("UI")][XORSTR("Theme")] = (int)Settings::UI::uitype;
+
+
     settings[XORSTR("ClanTagChanger")][XORSTR("value")] = Settings::ClanTagChanger::value;
     settings[XORSTR("ClanTagChanger")][XORSTR("enabled")] = Settings::ClanTagChanger::enabled;
     settings[XORSTR("ClanTagChanger")][XORSTR("animation")] = Settings::ClanTagChanger::animation;
@@ -1348,6 +1351,9 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("posY")], &Settings::UI::Windows::Spectators::posY);
     GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeX")], &Settings::UI::Windows::Spectators::sizeX);
     GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeY")], &Settings::UI::Windows::Spectators::sizeY);
+    
+    GetVal(settings[XORSTR("UI")][XORSTR("Theme")], (int*)&Settings::UI::uitype);
+
 
     Settings::UI::Windows::Main::reload = true;
     Settings::UI::Windows::Colors::reload = true;

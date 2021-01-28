@@ -42,17 +42,7 @@ namespace Ragebot {
     inline Vector bulPosition;
     inline RageWeapon_t *currentWeaponSetting;
 
-	void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int playerhealth, int i,const std::unordered_map<int, int>* modelType,matrix3x4_t bonematrix[]);
-	void BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Damage, Vector& Spot);
-    void BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage, Vector& Spot);
-	void GetBestSpotAndDamage(C_BasePlayer* player, Vector& Spot, int& Damage);
-	bool canShoot(C_BaseCombatWeapon*,Vector&, C_BasePlayer*,const RageWeapon_t&);
-    void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings);
-    C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer);
-	void GetBestEnemy();
-    void CheckHit();
-    void SetBulletPositions(float& x, float& y, float& z);
-    void clearBulletPositions();
+
     void init(C_BasePlayer*, C_BaseCombatWeapon*);
 }
 

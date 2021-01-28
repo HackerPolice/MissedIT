@@ -3,13 +3,10 @@
 
 #include "antiaimtab.hpp"
 
-#include "../../interfaces.h"
-#include "../../Utils/xorstring.h"
-#include "../../settings.h"
-#include "../../Hacks/valvedscheck.h"
-#include "../../ImGUI/imgui_internal.h"
-#include "../atgui.h"
-#include "../tooltip.h"
+enum {
+    hvh,
+    FakeLag,
+};
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
@@ -208,7 +205,6 @@ void HvH::LBYBreak(){
 
 void HvH::RenderTab()
 {
-
    ImGui::CheckboxFill(XORSTR("Enable"), &Settings::AntiAim::Enabled);
 
     ImGui::Columns(2, nullptr, false);
@@ -260,5 +256,105 @@ void HvH::RenderTab()
             }ImGui::EndGroupPanel();
         }
         ImGui::EndChild();
+    }ImGui::EndColumns();
+}
+
+void HvH::RenderAimware(ImVec2 &pos,ImDrawList * draw, int sideTabIndex){
+
+    if ( sideTabIndex == hvh){
+
+        draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 945, pos.y + 95), ImColor(0, 0, 0, 150), 10);
+        ImGui::SetCursorPos(ImVec2(185, 70));
+        ImGui::BeginGroup();
+        {
+            ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::AntiAim::Enabled);
+        }ImGui::EndGroup();
+	    ToolTip::Show(XORSTR("Enable AntiAim"), ImGui::IsItemHovered());
+
+        if ( !Settings::AntiAim::Enabled )
+            goto DoNotRender;
+
+        ImGui::SetCursorPos(ImVec2(180, 100));
+        ImGui::BeginGroup();
+        {
+            ImGui::Columns(2, nullptr, false);
+            {
+                ImGui::BeginChild(XORSTR("HVH1"), ImVec2(0, 0), false);
+                {
+            
+                    ImGui::BeginGroupPanel(XORSTR("AntiAim"));
+                    {
+                        AntiAim();
+                    }ImGui::EndGroupPanel();
+           
+                    ImGui::BeginGroupPanel(XORSTR("Rage"));
+                    {
+                        RageFeatures();
+                    }ImGui::EndGroupPanel();   
+            
+                }ImGui::EndChild();
+                
+            }ImGui::NextColumn();
+            {
+                ImGui::BeginChild(XORSTR("HVH2"), ImVec2(0, 0), false);
+                {
+                    ImGui::BeginGroupPanel(XORSTR("Lby Break"));
+                    {
+                        LBYBreak();
+                    }ImGui::EndGroupPanel();
+            
+                    ImGui::BeginGroupPanel(XORSTR("Jitter"));
+                    {
+                        Jitter();
+                    }ImGui::EndGroupPanel();
+
+                    ImGui::BeginGroupPanel(XORSTR("Manual AntiAim"));
+                    {
+                        ManualAntiAim();
+                    }ImGui::EndGroupPanel();
+            
+                }ImGui::EndChild();
+            }ImGui::EndColumns();
+
+        }ImGui::EndGroup();
+    }else {
+
+        // draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 960 - 15, pos.y + 95), ImColor(0, 0, 0, 150), 10);
+        // ImGui::SetCursorPos(ImVec2(185, 70));
+        // ImGui::BeginGroup();
+        // {
+        //     ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::FakeLag::enabled);
+        // }ImGui::EndGroup();
+	    // ToolTip::Show(XORSTR("Enable Fakelag"), ImGui::IsItemHovered());
+
+        ImGui::SetCursorPos(ImVec2(180, 65));
+        ImGui::BeginGroup();
+        {
+            ImGui::Columns(2, nullptr, false);
+            {
+                ImGui::BeginChild(XORSTR("Fakelag1"), ImVec2(0, 0), false);
+                {
+                    ImGui::BeginGroupPanel(XORSTR("FakeLag"));
+                    {
+                        FakeLag();
+                    }ImGui::EndGroupPanel();
+                }ImGui::EndChild();
+                
+            }ImGui::NextColumn();{
+                ImGui::BeginChild(XORSTR("Fakelag2"), ImVec2(0, 0), false);
+                {
+                    ImGui::BeginGroupPanel(XORSTR("Others"));
+                    {
+                        Others();
+                    }ImGui::EndGroupPanel();
+                }ImGui::EndChild();
+                
+            }ImGui::EndColumns();
+
+        }ImGui::EndGroup();
+    
     }
+    
+    DoNotRender:
+    ;
 }

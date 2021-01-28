@@ -1,21 +1,4 @@
-#include <thread>
-
-#include "hooker.h"
-#include "interfaces.h"
-#include "Utils/util.h"
-#include "fonts.h"
-#include "Hooks/hooks.h"
-#include "sdlhook.h"
-
-#include "EventListener.h"
-#include "Utils/xorstring.h"
-#include "Utils/bonemaps.h"
-
-#include "Hacks/nosmoke.h"
-#include "Hacks/tracereffect.h"
-#include "Hacks/skinchanger.h"
-#include "Hacks/valvedscheck.h"
-#include "settings.h"
+#include "MissedIt.h"
 
 
 static EventListener* eventListener = nullptr;
@@ -174,4 +157,9 @@ void __attribute__((destructor)) Shutdown()
 	*s_bOverridePostProcessingDisable = false;
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR("MissedIT Unloaded successfully.\n"));
+}
+
+void MissedIT::Destroy()
+{
+    Shutdown();
 }

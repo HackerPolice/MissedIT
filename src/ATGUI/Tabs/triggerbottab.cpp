@@ -1,10 +1,5 @@
 #include "triggerbottab.h"
 
-#include "../../Utils/xorstring.h"
-#include "../../settings.h"
-#include "../../ImGUI/imgui_internal.h"
-#include "../atgui.h"
-
 #pragma GCC diagnostic ignored "-Wformat-security"
 
 void Triggerbot::KeyBind(){
@@ -60,6 +55,7 @@ void Triggerbot::Filters(){
 	ImGui::Selectable(XORSTR("Arms"), &Settings::Triggerbot::Filters::arms);
 			
 }
+
 void Triggerbot::RenderTab()
 {
 	ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Triggerbot::enabled);
@@ -97,5 +93,62 @@ void Triggerbot::RenderTab()
 			
 			ImGui::EndChild();
 		}
-	}
+	}ImGui::EndColumns();
 }
+
+void Triggerbot::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
+	draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 960 - 15, pos.y + 95), ImColor(0, 0, 0, 150), 10);
+    ImGui::SetCursorPos(ImVec2(185, 70));
+    ImGui::BeginGroup();
+    {
+        if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Triggerbot::enabled));
+    }ImGui::EndGroup();
+	ToolTip::Show(XORSTR("Enable Trigger Bot Bot"), ImGui::IsItemHovered());
+
+	if ( !Settings::Triggerbot::enabled )
+		goto DoNotRender;
+	ImGui::SetCursorPos(ImVec2(180, 100));
+	ImGui::BeginGroup();
+	{
+		ImGui::Columns(2, nullptr, false);
+		{
+			ImGui::BeginChild(XORSTR("TRIG1"), ImVec2(0, 0), false);
+			{
+			
+				ImGui::BeginGroupPanel("OnKey");
+				{
+					KeyBind();
+				}ImGui::EndGroupPanel();
+
+				ImGui::BeginGroupPanel("Delay");
+				{
+					Delay();
+				}ImGui::EndGroupPanel();
+
+				ImGui::BeginGroupPanel("Auto Knife or Zues");
+				{
+					AutoKnife();
+				}ImGui::EndGroupPanel();
+			
+				ImGui::EndChild();
+			}
+		}
+		ImGui::NextColumn();
+		{
+			ImGui::BeginChild(XORSTR("TRIG2"), ImVec2(0, 0), false);
+			{
+				ImGui::BeginGroupPanel("Filters");
+				{
+					Filters();
+				}ImGui::EndGroupPanel();
+
+			}ImGui::EndChild();
+		}
+		ImGui::EndColumns();
+
+	}ImGui::EndGroup();
+	
+	DoNotRender:
+	;
+}
+

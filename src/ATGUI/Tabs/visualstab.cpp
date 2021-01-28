@@ -1,48 +1,56 @@
 #include "visualstab.hpp"
+#include "../tooltip.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 #pragma GCC diagnostic ignored "-Wenum-compare"
 
-	static const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
-	static const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
-	static const char* TracerTypes[] = { "Bottom", "Cursor" };
-	static const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };	
-	static const char* chamsTypes[] = { 
-								"ADDTIVE",
-								"ADDTIVE TWO",
-								"WIREFRAME",
-								"FLAT",
-								"PEARL",
-								"GLOW",
-								"GLOWF",
-								"NONE",
-								};
-	static const char* SmokeTypes[] = { "Wireframe", "None" };
-	static const char* SkyBoxes[] = {
-			"cs_baggage_skybox_", // 0
-			"cs_tibet",
-			"embassy",
-			"italy",
-			"jungle",
-			"office",
-			"nukeblank",
-			"sky_venice",
-			"sky_cs15_daylight01_hdr",
-			"sky_cs15_daylight02_hdr",
-			"sky_cs15_daylight03_hdr",
-			"sky_cs15_daylight04_hdr",
-			"sky_csgo_cloudy01",
-			"sky_csgo_night_flat",
-			"sky_csgo_night02",
-			"sky_csgo_night02b",
-			"sky_day02_05",
-			"sky_day02_05_hdr",
-			"sky_dust",
-			"vertigo",
-			"vertigo_hdr",
-			"vertigoblue_hdr",
-			"vietnam" // 21
-	};
+enum {
+	PlayerVisual,
+	Radar,
+	Hitmarker,
+	Others,
+};
+
+static const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
+static const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
+static const char* TracerTypes[] = { "Bottom", "Cursor" };
+static const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };	
+static const char* chamsTypes[] = { 
+							"ADDTIVE",
+							"ADDTIVE TWO",
+							"WIREFRAME",
+							"FLAT",
+							"PEARL",
+							"GLOW",
+							"GLOWF",
+							"NONE",
+							};
+static const char* SmokeTypes[] = { "Wireframe", "None" };
+static const char* SkyBoxes[] = {
+		"cs_baggage_skybox_", // 0
+		"cs_tibet",
+		"embassy",
+		"italy",
+		"jungle",
+		"office",
+		"nukeblank",
+		"sky_venice",
+		"sky_cs15_daylight01_hdr",
+		"sky_cs15_daylight02_hdr",
+		"sky_cs15_daylight03_hdr",
+		"sky_cs15_daylight04_hdr",
+		"sky_csgo_cloudy01",
+		"sky_csgo_night_flat",
+		"sky_csgo_night02",
+		"sky_csgo_night02b",
+		"sky_day02_05",
+		"sky_day02_05_hdr",
+		"sky_dust",
+		"vertigo",
+		"vertigo_hdr",
+		"vertigoblue_hdr",
+		"vietnam" // 21
+};
 	
 
 static void FilterEnemies()
@@ -293,6 +301,17 @@ void Visuals::Supportive(){
 		ImGui::CheckboxFill(XORSTR("Just Dots"), &Settings::Debug::BoneMap::justDrawDots);
 }
 
+static void CrosshAir(){
+	ImGui::PushItemWidth(-1);
+	ImGui::CheckboxFill(XORSTR("Recoil Crosshair"), &Settings::Recoilcrosshair::enabled);
+	ImGui::CheckboxFill(XORSTR("FOV Circle"), &Settings::ESP::FOVCrosshair::enabled);
+	ImGui::CheckboxFill(XORSTR("Show Spread"), &Settings::ESP::Spread::enabled);
+	ImGui::CheckboxFill(XORSTR("Only When Shooting"), &Settings::Recoilcrosshair::showOnlyWhenShooting);
+	ImGui::CheckboxFill(XORSTR("Filled"), &Settings::ESP::FOVCrosshair::filled);
+	ImGui::CheckboxFill(XORSTR("Show SpreadLimit"), &Settings::ESP::Spread::spreadLimit);
+	ImGui::PopItemWidth();
+}
+
 void Visuals::RenderTab()
 {
 	// Backend For Visuals
@@ -305,22 +324,22 @@ void Visuals::RenderTab()
 	// Filter Visibility
 	ImGui::Columns(2, nullptr, false);
 	{
-		ImGui::BeginChild(XORSTR("##Visuals1"), ImVec2(0, 0), false);
+		ImGui::BeginChild(XORSTR("##Visuals1"), ImVec2(-1, -1), false);
 		{
 			ImGui::BeginGroupPanel(XORSTR("Enemy"));
 			{
 				FilterEnemies();
-			}ImGui::EndGroupPanel();
+			}ImGui::EndGroupPanel2();
 
 			ImGui::BeginGroupPanel(XORSTR("LocalPlayer"));
 			{
 				FilterLocalPlayer();
-			}ImGui::EndGroupPanel();
+			}ImGui::EndGroupPanel2();
 
 			ImGui::BeginGroupPanel(XORSTR("Alise"));
 			{
 				FilterAlice();
-			}ImGui::EndGroupPanel();
+			}ImGui::EndGroupPanel2();
 
 
 			ImGui::PushItemWidth(-1);
@@ -534,3 +553,155 @@ void Visuals::RenderTab()
 		ImGui::EndChild();
 	}
 }
+
+void Visuals::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
+
+	draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 945, pos.y + 95), ImColor(0, 0, 0, 150), 10);
+    ImGui::SetCursorPos(ImVec2(185, 70));
+	ImGui::BeginGroup();
+    {
+        ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::ESP::enabled);
+    }ImGui::EndGroup();
+    ToolTip::Show(XORSTR("Enable Visual"), ImGui::IsItemHovered());
+
+	if ( !Settings::ESP::enabled )
+		goto DoNotRender;
+	
+	ImGui::SetCursorPos(ImVec2(180, 100));
+	if ( sideTabIndex == PlayerVisual){
+		ImGui::BeginGroup();
+		{	
+			ImGui::Columns(3, nullptr, false);
+			{
+				ImGui::BeginChild(XORSTR("##PlayerVisuals1"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Player Info"));
+					{
+						PlayerDetails();
+					}ImGui::EndGroupPanel();
+				}ImGui::EndChild();
+
+			}ImGui::NextColumn();
+			{
+				ImGui::BeginChild(XORSTR("##PlayerVisuals2"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Enemy"));
+					{
+						FilterEnemies();
+					}ImGui::EndGroupPanel();
+
+					ImGui::BeginGroupPanel(XORSTR("Visibility"));
+					{
+						Visibility();
+					}ImGui::EndGroupPanel();
+
+					ImGui::BeginGroupPanel(XORSTR("CrosshAir"));
+					{
+						CrosshAir();
+					}ImGui::EndGroupPanel();
+
+
+				}ImGui::EndChild();
+
+			}ImGui::NextColumn();
+			{	
+				ImGui::BeginChild(XORSTR("##PlayerVisuals3"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("LocalPlayer"));
+					{
+						FilterLocalPlayer();
+					}ImGui::EndGroupPanel();
+
+					ImGui::BeginGroupPanel(XORSTR("Alise"));
+					{
+						FilterAlice();
+					}ImGui::EndGroupPanel();
+
+				}ImGui::EndChild();
+
+			}ImGui::EndColumns();
+
+		}ImGui::EndGroup();
+
+	}
+	else if ( sideTabIndex == Radar ) {
+		ImGui::BeginGroup();
+		{
+			ImGui::Columns();
+			{
+				ImGui::BeginChild(XORSTR("##Visuals1"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Hit Marker"));
+					{
+						Other::Hitmarkers();
+					}ImGui::EndGroupPanel();
+					
+				}ImGui::EndChild();
+			}
+		}ImGui::EndGroup();
+	}
+	else if ( sideTabIndex == Hitmarker ){
+		ImGui::BeginGroup();
+		{
+			ImGui::Columns();
+			{
+				ImGui::BeginChild(XORSTR("##Visuals1"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Radar"));
+					{
+						Other::RadarOptions();
+					}ImGui::EndGroupPanel();
+					
+				}ImGui::EndChild();
+			}
+		}ImGui::EndGroup();
+	}
+	else {
+
+		ImGui::BeginGroup();
+		{
+			ImGui::Columns(2, nullptr, false);
+			{
+				ImGui::BeginChild(XORSTR("##Visuals1"), ImVec2(0, 0), false);
+				{
+
+					ImGui::BeginGroupPanel(XORSTR("Supportive"));
+					{
+						Supportive();
+					}ImGui::EndGroupPanel();
+
+					ImGui::BeginGroupPanel(XORSTR("Others"));
+					{
+						Others();
+					}ImGui::EndGroupPanel();
+
+				}ImGui::EndChild();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::BeginChild(XORSTR("##Visuals2"), ImVec2(0, 0), false);
+				{
+					
+					ImGui::BeginGroupPanel(XORSTR("World Items"));
+					{
+						Items();
+					}ImGui::EndGroupPanel();
+					
+					ImGui::BeginGroupPanel(XORSTR("Danger Zone"));
+					{
+						DangerZone();
+					}ImGui::EndGroupPanel();
+
+
+				}ImGui::EndChild();
+
+			}ImGui::EndColumns();
+
+		}ImGui::EndGroup();
+	
+	}
+
+	DoNotRender:
+	;
+}
+

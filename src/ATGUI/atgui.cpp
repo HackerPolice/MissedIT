@@ -14,6 +14,9 @@
 #include "../Hacks/radar.h"
 #include "../Hacks/AntiAim/antiaim.h"
 
+const char* menuTypes[] = { 
+	"Lagacy Menu", 
+	"AimwareV5 (Beta)" };
 
 bool UI::isVisible = false;
 
@@ -42,8 +45,8 @@ bool UI::DrawImWatermark()
 	if (UI::isVisible)
 		return false;
 
-	// if (engine->IsInGame())
-	// 	return false;
+	if (engine->IsInGame())
+		return false;
 
     ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiCond_Always );
     ImGui::SetNextWindowSize( ImVec2( 200, 0 ), ImGuiCond_Always );
@@ -61,6 +64,28 @@ bool UI::DrawImWatermark()
 	}
 
 	return true;
+}
+
+void UI::DrawMenuSelector()
+{
+	if (!UI::isVisible)
+		return;
+
+	static ImVec2 windowSize = ImVec2( ImGui::GetWindowSize().x-200, 0 );
+
+    ImGui::SetNextWindowPos( windowSize, ImGuiCond_Always );
+    ImGui::SetNextWindowSize( ImVec2( 200, 0 ), ImGuiCond_Always );
+    ImGui::SetNextWindowBgAlpha( 0.0f );
+	ImGuiStyle& style = ImGui::GetStyle();
+            style.WindowBorderSize = 0.0f;
+    if ( ImGui::Begin( XORSTR("##menuSlector"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize ) )
+    {
+		ImGui::PushItemWidth(-1);
+		ImGui::Combo(XORSTR("##MenuType"), (int*)&Settings::UI::uitype, menuTypes, IM_ARRAYSIZE(menuTypes));
+		ImGui::PopItemWidth();
+
+		ImGui::End();
+	}
 }
 
 void UI::SetupWindows()

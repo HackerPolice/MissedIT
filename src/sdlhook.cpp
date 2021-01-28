@@ -13,6 +13,8 @@
 #include "ImGUI/imgui_internal.h" // for 	ImGui::GetCurrentContext()->Font->DisplayOffset
 #include <SDL2/SDL.h>
 
+#include "settings.h"
+
 typedef void (*SDL_GL_SwapWindow_t) (SDL_Window*);
 typedef int (*SDL_PollEvent_t) (SDL_Event*);
 
@@ -146,8 +148,10 @@ static void SwapWindow(SDL_Window* window)
     }
     SDL_ShowCursor(io.MouseDrawCursor ? 0: 1);
 
-    UI::SetupColors();
-    
+    if ( Settings::UI::uitype == UiType::LagacyMenu )
+        UI::SetupLagacyColor();
+    else 
+        UI::SetupAimwareColor();
     // if (!UI::isVisible)
     // {
         ImGui::NewFrame();
@@ -158,6 +162,7 @@ static void SwapWindow(SDL_Window* window)
             style.WindowBorderSize = 0.0f;
             ImGui::Begin( XORSTR("##mainFrame"), (bool*)true, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiColumnsFlags_NoBorder | ImGuiWindowFlags_NoResize);
                 UI::DrawImWatermark();
+                UI::DrawMenuSelector();
                 UI::SetupWindows();
                 UI::angleIndicator();
                 //UI::DrawImWatermark();

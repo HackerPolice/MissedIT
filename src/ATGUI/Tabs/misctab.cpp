@@ -1,24 +1,5 @@
 #include "misctab.h"
 
-#include <sys/stat.h>
-#include <sstream>
-
-#include "../../config.h"
-#include "../../interfaces.h"
-
-#include "../../settings.h"
-#include "../../Utils/xorstring.h"
-#include "../imgui.h"
-#include "../../ImGUI/imgui_internal.h"
-#include "../atgui.h"
-
-#include "../../Hacks/namechanger.h"
-#include "../../Hacks/namestealer.h"
-#include "../../Hacks/grenadehelper.h"
-#include "../../Hacks/clantagchanger.h"
-#include "../../Hacks/valvedscheck.h"
-#include "../Windows/playerlist.h"
-
 #pragma GCC diagnostic ignored "-Wformat-security"
 
 static char nickname[127] = "";
@@ -28,6 +9,14 @@ static const char* spammerTypes[] = { "Type", "Normal", "Positions" };
 static const char* teams[] = { "Allies", "Enemies", "Both" };
 static const char* grenadeTypes[] = { "FLASH", "SMOKE", "MOLOTOV", "HEGRENADE" };
 static const char* throwTypes[] = { "NORMAL", "RUN", "JUMP", "WALK" };
+
+enum {
+	BunnyHop,
+	Customize,
+	Spammer,
+	Others,
+	Unload_Eject,
+};
 
 static void BunnyHopSection(){
 
@@ -526,4 +515,110 @@ void Misc::RenderTab()
 			ImGui::EndChild();
 		}
 	}
+}
+
+void Misc::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
+	ImGui::SetCursorPos(ImVec2(180, 65));
+	ImGui::BeginGroup();
+	{	
+		if ( sideTabIndex == BunnyHop)
+		{
+			ImGui::Columns();
+			{
+				ImGui::BeginChild(XORSTR("Child1"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Bunny Hop"));
+					{
+						BunnyHopSection();
+					}ImGui::EndGroupPanel();
+					
+				}ImGui::EndChild();		
+			}
+		}
+		else if ( sideTabIndex == Spammer){
+			ImGui::Columns();
+			{
+				ImGui::BeginChild(XORSTR("Child2"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Kill Spammer"));
+            		{
+            			KillSpamSection();
+           			}ImGui::EndGroupPanel();
+		
+					ImGui::BeginGroupPanel(XORSTR("Chat Spammer"));
+            		{
+               			ChatSpamSection();
+            		}ImGui::EndGroupPanel();
+					
+				}ImGui::EndChild();		
+			}
+		}
+		else if ( sideTabIndex == Customize ){
+			ImGui::Columns(2, nullptr, false);
+			{
+				ImGui::BeginChild(XORSTR("Child3"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Feild of view"));
+            		{
+               		 	FovSection();
+            		}ImGui::EndGroupPanel();
+					//
+					ImGui::BeginGroupPanel(XORSTR("Third Person"));
+            		{
+                		ThirdPersonSection();
+            		}ImGui::EndGroupPanel();
+					//
+					
+				}ImGui::EndChild();		
+			}ImGui::NextColumn();
+			{	
+				ImGui::BeginChild(XORSTR("Child4"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Clan Tag Changer"));
+            		{
+                		ClanTagSection();
+            		}ImGui::EndGroupPanel();
+					//
+					ImGui::BeginGroupPanel(XORSTR("Name Changer"));
+            		{
+                		NameChangerSection();
+            		}ImGui::EndGroupPanel();
+					//
+					ImGui::BeginGroupPanel(XORSTR("Name Stealer"));
+            		{
+                		NameStealerSection();
+            		}ImGui::EndGroupPanel();
+
+				}ImGui::EndChild();	
+
+			}ImGui::EndColumns();
+		}
+		else if ( Unload_Eject == sideTabIndex ){
+			MissedIT::Destroy(); // destroy self and unload itself
+		}
+		else { //  others
+			ImGui::Columns(2, nullptr, false);
+			{
+				ImGui::BeginChild(XORSTR("Child3"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Others"));
+            		{
+               	 		OthersSection();
+            		}ImGui::EndGroupPanel();
+
+				}ImGui::EndChild();		
+			}ImGui::NextColumn();
+			{
+				ImGui::BeginChild(XORSTR("Child5"), ImVec2(0, 0), false);
+				{
+					ImGui::BeginGroupPanel(XORSTR("Granage Helper"));
+            		{
+               			GranadeHelperSection();
+            		}ImGui::EndGroupPanel();
+
+				}ImGui::EndChild();	
+			}ImGui::EndColumns();
+		}
+		
+	}ImGui::EndGroup();
 }

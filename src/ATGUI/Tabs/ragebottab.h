@@ -1,16 +1,10 @@
 #pragma once
 
-namespace RagebotTab 
+namespace Ragebot 
 {
     void RenderTab();
-
-    // All Options 
-    void AutoShoot();
-    void OtherSettings();
-    void DamageSettings();
-    void HitBone();
-    void MultiBone();
-    void OnshotSettings();
+    // For aimware Style Menu
+    void RenderAimware(ImVec2 &pose,ImDrawList * draw, int sideTabIndex);
 
     void Guns();
 }

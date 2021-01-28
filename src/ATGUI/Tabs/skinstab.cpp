@@ -30,16 +30,16 @@ void SplitSkins()
 	static char filterModelsT[18];
 	static char filterModelSkinsT[18];
 
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);
 
 	ImGui::Text(XORSTR("Counter Terrorist Skins"));
 	ImGui::NextColumn();
 
 	ImGui::Text(XORSTR("Terrorist Skins"));
-	ImGui::Columns(1);
+	ImGui::Columns();
 	ImGui::Separator();
 
-	ImGui::Columns(4);
+	ImGui::Columns(4, nullptr, false);
 
 	ImGui::Text(XORSTR("Model"));
 	ImGui::NextColumn();
@@ -51,9 +51,9 @@ void SplitSkins()
 	ImGui::NextColumn();
 
 	ImGui::Text(XORSTR("Skin"));
-	ImGui::Columns(1);
+	ImGui::Columns();
 
-	ImGui::Columns(4);
+	ImGui::Columns(4, nullptr, false);
 
 	ImGui::PushItemWidth(-1);
 	ImGui::InputText(XORSTR("##filterModelsCT"), filterModelsCT, IM_ARRAYSIZE(filterModelsCT));
@@ -73,13 +73,13 @@ void SplitSkins()
 	ImGui::PushItemWidth(-1);
 	ImGui::InputText(XORSTR("##filterModelSkinsT"), filterModelSkinsT, IM_ARRAYSIZE(filterModelSkinsT));
 	ImGui::PopItemWidth();
-	ImGui::Columns(1);
+	ImGui::Columns();
 
-	ImGui::Columns(4);
+	ImGui::Columns(4, nullptr, false);
 
 	ImGui::GetCurrentContext()->FontBaseSize = 14.0f;
 	ImGui::ListBoxHeader(XORSTR("##modelsCT"), ImVec2(-1, 300));
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);
 	for (auto model : ItemDefinitionIndexMap)
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
@@ -113,7 +113,7 @@ void SplitSkins()
 	ImGui::NextColumn();
 
 	ImGui::ListBoxHeader(XORSTR("##modelSkinsCT"), ImVec2(-1, 300));
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 	for (auto skin : itemSkins)
 	{
 		if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(skin.second.displayName)) || Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(skin.second.displayName)))
@@ -136,7 +136,7 @@ void SplitSkins()
 	ImGui::NextColumn();
 
 	ImGui::ListBoxHeader(XORSTR("##modelsT"), ImVec2(-1, 300));
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 	for (auto model : ItemDefinitionIndexMap)
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
@@ -176,7 +176,7 @@ void SplitSkins()
 	ImGui::NextColumn();
 
 	ImGui::ListBoxHeader(XORSTR("##modelSkinsT"), ImVec2(-1, 300));
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 	for (auto skin : itemSkins)
 	{
 		if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(skin.second.displayName)) || Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(skin.second.displayName)))
@@ -197,13 +197,13 @@ void SplitSkins()
 	}
 	ImGui::GetCurrentContext()->FontBaseSize = 18.0f;
 	ImGui::ListBoxFooter();
-	ImGui::Columns(1);
+	ImGui::Columns();
 
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 
 	ImGui::BeginChild(XORSTR("CT Settings"), ImVec2(0, 0), true);
 	{
-		ImGui::Columns(3);
+		ImGui::Columns(3, nullptr, false);
 
 		ImGui::InputInt(XORSTR("ID##CT"), &modelSkinCT);
 		ImGui::NextColumn();
@@ -214,7 +214,7 @@ void SplitSkins()
 		ImGui::PushItemWidth(-1);
 		ImGui::SliderFloat(XORSTR("##WearCT"), &skinWearCT, 0.0005f, 1.0f, XORSTR("Wear: %0f"));
 		ImGui::PopItemWidth();
-		ImGui::Columns(1);
+		ImGui::Columns();
 
 		if (!Util::Items::IsGlove((ItemDefinitionIndex) modelCT))
 		{
@@ -224,7 +224,7 @@ void SplitSkins()
 			ImGui::NextColumn();
 
 			ImGui::InputText(XORSTR("Name##CT"), skinNameCT, IM_ARRAYSIZE(skinNameCT));
-			ImGui::Columns(1);
+			ImGui::Columns();
 		}
 
 		if (ImGui::Button(XORSTR("Apply##skinCT"), ImVec2(-1, 0)))
@@ -257,7 +257,7 @@ void SplitSkins()
 		ImGui::PushItemWidth(-1);
 		ImGui::SliderFloat(XORSTR("##WearT"), &skinWearT, 0.0005f, 1.0f, XORSTR("Wear: %0f"));
 		ImGui::PopItemWidth();
-		ImGui::Columns(1);
+		ImGui::Columns();
 
 		if (!Util::Items::IsGlove((ItemDefinitionIndex) modelT))
 		{
@@ -267,7 +267,7 @@ void SplitSkins()
 			ImGui::NextColumn();
 
 			ImGui::InputText(XORSTR("Name##T"), skinNameT, IM_ARRAYSIZE(skinNameT));
-			ImGui::Columns(1);
+			ImGui::Columns();
 		}
 
 		if (ImGui::Button(XORSTR("Apply##skinT"), ImVec2(-1, 0)))
@@ -285,7 +285,7 @@ void SplitSkins()
 
 		ImGui::EndChild();
 	}
-	ImGui::Columns(1);
+	ImGui::Columns();
 }
 
 void CombinedSkins()
@@ -299,15 +299,15 @@ void CombinedSkins()
 	static char filterModels[18];
 	static char filterModelSkins[18];
 
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 
 	ImGui::Text(XORSTR("Models"));
 	ImGui::NextColumn();
 
 	ImGui::Text(XORSTR("Skins"));
-	ImGui::Columns(1);
+	ImGui::Columns();
 
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 
 	ImGui::PushItemWidth(-1);
 	ImGui::InputText(XORSTR("##filterModels"), filterModels, IM_ARRAYSIZE(filterModels));
@@ -317,12 +317,12 @@ void CombinedSkins()
 	ImGui::PushItemWidth(-1);
 	ImGui::InputText(XORSTR("##filterModelSkins"), filterModelSkins, IM_ARRAYSIZE(filterModelSkins));
 	ImGui::PopItemWidth();
-	ImGui::Columns(1);
+	ImGui::Columns();
 
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 
 	ImGui::ListBoxHeader(XORSTR("##models"), ImVec2(-1, 300));
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 	for (auto model : ItemDefinitionIndexMap)
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModels)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModels)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
@@ -356,7 +356,7 @@ void CombinedSkins()
 	ImGui::NextColumn();
 
 	ImGui::ListBoxHeader(XORSTR("##modelSkins"), ImVec2(-1, 300));
-	ImGui::Columns(2);
+	ImGui::Columns(2, nullptr, false);;
 	for (auto skin : itemSkins)
 	{
 		if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkins)), Util::ToLower(skin.second.displayName)) || Util::Contains(Util::ToLower(std::string(filterModelSkins)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkins)), Util::ToLower(skin.second.displayName)))
@@ -376,11 +376,11 @@ void CombinedSkins()
 		ImGui::PopID();
 	}
 	ImGui::ListBoxFooter();
-	ImGui::Columns(1);
+	ImGui::Columns();
 
 	ImGui::BeginChild(XORSTR("Settings"), ImVec2(0, 0), true);
 	{
-		ImGui::Columns(3);
+		ImGui::Columns(3, nullptr, false);;
 
 		ImGui::InputInt(XORSTR("ID##CT"), &selectedModelSkin);
 		ImGui::NextColumn();
@@ -391,7 +391,7 @@ void CombinedSkins()
 		ImGui::PushItemWidth(-1);
 		ImGui::SliderFloat(XORSTR("##WearCT"), &skinWear, 0.0005f, 1.0f, XORSTR("Wear: %0f"));
 		ImGui::PopItemWidth();
-		ImGui::Columns(1);
+		ImGui::Columns();
 
 		if (!Util::Items::IsGlove((ItemDefinitionIndex)selectedModel))
 		{
@@ -401,7 +401,7 @@ void CombinedSkins()
 			ImGui::NextColumn();
 
 			ImGui::InputText(XORSTR("Name##Combined"), skinName, IM_ARRAYSIZE(skinName));
-			ImGui::Columns(1);
+			ImGui::Columns();
 		}
 
 		if (ImGui::Button(XORSTR("Apply##Combined"), ImVec2(-1, 0)))
@@ -439,7 +439,7 @@ void Skins::RenderTab()
 	}
 	ImGui::NextColumn();
 
-	ImGui::Columns(1);
+	ImGui::Columns();
 
 	ImGui::Separator();
 

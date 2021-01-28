@@ -35,6 +35,10 @@ enum class PlayerModel : int {
 	NONE,
 };
 
+enum class UiType : int{
+	LagacyMenu,
+	AimwareV5,
+};
 enum class DsyncType : int {
 	type1,
 	type2,
@@ -398,6 +402,7 @@ namespace Settings
 		inline ColorVar accentColor = ImColor( 0, 171, 178, 255 );
 		inline bool imGuiAliasedLines = false;
 		inline bool imGuiAliasedFill = true;
+		inline UiType uitype = UiType::LagacyMenu;
 
         /* Window Position/Size Defaults */
         namespace Windows

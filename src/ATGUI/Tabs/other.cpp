@@ -12,7 +12,7 @@
 static const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
 static const char* TeamColorTypes[] = { "Absolute", "Relative" };	
 
-static void RadarOptions(){
+void Other::RadarOptions(){
 
 	ImGui::CheckboxFill(XORSTR("##RadarEnable"), &Settings::Radar::enabled);
 	ImGui::SameLine();
@@ -42,7 +42,7 @@ static void RadarOptions(){
 
 }
 
-static void Hitmarkers(){
+void Other::Hitmarkers(){
 
 	ImGui::CheckboxFill(XORSTR("Hitmarkers"), &Settings::ESP::Hitmarker::enabled);
 	ImGui::CheckboxFill(XORSTR("Damage##HITMARKERS"), &Settings::ESP::Hitmarker::Damage::enabled);

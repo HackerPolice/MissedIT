@@ -1,0 +1,7 @@
+![LegitBot](Legitbot.png)
+![RageBot](Ragebot.png)
+![TriggerBot](Triggerbot.png)
+![AntiAim](AntiAim.png)
+![Visuals](Visuals.png)
+![Colors](Colors.png)
+![Misc](Screenshot4.png)

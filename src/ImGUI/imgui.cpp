@@ -5680,8 +5680,7 @@ void ImGui::EndChildFrame()
 
 
 static ImVector<ImRect> s_GroupPanelLabelStack;
-
-
+static char Chilename[] = "child1";
 void ImGui::BeginGroupPanel(const char* name, const ImVec2& size)
 { 
     ImGui::BeginGroup();
@@ -5729,10 +5728,66 @@ void ImGui::BeginGroupPanel(const char* name, const ImVec2& size)
     ImGui::PushItemWidth(ImMax(0.0f, itemWidth - frameHeight));
 
     s_GroupPanelLabelStack.push_back(ImRect(labelMin, labelMax));
+
+    // ImGui::BeginChild(Chilename, ImVec2(0, 0), false);
+    // Chilename[5]++;
 }
 
-void ImGui::EndGroupPanel()
+void ImGui::BeginGroupPanel2(const char* name, const ImVec2& size)
+{ 
+    ImGui::BeginGroup();
+
+    auto itemSpacing = ImGui::GetStyle().ItemSpacing;
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+
+    auto frameHeight = ImGui::GetFrameHeight();
+    ImGui::BeginGroup();
+
+    ImVec2 effectiveSize = size;
+    if (size.x < 0.0f)
+        effectiveSize.x = ImGui::GetContentRegionAvailWidth();
+    else
+        effectiveSize.x = size.x;
+    ImGui::Dummy(ImVec2(effectiveSize.x, 0.0f));
+
+    ImGui::Dummy(ImVec2(frameHeight * 0.5f, 0.0f));
+    ImGui::SameLine(0.0f, 0.0f);
+    ImGui::BeginGroup();
+    ImGui::Dummy(ImVec2(frameHeight * 0.5f, 0.0f));
+    ImGui::SameLine(0.0f, 0.0f);
+    ImGui::TextUnformatted(name);
+    auto labelMin = ImGui::GetItemRectMin();
+    auto labelMax = ImGui::GetItemRectMax();
+    ImGui::SameLine(0.0f, 0.0f);
+    ImGui::Dummy(ImVec2(0.0, frameHeight + itemSpacing.y));
+    ImGui::BeginGroup();
+
+    //ImGui::GetWindowDrawList()->AddRect(labelMin, labelMax, IM_COL32(255, 0, 255, 255));
+
+    ImGui::PopStyleVar(2);
+
+#if IMGUI_VERSION_NUM >= 17301
+    ImGui::GetCurrentWindow()->ContentRegionRect.Max.x -= frameHeight * 0.5f;
+    ImGui::GetCurrentWindow()->WorkRect.Max.x          -= frameHeight * 0.5f;
+    ImGui::GetCurrentWindow()->InnerRect.Max.x         -= frameHeight * 0.5f;
+#else
+    ImGui::GetCurrentWindow()->ContentsRegionRect.Max.x -= frameHeight * 0.5f;
+#endif
+    ImGui::GetCurrentWindow()->Size.x                   -= frameHeight;
+
+    auto itemWidth = ImGui::CalcItemWidth();
+    ImGui::PushItemWidth(ImMax(0.0f, itemWidth - frameHeight));
+
+    s_GroupPanelLabelStack.push_back(ImRect(labelMin, labelMax));
+
+    // ImGui::BeginChild(Chilename, ImVec2(0, 0), false);
+    // Chilename[5]++;
+}
+
+void ImGui::EndGroupPanel2()
 {
+    // ImGui::EndChild();
     ImGui::Dummy(ImVec2(1.5,0));
     ImGui::PopItemWidth();
 
@@ -5780,11 +5835,12 @@ void ImGui::EndGroupPanel()
             case 3: ImGui::PushClipRect(ImVec2(labelRect.Min.x, labelRect.Max.y), ImVec2(labelRect.Max.x, FLT_MAX), true); break;
         }
 
-        ImGui::GetWindowDrawList()->AddRect(
-            frameRect.Min, frameRect.Max,
-            ImColor(ImGui::GetStyleColorVec4(ImGuiCol_Border)),
-            halfFrame.x);
-
+        // ImGui::GetWindowDrawList()->AddRect(
+        //     frameRect.Min, frameRect.Max,
+        //     ImColor(ImGui::GetStyleColorVec4(ImGuiCol_Border)),
+        //     halfFrame.x);
+        ImGui::GetWindowDrawList()->AddRectFilled(frameRect.Min, frameRect.Max, ImColor(0, 0, 0, 150), halfFrame.x);
+    
         ImGui::PopClipRect();
     }
 
@@ -5802,8 +5858,81 @@ void ImGui::EndGroupPanel()
     // ImGui::Dummy(ImVec2(1.0f, 0.0f));
     ImGui::Spacing();
 
+    ImGui::EndGroup(); 
+
+}
+
+void ImGui::EndGroupPanel()
+{
+    // ImGui::EndChild();
+    ImGui::Dummy(ImVec2(1.5,0));
+    ImGui::PopItemWidth();
+
+    auto itemSpacing = ImGui::GetStyle().ItemSpacing;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+
+    auto frameHeight = ImGui::GetFrameHeight();
+
     ImGui::EndGroup();
+
+    //ImGui::GetWindowDrawList()->AddRectFilled(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(0, 255, 0, 64), 4.0f);
+
+    ImGui::EndGroup();
+
+    ImGui::SameLine(0.0f, 0.0f);
+    ImGui::Dummy(ImVec2(frameHeight * 0.5f, 0.0f));
+    ImGui::Dummy(ImVec2(0.0, frameHeight - frameHeight * 0.5f - itemSpacing.y));
+
+    ImGui::EndGroup();
+
+    auto itemMin = ImGui::GetItemRectMin();
+    auto itemMax = ImGui::GetItemRectMax();
+    //ImGui::GetWindowDrawList()->AddRectFilled(itemMin, itemMax, IM_COL32(255, 0, 0, 64), 4.0f);
+
+    auto labelRect = s_GroupPanelLabelStack.back();
+    s_GroupPanelLabelStack.pop_back();
+
+    ImVec2 halfFrame = ImVec2(frameHeight * 0.25f, frameHeight) * 0.5f;
+    ImRect frameRect = ImRect(itemMin + halfFrame, itemMax - ImVec2(halfFrame.x, 0.0f));
+    labelRect.Min.x -= itemSpacing.x;
+    labelRect.Max.x += itemSpacing.x;
+    for (int i = 0; i < 4; ++i)
+    {
+        switch (i)
+        {
+            // left half-plane
+            case 0: ImGui::PushClipRect(ImVec2(-FLT_MAX, -FLT_MAX), ImVec2(labelRect.Min.x, FLT_MAX), true); break;
+            // right half-plane
+            case 1: ImGui::PushClipRect(ImVec2(labelRect.Max.x, -FLT_MAX), ImVec2(FLT_MAX, FLT_MAX), true); break;
+            // top
+            case 2: ImGui::PushClipRect(ImVec2(labelRect.Min.x, -FLT_MAX), ImVec2(labelRect.Max.x, labelRect.Min.y), true); break;
+            // bottom
+            case 3: ImGui::PushClipRect(ImVec2(labelRect.Min.x, labelRect.Max.y), ImVec2(labelRect.Max.x, FLT_MAX), true); break;
+        }
+
+        ImGui::GetWindowDrawList()->AddRect( frameRect.Min, frameRect.Max, ImColor(ImGui::GetStyleColorVec4(ImGuiCol_Border)), halfFrame.x);
+        // ImGui::GetWindowDrawList()->AddRectFilled(frameRect.Min, frameRect.Max, ImColor(0, 0, 0, 150), 10);
     
+        ImGui::PopClipRect();
+    }
+
+    ImGui::PopStyleVar(2);
+
+#if IMGUI_VERSION_NUM >= 17301
+    ImGui::GetCurrentWindow()->ContentRegionRect.Max.x += frameHeight * 0.5f;
+    ImGui::GetCurrentWindow()->WorkRect.Max.x          += frameHeight * 0.5f;
+    ImGui::GetCurrentWindow()->InnerRect.Max.x         += frameHeight * 0.5f;
+#else
+    ImGui::GetCurrentWindow()->ContentsRegionRect.Max.x += frameHeight * 0.5f;
+#endif
+    ImGui::GetCurrentWindow()->Size.x                   += frameHeight;
+
+    // ImGui::Dummy(ImVec2(1.0f, 0.0f));
+    ImGui::Spacing();
+
+    ImGui::EndGroup();    
 }
 
 // Save and compare stack sizes on Begin()/End() to detect usage errors
@@ -14346,3 +14475,120 @@ void ImGui::ShowMetricsWindow(bool* p_open)
 #endif
 
 //-----------------------------------------------------------------------------
+
+bool ImGui::Tab(const char* label, bool selected)
+{
+    ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return false;
+
+    ImGuiContext& g = *GImGui;
+    const ImGuiStyle& style = g.Style;
+    const ImGuiID id = window->GetID(label);
+    const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
+
+    ImVec2 pos = window->DC.CursorPos;
+    ImVec2 size = ImGui::CalcItemSize(ImVec2(120,40), label_size.x + style.FramePadding.x * 2.0f, label_size.y + style.FramePadding.y * 2.0f);
+
+    const ImRect bb(pos, pos + size);
+    ImGui::ItemSize(size, style.FramePadding.y);
+    if (!ImGui::ItemAdd(bb, id))
+        return false;
+
+    bool hovered, held;
+    bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held);
+
+    if (hovered || held)
+        ImGui::SetMouseCursor(7);
+
+    if (selected)
+    {
+        window->DrawList->AddRectFilled(ImVec2(bb.Min.x - 3, bb.Min.y - 1), ImVec2(bb.Max.x + 3, bb.Max.y + 0), ImColor(220, 60, 40, 255), 8, 3);
+    }
+    else
+    {
+        if (!hovered)
+        {
+            window->DrawList->AddRectFilled(ImVec2(bb.Min.x + 0, bb.Min.y + 0), ImVec2(bb.Max.x + 0, bb.Max.y + 0), ImColor(160, 30, 30, 255));
+        }
+        else
+        {
+            window->DrawList->AddRectFilled(ImVec2(bb.Min.x + 0, bb.Min.y + 0), ImVec2(bb.Max.x + 0, bb.Max.y + 0), ImColor(190, 45, 35, 255));
+        }
+    }
+
+
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(229 / 255.f, 229 / 255.f, 229 / 255.f, 255 / 255.f));
+    ImGui::RenderText(ImVec2(bb.Min.x + 0 + (105 / 2 - label_size.x / 3), bb.Min.y + style.FramePadding.y + 12), label);
+    ImGui::PopStyleColor();
+
+    return pressed;
+}
+
+bool ImGui::Sub(const char* label, bool selected)
+{
+    ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return false;
+
+    ImGuiContext& g = *GImGui;
+    const ImGuiStyle& style = g.Style;
+    const ImGuiID id = window->GetID(label);
+    const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
+    auto draw = ImGui::GetWindowDrawList();
+
+    ImVec2 pos = window->DC.CursorPos;
+    ImVec2 size = ImGui::CalcItemSize(ImVec2(157, 40), label_size.x + style.FramePadding.x * 2.0f, label_size.y + style.FramePadding.y * 2.0f);
+
+    const ImRect bb(pos, pos + size);
+    ImGui::ItemSize(size, style.FramePadding.y);
+    if (!ImGui::ItemAdd(bb, id))
+        return false;
+
+    bool hovered, held;
+    bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, NULL);
+
+    if (hovered || held)
+        ImGui::SetMouseCursor(7);
+
+    if (selected)
+    {
+        window->DrawList->AddRectFilled(ImVec2(bb.Min.x - 3, bb.Min.y - 1), ImVec2(bb.Max.x + 3, bb.Max.y + 0), ImColor(43, 43, 40, 255));
+        draw->AddRectFilled(ImVec2(bb.Min.x - 0, bb.Min.y - 1), ImVec2(bb.Max.x - 147, bb.Max.y + 0), ImColor(200, 45, 35));
+    }
+    else
+    {
+        if (!hovered)
+        {
+            window->DrawList->AddRectFilled(ImVec2(bb.Min.x + 0, bb.Min.y + 0), ImVec2(bb.Max.x + 0, bb.Max.y + 0), ImColor(32, 31, 32, 0));
+        }
+        else
+        {
+            window->DrawList->AddRectFilled(ImVec2(bb.Min.x + 0, bb.Min.y + 0), ImVec2(bb.Max.x + 0, bb.Max.y + 0), ImColor(32, 31, 32, 255));
+        }
+    }
+
+    if (selected)
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(200 / 255.f, 45 / 255.f, 35 / 255.f, 255 / 255.f));
+        ImGui::RenderText(ImVec2(bb.Min.x + 0 + (105 / 2 - label_size.x / 2), bb.Min.y + style.FramePadding.y + 10), label);
+        ImGui::PopStyleColor();
+    }
+    else
+    {
+        if (!hovered)
+        {
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(255 / 255.f, 255 / 255.f, 255 / 255.f, 255 / 255.f));
+            ImGui::RenderText(ImVec2(bb.Min.x + 0 + (105 / 2 - label_size.x / 2), bb.Min.y + style.FramePadding.y + 10), label);
+            ImGui::PopStyleColor();
+        }
+        else
+        {
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(255 / 255.f, 255 / 255.f, 255 / 255.f, 255 / 255.f));
+            ImGui::RenderText(ImVec2(bb.Min.x + 0 + (105 / 2 - label_size.x / 2), bb.Min.y + style.FramePadding.y + 10), label);
+            ImGui::PopStyleColor();
+        }
+    }
+    return pressed;
+
+}

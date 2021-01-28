@@ -9,7 +9,9 @@ namespace UI
 
 	void SetVisible(bool visible);
 	bool DrawImWatermark();
-	void SetupColors();
+	void DrawMenuSelector();
+	void SetupLagacyColor();
+	void SetupAimwareColor();
 	void SetupWindows();
 	bool ColorPicker(float* col, bool alphabar);
 	bool ColorPicker3(float col[3]);

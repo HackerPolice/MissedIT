@@ -138,13 +138,14 @@ To add a config, copy the folder containing it to `~/.config/MissedIT/CSGO`
 
 ## Screenshots
 
-![LegitBot](Pictures/Legitbot.png)
-![RageBot](Pictures/Ragebot.png)
-![Triggerbot](Pictures/Triggerbot.png)
-![AntiAim](Pictures/AntiAim.png)
-![Visuals](Pictures/Visuals.png)
-![Colors](Pictures/Colors.png)
-![Misc](Pictures/Screenshot4.png)
+### We Have Two Theme Available
+#### 1 Legacy Theme
+![LegitBot](Pictures/Legacy/Legitbot.png)
+**To Check More Pictures *[Click Here](Pictures/Legacy/Readme.md)***
+### 2 AimwareV5 (In Beta)
+![RageBot](Pictures/Aimware/Ragebot.png)
+**To Check More Pictures *[Click Here](Pictures/Aimware/Readme.md)******
+
 
 
 ## Credits
