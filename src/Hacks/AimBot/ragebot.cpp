@@ -185,19 +185,15 @@ bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_Base
     return false;
 }
 
-void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int& playerhealth,int& i,const std::unordered_map<int, int>* modelType)
+void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int playerhealth, int i,const std::unordered_map<int, int>* modelType,matrix3x4_t bonematrix[])
 {	
-
-	if (!player || !player->IsAlive())
-		return;
-
 	static auto HitboxHead([&](int &BoneID){
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		BestHeadPoint(player, BoneID, Damage, Spot);
 	});
 	static auto UpperSpine([&](int &BoneID){
 
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 		BestMultiPoint(player, BoneID, Damage, Spot);
 
@@ -215,7 +211,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		for (auto &j : BONE)
 		{
 			BoneID = (*modelType).at(j);
-			Vector bone3D = player->GetBonePosition(BoneID);
+			Vector bone3D = player->GetBonePosition(BoneID, bonematrix);
 			int bestDamage = AutoWall::GetDamage(bone3D, true);
 			
 			if (bestDamage >= playerhealth)
@@ -232,7 +228,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		}
 	});
 	static auto MiddleSpine([&](int &BoneID){
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 		BestMultiPoint(player, BoneID, Damage, Spot);
 		// BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -252,7 +248,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		for (auto &j : BONE)
 		{
 			BoneID = (*modelType).at(j);
-			Vector bone3D = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+			Vector bone3D = player->GetBonePosition(BoneID, bonematrix);
 			
 			int bestDamage = AutoWall::GetDamage(bone3D, true);
 			if (bestDamage >= playerhealth)
@@ -270,7 +266,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 	});
 	static auto LowerSpine([&](int &BoneID){
 
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 		BestMultiPoint(player, BoneID, Damage, Spot);
 		// BestMultiPointDamage(player, BoneID, Damage, Spot);
@@ -287,7 +283,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		for (auto &j : BONE)
 		{
 			BoneID = (*modelType).at(j);
-			Vector bone3D = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+			Vector bone3D = player->GetBonePosition(BoneID, bonematrix);
 			int bestDamage = AutoWall::GetDamage(bone3D, true);
 
 			if (bestDamage >= playerhealth)
@@ -304,7 +300,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		}
 	});
 	static auto HipHitbox([&](int &BoneID){
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 		BestMultiPoint(player, BoneID, Damage, Spot);
 
@@ -322,7 +318,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		for (auto &j : BONE)
 		{
 			BoneID = (*modelType).at(j);
-			Vector bone3D = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+			Vector bone3D = player->GetBonePosition(BoneID, bonematrix);
 			int bestDamage = AutoWall::GetDamage(bone3D, true);
 
 			if (bestDamage >= playerhealth)
@@ -340,7 +336,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 	});
 	static auto PelvisHitbox([&](int &BoneID){
 
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 		BestMultiPoint(player, BoneID, Damage, Spot);
 		if (Damage >= playerhealth)
@@ -357,7 +353,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		for (auto &j : BONE)
 		{
 			BoneID = (*modelType).at(j);
-			Vector bone3D = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);		
+			Vector bone3D = player->GetBonePosition(BoneID, bonematrix);		
 			int bestDamage = AutoWall::GetDamage(bone3D, true);
 
 			if (bestDamage >= playerhealth)
@@ -374,7 +370,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 		}
 	});
 	static auto DefaultHitbox([&](int &BoneID){
-		Spot = player->GetBonePosition(BoneID, Ragebot::BoneMatrix);
+		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 	});
 
@@ -384,7 +380,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 	{
 		case DesireBones::BONE_HEAD:
 			boneID = (*modelType).at(BONE_HEAD);
-			if (currentWeaponSetting->desiredMultiBones[i]) HitboxHead(boneID); // lamda expression because again creating a new method is going to make the source code mess :p
+			if (currentWeaponSetting->desiredMultiBones[i]) HitboxHead(boneID); // lambda expression because again creating a new method is going to make the source code mess :p
 			else DefaultHitbox(boneID);
 		break;
 		
@@ -431,32 +427,19 @@ void Ragebot::GetBestEnemy()
 	bestDamage = 0;
 
 	int maxClient = engine->GetMaxClients();
-	C_BasePlayer* player = nullptr;
 	static int boneIndex = 0;
-	for (int i = 1; i < maxClient; ++i)
-	{
-		player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
-		if (!player || 
-			i == engine->GetLocalPlayer() || 
-			player->GetDormant() || 
-			!player->IsAlive() || 
-			player->GetImmune() || 
-			player->GetTeam() == localplayer->GetTeam() )
-			continue;			
-
-		if ( !player->SetupBones(Ragebot::BoneMatrix, 128, 256, 0))
-			continue;
-
+	// True if we found our target false for opposite confition :)
+	auto GetBestTarget([&](C_BasePlayer *player, matrix3x4_t matrix[], int playerIndex){
 		if ( currentWeaponSetting->OnShot){
 			if (currentWeaponSetting->OnShotOnKey ){
 				if ( inputSystem->IsButtonDown(Settings::Ragebot::OnShotBtn ) ){
-					if (player->GetIndex() != ShootEnemyIndex)
-						continue;
+					if (playerIndex != ShootEnemyIndex)
+						return false;
 				}
 			}else {
-				if (player->GetIndex() != ShootEnemyIndex)
-					continue;
+				if (playerIndex != ShootEnemyIndex)
+					return false;
 			}
 		}			
 			
@@ -470,22 +453,22 @@ void Ragebot::GetBestEnemy()
 			// if (boneIndex == 0 && player->GetHealth() < 70)
 			// 	boneIndex++;
 
-			GetDamageAndSpots(player, bestSpot, bestDamage, playerhealth, boneIndex, modelType);
+			GetDamageAndSpots(player, bestSpot, bestDamage, playerhealth, boneIndex, modelType, matrix);
 
 			if (bestDamage >= playerhealth)
 			{
 				BestDamage = bestDamage;
 				BestSpot = bestSpot;
-				enemy = player;
-				AutoWall::targetAimbot = i;
-				return;
+				Ragebot::enemy = player;
+				AutoWall::targetAimbot = player->GetIndex();
+				return true;
 			}
 			else if ( inputSystem->IsButtonDown(Settings::Ragebot::DamageOverrideBtn) ){
 				if (bestDamage >= currentWeaponSetting->DamageOverride && bestDamage > BestDamage ){
 					BestDamage = bestDamage;
 					BestSpot = bestSpot;
-					enemy = player;
-					AutoWall::targetAimbot = i;
+					Ragebot::enemy = player;
+					AutoWall::targetAimbot = playerIndex;
 				}
 				
 			}
@@ -493,11 +476,60 @@ void Ragebot::GetBestEnemy()
 			{
 				BestDamage = bestDamage;
 				BestSpot = bestSpot;
-				enemy = player;
-				AutoWall::targetAimbot = i;
+				Ragebot::enemy = player;
+				AutoWall::targetAimbot = playerIndex;
 			}
 		}
+
+		return false;
+	});
+
+	if (Settings::BackTrack::enabled || Settings::LagComp::enabled){
+
+		if ( Records::SelectedRecords >= Records::Ticks.size( ) )
+			goto NormalScanning;
+
+		Records::TickInfo tick = Records::Ticks.at(Records::SelectedRecords);
+		int size = tick.records.size();
+		for (int i = 0; i < size; i++)
+		{	
+			Records::Record record = tick.records.at(i);
+			if (!record.entity ||  
+				record.entity ->GetDormant() || 
+				!record.entity ->IsAlive() || 
+				record.entity ->GetImmune() ||
+				record.entity ->GetTeam() == localplayer->GetTeam() )
+				continue;			
+			
+			// record.entity->SetAbsOrigin(&record.origin);
+			if ( GetBestTarget(record.entity, record.bone_matrix, record.entity->GetIndex()) )
+				return;
+		}
+	}else {
+
+		NormalScanning:
+			C_BasePlayer* player = nullptr;
+			for (int i = 1; i < maxClient; ++i)
+			{
+				player = (C_BasePlayer*) entityList->GetClientEntity(i);
+
+				if (!player || 
+					i == engine->GetLocalPlayer() || 
+					player->GetDormant() || 
+					!player->IsAlive() || 
+					player->GetImmune() || 
+					player->GetTeam() == localplayer->GetTeam() )
+					continue;			
+
+				if ( !player->SetupBones(Ragebot::BoneMatrix, 128, 256, player->GetSimulationTime()))
+					continue;
+
+				if ( GetBestTarget(player, Ragebot::BoneMatrix, i) )
+					return;
+			
+		}
 	}
+	
 }
 
 void Ragebot::CheckHit()

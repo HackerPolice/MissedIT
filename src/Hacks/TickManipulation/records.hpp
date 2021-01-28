@@ -24,6 +24,8 @@ namespace Records
 
 	inline std::vector<Records::TickInfo> Ticks;
 
+	inline int SelectedRecords = INT64_MAX;
+
 	float GetLerpTime();
 	bool IsTickValid(float time);
 	void RemoveInvalidTicks();

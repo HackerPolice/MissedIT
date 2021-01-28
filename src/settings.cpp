@@ -274,6 +274,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
     settings[XORSTR("AntiAim")][XORSTR("JitterFake")] = Settings::AntiAim::JitterFake;
     settings[XORSTR("AntiAim")][XORSTR("NetFake")] = Settings::AntiAim::NetFake;
     settings[XORSTR("AntiAim")][XORSTR("pitchDown")] = Settings::AntiAim::PitchDown;
+    settings[XORSTR("AntiAim")][XORSTR("dsynctype")] = (int)Settings::AntiAim::dsynctype;
     settings[XORSTR("AntiAim")][XORSTR("invertKey")] = Util::GetButtonName(Settings::AntiAim::InvertKey);
     
     settings[XORSTR("AntiAim")][XORSTR("Jitter")][XORSTR("Value")] = Settings::AntiAim::Jitter::Value;
@@ -924,6 +925,7 @@ void Settings::LoadConfig(std::string path)
     GetVal(settings[XORSTR("AntiAim")][XORSTR("JitterFake")], &Settings::AntiAim::JitterFake);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("NetFake")], &Settings::AntiAim::NetFake);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("pitchDown")], &Settings::AntiAim::PitchDown);
+    GetVal(settings[XORSTR("AntiAim")][XORSTR("dsynctype")], (int*)&Settings::AntiAim::dsynctype);
     GetButtonCode(settings[XORSTR("AntiAim")][XORSTR("invertKey")], &Settings::AntiAim::InvertKey);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("inverted")], &Settings::AntiAim::inverted);
     GetVal(settings[XORSTR("AntiAim")][XORSTR("atTheTarget")], &Settings::AntiAim::atTheTarget);

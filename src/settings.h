@@ -35,6 +35,11 @@ enum class PlayerModel : int {
 	NONE,
 };
 
+enum class DsyncType : int {
+	type1,
+	type2,
+};
+
 enum class DesireBones : int {
 	BONE_HEAD = 0,
 	UPPER_CHEST,
@@ -540,6 +545,7 @@ namespace Settings
 		inline bool autoDirection = false;
 		inline float offset = 0.f;
 		inline float NetFake = 0.f;
+		inline DsyncType dsynctype = DsyncType::type1;
 		
 		inline ButtonCode_t InvertKey = ButtonCode_t::KEY_T;
 		

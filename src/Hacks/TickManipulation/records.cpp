@@ -66,7 +66,8 @@ void Records::RegisterTicks()
 	const auto localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
 	const auto curTick = Records::Ticks.insert(Records::Ticks.begin(), {globalVars->tickcount, globalVars->curtime});
 	
-	for (int i = engine->GetMaxClients(); i > 1 ; i--)
+	int maxClients = engine->GetMaxClients();
+	for (int i = maxClients; i > 1 ; i--)
 	{
 		const auto player = (C_BasePlayer *)entityList->GetClientEntity(i);
 
@@ -80,13 +81,16 @@ void Records::RegisterTicks()
 
 		Records::Record record;
 
+		if (!player->SetupBones(record.bone_matrix, 128, BONE_USED_BY_HITBOX, globalVars->curtime))
+			continue;
+
 		record.entity = player;
 		record.simulationTime = player->GetSimulationTime();
-		record.origin = player->GetVecOrigin();
+		record.origin = player->GetAbsOrigin();
 		record.head = player->GetBonePosition(BONE_HEAD);
 
-		if (player->SetupBones(record.bone_matrix, 128, BONE_USED_BY_HITBOX, globalVars->curtime))
-			curTick->records.push_back(record);
+		// storing record data
+		curTick->records.push_back(record);
 	}
 }
 

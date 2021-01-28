@@ -24,15 +24,15 @@ float AntiAim::GetMaxDelta( CCSGOAnimState *animState)
     float speedFactor = std::max(0.0f, std::min(1.0f, animState->feetShuffleSpeed2));
 
     float unk1 = ((animState->runningAccelProgress * -0.30000001) - 0.19999999) * speedFraction;
-    float unk2 = unk1 + 1.0f;
+    unk1 = unk1 + 1.0f;
     float delta;
 
     if (animState->duckProgress > 0)
     {
-        unk2 += ((animState->duckProgress * speedFactor) * (0.5f - unk2));// - 1.f
+        unk1 += ((animState->duckProgress * speedFactor) * (0.5f - unk1));// - 1.f
     }
 
-    delta = *(float*)((uintptr_t)animState + 0x3A4) * unk2;
+    delta = *(float*)((uintptr_t)animState + 0x3A4) * unk1;
 
     return delta - 0.5f;
 }
@@ -252,6 +252,24 @@ static bool LBYBreak(C_BasePlayer* localplayer, bool notsendBreak)
     return lbyBreak;
 }
 
+static bool LbyPrediction(CCSGOAnimState *animState)
+{
+    static float next_lby_update = 0;
+	if (!animState)
+		return false;
+
+	if (animState->feetShuffleSpeed > 0.1f)
+	{
+		next_lby_update = globalVars->curtime + 0.22f;
+	}
+	else if (globalVars->curtime > next_lby_update)
+	{
+		next_lby_update = globalVars->curtime + 1.1f;
+        return true;
+	}
+
+    return false;
+}
 static void DoManualAntiAim()
 {
     static bool B_pressed = false;
@@ -319,35 +337,53 @@ static void DoAntiAim(CUserCmd* cmd,C_BasePlayer* localplayer, QAngle& angle){
 
     float maxDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
 
-    if (LBYBreak(localplayer, true)){
-         if (Settings::AntiAim::inverted) {
-            AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
-            AntiAim::fakeAngle.x = AntiAim::realAngle.x = angle.x; 
-            angle.y += maxDelta;          
+    if (Settings::AntiAim::dsynctype == DsyncType::type1){
+        if ( !AntiAim::bSend ){
+            if (LbyPrediction(localplayer->GetAnimState())){
+                Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
+            }
+            else {
+                Settings::AntiAim::inverted ?  angle.y += maxDelta*2 : angle.y -= maxDelta*2;
+            }
         }
-        else {
-            AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
-            AntiAim::realAngle.x = angle.x;    
-            angle.y -= maxDelta;
-        }
-    }
-    else if ( !AntiAim::bSend ){
-        
-        AntiAim::realAngle.y = angle.y-28.f;
-        AntiAim::realAngle.x = angle.x;    
-        Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
     }
     else {
-        if (Settings::AntiAim::inverted) {
-
-            AntiAim::fakeAngle.y = angle.y-28.f;
-            AntiAim::fakeAngle.x = angle.x;            
-        }
-        else {
-            AntiAim::fakeAngle.y = angle.y+28.f;
-            AntiAim::fakeAngle.x = angle.x;
-        }
+        if (!(cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT) && localplayer->GetFlags() & FL_ONGROUND)
+		{
+			cmd->forwardmove = cmd->tick_count % 2 ? localplayer->GetFlags() & IN_DUCK ? 2.94117647f : .505f : localplayer->GetFlags() & IN_DUCK ? -2.94117647f : -.505f;
+		}
+		if (!AntiAim::bSend)
+			Settings::AntiAim::inverted ?  angle.y += maxDelta*2 : angle.y -= maxDelta*2;
     }
+    // if (LBYBreak(localplayer, true)){
+    //      if (Settings::AntiAim::inverted) {
+    //         AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
+    //         AntiAim::fakeAngle.x = AntiAim::realAngle.x = angle.x; 
+    //         angle.y += maxDelta;          
+    //     }
+    //     else {
+    //         AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
+    //         AntiAim::realAngle.x = angle.x;    
+    //         angle.y -= maxDelta;
+    //     }
+    // }
+    // else if ( !AntiAim::bSend ){
+        
+    //     AntiAim::realAngle.y = angle.y-28.f;
+    //     AntiAim::realAngle.x = angle.x;    
+    //     Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
+    // }
+    // else {
+    //     if (Settings::AntiAim::inverted) {
+
+    //         AntiAim::fakeAngle.y = angle.y-28.f;
+    //         AntiAim::fakeAngle.x = angle.x;            
+    //     }
+    //     else {
+    //         AntiAim::fakeAngle.y = angle.y+28.f;
+    //         AntiAim::fakeAngle.x = angle.x;
+    //     }
+    // }
 
 }
 
@@ -385,8 +421,6 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     QAngle angle = cmd->viewangles;
     QAngle oldAngle;
      engine->GetViewAngles(oldAngle);
-    float oldForward = cmd->forwardmove;
-    float oldSideMove = cmd->sidemove;
     
     if (Settings::AntiAim::atTheTarget){
         C_BasePlayer* lockedTarget = GetClosestEnemy(cmd);
@@ -410,14 +444,9 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     }else if ( Settings::AntiAim::Jitter::Value > 0 ){
 
         angle.y += Settings::AntiAim::offset;
-
         static bool flip = false;
-
-        if (flip){
-            angle.y += Settings::AntiAim::Jitter::Value;
-        }else {
-            angle.y -= Settings::AntiAim::Jitter::Value;
-        } 
+        // swap angle 
+        angle.y += flip ? Settings::AntiAim::Jitter::Value : -Settings::AntiAim::Jitter::Value;
 
         if (Settings::AntiAim::Jitter::SyncWithLag){
             CreateMove::sendPacket ? flip = !flip : flip;
@@ -425,6 +454,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
         else {
             flip = !flip;
         }
+
     }else {
         angle.y += Settings::AntiAim::offset;
 
@@ -437,7 +467,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
             B_pressed = false;
 
         if (Settings::AntiAim::lbyBreak::Enabled){
-            if (LBYBreak(localplayer, Settings::AntiAim::lbyBreak::notSend) && AntiAim::bSend)  
+            if (LBYBreak(localplayer, Settings::AntiAim::lbyBreak::notSend))  
                 angle.y += Settings::AntiAim::inverted ? Settings::AntiAim::lbyBreak::angle : Settings::AntiAim::lbyBreak::angle*-1 ;
         }
         else if (Settings::AntiAim::EnableFakAngle)
@@ -453,7 +483,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
     cmd->viewangles = angle;
 
-    Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);    
+    
+    Math::CorrectMovement(oldAngle, cmd, cmd->forwardmove, cmd->sidemove);    
 }
 
 void AntiAim::FrameStageNotify(ClientFrameStage_t stage)

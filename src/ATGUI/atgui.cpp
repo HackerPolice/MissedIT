@@ -52,12 +52,10 @@ bool UI::DrawImWatermark()
             style.WindowBorderSize = 0.0f;
     ImGui::Begin( XORSTR("##mainFrame"), (bool*)false, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize );
     {
-		Draw::ImText( ImVec2( 20.f, 10.f ), ImColor( 255, 255, 255, 255 ), XORSTR( "MissedIT | FPS :" ), nullptr, 0.0f, nullptr,
-                  ImFontFlags_Outline );
+		Draw::ImText( ImVec2( 20.f, 10.f ), ImColor( 255, 255, 255, 255 ), XORSTR( "MissedIT | FPS :" ), nullptr, 0.0f, nullptr, ImFontFlags_Outline );
 		int fps = static_cast< int >( 1.f / globalVars->frametime );
 		std::string fps_string = std::to_string(fps);
-		Draw::ImText( ImVec2( 140.f, 10.f ), ImColor( 255, 255, 255, 255 ), fps_string.c_str() , nullptr, 0.0f, nullptr,
-                  	ImFontFlags_Outline );
+		Draw::ImText( ImVec2( 140.f, 10.f ), ImColor( 255, 255, 255, 255 ), fps_string.c_str() , nullptr, 0.0f, nullptr, ImFontFlags_Outline );
 		
 		ImGui::End();
 	}

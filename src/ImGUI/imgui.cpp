@@ -947,6 +947,7 @@ static size_t   GImAllocatorActiveAllocationsCount = 0;
 // User facing structures
 //-----------------------------------------------------------------------------
 
+#include "../settings.h"
 ImGuiStyle::ImGuiStyle()
 {
     Alpha                   = 1.0f;             // Global alpha applies to everything in ImGui
@@ -5680,9 +5681,10 @@ void ImGui::EndChildFrame()
 
 static ImVector<ImRect> s_GroupPanelLabelStack;
 
+
 void ImGui::BeginGroupPanel(const char* name, const ImVec2& size)
-{    
-   ImGui::BeginGroup();
+{ 
+    ImGui::BeginGroup();
 
     auto itemSpacing = ImGui::GetStyle().ItemSpacing;
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
@@ -5801,6 +5803,7 @@ void ImGui::EndGroupPanel()
     ImGui::Spacing();
 
     ImGui::EndGroup();
+    
 }
 
 // Save and compare stack sizes on Begin()/End() to detect usage errors

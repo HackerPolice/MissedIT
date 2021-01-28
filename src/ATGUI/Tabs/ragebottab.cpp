@@ -181,8 +181,18 @@ void RagebotTab::OtherSettings(){
 	if ( ImGui::CheckboxFill(XORSTR("Auto Crouch"), &AutoCrouch) )
 		UI::UpdateRageWeaponSettings();
 	
-	ImGui::CheckboxFill(XORSTR("LagCom"), &Settings::LagComp::enabled);
-	ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
+	ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled);
+	ImGui::Columns();
+	{
+		ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled);
+		ToolTip::Show(XORSTR("LagComp is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"), ImGui::IsItemHovered());
+	}
+	ImGui::Columns();
+	{
+		ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
+		ToolTip::Show(XORSTR("Backtrack is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"), ImGui::IsItemHovered());
+	}
+	
 	ImGui::CheckboxFill(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 }
 

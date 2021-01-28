@@ -13,18 +13,27 @@
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
+static const char* dsyncTypes[] = {"Type 1", "Type 2"};
+
 void HvH::AntiAim(){
 
     ImGui::PushItemWidth(-1);
     
-    ImGui::SliderFloat(XORSTR("##offset"), &Settings::AntiAim::offset, 0, 360, XORSTR(" Real Offset : %0.0f"));
-    ToolTip::Show(XORSTR("Adjust Your Player angle in Y axis Usefull in HVH"), ImGui::IsItemHovered());
-
     ImGui::CheckboxFill(XORSTR("##ENABLEFAKEANGLE"), &Settings::AntiAim::EnableFakAngle);
     ImGui::SameLine();
     ImGui::Text(XORSTR("Enable Fake Angle"));
     ToolTip::Show(XORSTR("This Option Allow You to create a fake player in the server to hide your real bonematrix"), ImGui::IsItemHovered());        
     
+
+    ImGui::SliderFloat(XORSTR("##offset"), &Settings::AntiAim::offset, 0, 360, XORSTR(" Real Offset : %0.0f"));
+    ToolTip::Show(XORSTR("Adjust Your Player angle in Y axis Usefull in HVH"), ImGui::IsItemHovered());
+
+    ImGui::Columns();
+    {
+        if ( Settings::AntiAim::offset != 0){ // I am dumb ass forgot to add this
+            UI::KeyBindButton(&Settings::AntiAim::InvertKey);
+        }
+    }
     ImGui::PopItemWidth();
 }
 
@@ -86,6 +95,16 @@ void HvH::RageFeatures(){
         ImGui::SameLine();
         ImGui::Text(XORSTR("Invert On Shoot"));
         ToolTip::Show(XORSTR("Will Invert Your AntiAim After every shoot"), ImGui::IsItemHovered());
+    }
+
+    ImGui::Columns();
+    {
+        ImGui::Text(XORSTR("Dsync"));
+        ImGui::SameLine();
+        ImGui::PushItemWidth(-1);
+        ImGui::Combo(XORSTR("##DSYNCTYPE"), (int*)&Settings::AntiAim::dsynctype, dsyncTypes, IM_ARRAYSIZE(dsyncTypes));
+        ToolTip::Show(XORSTR("Sry Don't Know the names Enjoy :)"), ImGui::IsItemHovered());
+        ImGui::PopItemWidth();
     }
 }
 

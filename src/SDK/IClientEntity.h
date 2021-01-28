@@ -250,7 +250,7 @@ public:
 
 	void ClientAnimations(bool value) // responsible for local animation
 	{
-		*reinterpret_cast<bool*>(uintptr_t(this) + offsets.DT_BasePlayer.m_clientAnimation) = value;
+		*reinterpret_cast<bool*>(uintptr_t(this) + offsets.DT_BaseAnimating.m_bClientSideAnimation) = value;
 	}
 
 	void updateClientAnimation()
@@ -273,10 +273,33 @@ public:
             return -1;
         return GetSeqActivity( this, sequence );
     }
-    CUtlVector<AnimationLayer>* GetAnimOverlay() {
+    CUtlVector<AnimationLayer>* GetAnimOverlay2() {
         return reinterpret_cast<CUtlVector<AnimationLayer>*>((uintptr_t)this + Offsets::playerAnimOverlayOffset);
     }
 
+	std::array<AnimationLayer, 15>* GetAnimOverlay() {
+        return reinterpret_cast<std::array<AnimationLayer, 15>*>((uintptr_t)this + Offsets::playerAnimOverlayOffset);
+    }
+
+	void SetAimlayer( std::array<AnimationLayer, 15>* layers )
+	{
+		auto this_layers = this->GetAnimOverlay();
+		std::copy( std::begin( *this_layers ), std::end( *this_layers ) , std::begin( *layers ) );
+	}
+
+	void SetPoseParam( std::array<float, 24>* params )
+	{
+		auto this_params = this->GetPoseParam();
+		std::copy( std::begin( this_params ), std::end( this_params ), std::begin( *params ) );
+	}
+
+	void SetAbsAngle(const QAngle& angle){
+		*this->GetEyeAngles() = angle;
+	}
+
+	std::array<float, 24>& GetPoseParam(){
+		return *reinterpret_cast<std::array<float, 24>*>(uintptr_t(this) + offsets.DT_BaseAnimating.m_flPoseParameter);
+	}
     CCSGOAnimState* GetAnimState()
     {
         return *reinterpret_cast<CCSGOAnimState**>((uintptr_t)this + Offsets::playerAnimStateOffset);

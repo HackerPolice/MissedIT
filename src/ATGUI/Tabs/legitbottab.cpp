@@ -14,14 +14,7 @@
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool silent = false;
-static bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
-							  true, true, true, true, true, true, true, // left arm
-							  true, true, true, true, true, true, true, // right arm
-							  true, true, true, true, true, // left leg
-							  true, true, true, true, true  // right leg
-							 };
-
-static Bone bone = CONST_BONE_HEAD-3;
+static Bone bone = BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
 static bool aimkeyOnly = false;
 static bool smoothEnabled = false;

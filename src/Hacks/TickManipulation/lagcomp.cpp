@@ -60,7 +60,6 @@ static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
 	return closestPlayer;
 }
 
-
 void LagComp::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::BackTrack::enabled){
@@ -75,8 +74,6 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	C_BaseCombatWeapon *weapon = (C_BaseCombatWeapon *)entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!weapon)
 		return;
-		
-	bool has_target = false;
 
 	C_BasePlayer *closestEnemy = nullptr;
 
@@ -85,13 +82,19 @@ void LagComp::CreateMove(CUserCmd *cmd)
 	else
 		closestEnemy = GetClosestEnemy(cmd);
 		
-	if (!closestEnemy || !closestEnemy->IsAlive())
+	if (!closestEnemy)
 		return;
 
-	for ( auto &Tick : Records::Ticks){
-		for ( auto &record : Tick.records){
+	int size = Records::Ticks.size()-1;
+	static int index;
+	bool has_target = false;
+
+	for ( index = size; index > -1; index--){
+		const auto &tick = Records::Ticks.at(index);
+		for ( auto &record : tick.records){
 			if (record.entity->GetIndex() == closestEnemy->GetIndex()){
-				Chams::BackTrackTicks = cmd->tick_count = Tick.tickCount;
+				cmd->tick_count = tick.tickCount;
+				Records::SelectedRecords = index;
 				has_target = true;
 				break;
 			}

@@ -69,10 +69,6 @@ void BackTrack::CreateMove(CUserCmd *cmd)
 	if (!weapon)
 		return;
 
-	int size = Records::Ticks.size()-1;
-	static int index;
-	bool has_target = false;
-
 	C_BasePlayer *closestEnemy = nullptr;
 
 	if (Ragebot::data.player && Ragebot::data.player->IsAlive())
@@ -82,12 +78,17 @@ void BackTrack::CreateMove(CUserCmd *cmd)
 
 	if (!closestEnemy)
 		return;
-		
+	
+	int size = Records::Ticks.size()-1;
+	static int index;
+	bool has_target = false;
+
 	for ( index = size; index > -1; index--){
 		const auto &tick = Records::Ticks.at(index);
 		for ( auto &record : tick.records ){
 			if (record.entity == closestEnemy){
-				Chams::BackTrackTicks = cmd->tick_count = tick.tickCount;
+				cmd->tick_count = tick.tickCount;
+				Records::SelectedRecords = index;
 				has_target = true;
 				break;
 			}

@@ -815,7 +815,7 @@ static void DrawPlayerText( C_BasePlayer* player, C_BasePlayer* localplayer, int
 		stringsToShow.push_back( XORSTR( "Scoped" ) );
 	if (Settings::ESP::Info::reloading)
 	{
-		CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay();
+		CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay2();
 		for (int i = 0; i <= layers->Count(); i++)
 		{
 			if (player->GetSequenceActivity(layers->operator[](i).m_nSequence) == (int)CCSGOAnimStatePoses::ACT_CSGO_RELOAD && layers->operator[](i).m_flWeight != 0.f)
@@ -839,7 +839,7 @@ static void DrawPlayerText( C_BasePlayer* player, C_BasePlayer* localplayer, int
 	if ( Settings::ESP::Info::location )
 		stringsToShow.push_back( player->GetLastPlaceName() );
 	if (Settings::Debug::AnimLayers::draw){
-		CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay();
+		CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay2();
 		for ( int i = 0; i <= layers->Count(); i++ ){
 			stringsToShow.push_back( Util::GetActivityName(player->GetSequenceActivity(layers->operator[](i).m_nSequence)) );
 		}

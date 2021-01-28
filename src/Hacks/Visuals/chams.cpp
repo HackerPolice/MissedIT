@@ -342,7 +342,9 @@ static void DrawBackTrack(void* thisptr, void* context, void *state, const Model
 	
 	if (!localplayer)
 		return;
-	
+	if ( Records::SelectedRecords >= Records::Ticks.size( ) )
+		return;
+		
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);
 	if (!entity
 		|| entity->GetDormant()
@@ -352,19 +354,18 @@ static void DrawBackTrack(void* thisptr, void* context, void *state, const Model
 
 	static matrix3x4_t BacktrackBoneMatrix[128];
 	static bool found = false;
-	for (auto &Tick : Records::Ticks){
-		if (Tick.tickCount == Chams::BackTrackTicks){
-			for (auto &Record : Tick.records)
-			{
-				if (entity == Record.entity){
-					memcpy(BacktrackBoneMatrix, Record.bone_matrix, sizeof(matrix3x4_t)*128);
-					found = true;
-					// cvar->ConsoleDPrintf(XORSTR("found\n"));
-					break;
-				}
-			}
+	Records::TickInfo tick = Records::Ticks.at(Records::SelectedRecords);
+
+	for (auto &Record : tick.records)
+	{
+		if (entity == Record.entity){
+			memcpy(BacktrackBoneMatrix, Record.bone_matrix, sizeof(matrix3x4_t)*128);
+			found = true;
+			break;
 		}
 	}
+
+	
 	if (!found)
 		return;
 	found = false;

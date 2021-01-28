@@ -32,6 +32,7 @@
 #include "../Hacks/AntiAim/slowwalk.hpp"
 #include "../Hacks/AntiAim/fakelag2.hpp"
 #include "../Hacks/Visuals/DesyncChams.hpp"
+#include "../Hacks/AntiAim/animfix.h"
 
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
 
@@ -46,7 +47,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	{
         // Special thanks to Gre-- I mean Heep ( https://www.unknowncheats.me/forum/counterstrike-global-offensive/290258-updating-bsendpacket-linux.html )
         uintptr_t* rbp;
-		
+		AnimFix::animfix = true;
+
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
         bool *sendPacket = ((*(bool **)rbp) - (int)24);
         
@@ -69,29 +71,34 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		// Walkbot::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
-		if (Settings::FakeLag::enabled) { FakeLag::CreateMove(cmd); }
+		{
+			if (Settings::FakeLag::enabled) { FakeLag::CreateMove(cmd); }
 
-		if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
-		if (Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
-		if (Settings::AntiAim::FakeDuck::enabled)  { FakeDuck::CreateMove(cmd); }
-		if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
+			if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
+			if (Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
+			if (Settings::AntiAim::FakeDuck::enabled)  { FakeDuck::CreateMove(cmd); }
+			if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
+			
+			// Diff backtrack features
+			if (Settings::BackTrack::enabled) { BackTrack::CreateMove(cmd); }
+			if (Settings::LagComp::enabled) { LagComp::CreateMove(cmd); }
 
-		if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
-		if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
+			// Aimbots
+			if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
+			if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
 		
-		FakeLag2::CreateMove(cmd);
+			FakeLag2::CreateMove(cmd);
 
-		DsyncChams::CreateMove(cmd);
-		Triggerbot::CreateMove(cmd);
-		AutoKnife::CreateMove(cmd);
-		
-		if (Settings::BackTrack::enabled) { BackTrack::CreateMove(cmd); }
-		if (Settings::LagComp::enabled) { LagComp::CreateMove(cmd); }
-		// RapidFire::CreateMove(cmd);
+			DsyncChams::CreateMove(cmd);
+			Triggerbot::CreateMove(cmd);
+			AutoKnife::CreateMove(cmd);
+	
+			// RapidFire::CreateMove(cmd);
 
-		ESP::CreateMove(cmd);
-		TracerEffect::CreateMove(cmd);
-		RagdollGravity::CreateMove(cvar);
+			ESP::CreateMove(cmd);
+			TracerEffect::CreateMove(cmd);
+			RagdollGravity::CreateMove(cvar);
+		}
 		PredictionSystem::EndPrediction();
 		
 
