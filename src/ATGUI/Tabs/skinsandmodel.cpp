@@ -31,6 +31,8 @@ void SkinsAndModel::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabInd
             Skins::RenderTab();
         }else if ( sideTabIndex == (int)SkinAndModel::Model ) {
             Models::RenderTab();
+        }else {
+            
         }
     }ImGui::EndGroup();
     

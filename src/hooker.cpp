@@ -321,7 +321,6 @@ void Hooker::FindLoadFromBuffer()
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 
-
 void Hooker::FindOverridePostProcessingDisable()
 {
 	uintptr_t bool_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),

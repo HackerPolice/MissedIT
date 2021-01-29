@@ -5785,7 +5785,7 @@ void ImGui::BeginGroupPanel2(const char* name, const ImVec2& size)
     // Chilename[5]++;
 }
 
-void ImGui::EndGroupPanel2()
+void ImGui::EndGroupPanel()
 {
     // ImGui::EndChild();
     ImGui::Dummy(ImVec2(1.5,0));
@@ -5862,7 +5862,7 @@ void ImGui::EndGroupPanel2()
 
 }
 
-void ImGui::EndGroupPanel()
+void ImGui::EndGroupPanel2()
 {
     // ImGui::EndChild();
     ImGui::Dummy(ImVec2(1.5,0));

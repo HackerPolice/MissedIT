@@ -79,10 +79,10 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 			visible_material = materialChamsFlat;
             hidden_material = materialChamsFlatIgnorez;
 			break;
-            case ChamsType::GLOWF:
-                visible_material = GlowF;
-                hidden_material = materialChamsFlatIgnorez;
-				break;
+        case ChamsType::GLOWF:
+            visible_material = GlowF;
+            hidden_material = materialChamsFlatIgnorez;
+			break;
 		default :
 			return;
 	}
@@ -141,9 +141,12 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 		modelRender->ForcedMaterialOverride(hidden_material);
 		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		modelRender->ForcedMaterialOverride(nullptr);
+	}else {
+		modelRender->ForcedMaterialOverride(visible_material);
+		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		modelRender->ForcedMaterialOverride(nullptr);
 	}
-
-	modelRender->ForcedMaterialOverride(visible_material);
+	
 	
 }
 
@@ -426,8 +429,6 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
 		DrawBackTrack(thisptr, context, state, pInfo);
 		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		modelRender->ForcedMaterialOverride(nullptr);
 	}
 	if (modelName.find(XORSTR("arms")) != std::string::npos){
 		DrawArms(pInfo);

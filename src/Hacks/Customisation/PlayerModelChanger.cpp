@@ -31,6 +31,16 @@ static const char* modelPaths[] ={
 	"models/player/custom_player/legacy/ctm_st6_variantj.mdl"
 };
 
+static void GetIndexes(C_BasePlayer* localplayer){
+	{
+		int size = static_cast<int>(PlayerModel::NONE);
+		for (int i = 0; i < size; i++){
+			modelIndex[i] = modelInfo->GetModelIndex(modelPaths[i]);
+		}
+		originalIdx = *localplayer->GetModelIndex();
+		GetIndex = true;
+	}
+}
 void PlayerModelChanger::FrameStageNotifyModels(ClientFrameStage_t stage){
     
     if (!Settings::Skinchanger::Models::enabled)
@@ -44,19 +54,16 @@ void PlayerModelChanger::FrameStageNotifyModels(ClientFrameStage_t stage){
 		return;
 	if ( Settings::Skinchanger::Models::playerModel == PlayerModel::NONE)
 		return;
-	if ( !GetIndex ){
-		int size = static_cast<int>(PlayerModel::NONE);
-		for (int i = 0; i < size; i++){
-			modelIndex[i] = modelInfo->GetModelIndex(modelPaths[i]);
-		}
-		originalIdx = *localplayer->GetModelIndex();
-		GetIndex = true;
-	}
-
+	
+	if ( !GetIndex ) { GetIndexes(localplayer); }
+	
 	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{ 
 		int idx = modelIndex[static_cast<int>(Settings::Skinchanger::Models::playerModel)];
     	localplayer->SetModelIndex(idx);
+		if (!localplayer->GetModel())
+			GetIndexes(localplayer);
+
 	}else if ( stage == ClientFrameStage_t::FRAME_RENDER_END ){
 		localplayer->SetModelIndex(originalIdx);
 	}

@@ -483,7 +483,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
     cmd->viewangles = angle;
 
-    
+    Aimbot::FixMouseDeltas(cmd, angle, oldAngle);
     Math::CorrectMovement(oldAngle, cmd, cmd->forwardmove, cmd->sidemove);    
 }
 

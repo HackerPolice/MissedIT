@@ -259,3 +259,15 @@ void Models::RenderTab()
 		ImGui::Combo(XORSTR("##SelectPlayerModel"), (int*)&Settings::Skinchanger::Models::playerModel, modelNames, IM_ARRAYSIZE(modelNames));
 	}ImGui::EndGroupPanel();
 }
+
+
+void Models::PlayerModelChanger(){
+	ImGui::BeginGroupPanel(XORSTR("Player Model Changer"));
+	{
+		ImGui::Combo(XORSTR("##SelectPlayerModel"), (int*)&Settings::Skinchanger::Models::playerModel, modelNames, IM_ARRAYSIZE(modelNames));
+	}ImGui::EndGroupPanel();
+
+	if (ImGui::Button(XORSTR("Update"))){
+		
+	}
+}
