@@ -61,6 +61,87 @@ void Records::RemoveInvalidTicks()
 	}
 }
 
+static bool GetBestSpotDamage(C_BasePlayer* enemy, Vector& BestSpot,int& BestDamage, matrix3x4_t BoneMatrix[]){
+	if (!Ragebot::currentWeaponSetting)
+		return false;
+
+	bool gotBestSpot;
+	gotBestSpot = false;
+
+	int boneID = -1;
+
+	for (int boneIndex = 0; boneIndex < 6; boneIndex++)
+	{
+		Vector bestspot = Vector(0);
+		int bestDamage = 0;
+		
+		if ( !Ragebot::currentWeaponSetting->desireBones[boneIndex] ) continue;
+		
+		const std::unordered_map<int, int>* modelType = BoneMaps::GetModelTypeBoneMap(enemy);
+
+		switch ((DesireBones)boneIndex)
+		{
+		case DesireBones::BONE_HEAD:
+			boneID = (*modelType).at(BONE_HEAD);
+			bestspot = enemy->GetBonePosition(boneID, BoneMatrix);
+			bestDamage = AutoWall::GetDamage(bestspot, true);
+		break;
+		
+		case DesireBones::UPPER_CHEST:
+			boneID = (*modelType).at(BONE_UPPER_SPINAL_COLUMN);
+			bestspot = enemy->GetBonePosition(boneID, BoneMatrix);
+			bestDamage = AutoWall::GetDamage(bestspot, true);
+		break;
+			
+		case DesireBones::MIDDLE_CHEST:
+			boneID = (*modelType).at(BONE_MIDDLE_SPINAL_COLUMN);
+			bestspot = enemy->GetBonePosition(boneID, BoneMatrix);
+			bestDamage = AutoWall::GetDamage(bestspot, true);
+		break;
+		
+		case DesireBones::LOWER_CHEST:
+			boneID = (*modelType).at(BONE_LOWER_SPINAL_COLUMN);
+			bestspot = enemy->GetBonePosition(boneID, BoneMatrix);
+			bestDamage = AutoWall::GetDamage(bestspot, true);
+		break;
+		
+		case DesireBones::BONE_HIP:
+			boneID = (*modelType).at(BONE_HIP);
+			bestspot = enemy->GetBonePosition(boneID, BoneMatrix);
+			bestDamage = AutoWall::GetDamage(bestspot, true);
+		break;
+		
+		case DesireBones::LOWER_BODY:
+			boneID = BONE_PELVIS;
+			bestspot = enemy->GetBonePosition(boneID, BoneMatrix);
+			bestDamage = AutoWall::GetDamage(bestspot, true);
+		break;
+		}
+		// Ragebot::GetDamageAndSpots(enemy, bestspot, bestDamage, enemy->GetHealth(), boneIndex, modelType, BoneMatrix);
+	
+		if ( bestDamage >= enemy->GetHealth() ){
+			BestSpot = bestspot;
+			return true;
+		}else {
+			if ( inputSystem->IsButtonDown(Settings::Ragebot::DamageOverrideBtn) ){
+				if (bestDamage >= Ragebot::currentWeaponSetting->DamageOverride && bestDamage > BestDamage ){
+					BestDamage = bestDamage;
+					BestSpot = bestspot;
+					gotBestSpot = true;
+				}
+				
+			}
+			else if (bestDamage >= Ragebot::currentWeaponSetting->MinDamage && bestDamage > BestDamage)
+			{
+				BestDamage = bestDamage;
+				BestSpot = bestspot;
+				gotBestSpot = true;
+			}
+		}
+	}
+	return gotBestSpot;
+}
+
 void Records::RegisterTicks()
 {
 	const auto localplayer = (C_BasePlayer *)entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -84,13 +165,25 @@ void Records::RegisterTicks()
 		if (!player->SetupBones(record.bone_matrix, 128, BONE_USED_BY_HITBOX, globalVars->curtime))
 			continue;
 
+
 		record.entity = player;
 		record.simulationTime = player->GetSimulationTime();
 		record.origin = player->GetAbsOrigin();
 		record.head = player->GetBonePosition(BONE_HEAD);
 
-		// storing record data
 		curTick->records.push_back(record);
+
+		Vector BestSpot = Vector(0);
+		int BestDamage;
+		BestDamage = 0;
+
+		if ( GetBestSpotDamage( player, BestSpot, BestDamage, record.bone_matrix) ){
+			if ( BestDamage >= curTick->bestenemy.BestDamage ){
+				curTick->bestenemy.entity = player;
+				curTick->bestenemy.BestSpot = BestSpot;
+				BestDamage = curTick->bestenemy.BestDamage;
+			}
+		}		
 	}
 }
 

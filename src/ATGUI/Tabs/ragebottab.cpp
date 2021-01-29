@@ -185,12 +185,20 @@ static void OtherSettings(){
 	ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled);
 	ImGui::Columns();
 	{
-		ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled);
+		if ( ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled) )
+		{
+			hitchanceType = HitchanceType::Normal;
+			UI::UpdateRageWeaponSettings(); // because if we need force accuracy our aimbot will not shoot
+		}
 		ToolTip::Show(XORSTR("LagComp is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"), ImGui::IsItemHovered());
 	}
 	ImGui::Columns();
 	{
-		ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled);
+		if ( ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled) )
+		{
+			hitchanceType = HitchanceType::Normal;
+			UI::UpdateRageWeaponSettings(); // because if we need force accuracy our aimbot will not shoot
+		}
 		ToolTip::Show(XORSTR("Backtrack is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"), ImGui::IsItemHovered());
 	}
 	

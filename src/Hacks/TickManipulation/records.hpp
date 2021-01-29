@@ -1,11 +1,19 @@
 #pragma once
 
 #include "../HeaderFiles.h"
+#include "../AimBot/ragebot.hpp"
 
 #include <vector>
 
 namespace Records
 {
+	struct BestEnemy
+	{
+		C_BasePlayer *entity = nullptr;
+		Vector BestSpot = Vector(0);
+		int BestDamage = 0;
+	};
+
 	struct Record
 	{
 		C_BasePlayer *entity;
@@ -20,6 +28,7 @@ namespace Records
 		int tickCount;
 		float simulationTime;
 		std::vector<Record> records;
+		BestEnemy bestenemy;
 	};
 
 	inline std::vector<Records::TickInfo> Ticks;

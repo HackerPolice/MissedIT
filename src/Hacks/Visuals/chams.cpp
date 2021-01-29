@@ -342,7 +342,7 @@ static void DrawBackTrack(void* thisptr, void* context, void *state, const Model
 	
 	if (!localplayer)
 		return;
-	if ( Records::SelectedRecords >= Records::Ticks.size( ) )
+	if ( Records::SelectedRecords >= (int)Records::Ticks.size( ) )
 		return;
 		
 	C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(pInfo.entity_index);

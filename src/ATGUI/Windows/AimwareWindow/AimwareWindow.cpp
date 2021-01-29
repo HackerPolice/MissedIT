@@ -36,7 +36,7 @@ std::initializer_list<const char *> subtabAntiAim = { "HvH", "FakeLag" };
 std::initializer_list<const char *> subtabVisuals = { "Players", "Radar", "Hitmarker", "Others" };
 std::initializer_list<const char *> subtabSkinsModels = {"Skins", "Models", "Player" };
 std::initializer_list<const char *> subtabMisc = { "BunnyHop", "Customize", "Spammer", "Others", "Unload/Eject"};
-std::initializer_list<const char *> subtabConfig = { "Add", "Refresh", "Save", "Remove" };
+std::initializer_list<const char *> subtabConfig = { "Overview", "Add", "Refresh", "Save", "Remove" };
 
 // If you add a new submenu make sure you addd that sequentially :)
 std::vector<std::initializer_list<const char *>> allsubtabs{
@@ -194,7 +194,7 @@ void AimwareWindow::Render(){
 		Tabs();
 		SubTabs();
         
-        cvar->ConsoleDPrintf(XORSTR("Selected tab : %d\n"), tabs);
+        // cvar->ConsoleDPrintf(XORSTR("Selected tab : %d\n"), tabs);
         switch (tabs)
         {
         case AimbotTab:
@@ -214,6 +214,7 @@ void AimwareWindow::Render(){
             break;
         case Config:
             Configs::RenderAimware(pos, draw, subtabs);
+            subtabs = 0;
         default:
             break;
         }

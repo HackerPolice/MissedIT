@@ -182,6 +182,43 @@ bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_Base
     return false;
 }
 
+void Ragebot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings)
+{
+    if (!currentSettings->autoShootEnabled)
+		return;
+	if (!Ragebot::activeWeapon || Ragebot::activeWeapon->GetInReload() || Ragebot::activeWeapon->GetAmmo() == 0)
+		return;
+    CSWeaponType weaponType = Ragebot::activeWeapon->GetCSWpnData()->GetWeaponType();
+    if (weaponType == CSWeaponType::WEAPONTYPE_KNIFE || weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
+		return;
+	
+	if (currentSettings->autoScopeEnabled && Util::Items::IsScopeable(*Ragebot::activeWeapon->GetItemDefinitionIndex()) && !Ragebot::localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) && !(cmd->buttons&IN_ATTACK)){ 
+		cmd->buttons |= IN_ATTACK2; 
+	}
+
+	bool _canShoot;
+	_canShoot = false;
+	if (currentSettings->hitchanceType == HitchanceType::Normal){
+		_canShoot = Aimbot::canShoot(Ragebot::localplayer, Ragebot::activeWeapon, currentSettings->HitChance);
+	}else {
+		_canShoot = canShoot(Ragebot::activeWeapon, bestspot, player, *currentSettings);
+	}
+	if ( _canShoot )
+	{
+		if (Ragebot::activeWeapon->GetNextPrimaryAttack() >= globalVars->curtime)
+			cmd->buttons &= ~IN_ATTACK;
+		else if ( !(cmd->buttons & IN_ATTACK) )
+			cmd->buttons |= IN_ATTACK;
+
+		Ragebot::data.autoslow = false;
+
+		return;
+	}
+
+	// static prevSpe
+	Aimbot::AutoSlow(Ragebot::localplayer, cmd, currentSettings->autoSlow);
+}
+
 void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int playerhealth, int i,const std::unordered_map<int, int>* modelType,matrix3x4_t bonematrix[])
 {	
 	static auto HitboxHead([&](int &BoneID){
@@ -366,7 +403,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage,
 			}
 		}
 	});
-	static auto DefaultHitbox([&](int &BoneID){
+	static auto DefaultHitbox([&](int BoneID){
 		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
 	});
@@ -486,22 +523,19 @@ void Ragebot::GetBestEnemy()
 		if ( Records::SelectedRecords >= (int)Records::Ticks.size( ) )
 			goto NormalScanning;
 
-		Records::TickInfo tick = Records::Ticks.at(Records::SelectedRecords);
-		int size = tick.records.size();
-		for (int i = 0; i < size; i++)
-		{	
-			Records::Record record = tick.records.at(i);
-			if (!record.entity ||  
-				record.entity ->GetDormant() || 
-				!record.entity ->IsAlive() || 
-				record.entity ->GetImmune() ||
-				record.entity ->GetTeam() == Ragebot::localplayer->GetTeam() )
-				continue;			
+		Records::TickInfo *tick = &Records::Ticks.at(Records::SelectedRecords);
+		
 			
-			// record.entity->SetAbsOrigin(&record.origin);
-			if ( GetBestTarget(record.entity, record.bone_matrix, record.entity->GetIndex()) )
-				return;
-		}
+		if ( !tick->bestenemy.entity 
+		||   !tick->bestenemy.entity->IsAlive())
+			goto NormalScanning;		
+			
+			
+		Ragebot::BestDamage = tick->bestenemy.BestDamage;
+		Ragebot::BestSpot = tick->bestenemy.BestSpot;
+		Ragebot::enemy = tick->bestenemy.entity;
+		AutoWall::targetAimbot = tick->bestenemy.entity->GetIndex();	
+	
 	}else {
 
 		NormalScanning:
@@ -585,42 +619,6 @@ void Ragebot::init(C_BasePlayer* _localplayer, C_BaseCombatWeapon* _activeWeapon
 	enemy = nullptr;
 }
 
-void Ragebot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings)
-{
-    if (!currentSettings->autoShootEnabled)
-		return;
-	if (!Ragebot::activeWeapon || Ragebot::activeWeapon->GetInReload() || Ragebot::activeWeapon->GetAmmo() == 0)
-		return;
-    CSWeaponType weaponType = Ragebot::activeWeapon->GetCSWpnData()->GetWeaponType();
-    if (weaponType == CSWeaponType::WEAPONTYPE_KNIFE || weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
-		return;
-	
-	if (currentSettings->autoScopeEnabled && Util::Items::IsScopeable(*Ragebot::activeWeapon->GetItemDefinitionIndex()) && !Ragebot::localplayer->IsScoped() && !(cmd->buttons & IN_ATTACK2) && !(cmd->buttons&IN_ATTACK)){ 
-		cmd->buttons |= IN_ATTACK2; 
-	}
-
-	bool _canShoot;
-	_canShoot = false;
-	if (currentSettings->hitchanceType == HitchanceType::Normal){
-		_canShoot = Aimbot::canShoot(Ragebot::localplayer, Ragebot::activeWeapon, currentSettings->HitChance);
-	}else {
-		_canShoot = canShoot(Ragebot::activeWeapon, bestspot, player, *currentSettings);
-	}
-	if ( _canShoot )
-	{
-		if (Ragebot::activeWeapon->GetNextPrimaryAttack() >= globalVars->curtime)
-			cmd->buttons &= ~IN_ATTACK;
-		else if ( !(cmd->buttons & IN_ATTACK) )
-			cmd->buttons |= IN_ATTACK;
-
-		Ragebot::data.autoslow = false;
-
-		return;
-	}
-
-	// static prevSpe
-	Aimbot::AutoSlow(Ragebot::localplayer, cmd, currentSettings->autoSlow);
-}
 
 void Ragebot::CreateMove(CUserCmd* cmd)
 {
@@ -628,11 +626,11 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     {
 		if (Ragebot::data.Hitted && Ragebot::data.player->GetHealth() >= Ragebot::data.playerhealth){
             cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("Miss Due To Resolver\n"));
-			engine->ExecuteClientCmd("say Resolver is dog shit");
+			engine->ExecuteClientCmd("say MissedIt || Resolver is dog shit");
 		    Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
         }
 		else if (!Ragebot::data.Hitted){
-			engine->ExecuteClientCmd("say AimBot Is Dog Shit");
+			engine->ExecuteClientCmd("say MissedIt || Spread Is Dog Shit");
 		}
     }
 
