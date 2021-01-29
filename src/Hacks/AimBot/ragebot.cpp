@@ -6,7 +6,6 @@
 
 #include "ragebot.hpp"
 #include "resolver.h"
-// #include "../../hooker.cpp"
 #include "../AntiAim/fakelag.h"
 #include "../esp.h"
 #include "aimbot.hpp"
@@ -14,7 +13,7 @@
 
 QAngle RCSLastPunch;
 
-static void BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Damage, Vector& Spot)
+void Ragebot::BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Damage, Vector& Spot)
 {
 	model_t *pModel = player->GetModel();
 	if( !pModel )
@@ -73,7 +72,7 @@ static void BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Damage
 	}
 }
 
-static void BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage, Vector& Spot)
+void Ragebot::BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage, Vector& Spot)
 {
 	model_t* pModel = player->GetModel();
     if (!pModel)
@@ -113,7 +112,7 @@ static void BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage
 	}
 }
 
-static bool canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings)
+bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings)
 {
 	if (currentSettings.HitChance == 0)
 		return false;
@@ -135,15 +134,13 @@ static bool canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePl
     float weap_spread = activeWeapon->GetSpread();
     float weap_inaccuracy = activeWeapon->GetInaccuracy();
 
-
+	srand((unsigned int)time(NULL));
 	static double val1 = (2.0 * M_PI);
     for (int i = 0; i < 256; i++) {
 		
 		if (!enemy || !enemy->IsAlive())
 			return false;
-
-		srand((unsigned int)time(NULL));
-		
+			
 		double b = RandomeFloat(val1);
         double spread = weap_spread * RandomeFloat(1.0f);
         double d = RandomeFloat(1.0f);
@@ -185,7 +182,7 @@ static bool canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePl
     return false;
 }
 
-static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int playerhealth, int i,const std::unordered_map<int, int>* modelType,matrix3x4_t bonematrix[])
+void Ragebot::GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, const int playerhealth, int i,const std::unordered_map<int, int>* modelType,matrix3x4_t bonematrix[])
 {	
 	static auto HitboxHead([&](int &BoneID){
 		Spot = player->GetBonePosition(BoneID, bonematrix);
@@ -416,7 +413,7 @@ static void GetDamageAndSpots(C_BasePlayer* player, Vector &Spot, int& Damage, c
 	}
 }
 
-static void GetBestEnemy()
+void Ragebot::GetBestEnemy()
 {
 	if (!Ragebot::localplayer || !Ragebot::localplayer->IsAlive())
 		return;
@@ -532,7 +529,7 @@ static void GetBestEnemy()
 	
 }
 
-static void CheckHit()
+void Ragebot::CheckHit()
 {	
 	if (!Ragebot::localplayer)
 		return;
@@ -588,7 +585,7 @@ void Ragebot::init(C_BasePlayer* _localplayer, C_BaseCombatWeapon* _activeWeapon
 	enemy = nullptr;
 }
 
-static void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings)
+void Ragebot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings)
 {
     if (!currentSettings->autoShootEnabled)
 		return;

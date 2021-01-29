@@ -47,7 +47,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	{
         // Special thanks to Gre-- I mean Heep ( https://www.unknowncheats.me/forum/counterstrike-global-offensive/290258-updating-bsendpacket-linux.html )
         uintptr_t* rbp;
-		AnimFix::animfix = true;
+		
 
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
         bool *sendPacket = ((*(bool **)rbp) - (int)24);
@@ -77,7 +77,6 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 			if (Settings::AntiAim::FakeWalk::enabled) { FakeWalk::CreateMove(cmd); }
 			if (Settings::AntiAim::SlowWalk::enabled) { SlowWalk::CreateMove(cmd); }
 			if (Settings::AntiAim::FakeDuck::enabled)  { FakeDuck::CreateMove(cmd); }
-			if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
 			
 			// Diff backtrack features
 			if (Settings::BackTrack::enabled) { BackTrack::CreateMove(cmd); }
@@ -86,7 +85,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 			// Aimbots
 			if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
 			if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
-		
+			if (Settings::AntiAim::Enabled)  { AntiAim::CreateMove(cmd); }
+			
 			FakeLag2::CreateMove(cmd);
 
 			DsyncChams::CreateMove(cmd);
@@ -107,8 +107,11 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
         *sendPacket = CreateMove::sendPacket;
 
-        if (CreateMove::sendPacket)
+        if (CreateMove::sendPacket){
+			AnimFix::animfix = true;
 			CreateMove::lastTickViewAngles = cmd->viewangles;
+		}
+			
             
 	}
 

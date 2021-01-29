@@ -53,13 +53,8 @@ void Aimbot::AutoSlow(C_BasePlayer* localplayer, CUserCmd* cmd, const bool& auto
 
 	float length = localplayer->GetVelocity().Length();
 
-	if (length > speed){
-		cmd->forwardmove = 0;
-		cmd->sidemove = 0;
-	}else {
-		cmd->forwardmove > 0 ? cmd->forwardmove = -1 : cmd->forwardmove = 1;
-		cmd->sidemove > 0 ? cmd->sidemove = -1 : cmd->sidemove = 1;			
-	}
+	cmd->forwardmove = 0;
+	cmd->sidemove = 0;
 	
 	speed = length;
 }

@@ -1,10 +1,23 @@
+#pragma once 
+
 #include "../SDK/vector.h"
 #include "../SDK/VMatrix.h"
 #include "../SDK/IInputSystem.h"
 
+#include <algorithm>
+
 #define square(x) ( x * x )
 
 namespace Math {
+
+	inline auto pitch_bounds = 178.f;
+	inline auto yaw_bounds = 360.f;
+	inline auto roll_bounds = 100.f;
+
+	inline auto _forward_bounds = 450.f;
+	inline auto _side_bounds = 450.f;
+	inline auto _up_bounds = 320.f;
+
 	void SinCos(float radians, float *sine, float *cosine);
 	void AngleVectors(const QAngle &angles, Vector &forward);
 	void AngleVectors( const QAngle& angles, Vector* forward, Vector* right, Vector* up );

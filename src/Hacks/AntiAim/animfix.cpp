@@ -2,7 +2,7 @@
 
 void AnimFix::FrameStageNotify(ClientFrameStage_t stage)
 {
-
+    return;
     if (!engine->IsInGame())
         return;
     if (stage != ClientFrameStage_t::FRAME_RENDER_START)

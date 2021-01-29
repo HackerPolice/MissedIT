@@ -428,7 +428,7 @@ static void DrawBulletTracers(CUserCmd* cmd)
 	ImColor color = ImColor(255,0,0,255);
 
 	for (float i = 0.01f; i <= shite; i += 0.01){
-		debugOverlay->DrawPill( entity->GetEyePosition(), ESP::bulletBeam.bulletPosition.at(0), i, color.Value.x * 255, color.Value.y * 255, color.Value.z * 255, 100, 10 );
+		debugOverlay->DrawPill( entity->GetEyePosition(), ESP::bulletBeam.bulletPosition.at(0), i, color.Value.x * 255, color.Value.y * 255, color.Value.z * 255, 100, 1 );
 	}	
 	
 	ESP::bulletBeam.bulletPosition.clear(); // trace Initialising in ragebot.cpp events

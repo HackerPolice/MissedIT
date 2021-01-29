@@ -112,7 +112,7 @@ void UI::UpdateRageWeaponSettings()
 	}
 }
 
-static void AutoShoot()
+static void Aimbot()
 {
 	// all the auto shoot related features are in this section
 
@@ -363,7 +363,7 @@ void Ragebot::RenderTab()
 			// auto Shoot
 			ImGui::BeginGroupPanel(XORSTR("AimBot"));
 			{
-				AutoShoot();
+				Aimbot();
 			}
 			ImGui::EndGroupPanel();
 
@@ -485,7 +485,7 @@ void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
 			{
 				ImGui::BeginGroupPanel(XORSTR("AimBot"));
 				{
-					AutoShoot();
+					Aimbot();
 				}ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("OnShot"));
