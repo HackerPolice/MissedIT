@@ -2,9 +2,11 @@
 
 namespace SDL2
 {
-    void HookSwapWindow();
+	void HookSwapWindow();
+
 	void UnhookWindow();
 
 	void HookPollEvent();
+
 	void UnhookPollEvent();
 }

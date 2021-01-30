@@ -14,5 +14,6 @@
 namespace Configs
 {
 	void RenderTab();
-	void RenderAimware(ImVec2 &pos,ImDrawList * draw, int sideTabIndex);
+
+	void RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex);
 }

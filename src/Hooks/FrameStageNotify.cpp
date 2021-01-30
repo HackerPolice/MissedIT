@@ -11,16 +11,13 @@
 #include "../Hacks/asuswalls.h"
 #include "../Hacks/nosmoke.h"
 #include "../Hacks/thirdperson.h"
-#include "../settings.h"
-#include "../Hacks/TickManipulation/lagcomp.hpp"
-#include "../Hacks/AntiAim/antiaim.h"
 #include "../Hacks/AntiAim/animfix.h"
 #include "../Hacks/Visuals/DesyncChams.hpp"
 #include "../Hacks/Customisation/PlayerModelChanger.hpp"
 
-typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
+typedef void (*FrameStageNotifyFn)(void *, ClientFrameStage_t);
 
-void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
+void Hooks::FrameStageNotify(void *thisptr, ClientFrameStage_t stage)
 {
 	CustomGlow::FrameStageNotify(stage);
 	SkinChanger::FrameStageNotifyModels(stage);
@@ -37,13 +34,12 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	DsyncChams::FrameStageNotify(stage);
 	AnimFix::FrameStageNotify(stage);
 
-	if (SkinChanger::forceFullUpdate)
-	{
+	if (SkinChanger::forceFullUpdate) {
 		GetLocalClient(-1)->m_nDeltaTick = -1;
 		SkinChanger::forceFullUpdate = false;
 	}
 
 	clientVMT->GetOriginalMethod<FrameStageNotifyFn>(37)(thisptr, stage);
-	
+
 	View::PostFrameStageNotify(stage);
 }

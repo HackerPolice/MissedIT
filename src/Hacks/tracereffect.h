@@ -4,8 +4,8 @@
 
 namespace TracerEffect
 {
-    void RestoreTracers();
+	void RestoreTracers();
 
-    //Hooks
-    void CreateMove(CUserCmd* cmd);
+	//Hooks
+	void CreateMove(CUserCmd *cmd);
 }

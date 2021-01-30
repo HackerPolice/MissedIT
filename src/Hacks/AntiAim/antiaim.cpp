@@ -3,11 +3,7 @@
 
 #include "antiaim.h"
 
-#include "../AimBot/legitbot.hpp"
-#include "../AimBot/autowall.h"
-#include "../serverinfo.h"
 #include "../AimBot/ragebot.hpp"
-#include "../Visuals/chams.hpp"
 
 #include "../AimBot/aimbot.hpp"
 #include "fakeduck.h"
@@ -18,67 +14,65 @@
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
-float AntiAim::GetMaxDelta( CCSGOAnimState *animState) 
+float AntiAim::GetMaxDelta(CCSGOAnimState *animState)
 {
-    float speedFraction = std::max(0.0f, std::min(animState->feetShuffleSpeed, 1.0f));
+	float speedFraction = std::max(0.0f, std::min(animState->feetShuffleSpeed, 1.0f));
 
-    float speedFactor = std::max(0.0f, std::min(1.0f, animState->feetShuffleSpeed2));
+	float speedFactor = std::max(0.0f, std::min(1.0f, animState->feetShuffleSpeed2));
 
-    float unk1 = ((animState->runningAccelProgress * -0.30000001) - 0.19999999) * speedFraction;
-    unk1 = unk1 + 1.0f;
-    float delta;
+	float unk1 = ((animState->runningAccelProgress * -0.30000001) - 0.19999999) * speedFraction;
+	unk1 = unk1 + 1.0f;
+	float delta;
 
-    if (animState->duckProgress > 0)
-    {
-        unk1 += ((animState->duckProgress * speedFactor) * (0.5f - unk1));// - 1.f
-    }
-
-    delta = *(float*)((uintptr_t)animState + 0x3A4) * unk1;
-
-	if (ACSafe::AntiVACKick) {
-		return (delta-0.5f) / 2.0f;
+	if (animState->duckProgress > 0) {
+		unk1 += ((animState->duckProgress * speedFactor) * (0.5f - unk1));// - 1.f
 	}
 
-    return delta - 0.5f;
+	delta = *(float *) ((uintptr_t) animState + 0x3A4) * unk1;
+
+	if (ACSafe::AntiVACKick) {
+		return (delta - 0.5f) / 2.0f;
+	}
+
+	return delta - 0.5f;
 }
 
-static C_BasePlayer* GetClosestEnemy (CUserCmd* cmd)
+static C_BasePlayer *GetClosestEnemy(CUserCmd *cmd)
 {
-    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->IsAlive())
-        return nullptr; 
-	C_BasePlayer* closestPlayer = nullptr;
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->IsAlive()) {
+		return nullptr;
+	}
+	C_BasePlayer *closestPlayer = nullptr;
 	Vector pVecTarget = localplayer->GetEyePosition();
 	QAngle viewAngles;
-		engine->GetViewAngles(viewAngles);
+	engine->GetViewAngles(viewAngles);
 	float prevFOV = 0.f;
 
-    int maxPlayers = engine->GetMaxClients();
-	for (int i = 1; i < maxPlayers; ++i)
-	{
-		C_BasePlayer* player = (C_BasePlayer*)entityList->GetClientEntity(i);
+	int maxPlayers = engine->GetMaxClients();
+	for (int i = 1; i < maxPlayers; ++i) {
+		C_BasePlayer *player = (C_BasePlayer *) entityList->GetClientEntity(i);
 
 		if (!player
-	    	|| player == localplayer
-	    	|| player->GetDormant()
-	    	|| !player->IsAlive()
-	    	|| player->GetImmune())
-	    	continue;
+		    || player == localplayer
+		    || player->GetDormant()
+		    || !player->IsAlive()
+		    || player->GetImmune()) {
+			continue;
+		}
 
-		if (Entity::IsTeamMate(player, localplayer))
-	   	 	continue;
+		if (Entity::IsTeamMate(player, localplayer)) {
+			continue;
+		}
 
 		Vector cbVecTarget = player->GetAbsOrigin();
-		
-		float cbFov = Math::GetFov( viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget) );
-		
-		if (prevFOV == 0.f)
-		{
+
+		float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
+
+		if (prevFOV == 0.f) {
 			prevFOV = cbFov;
 			closestPlayer = player;
-		}
-		else if ( cbFov < prevFOV )
-		{
+		} else if (cbFov < prevFOV) {
 			prevFOV = cbFov;
 			closestPlayer = player;
 		}
@@ -139,12 +133,13 @@ static float GetBestHeadAngle(CUserCmd* cmd)
 }
 */
 
-static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
+static bool GetBestHeadAngle(CUserCmd *cmd, QAngle &angle)
 {
-    if ( !Settings::AntiAim::autoDirection)
-        return false;
+	if (!Settings::AntiAim::autoDirection) {
+		return false;
+	}
 
-    float b, r, l;
+	float b, r, l;
 
 	Vector src3D, dst3D, forward, right, up, src, dst;
 
@@ -152,9 +147,10 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 	Ray_t ray, ray2, ray3, ray4, ray5;
 	CTraceFilter filter;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->IsAlive( ))
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->IsAlive()) {
 		return false;
+	}
 
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
@@ -163,49 +159,51 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 
 	Math::AngleVectors(viewAngles, &forward, &right, &up);
 
-	auto GetTargetEntity = [ & ] ( void )
-	{
-		C_BasePlayer* bestTarget = nullptr;
+	auto GetTargetEntity = [&](void) {
+		C_BasePlayer *bestTarget = nullptr;
 
-        float prevFov = 0;
-        const int &MaxClient = engine->GetMaxClients();
-		for( int i = 1; i < MaxClient; i++ )
-		{
-			C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
+		float prevFov = 0;
+		const int &MaxClient = engine->GetMaxClients();
+		for (int i = 1; i < MaxClient; i++) {
+			C_BasePlayer *player = (C_BasePlayer *) entityList->GetClientEntity(i);
 
 			if (!player
-				|| player == localplayer
-				|| player->GetDormant()
-				|| !player->IsAlive()
-				|| player->GetImmune()
-				|| player->GetTeam() == localplayer->GetTeam())
+			    || player == localplayer
+			    || player->GetDormant()
+			    || !player->IsAlive()
+			    || player->GetImmune()
+			    || player->GetTeam() == localplayer->GetTeam()) {
 				continue;
+			}
 
-			float fov = Math::GetFov(viewAngles, Math::CalcAngle(localplayer->GetEyePosition(), player->GetEyePosition()));
+			float fov = Math::GetFov(viewAngles,
+			                         Math::CalcAngle(localplayer->GetEyePosition(), player->GetEyePosition()));
 
-            if (prevFov == 0){
-                bestTarget = player;
-                prevFov = fov;
-            }else if (fov > prevFov){
-                bestTarget = player;
-                prevFov = fov;
-            }
+			if (prevFov == 0) {
+				bestTarget = player;
+				prevFov = fov;
+			} else if (fov > prevFov) {
+				bestTarget = player;
+				prevFov = fov;
+			}
 		}
 
 		return bestTarget;
 	};
 
-	C_BasePlayer* target = GetTargetEntity();
-    if (!target)
-        return false;
-    // cvar->ConsoleDPrintf("Found Target\n");
+	C_BasePlayer *target = GetTargetEntity();
+	if (!target) {
+		return false;
+	}
+	// cvar->ConsoleDPrintf("Found Target\n");
 	filter.pSkip = localplayer;
 	src3D = localplayer->GetEyePosition();
 	dst3D = src3D + (forward * 384);
-    dst3D = target->GetBonePosition(BONE_HEAD);
+	dst3D = target->GetBonePosition(BONE_HEAD);
 
-	if (target == nullptr)
+	if (target == nullptr) {
 		return false;
+	}
 
 	ray.Init(src3D, dst3D);
 	trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
@@ -219,274 +217,286 @@ static bool GetBestHeadAngle(CUserCmd* cmd, QAngle& angle)
 	trace->TraceRay(ray3, MASK_SHOT, &filter, &tr);
 	l = (tr.endpos - tr.startpos).Length();
 
-	if (b < r && b < l && l == r)
-		return false; //if left and right are equal and better than back
-
-	if (b > r && b > l)
-		AntiAim::realAngle.y = angle.y -= 180; //if back is the best angle
-	else if (r > l && r > b)
-		AntiAim::realAngle.y = angle.y += 90; //if right is the best angle
-	else if (r > l && r == b)
-		AntiAim::realAngle.y = angle.y += 135; //if right is equal to back
-	else if (l > r && l > b)
-		AntiAim::realAngle.y = angle.y -= 90; //if left is the best angle
-	else if (l > r && l == b)
-		AntiAim::realAngle.y = angle.y -= 135; //if left is equal to back
-	else
+	if (b < r && b < l && l == r) {
 		return false;
+	} //if left and right are equal and better than back
+
+	if (b > r && b > l) {
+		AntiAim::realAngle.y = angle.y -= 180; //if back is the best angle
+	} else if (r > l && r > b) {
+		AntiAim::realAngle.y = angle.y += 90; //if right is the best angle
+	} else if (r > l && r == b) {
+		AntiAim::realAngle.y = angle.y += 135; //if right is equal to back
+	} else if (l > r && l > b) {
+		AntiAim::realAngle.y = angle.y -= 90; //if left is the best angle
+	} else if (l > r && l == b) {
+		AntiAim::realAngle.y = angle.y -= 135; //if left is equal to back
+	} else {
+		return false;
+	}
 
 	return true;
 }
 
-static bool LBYBreak(C_BasePlayer* localplayer, bool notsendBreak)
+static bool LBYBreak(C_BasePlayer *localplayer, bool notsendBreak)
 {
-    static bool lbyBreak;
-    static float lastCheck = 0.f;
+	static bool lbyBreak;
+	static float lastCheck = 0.f;
 
-    if( !lbyBreak && ( globalVars->curtime - lastCheck ) > 0.22 ){
-        lbyBreak = true;
-        lastCheck = globalVars->curtime;
-        if (notsendBreak) CreateMove::sendPacket = AntiAim::bSend = false;
-    } else if( lbyBreak && ( globalVars->curtime - lastCheck ) > 1.1 ){
-        lbyBreak = false;
-        lastCheck = globalVars->curtime;
-    }else {
-        lbyBreak = false;
-    }
+	if (!lbyBreak && (globalVars->curtime - lastCheck) > 0.22) {
+		lbyBreak = true;
+		lastCheck = globalVars->curtime;
+		if (notsendBreak) { CreateMove::sendPacket = AntiAim::bSend = false; }
+	} else if (lbyBreak && (globalVars->curtime - lastCheck) > 1.1) {
+		lbyBreak = false;
+		lastCheck = globalVars->curtime;
+	} else {
+		lbyBreak = false;
+	}
 
-    return lbyBreak;
+	return lbyBreak;
 }
 
 static bool LbyPrediction(CCSGOAnimState *animState)
 {
-    static float next_lby_update = 0;
-	if (!animState)
+	static float next_lby_update = 0;
+	if (!animState) {
 		return false;
+	}
 
-	if (animState->feetShuffleSpeed > 0.1f)
-	{
+	if (animState->feetShuffleSpeed > 0.1f) {
 		next_lby_update = globalVars->curtime + 0.22f;
-	}
-	else if (globalVars->curtime > next_lby_update)
-	{
+	} else if (globalVars->curtime > next_lby_update) {
 		next_lby_update = globalVars->curtime + 1.1f;
-        return true;
+		return true;
 	}
 
-    return false;
+	return false;
 }
+
 static void DoManualAntiAim()
 {
-    static bool B_pressed = false;
-    
-    if (!Settings::AntiAim::ManualAntiAim::Enable)
-        return;
+	static bool B_pressed = false;
 
-    if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton) && !B_pressed )
-    {
+	if (!Settings::AntiAim::ManualAntiAim::Enable) {
+		return;
+	}
+
+	if (inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton) && !B_pressed) {
 		AntiAim::ManualAntiAim::alignBack = !AntiAim::ManualAntiAim::alignBack;
 		AntiAim::ManualAntiAim::alignLeft = AntiAim::ManualAntiAim::alignRight = false;
-        B_pressed = true;
-	}
-    else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::RightButton) && !B_pressed)
-	{
+		B_pressed = true;
+	} else if (inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::RightButton) && !B_pressed) {
 		AntiAim::ManualAntiAim::alignRight = !AntiAim::ManualAntiAim::alignRight;
-        AntiAim::ManualAntiAim::alignBack = AntiAim::ManualAntiAim::alignLeft = false;
-        B_pressed = true;
-	}	
-    else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::LeftButton) && !B_pressed )
-    {
+		AntiAim::ManualAntiAim::alignBack = AntiAim::ManualAntiAim::alignLeft = false;
+		B_pressed = true;
+	} else if (inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::LeftButton) && !B_pressed) {
 		AntiAim::ManualAntiAim::alignBack = AntiAim::ManualAntiAim::alignRight = false;
-        AntiAim::ManualAntiAim::alignLeft = !AntiAim::ManualAntiAim::alignLeft;
-        B_pressed = true;
+		AntiAim::ManualAntiAim::alignLeft = !AntiAim::ManualAntiAim::alignLeft;
+		B_pressed = true;
 	}
-    bool buttonNotPressed = !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::LeftButton ) && !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::RightButton ) && !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton );
+	bool buttonNotPressed = !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::LeftButton) &&
+	                        !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::RightButton) &&
+	                        !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton);
 
-    if (buttonNotPressed && B_pressed)
-        B_pressed = false;    
+	if (buttonNotPressed && B_pressed) {
+		B_pressed = false;
+	}
 }
 
-static bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon, CUserCmd* cmd)
+static bool canMove(C_BasePlayer *localplayer, C_BaseCombatWeapon *activeweapon, CUserCmd *cmd)
 {
-    if (AimStep::inProgress)
-        return false;
-    
-    if (activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
-    {
-        C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*) activeweapon;
-        if (csGrenade->GetThrowTime() > 0.f)
-            return false;
-    }
+	if (AimStep::inProgress) {
+		return false;
+	}
 
-    if (cmd->buttons & IN_ATTACK)
-        return false;
-    if (cmd->buttons & IN_USE)
-        return false;
-    if ( cmd->buttons & IN_ATTACK2 && activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE )
-        return false;
-
-    if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
-        return false;
-
-    return true;
-}
-
-static void DoAntiAim(CUserCmd* cmd,C_BasePlayer* localplayer, QAngle& angle){
-
-    if (GetBestHeadAngle(cmd, angle))
-        return;
-
-    float maxDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
-
-    if (Settings::AntiAim::dsynctype == DsyncType::type1){
-        if ( !AntiAim::bSend ){
-            if (LbyPrediction(localplayer->GetAnimState())){
-                Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
-            }
-            else {
-                Settings::AntiAim::inverted ?  angle.y += maxDelta*2 : angle.y -= maxDelta*2;
-            }
-        }
-    }
-    else {
-        if (!(cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT) && localplayer->GetFlags() & FL_ONGROUND)
-		{
-			cmd->forwardmove = cmd->tick_count % 2 ? localplayer->GetFlags() & IN_DUCK ? 2.94117647f : .505f : localplayer->GetFlags() & IN_DUCK ? -2.94117647f : -.505f;
+	if (activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE) {
+		C_BaseCSGrenade *csGrenade = (C_BaseCSGrenade *) activeweapon;
+		if (csGrenade->GetThrowTime() > 0.f) {
+			return false;
 		}
-		if (!AntiAim::bSend)
-			Settings::AntiAim::inverted ?  angle.y += maxDelta*2 : angle.y -= maxDelta*2;
-    }
-    // if (LBYBreak(localplayer, true)){
-    //      if (Settings::AntiAim::inverted) {
-    //         AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
-    //         AntiAim::fakeAngle.x = AntiAim::realAngle.x = angle.x; 
-    //         angle.y += maxDelta;          
-    //     }
-    //     else {
-    //         AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
-    //         AntiAim::realAngle.x = angle.x;    
-    //         angle.y -= maxDelta;
-    //     }
-    // }
-    // else if ( !AntiAim::bSend ){
-        
-    //     AntiAim::realAngle.y = angle.y-28.f;
-    //     AntiAim::realAngle.x = angle.x;    
-    //     Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
-    // }
-    // else {
-    //     if (Settings::AntiAim::inverted) {
+	}
 
-    //         AntiAim::fakeAngle.y = angle.y-28.f;
-    //         AntiAim::fakeAngle.x = angle.x;            
-    //     }
-    //     else {
-    //         AntiAim::fakeAngle.y = angle.y+28.f;
-    //         AntiAim::fakeAngle.x = angle.x;
-    //     }
-    // }
+	if (cmd->buttons & IN_ATTACK) {
+		return false;
+	}
+	if (cmd->buttons & IN_USE) {
+		return false;
+	}
+	if (cmd->buttons & IN_ATTACK2 && activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE) {
+		return false;
+	}
+
+	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP) {
+		return false;
+	}
+
+	return true;
+}
+
+static void DoAntiAim(CUserCmd *cmd, C_BasePlayer *localplayer, QAngle &angle)
+{
+
+	if (GetBestHeadAngle(cmd, angle)) {
+		return;
+	}
+
+	float maxDelta = AntiAim::GetMaxDelta(localplayer->GetAnimState());
+
+	if (Settings::AntiAim::dsynctype == DsyncType::type1) {
+		if (!AntiAim::bSend) {
+			if (LbyPrediction(localplayer->GetAnimState())) {
+				Settings::AntiAim::inverted ? angle.y -= maxDelta * 2 : angle.y += maxDelta * 2;
+			} else {
+				Settings::AntiAim::inverted ? angle.y += maxDelta * 2 : angle.y -= maxDelta * 2;
+			}
+		}
+	} else {
+		if (!(cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT ||
+		      cmd->buttons & IN_MOVERIGHT) && localplayer->GetFlags() & FL_ONGROUND) {
+			cmd->forwardmove = cmd->tick_count % 2 ? localplayer->GetFlags() & IN_DUCK ? 2.94117647f : .505f :
+			                   localplayer->GetFlags() & IN_DUCK ? -2.94117647f : -.505f;
+		}
+		if (!AntiAim::bSend) {
+			Settings::AntiAim::inverted ? angle.y += maxDelta * 2 : angle.y -= maxDelta * 2;
+		}
+	}
+	// if (LBYBreak(localplayer, true)){
+	//      if (Settings::AntiAim::inverted) {
+	//         AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
+	//         AntiAim::fakeAngle.x = AntiAim::realAngle.x = angle.x;
+	//         angle.y += maxDelta;
+	//     }
+	//     else {
+	//         AntiAim::fakeAngle.y = AntiAim::realAngle.y = 0;
+	//         AntiAim::realAngle.x = angle.x;
+	//         angle.y -= maxDelta;
+	//     }
+	// }
+	// else if ( !AntiAim::bSend ){
+
+	//     AntiAim::realAngle.y = angle.y-28.f;
+	//     AntiAim::realAngle.x = angle.x;
+	//     Settings::AntiAim::inverted ?  angle.y -= maxDelta*2 : angle.y += maxDelta*2;
+	// }
+	// else {
+	//     if (Settings::AntiAim::inverted) {
+
+	//         AntiAim::fakeAngle.y = angle.y-28.f;
+	//         AntiAim::fakeAngle.x = angle.x;
+	//     }
+	//     else {
+	//         AntiAim::fakeAngle.y = angle.y+28.f;
+	//         AntiAim::fakeAngle.x = angle.x;
+	//     }
+	// }
 
 }
 
-void AntiAim::CreateMove(CUserCmd* cmd)
+void AntiAim::CreateMove(CUserCmd *cmd)
 {
-    if ( !Settings::AntiAim::Enabled)    
-        return;
+	if (!Settings::AntiAim::Enabled) {
+		return;
+	}
 
-    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer || !localplayer->IsAlive())
-        return;
-    C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-    
-    if (!activeWeapon) return;
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->IsAlive()) {
+		return;
+	}
+	C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
+			localplayer->GetActiveWeapon());
 
-    if ( !canMove(localplayer, activeWeapon, cmd) )
-    {
-        CreateMove::lastTickViewAngles = AntiAim::realAngle = AntiAim::fakeAngle = cmd->viewangles;
-        return;
-    }
+	if (!activeWeapon) { return; }
 
-    if ( Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking)
-        AntiAim::bSend = CreateMove::sendPacket;
-    else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking)
-        AntiAim::bSend = CreateMove::sendPacket;
-    else if ( Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking )
-        AntiAim::bSend = CreateMove::sendPacket;
-    if (Settings::FakeLag::enabled)
-        AntiAim::bSend = CreateMove::sendPacket; 
-    else{
-        CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;            
-    }
+	if (!canMove(localplayer, activeWeapon, cmd)) {
+		CreateMove::lastTickViewAngles = AntiAim::realAngle = AntiAim::fakeAngle = cmd->viewangles;
+		return;
+	}
 
-    QAngle angle = cmd->viewangles;
-    QAngle oldAngle;
-     engine->GetViewAngles(oldAngle);
-    
-    if (Settings::AntiAim::atTheTarget){
-        C_BasePlayer* lockedTarget = GetClosestEnemy(cmd);
-        if (lockedTarget)
-            Math::CalcAngle(localplayer->GetEyePosition(), lockedTarget->GetEyePosition(), angle);
-    }
-    if (Settings::AntiAim::PitchDown){
-        angle.x = 89.f;
-    }
+	if (Settings::AntiAim::FakeDuck::enabled && FakeDuck::FakeDucking) {
+		AntiAim::bSend = CreateMove::sendPacket;
+	} else if (Settings::AntiAim::SlowWalk::enabled && SlowWalk::SlowWalking) {
+		AntiAim::bSend = CreateMove::sendPacket;
+	} else if (Settings::AntiAim::FakeWalk::enabled && FakeWalk::FakeWalking) {
+		AntiAim::bSend = CreateMove::sendPacket;
+	}
+	if (Settings::FakeLag::enabled) {
+		AntiAim::bSend = CreateMove::sendPacket;
+	} else {
+		CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;
+	}
 
-    DoManualAntiAim();
-    if (AntiAim::ManualAntiAim::alignBack){
-        angle.y += 180;
-        AntiAim::realAngle = AntiAim::fakeAngle = angle;
-    }else if ( AntiAim::ManualAntiAim::alignRight ){
-        angle.y -= 90;
-        AntiAim::realAngle = AntiAim::fakeAngle = angle;
-    }else if ( AntiAim::ManualAntiAim::alignLeft){
-        angle.y += 90;
-        AntiAim::realAngle = AntiAim::fakeAngle = angle;
-    }else if ( Settings::AntiAim::Jitter::Value > 0 ){
+	QAngle angle = cmd->viewangles;
+	QAngle oldAngle;
+	engine->GetViewAngles(oldAngle);
 
-        angle.y += Settings::AntiAim::offset;
-        static bool flip = false;
-        // swap angle 
-        angle.y += flip ? Settings::AntiAim::Jitter::Value : -Settings::AntiAim::Jitter::Value;
+	if (Settings::AntiAim::atTheTarget) {
+		C_BasePlayer *lockedTarget = GetClosestEnemy(cmd);
+		if (lockedTarget) {
+			Math::CalcAngle(localplayer->GetEyePosition(), lockedTarget->GetEyePosition(), angle);
+		}
+	}
+	if (Settings::AntiAim::PitchDown) {
+		angle.x = 89.f;
+	}
 
-        if (Settings::AntiAim::Jitter::SyncWithLag){
-            CreateMove::sendPacket ? flip = !flip : flip;
-        }
-        else {
-            flip = !flip;
-        }
+	DoManualAntiAim();
+	if (AntiAim::ManualAntiAim::alignBack) {
+		angle.y += 180;
+		AntiAim::realAngle = AntiAim::fakeAngle = angle;
+	} else if (AntiAim::ManualAntiAim::alignRight) {
+		angle.y -= 90;
+		AntiAim::realAngle = AntiAim::fakeAngle = angle;
+	} else if (AntiAim::ManualAntiAim::alignLeft) {
+		angle.y += 90;
+		AntiAim::realAngle = AntiAim::fakeAngle = angle;
+	} else if (Settings::AntiAim::Jitter::Value > 0) {
 
-    }else {
-        angle.y += Settings::AntiAim::offset;
+		angle.y += Settings::AntiAim::offset;
+		static bool flip = false;
+		// swap angle
+		angle.y += flip ? Settings::AntiAim::Jitter::Value : -Settings::AntiAim::Jitter::Value;
 
-        static bool B_pressed = false;
-        if ( inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !B_pressed )
-	    {
-		    Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
-            B_pressed = true;
-	    }else if (!inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && B_pressed)
-            B_pressed = false;
+		if (Settings::AntiAim::Jitter::SyncWithLag) {
+			CreateMove::sendPacket ? flip = !flip : flip;
+		} else {
+			flip = !flip;
+		}
 
-        if (Settings::AntiAim::lbyBreak::Enabled){
-            if (LBYBreak(localplayer, Settings::AntiAim::lbyBreak::notSend))  
-                angle.y += Settings::AntiAim::inverted ? Settings::AntiAim::lbyBreak::angle : Settings::AntiAim::lbyBreak::angle*-1 ;
-        }
-        else if (Settings::AntiAim::EnableFakAngle)
-            DoAntiAim(cmd, localplayer, angle); 
-    }
+	} else {
+		angle.y += Settings::AntiAim::offset;
 
-    
-    if (CreateMove::sendPacket && Settings::AntiAim::JitterFake)
-        Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
+		static bool B_pressed = false;
+		if (inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && !B_pressed) {
+			Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
+			B_pressed = true;
+		} else if (!inputSystem->IsButtonDown(Settings::AntiAim::InvertKey) && B_pressed) {
+			B_pressed = false;
+		}
 
-    Math::NormalizeAngles(angle);
-    Math::ClampAngles(angle);
+		if (Settings::AntiAim::lbyBreak::Enabled) {
+			if (LBYBreak(localplayer, Settings::AntiAim::lbyBreak::notSend)) {
+				angle.y += Settings::AntiAim::inverted ? Settings::AntiAim::lbyBreak::angle :
+				           Settings::AntiAim::lbyBreak::angle * -1;
+			}
+		} else if (Settings::AntiAim::EnableFakAngle) {
+			DoAntiAim(cmd, localplayer, angle);
+		}
+	}
 
-    CreateMove::lastTickViewAngles = angle;
+	if (CreateMove::sendPacket && Settings::AntiAim::JitterFake) {
+		Settings::AntiAim::inverted = !Settings::AntiAim::inverted;
+	}
 
-    cmd->viewangles = angle;
+	Math::NormalizeAngles(angle);
+	Math::ClampAngles(angle);
 
-    Aimbot::FixMouseDeltas(cmd, angle, oldAngle);
-    Math::CorrectMovement(oldAngle, cmd, cmd->forwardmove, cmd->sidemove);    
+	CreateMove::lastTickViewAngles = angle;
+
+	cmd->viewangles = angle;
+
+	Aimbot::FixMouseDeltas(cmd, angle, oldAngle);
+	Math::CorrectMovement(oldAngle, cmd, cmd->forwardmove, cmd->sidemove);
 }
 
 void AntiAim::FrameStageNotify(ClientFrameStage_t stage)

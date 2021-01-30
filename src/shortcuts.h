@@ -5,6 +5,7 @@
 
 namespace Shortcuts
 {
-	void PollEvent(SDL_Event* event);
+	void PollEvent(SDL_Event *event);
+
 	void SetKeyCodeState(ButtonCode_t code, bool bPressed);
 }

@@ -33,7 +33,7 @@ struct Color
 		this->a = a;
 	}
 
-	Color operator / (float div)
+	Color operator/(float div)
 	{
 		Color color = *this;
 		color.r = color.r / div;
@@ -42,18 +42,18 @@ struct Color
 		return color;
 	}
 
-	Color& operator /= (float div)
+	Color &operator/=(float div)
 	{
-		Color& color = *this;
+		Color &color = *this;
 		color.r /= div;
 		color.g /= div;
 		color.b /= div;
 		return color;
 	}
 
-	Color& operator *= (float coeff)
+	Color &operator*=(float coeff)
 	{
-		Color& color = *this;
+		Color &color = *this;
 		color.r *= coeff;
 		color.g *= coeff;
 		color.b *= coeff;
@@ -63,57 +63,46 @@ struct Color
 	static Color FromHSB(float hue, float saturation, float brightness)
 	{
 		float h = hue == 1.0f ? 0 : hue * 6.0f;
-		float f = h - (int)h;
+		float f = h - (int) h;
 		float p = brightness * (1.0f - saturation);
 		float q = brightness * (1.0f - saturation * f);
 		float t = brightness * (1.0f - (saturation * (1.0f - f)));
 
-		if (h < 1)
-		{
+		if (h < 1) {
 			return Color(
-					(unsigned char)(brightness * 255),
-					(unsigned char)(t * 255),
-					(unsigned char)(p * 255)
+					(unsigned char) (brightness * 255),
+					(unsigned char) (t * 255),
+					(unsigned char) (p * 255)
 			);
-		}
-		else if (h < 2)
-		{
+		} else if (h < 2) {
 			return Color(
-					(unsigned char)(q * 255),
-					(unsigned char)(brightness * 255),
-					(unsigned char)(p * 255)
+					(unsigned char) (q * 255),
+					(unsigned char) (brightness * 255),
+					(unsigned char) (p * 255)
 			);
-		}
-		else if (h < 3)
-		{
+		} else if (h < 3) {
 			return Color(
-					(unsigned char)(p * 255),
-					(unsigned char)(brightness * 255),
-					(unsigned char)(t * 255)
+					(unsigned char) (p * 255),
+					(unsigned char) (brightness * 255),
+					(unsigned char) (t * 255)
 			);
-		}
-		else if (h < 4)
-		{
+		} else if (h < 4) {
 			return Color(
-					(unsigned char)(p * 255),
-					(unsigned char)(q * 255),
-					(unsigned char)(brightness * 255)
+					(unsigned char) (p * 255),
+					(unsigned char) (q * 255),
+					(unsigned char) (brightness * 255)
 			);
-		}
-		else if (h < 5)
-		{
+		} else if (h < 5) {
 			return Color(
-					(unsigned char)(t * 255),
-					(unsigned char)(p * 255),
-					(unsigned char)(brightness * 255)
+					(unsigned char) (t * 255),
+					(unsigned char) (p * 255),
+					(unsigned char) (brightness * 255)
 			);
-		}
-		else
-		{
+		} else {
 			return Color(
-					(unsigned char)(brightness * 255),
-					(unsigned char)(p * 255),
-					(unsigned char)(q * 255)
+					(unsigned char) (brightness * 255),
+					(unsigned char) (p * 255),
+					(unsigned char) (q * 255)
 			);
 		}
 	}
@@ -121,10 +110,10 @@ struct Color
 	static Color FromImColor(ImColor color)
 	{
 		return Color(
-				(int)(color.Value.x * 255),
-				(int)(color.Value.y * 255),
-				(int)(color.Value.z * 255),
-				(int)(color.Value.w * 255)
+				(int) (color.Value.x * 255),
+				(int) (color.Value.y * 255),
+				(int) (color.Value.z * 255),
+				(int) (color.Value.w * 255)
 		);
 	}
 

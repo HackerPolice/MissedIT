@@ -1,6 +1,7 @@
 #pragma once
 
-struct surfacephysicsparams_t {
+struct surfacephysicsparams_t
+{
 	float friction;
 	float elasticity;
 	float density;
@@ -8,14 +9,16 @@ struct surfacephysicsparams_t {
 	float dampening;
 };
 
-struct surfacegameprops_t {
+struct surfacegameprops_t
+{
 public:
 	float flPenetrationModifier;
 	float flDamageModifier;
 	unsigned short material;
 };
 
-struct surfacedata_t {
+struct surfacedata_t
+{
 	surfacephysicsparams_t physics;
 	char __kisakSucks[68];
 	surfacegameprops_t game;
@@ -24,7 +27,8 @@ struct surfacedata_t {
 class IPhysicsSurfaceProps
 {
 public:
-	virtual ~IPhysicsSurfaceProps(void) {}
+	virtual ~IPhysicsSurfaceProps(void)
+	{}
 
 	// parses a text file containing surface prop keys
 	virtual int ParseSurfaceData(const char *pFilename, const char *pTextfile) = 0;
@@ -34,7 +38,8 @@ public:
 
 	virtual int GetSurfaceIndex(const char *pSurfacePropName) const = 0;
 
-	virtual void GetPhysicsProperties(int surfaceDataIndex, float *density, float *thickness, float *friction, float *elasticity) const = 0;
+	virtual void GetPhysicsProperties(int surfaceDataIndex, float *density, float *thickness, float *friction,
+	                                  float *elasticity) const = 0;
 
 	virtual surfacedata_t *GetSurfaceData(int surfaceDataIndex) = 0;
 

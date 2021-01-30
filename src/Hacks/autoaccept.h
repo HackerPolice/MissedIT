@@ -5,7 +5,7 @@
 namespace AutoAccept
 {
 	//Hooks
-	void EmitSound(const char* pSoundEntry);
+	void EmitSound(const char *pSoundEntry);
 }
 
 extern SetLocalPlayerReadyFn SetLocalPlayerReady;

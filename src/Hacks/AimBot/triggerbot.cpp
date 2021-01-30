@@ -1,42 +1,40 @@
 #include "triggerbot.hpp"
 #include "autowall.h"
 
-#include "../settings.h"
-#include "../interfaces.h"
-#include "../Utils/math.h"
-#include "../Utils/entity.h"
-
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::Triggerbot::enabled)
+	if (!Settings::Triggerbot::enabled) {
 		return;
+	}
 
-	if (!inputSystem->IsButtonDown(Settings::Triggerbot::OnKey::key) && Settings::Triggerbot::OnKey::enable)
+	if (!inputSystem->IsButtonDown(Settings::Triggerbot::OnKey::key) && Settings::Triggerbot::OnKey::enable) {
 		return;
+	}
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->IsAlive())
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->IsAlive()) {
 		return;
+	}
 
-	if (Settings::Triggerbot::Filters::flashCheck && localplayer->IsFlashed())
+	if (Settings::Triggerbot::Filters::flashCheck && localplayer->IsFlashed()) {
 		return;
+	}
 
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
 
-
 	static int localMin = Settings::Triggerbot::RandomDelay::lowBound;
 	static int localMax = Settings::Triggerbot::RandomDelay::highBound;
 	static int randomDelay = localMin + rand() % (localMax - localMin);
 
-	if( localMin != Settings::Triggerbot::RandomDelay::lowBound || localMax != Settings::Triggerbot::RandomDelay::highBound ) // Done in case Low/high bounds change before the next triggerbot shot.
+	if (localMin != Settings::Triggerbot::RandomDelay::lowBound || localMax !=
+	                                                               Settings::Triggerbot::RandomDelay::highBound) // Done in case Low/high bounds change before the next triggerbot shot.
 	{
 		localMin = Settings::Triggerbot::RandomDelay::lowBound;
 		localMax = Settings::Triggerbot::RandomDelay::highBound;
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}
-
 
 	Vector traceStart, traceEnd;
 	trace_t tr;
@@ -50,16 +48,14 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	traceStart = localplayer->GetEyePosition();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
 
-	if (Settings::Triggerbot::Filters::walls)
-	{
+	if (Settings::Triggerbot::Filters::walls) {
 		AutoWall::FireBulletData data;
-		if (AutoWall::GetDamage(traceEnd, !Settings::Triggerbot::Filters::allies, data) == 0.0f)
+		if (AutoWall::GetDamage(traceEnd, !Settings::Triggerbot::Filters::allies, data) == 0.0f) {
 			return;
+		}
 
 		tr = data.enter_trace;
-	}
-	else
-	{
+	} else {
 		Ray_t ray;
 		ray.Init(traceStart, traceEnd);
 		CTraceFilter traceFilter;
@@ -70,29 +66,33 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	oldTimeStamp = timeStamp;
 	timeStamp = currentTime_ms;
 
-	C_BasePlayer* player = (C_BasePlayer*) tr.m_pEntityHit;
-	if (!player)
+	C_BasePlayer *player = (C_BasePlayer *) tr.m_pEntityHit;
+	if (!player) {
 		return;
+	}
 
-	if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer)
+	if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer) {
 		return;
+	}
 
 	if (player == localplayer
-		|| player->GetDormant()
-		|| !player->IsAlive()
-		|| player->GetImmune())
+	    || player->GetDormant()
+	    || !player->IsAlive()
+	    || player->GetImmune()) {
 		return;
+	}
 
-	if (!Entity::IsTeamMate(player, localplayer) && !Settings::Triggerbot::Filters::enemies)
+	if (!Entity::IsTeamMate(player, localplayer) && !Settings::Triggerbot::Filters::enemies) {
 		return;
+	}
 
-	if (Entity::IsTeamMate(player, localplayer) && !Settings::Triggerbot::Filters::allies)
+	if (Entity::IsTeamMate(player, localplayer) && !Settings::Triggerbot::Filters::allies) {
 		return;
+	}
 
 	bool filter;
 
-	switch (tr.hitgroup)
-	{
+	switch (tr.hitgroup) {
 		case HitGroups::HITGROUP_HEAD:
 			filter = Settings::Triggerbot::Filters::head;
 			break;
@@ -114,45 +114,51 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			filter = false;
 	}
 
-	if (!filter)
+	if (!filter) {
 		return;
+	}
 
-	if (Settings::Triggerbot::Filters::smokeCheck && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
+	if (Settings::Triggerbot::Filters::smokeCheck && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1)) {
 		return;
+	}
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon || activeWeapon->GetAmmo() == 0)
+	C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
+			localplayer->GetActiveWeapon());
+	if (!activeWeapon || activeWeapon->GetAmmo() == 0) {
 		return;
+	}
 
 	ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
-	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_KNIFE || itemDefinitionIndex >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_KNIFE ||
+	    itemDefinitionIndex >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET) {
 		return;
+	}
 
 	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
-	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
+	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE) {
 		return;
-
-	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
-	{
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons &= ~IN_ATTACK2;
-		else
-			cmd->buttons &= ~IN_ATTACK;
 	}
-	else
-	{
-		if (Settings::Triggerbot::RandomDelay::enabled && currentTime_ms - oldTimeStamp < randomDelay)
-		{
+
+	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime) {
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER) {
+			cmd->buttons &= ~IN_ATTACK2;
+		} else {
+			cmd->buttons &= ~IN_ATTACK;
+		}
+	} else {
+		if (Settings::Triggerbot::RandomDelay::enabled && currentTime_ms - oldTimeStamp < randomDelay) {
 			timeStamp = oldTimeStamp;
 			return;
 		}
 
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER) {
 			cmd->buttons |= IN_ATTACK2;
-		else
+		} else {
 			cmd->buttons |= IN_ATTACK;
-		if(Settings::Triggerbot::RandomDelay::enabled)
+		}
+		if (Settings::Triggerbot::RandomDelay::enabled) {
 			Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+		}
 
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}

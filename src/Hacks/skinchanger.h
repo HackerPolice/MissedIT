@@ -18,9 +18,12 @@ namespace SkinChanger
 
 	//Hooks
 	void FrameStageNotifySkins(ClientFrameStage_t stage);
+
 	void FrameStageNotifyModels(ClientFrameStage_t stage);
-	void FireEventClientSide(IGameEvent* event);
-	void FireGameEvent(IGameEvent* event);
+
+	void FireEventClientSide(IGameEvent *event);
+
+	void FireGameEvent(IGameEvent *event);
 
 	void SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut);
 };

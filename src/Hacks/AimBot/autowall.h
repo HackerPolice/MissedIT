@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "../HeaderFiles.h"
 #include "legitbot.hpp"
 
@@ -20,12 +19,16 @@ namespace AutoWall
 
 	inline int targetAimbot = -1;
 
-	int GetDamage(const Vector& vecPoint, bool teamCheck);
-	int GetDamage(const Vector& point, bool teamCheck, FireBulletData& fdata);
-	int GetDamage(C_BasePlayer* player, const Vector& point, bool teamCheck, FireBulletData& fdata);
+	int GetDamage(const Vector &vecPoint, bool teamCheck);
 
-	bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, AutoWall::FireBulletData& data);
-	bool HandleBulletPenetration(CCSWeaponInfo* weaponInfo, AutoWall::FireBulletData& data);
-	void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePlayer* ignore, trace_t* ptr);
+	int GetDamage(const Vector &point, bool teamCheck, FireBulletData &fdata);
+
+	int GetDamage(C_BasePlayer *player, const Vector &point, bool teamCheck, FireBulletData &fdata);
+
+	bool SimulateFireBullet(C_BaseCombatWeapon *pWeapon, bool teamCheck, AutoWall::FireBulletData &data);
+
+	bool HandleBulletPenetration(CCSWeaponInfo *weaponInfo, AutoWall::FireBulletData &data);
+
+	void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePlayer *ignore, trace_t *ptr);
 }
 

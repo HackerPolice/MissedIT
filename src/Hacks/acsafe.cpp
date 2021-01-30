@@ -1,35 +1,33 @@
 #include "acsafe.h"
-#include "serverinfo.h"
-#include "AimBot/aimbot.hpp"
 
-void ACSafe::CreateMove(CUserCmd* cmd)
+void ACSafe::CreateMove(CUserCmd *cmd)
 {
-	if(!AntiVACKick) {
+	if (!AntiVACKick) {
 		return; // TODO detect other stuff like SMAC etc
 	}
 
-	C_BasePlayer *localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if(!localplayer || !localplayer->IsAlive()) {
+	if (!localplayer || !localplayer->IsAlive()) {
 		return;
 	}
 
 	QAngle deltaAngle = (cmd->viewangles - CreateMove::lastTickViewAngles);
-	Math:: NormalizeAngles(deltaAngle);
+	Math::NormalizeAngles(deltaAngle);
 
 	const float maxDelta = 29.f;
 
 	if (deltaAngle.Normalize() > maxDelta) {
 		cmd->viewangles = CreateMove::lastTickViewAngles + deltaAngle * maxDelta;
-		Math:: NormalizeAngles(cmd->viewangles);
+		Math::NormalizeAngles(cmd->viewangles);
 	}
 }
 
-void ACSafe::PostPredictionCreateMove(CUserCmd* cmd)
+void ACSafe::PostPredictionCreateMove(CUserCmd *cmd)
 {
-	C_BasePlayer *localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if(!localplayer || !localplayer->IsAlive()) {
+	if (!localplayer || !localplayer->IsAlive()) {
 		return;
 	}
 
@@ -41,7 +39,7 @@ void ACSafe::ShowWarningPopup(WarningType warningType, bool onDisable, bool &acc
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
 	if (ImGui::BeginPopupModal(XORSTR("Error###RISKY_FEATURE"))) {
 
-		switch(warningType) {
+		switch (warningType) {
 			case WarningType::WARNING_UNTRUSTED:
 				ImGui::Text(XORSTR("%s this feature may get you untrusted!"), onDisable ? "Disabling" : "Enabling");
 				break;

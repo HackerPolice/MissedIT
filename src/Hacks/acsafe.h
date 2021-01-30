@@ -11,7 +11,7 @@ enum class WarningType : int
 namespace ACSafe
 {
 	//Hooks
-	void CreateMove(CUserCmd* cmd);
+	void CreateMove(CUserCmd *cmd);
 
 	void PostPredictionCreateMove(CUserCmd *cmd);
 

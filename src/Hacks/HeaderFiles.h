@@ -20,7 +20,6 @@
 #include "../SDK/IClientEntity.h"
 #include "../SDK/bitbuf.h"
 
-
 #include <stdio.h>
 #include <string>
 #include <iostream>

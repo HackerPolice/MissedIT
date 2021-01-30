@@ -49,13 +49,14 @@ namespace ClanTagChanger
 		{
 			currentFrame++;
 
-			if (currentFrame >= frames.size())
+			if (currentFrame >= frames.size()) {
 				currentFrame = 0;
+			}
 		}
 	};
 
 	extern std::vector<Animation> animations;
-	extern Animation* animation;
+	extern Animation *animation;
 
 	void UpdateClanTagCallback();
 

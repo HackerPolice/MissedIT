@@ -4,6 +4,7 @@
 
 namespace AnimFix
 {
-    inline bool animfix = false;
-    void FrameStageNotify(ClientFrameStage_t stage);
+	inline bool animfix = false;
+
+	void FrameStageNotify(ClientFrameStage_t stage);
 }

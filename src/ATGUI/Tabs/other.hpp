@@ -1,8 +1,10 @@
 #pragma once
 
-namespace Other{
-    void Render();
+namespace Other
+{
+	void Render();
 
-    void Hitmarkers();
-    void RadarOptions();
+	void Hitmarkers();
+
+	void RadarOptions();
 }

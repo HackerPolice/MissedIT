@@ -1,17 +1,16 @@
 #include "MissedIt.h"
 
-
-static EventListener* eventListener = nullptr;
+static EventListener *eventListener = nullptr;
 
 const char *Util::logFileName = "/tmp/MissedIT.log";
-std::vector<VMT*> createdVMTs;
+std::vector<VMT *> createdVMTs;
 
 void MainThread()
 {
 	Interfaces::FindInterfaces();
-    Interfaces::DumpInterfaces();
+	Interfaces::DumpInterfaces();
 
-    cvar->ConsoleDPrintf(XORSTR("Loading...\n"));
+	cvar->ConsoleDPrintf(XORSTR("Loading...\n"));
 
 	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
@@ -32,93 +31,98 @@ void MainThread()
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
 	Hooker::FindOverridePostProcessingDisable();
-    Hooker::FindPanelArrayOffset();
-    Hooker::FindPlayerAnimStateOffset();
-    Hooker::FindPlayerAnimOverlayOffset();
+	Hooker::FindPanelArrayOffset();
+	Hooker::FindPlayerAnimStateOffset();
+	Hooker::FindPlayerAnimOverlayOffset();
 	Hooker::FindSequenceActivity();
-    Hooker::FindAbsFunctions();
-    Hooker::FindItemSystem();
-    Hooker::FindWriteUserCmd(); // write user cmd
+	Hooker::FindAbsFunctions();
+	Hooker::FindItemSystem();
+	Hooker::FindWriteUserCmd(); // write user cmd
 
-    SDL2::HookSwapWindow();
-    SDL2::HookPollEvent();
+	SDL2::HookSwapWindow();
+	SDL2::HookPollEvent();
 
-    Offsets::GetNetVarOffsets();
-    Fonts::SetupFonts();
+	Offsets::GetNetVarOffsets();
+	Fonts::SetupFonts();
 
-    
-    engineVGuiVMT = new VMT(engineVGui);
-    engineVGuiVMT->HookVM(Hooks::Paint, 15);
-    engineVGuiVMT->ApplyVMT();
+	engineVGuiVMT = new VMT(engineVGui);
+	engineVGuiVMT->HookVM(Hooks::Paint, 15);
+	engineVGuiVMT->ApplyVMT();
 
-    clientModeVMT = new VMT(clientMode);
-    clientModeVMT->HookVM(Hooks::OverrideView, 19);
-    clientModeVMT->HookVM(Hooks::CreateMove, 25);
-    clientModeVMT->HookVM(Hooks::ShouldDrawCrosshair, 29);
-    clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
-    clientModeVMT->ApplyVMT();
+	clientModeVMT = new VMT(clientMode);
+	clientModeVMT->HookVM(Hooks::OverrideView, 19);
+	clientModeVMT->HookVM(Hooks::CreateMove, 25);
+	clientModeVMT->HookVM(Hooks::ShouldDrawCrosshair, 29);
+	clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
+	clientModeVMT->ApplyVMT();
 
-    clientVMT = new VMT(client);
-    clientVMT->HookVM(Hooks::LevelInitPostEntity, 6);
-    clientVMT->HookVM(Hooks::FrameStageNotify, 37);
-    clientVMT->HookVM(Hooks::WriteUsercmdDeltaToBuffer, 24);
+	clientVMT = new VMT(client);
+	clientVMT->HookVM(Hooks::LevelInitPostEntity, 6);
+	clientVMT->HookVM(Hooks::FrameStageNotify, 37);
+	clientVMT->HookVM(Hooks::WriteUsercmdDeltaToBuffer, 24);
 	clientVMT->ApplyVMT();
 
-    materialVMT = new VMT(material);
-    materialVMT->HookVM(Hooks::OverrideConfig, 21);
-    materialVMT->HookVM(Hooks::BeginFrame, 42);
+	materialVMT = new VMT(material);
+	materialVMT->HookVM(Hooks::OverrideConfig, 21);
+	materialVMT->HookVM(Hooks::BeginFrame, 42);
 	materialVMT->ApplyVMT();
 
-    gameEventsVMT = new VMT(gameEvents);
+	gameEventsVMT = new VMT(gameEvents);
 	gameEventsVMT->HookVM(Hooks::FireEventClientSide, 10);
 	gameEventsVMT->ApplyVMT();
 
-    inputInternalVMT = new VMT(inputInternal);
-    inputInternalVMT->HookVM(Hooks::SetKeyCodeState, 92);
-    inputInternalVMT->HookVM(Hooks::SetMouseCodeState, 93);
-    inputInternalVMT->ApplyVMT();
+	inputInternalVMT = new VMT(inputInternal);
+	inputInternalVMT->HookVM(Hooks::SetKeyCodeState, 92);
+	inputInternalVMT->HookVM(Hooks::SetMouseCodeState, 93);
+	inputInternalVMT->ApplyVMT();
 
-    launcherMgrVMT = new VMT(launcherMgr);
-    launcherMgrVMT->HookVM(Hooks::PumpWindowsMessageLoop, 19);
-    launcherMgrVMT->ApplyVMT();
+	launcherMgrVMT = new VMT(launcherMgr);
+	launcherMgrVMT->HookVM(Hooks::PumpWindowsMessageLoop, 19);
+	launcherMgrVMT->ApplyVMT();
 
-    soundVMT = new VMT(sound);
-    soundVMT->HookVM( Hooks::EmitSound2, 6);
-    soundVMT->ApplyVMT();
+	soundVMT = new VMT(sound);
+	soundVMT->HookVM(Hooks::EmitSound2, 6);
+	soundVMT->ApplyVMT();
 
-    modelRenderVMT = new VMT(modelRender);
-    modelRenderVMT->HookVM(Hooks::DrawModelExecute, 21);
-    modelRenderVMT->ApplyVMT();
+	modelRenderVMT = new VMT(modelRender);
+	modelRenderVMT->HookVM(Hooks::DrawModelExecute, 21);
+	modelRenderVMT->ApplyVMT();
 
-    panelVMT = new VMT(panel);
-    panelVMT->HookVM(Hooks::PaintTraverse, 42);
-    panelVMT->ApplyVMT();
+	panelVMT = new VMT(panel);
+	panelVMT->HookVM(Hooks::PaintTraverse, 42);
+	panelVMT->ApplyVMT();
 
-    viewRenderVMT = new VMT(viewRender);
-    viewRenderVMT->HookVM(Hooks::RenderView, 6 );
-    viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 42);
-    viewRenderVMT->ApplyVMT();
-    
-    surfaceVMT = new VMT(surface);
-    surfaceVMT->HookVM(Hooks::OnScreenSizeChanged, 116);
+	viewRenderVMT = new VMT(viewRender);
+	viewRenderVMT->HookVM(Hooks::RenderView, 6);
+	viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 42);
+	viewRenderVMT->ApplyVMT();
+
+	surfaceVMT = new VMT(surface);
+	surfaceVMT->HookVM(Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();
 
-    
-    // added bullet_Impact event
-	eventListener = new EventListener({ XORSTR("bullet_impact"), XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"), XORSTR("player_death"), XORSTR("item_purchase"), XORSTR("item_remove"), XORSTR("item_pickup"), XORSTR("player_hurt"), XORSTR("bomb_begindefuse"), XORSTR("enter_bombzone"), XORSTR("bomb_beginplant"), XORSTR("switch_team") });
 
-	if (Hooker::HookRecvProp(XORSTR("CBaseViewModel"), XORSTR("m_nSequence"), SkinChanger::sequenceHook))
+	// added bullet_Impact event
+	eventListener = new EventListener(
+			{XORSTR("bullet_impact"), XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"),
+			 XORSTR("player_death"), XORSTR("item_purchase"), XORSTR("item_remove"), XORSTR("item_pickup"),
+			 XORSTR("player_hurt"), XORSTR("bomb_begindefuse"), XORSTR("enter_bombzone"), XORSTR("bomb_beginplant"),
+			 XORSTR("switch_team")});
+
+	if (Hooker::HookRecvProp(XORSTR("CBaseViewModel"), XORSTR("m_nSequence"), SkinChanger::sequenceHook)) {
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
+	}
 
 	srand(time(nullptr)); // Seed random # Generator so we can call rand() later
 
-    // Build bonemaps here if we are already in-game
-    if( engine->IsInGame() ){
-        BoneMaps::BuildAllBonemaps();
-    }
+	// Build bonemaps here if we are already in-game
+	if (engine->IsInGame()) {
+		BoneMaps::BuildAllBonemaps();
+	}
 
-    cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nMissedIT Successfully loaded.\n"));
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nMissedIT Successfully loaded.\n"));
 }
+
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
 {
@@ -130,13 +134,14 @@ int __attribute__((constructor)) Startup()
 
 	return 0;
 }
+
 /* Called when un-injecting the library */
 void __attribute__((destructor)) Shutdown()
 {
-    if( Settings::SkyBox::enabled ){
-        SetNamedSkyBox( cvar->FindVar("sv_skyname")->strValue );
-    }
-    cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
+	if (Settings::SkyBox::enabled) {
+		SetNamedSkyBox(cvar->FindVar("sv_skyname")->strValue);
+	}
+	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
@@ -144,11 +149,11 @@ void __attribute__((destructor)) Shutdown()
 	NoSmoke::Cleanup();
 	TracerEffect::RestoreTracers();
 
-    for( VMT* vmt : createdVMTs ){
-        delete vmt;
-    }
+	for (VMT *vmt : createdVMTs) {
+		delete vmt;
+	}
 
-    input->m_fCameraInThirdPerson = false;
+	input->m_fCameraInThirdPerson = false;
 	input->m_vecCameraOffset.z = 150.f;
 	GetLocalClient(-1)->m_nDeltaTick = -1;
 
@@ -161,5 +166,5 @@ void __attribute__((destructor)) Shutdown()
 
 void MissedIT::Destroy()
 {
-    Shutdown();
+	Shutdown();
 }

@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "../../../settings.h"
 #include "../../../ImGUI/imgui_internal.h"
@@ -18,7 +18,8 @@
 #include "../colors.h"
 #include "../configs.h"
 
-namespace AimwareWindow{
+namespace AimwareWindow
+{
 
-    void Render();
+	void Render();
 }
