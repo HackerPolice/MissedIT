@@ -9,7 +9,8 @@
 #include "../AntiAim/fakelag.h"
 #include "../esp.h"
 #include "aimbot.hpp"
-
+#include "../acsafe.h"
+#include "../aimstep.h"
 
 QAngle RCSLastPunch;
 
@@ -112,16 +113,12 @@ void Ragebot::BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Dama
 	}
 }
 
-bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings)
+bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* enemy, QAngle angle, const RageWeapon_t& currentSettings)
 {
 	if (currentSettings.HitChance == 0)
 		return false;
 	if (!enemy || !enemy->IsAlive())
 		return false;
-
-    Vector src = Ragebot::localplayer->GetEyePosition();
-    QAngle angle = Math::CalcAngle(src, bestSpot);
-    Math::NormalizeAngles(angle);
 
 	Vector forward, right, up;
     Math::AngleVectors(angle, &forward, &right, &up);
@@ -161,12 +158,12 @@ bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_Base
 		Math::AngleVectors(viewAnglesSpread, viewForward);
 		viewForward.NormalizeInPlace();
 
-		viewForward = src + (viewForward * activeWeapon->GetCSWpnData()->GetRange());
+		viewForward = Ragebot::localEye + (viewForward * activeWeapon->GetCSWpnData()->GetRange());
 
         trace_t tr;
         Ray_t ray;
 
-       	ray.Init(src, viewForward);
+       	ray.Init(Ragebot::localEye, viewForward);
         trace->ClipRayToEntity(ray, MASK_SHOT | CONTENTS_GRATE, enemy, &tr);
 
         if (tr.m_pEntityHit == enemy)
@@ -182,7 +179,7 @@ bool Ragebot::canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_Base
     return false;
 }
 
-void Ragebot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings)
+void Ragebot::AutoShoot(C_BasePlayer* enemy, CUserCmd* cmd, QAngle angle, RageWeapon_t* currentSettings)
 {
     if (!currentSettings->autoShootEnabled)
 		return;
@@ -201,8 +198,9 @@ void Ragebot::AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCm
 	if (currentSettings->hitchanceType == HitchanceType::Normal){
 		_canShoot = Aimbot::canShoot(Ragebot::localplayer, Ragebot::activeWeapon, currentSettings->HitChance);
 	}else {
-		_canShoot = canShoot(Ragebot::activeWeapon, bestspot, player, *currentSettings);
+		_canShoot = canShoot(Ragebot::activeWeapon, enemy, angle, *currentSettings);
 	}
+
 	if ( _canShoot )
 	{
 		if (Ragebot::activeWeapon->GetNextPrimaryAttack() >= globalVars->curtime)
@@ -626,12 +624,8 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     {
 		if (Ragebot::data.Hitted && Ragebot::data.player->GetHealth() >= Ragebot::data.playerhealth){
             cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("Miss Due To Resolver\n"));
-			engine->ExecuteClientCmd("say MissedIt || Resolver is dog shit");
 		    Resolver::players[Ragebot::data.player->GetIndex()].MissedCount++;
         }
-		else if (!Ragebot::data.Hitted){
-			engine->ExecuteClientCmd("say MissedIt || Spread Is Dog Shit");
-		}
     }
 
 	data.player = nullptr;
@@ -675,24 +669,26 @@ void Ragebot::CreateMove(CUserCmd* cmd)
     {
 		Settings::Debug::AutoAim::target = Ragebot::BestSpot;
 
-		AutoShoot(enemy, Ragebot::localplayer, cmd, Ragebot::BestSpot, angle, currentWeaponSetting);
-		Aimbot::AutoCrouch(cmd, activeWeapon, currentWeaponSetting->AutoCrouch);
+	    Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot, angle);
 
-		if (cmd->buttons & IN_ATTACK)
-		{
-			Ragebot::data.player = enemy;
-			Ragebot::data.playerhealth = enemy->GetHealth();
-			Ragebot::data.PrevTickEyePosition = Ragebot::localEye;
-			Ragebot::data.shooted = true;
-			if (Settings::AntiAim::InvertOnShoot) { Settings::AntiAim::inverted = !Settings::AntiAim::inverted; }
-			Math::CalcAngle(Ragebot::localEye, Ragebot::BestSpot, angle);
-			cmd->sidemove = cmd->forwardmove = 0;
-		}
+	    AutoShoot(enemy, cmd, angle, currentWeaponSetting);
+	    Aimbot::AutoCrouch(cmd, activeWeapon, currentWeaponSetting->AutoCrouch);
+
+	    if (cmd->buttons & IN_ATTACK) {
+		    Ragebot::data.player = enemy;
+		    Ragebot::data.playerhealth = enemy->GetHealth();
+		    Ragebot::data.PrevTickEyePosition = Ragebot::localEye;
+		    Ragebot::data.shooted = true;
+		    if (Settings::AntiAim::InvertOnShoot) { Settings::AntiAim::inverted = !Settings::AntiAim::inverted; }
+
+		    cmd->sidemove = cmd->forwardmove = 0;
+	    }
     }
 	
 	Aimbot::AutoR8(enemy, activeWeapon, cmd, currentWeaponSetting->autoShootEnabled);
 	Aimbot::NoRecoil(angle, cmd, Ragebot::localplayer, activeWeapon, currentWeaponSetting->silent);
 	Aimbot::AutoPistol(activeWeapon, cmd, currentWeaponSetting->autoPistolEnabled);
+	AimStep::Run(angle, cmd, currentWeaponSetting);
 
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);

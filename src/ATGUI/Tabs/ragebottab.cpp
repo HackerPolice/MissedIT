@@ -8,6 +8,7 @@
 #include "../atgui.h"
 #include "../../Hacks/AimBot/ragebot.hpp"
 #include "../../Utils/ColorPickerButton.h"
+#include "../Hacks/acsafe.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
@@ -38,6 +39,9 @@ static bool OnShot = false;
 static bool OnSHotOnKey = false;
 static HitchanceType hitchanceType = HitchanceType::Normal;
 static int weaponTypes = 0;
+static bool AimStepEnabled = false;
+static float AimStepMin = 28.0f;
+static float AimStepMax = 29.0f;
 
 static char filterWeapons[32];
 
@@ -62,6 +66,9 @@ void UI::ReloadRageWeaponSettings()
 	hitchanceType = Settings::Ragebot::weapons.at(index).hitchanceType;
 	OnShot = Settings::Ragebot::weapons.at(index).OnShot;
 	OnSHotOnKey = Settings::Ragebot::weapons.at(index).OnShotOnKey;
+	AimStepEnabled = Settings::Ragebot::weapons.at(index).aimStepEnabled;
+	AimStepMin = Settings::Ragebot::weapons.at(index).aimStepMin;
+	AimStepMax = Settings::Ragebot::weapons.at(index).aimStepMax;
 
 	for (int BONE = 0; BONE < 6; BONE++)
 	{
@@ -317,6 +324,23 @@ void Ragebot::Guns(){
 	}
 }
 
+static void AimStep()
+{
+	if ( ImGui::CheckboxFill(XORSTR("##AimStep"), &AimStepEnabled) ) {
+		UI::UpdateRageWeaponSettings();
+	}
+
+	if(AimStepEnabled) {
+		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &AimStepMin, 28.0f, 180.0f, XORSTR("MIN : %0.0f"))) {
+			UI::UpdateRageWeaponSettings();
+		}
+
+		if (ImGui::SliderFloat(XORSTR("##STEPMAX"), &AimStepMax, (AimStepMin) + 1.0f, 180.0f, XORSTR("MAX : %0.0f"))) {
+			UI::UpdateRageWeaponSettings();
+		}
+	}
+}
+
 void Ragebot::RenderTab()
 {
 	if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Ragebot::enabled))
@@ -405,6 +429,11 @@ void Ragebot::RenderTab()
 				MultiBone();
 			}
 			ImGui::EndGroupPanel();
+
+			ImGui::BeginGroupPanel(XORSTR("AimStep"));
+			{
+				AimStep();
+			}ImGui::EndGroupPanel();
 
 			ImGui::BeginGroupPanel(XORSTR("Damage"));
 			{
@@ -520,6 +549,11 @@ void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
 				ImGui::BeginGroupPanel(XORSTR("MultiBone"));
 				{
 					MultiBone();
+				}ImGui::EndGroupPanel();
+
+				ImGui::BeginGroupPanel(XORSTR("AimStep"));
+				{
+					AimStep();
 				}ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("Damage"));

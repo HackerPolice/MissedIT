@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <cfloat>
 
 #pragma once
 
@@ -1311,6 +1312,9 @@ public:
 	// No assignment operators either...
 	QAngle& operator=(const QAngle& src);
 
+	float	Normalize();
+	float	NormalizeInPlace();
+
 #ifndef VECTOR_NO_SLOW_OPERATIONS
 	// copy constructors
 
@@ -1488,6 +1492,25 @@ inline float QAngle::LengthSqr() const
 	return x * x + y * y + z * z;
 }
 
+//-----------------------------------------------------------------------------
+// normalize
+//-----------------------------------------------------------------------------
+inline float QAngle::Normalize()
+{
+	float flLength = Length();
+	float flLengthNormal = 1.f / (FLT_EPSILON + flLength);
+
+	x = x * flLengthNormal;
+	y = y * flLengthNormal;
+	z = z * flLengthNormal;
+
+	return flLength;
+}
+
+inline float QAngle::NormalizeInPlace()
+{
+	return Normalize();
+}
 
 //-----------------------------------------------------------------------------
 // arithmetic operations (SLOW!!)

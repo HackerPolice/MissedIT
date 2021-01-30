@@ -8,4 +8,6 @@ namespace PredictionSystem
 	/* CreateMove */
 	void StartPrediction(CUserCmd* cmd);
 	void EndPrediction();
+
+	float GetCurTime(CUserCmd *cmd);
 };

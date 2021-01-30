@@ -2,10 +2,11 @@
 
 #include "../SDK/IGameEvent.h"
 
-namespace ValveDSCheck
+namespace ServerInfo
 {
-	extern bool forceUT;
-
 	//Hooks
 	void FireGameEvent(IGameEvent* event);
+
+	inline int gameMode;
+	inline bool isValveDS = true;
 }

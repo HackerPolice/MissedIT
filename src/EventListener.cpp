@@ -8,7 +8,7 @@
 #include "Hacks/AimBot/resolver.h"
 #include "Hacks/skinchanger.h"
 #include "Hacks/spammer.h"
-#include "Hacks/valvedscheck.h"
+#include "Hacks/serverinfo.h"
 #include "interfaces.h"
 #include "SDK/IGameEvent.h"
 #include "settings.h"
@@ -27,6 +27,10 @@ EventListener::~EventListener()
 
 void EventListener::FireGameEvent(IGameEvent* event)
 {
+
+
+	ServerInfo::FireGameEvent(event);
+
     Legitbot::FireGameEvent(event);
     Ragebot::FireGameEvent(event);
     Ragebot::FireGameEvent2(event);
@@ -39,7 +43,6 @@ void EventListener::FireGameEvent(IGameEvent* event)
     Resolver::FireGameEvent(event);
 
     Spammer::FireGameEvent(event);
-    ValveDSCheck::FireGameEvent(event);
     SkinChanger::FireGameEvent(event);
 }
 

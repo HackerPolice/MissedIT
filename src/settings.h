@@ -297,6 +297,7 @@ struct RageWeapon_t
 		 autoPistolEnabled = false,
 		 autoShootEnabled = false,
 		 autoScopeEnabled = false,
+		 aimStepEnabled = true,
 		 autoSlow,
 		 scopeControlEnabled = false,
 		 DoubleFire = false,
@@ -305,7 +306,9 @@ struct RageWeapon_t
 		 OnShotOnKey = false;
 	float MinDamage = 50.f,
 		  DamageOverride = 100.f,
-		  MinDamageOnshot = 100.f;
+		  MinDamageOnshot = 100.f,
+		  aimStepMin = 28.0f,
+		  aimStepMax = 29.0f;
 	int HitChance = 50;
 	bool desireBones[6];
 	bool desiredMultiBones[6];
@@ -327,6 +330,9 @@ struct RageWeapon_t
 				this->autoPistolEnabled == Ragebotanother.autoPistolEnabled &&
 				this->autoShootEnabled == Ragebotanother.autoShootEnabled &&
 				this->autoScopeEnabled == Ragebotanother.autoScopeEnabled &&
+				this->aimStepEnabled == Ragebotanother.aimStepEnabled &&
+				this->aimStepMin == Ragebotanother.aimStepMin &&
+				this->aimStepMax == Ragebotanother.aimStepMax &&
 				this->MinDamage == Ragebotanother.MinDamage &&
 				this->autoSlow == Ragebotanother.autoSlow &&
 				this->scopeControlEnabled == Ragebotanother.scopeControlEnabled && 

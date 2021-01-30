@@ -16,11 +16,10 @@
 #include "Hacks/nosmoke.h"
 #include "Hacks/tracereffect.h"
 #include "Hacks/skinchanger.h"
-#include "Hacks/valvedscheck.h"
+#include "Hacks/serverinfo.h"
 #include "settings.h"
 
 namespace MissedIT
 {
     void Destroy();    
 } // namespace MissedIT
-    
