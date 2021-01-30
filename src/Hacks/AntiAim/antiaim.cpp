@@ -9,9 +9,10 @@
 #include "../AimBot/ragebot.hpp"
 #include "../Visuals/chams.hpp"
 
+#include "../AimBot/aimbot.hpp"
+#include "fakeduck.h"
 #include "fakewalk.hpp"
 #include "slowwalk.hpp"
-#include "fakeduck.h"
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
 
