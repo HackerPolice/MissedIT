@@ -46,8 +46,8 @@ namespace Ragebot {
 	void BestHeadPoint(C_BasePlayer* player, const int &BoneIndex,int& Damage, Vector& Spot);
     void BestMultiPoint(C_BasePlayer* player,const int &BoneIndex,int& Damage, Vector& Spot);
 	void GetBestSpotAndDamage(C_BasePlayer* player, Vector& Spot, int& Damage);
-	bool canShoot(C_BaseCombatWeapon* activeWeapon,Vector &bestSpot, C_BasePlayer* enemy,const RageWeapon_t& currentSettings);
-    void AutoShoot(C_BasePlayer* player, C_BasePlayer* localplayer, CUserCmd* cmd, Vector& bestspot, QAngle& angle, RageWeapon_t* currentSettings);
+	bool canShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* enemy, QAngle angle, const RageWeapon_t& currentSettings);
+    void AutoShoot(C_BasePlayer* enemy, CUserCmd* cmd, QAngle angle, RageWeapon_t* currentSettings);
     C_BasePlayer* GetClosestEnemy (C_BasePlayer *localplayer);
 	void GetBestEnemy();
     void CheckHit();

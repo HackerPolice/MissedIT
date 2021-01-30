@@ -16,7 +16,7 @@
 #include "../../Hacks/namestealer.h"
 #include "../../Hacks/grenadehelper.h"
 #include "../../Hacks/clantagchanger.h"
-#include "../../Hacks/valvedscheck.h"
+#include "../../Hacks/serverinfo.h"
 #include "../Windows/playerlist.h"
 #include "../../MissedIt.h"
 namespace Misc

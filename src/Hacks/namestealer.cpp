@@ -23,8 +23,16 @@ void NameStealer::BeginFrame(float frameTime)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+
+	if (!localplayer || !engine->IsInGame())
 		return;
+
+	TeamID team = localplayer->GetTeam();
+
+	if(team < TeamID::TEAM_TERRORIST) {
+		return;
+	}
+
 
 	while (entityId < engine->GetMaxClients())
 	{
@@ -45,10 +53,10 @@ void NameStealer::BeginFrame(float frameTime)
 		if ((*csPlayerResource) && (*csPlayerResource)->GetConnected(entityId))
 		{
 			// TODO: Replace with IsTeamMate().
-			if (Settings::NameStealer::team == 0 && (*csPlayerResource)->GetTeam(entityId) != localplayer->GetTeam())
+			if (Settings::NameStealer::team == 0 && (*csPlayerResource)->GetTeam(entityId) != team)
 				break;
 
-			if (Settings::NameStealer::team == 1 && (*csPlayerResource)->GetTeam(entityId) == localplayer->GetTeam())
+			if (Settings::NameStealer::team == 1 && (*csPlayerResource)->GetTeam(entityId) == team)
 				break;
 
 			IEngineClient::player_info_t entityInformation;

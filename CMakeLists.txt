@@ -54,5 +54,5 @@ include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/")
 include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/")
 include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/gl3w/")
 
-add_library(MissedIT SHARED ${SOURCE_FILES})
+add_library(MissedIT SHARED ${SOURCE_FILES} src/Hacks/acsafe.cpp src/Hacks/acsafe.h src/Hacks/aimstep.cpp src/Hacks/aimstep.h)
 target_link_libraries(MissedIT dl SDL2 GL)

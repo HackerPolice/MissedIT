@@ -355,10 +355,10 @@ static void AimStep(){
 				
 	ImGui::PushItemWidth(-1);
 	{
-		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &aimStepMin, 5, 35, XORSTR("MIN : %0.0f")))
+		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &aimStepMin, 5.0f, 180.0f, XORSTR("MIN : %0.0f")))
 			UI::UpdateWeaponSettings();
 
-		if (ImGui::SliderFloat(XORSTR("##STEPMAX"), &aimStepMax, (aimStepMin) + 1.0f, 35, XORSTR("MAX : %0.0f")))
+		if (ImGui::SliderFloat(XORSTR("##STEPMAX"), &aimStepMax, (aimStepMin) + 1.0f, 180.0f, XORSTR("MAX : %0.0f")))
 			UI::UpdateWeaponSettings();
 	}
 	ImGui::PopItemWidth();

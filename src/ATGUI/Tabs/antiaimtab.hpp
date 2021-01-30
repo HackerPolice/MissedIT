@@ -3,7 +3,7 @@
 #include "../../interfaces.h"
 #include "../../Utils/xorstring.h"
 #include "../../settings.h"
-#include "../../Hacks/valvedscheck.h"
+#include "../../Hacks/serverinfo.h"
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 #include "../tooltip.h"

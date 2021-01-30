@@ -1,12 +1,11 @@
 #include "legitbot.hpp"
 #include "autowall.h"
 #include "aimbot.hpp"
+#include "../aimstep.h"
 
-bool Legitbot::aimStepInProgress = false;
 std::vector<int64_t> Legitbot::friends = { };
 std::vector<long> killTimes = { 0 }; // the Epoch time from when we kill someone
 
-static QAngle AimStepLastAngle = QAngle(0);
 static QAngle lastRandom = QAngle(0);
 static QAngle LastPunch = QAngle(0);
 
@@ -62,45 +61,6 @@ static C_BasePlayer* GetClosestEnemy (const LegitWeapon_t* currentSettings)
 		return nullptr;
 
 	return enemy;
-}
-
-static void AimStep(QAngle& angle, CUserCmd* cmd, const LegitWeapon_t* currentSettings)
-{
-	if (!currentSettings->aimStepEnabled)
-		return;
-	if (!currentSettings->autoAimEnabled)
-		return;
-	if (currentSettings->smoothEnabled)
-		return;
-
-	if (!Legitbot::aimStepInProgress)
-		AimStepLastAngle = cmd->viewangles;
-
-	float fov = fabs(Math::GetFov(AimStepLastAngle, angle));
-
-	Legitbot::aimStepInProgress = ( fov > (Math::float_rand(currentSettings->aimStepMin, currentSettings->aimStepMax)) );
-
-	if (!Legitbot::aimStepInProgress)
-		return;
-
-    cmd->buttons &= ~(IN_ATTACK); // aimstep in progress, don't shoot.
-
-	QAngle deltaAngle = AimStepLastAngle - angle;
-
-	Math::NormalizeAngles(deltaAngle);
-	float randX = Math::float_rand(currentSettings->aimStepMin, std::min(currentSettings->aimStepMax, fov));
-	float randY = Math::float_rand(currentSettings->aimStepMin, std::min(currentSettings->aimStepMax, fov));
-	if (deltaAngle.y < 0)
-		AimStepLastAngle.y += randY;
-	else
-		AimStepLastAngle.y -= randY;
-
-	if(deltaAngle.x < 0)
-		AimStepLastAngle.x += randX;
-	else
-		AimStepLastAngle.x -= randX;
-
-	angle = AimStepLastAngle;
 }
 
 static void Salt(float& smooth, const LegitWeapon_t* currentSettings)
@@ -319,7 +279,7 @@ void Legitbot::CreateMove(CUserCmd* cmd)
 			}
 			if (currentWeaponSetting->smoothEnabled) Smooth(player, angle, oldAngle, currentWeaponSetting);
 			if (currentWeaponSetting->autoShoot) AutoShoot(activeWeapon, cmd, currentWeaponSetting);
-			AimStep(angle, cmd, currentWeaponSetting);
+			AimStep::Run(angle, cmd, currentWeaponSetting);
 		}	
 	}
 	else // No player to Shoot

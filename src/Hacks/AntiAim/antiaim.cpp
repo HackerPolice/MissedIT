@@ -5,7 +5,7 @@
 
 #include "../AimBot/legitbot.hpp"
 #include "../AimBot/autowall.h"
-#include "../valvedscheck.h"
+#include "../serverinfo.h"
 #include "../AimBot/ragebot.hpp"
 #include "../Visuals/chams.hpp"
 
@@ -13,10 +13,10 @@
 #include "fakeduck.h"
 #include "fakewalk.hpp"
 #include "slowwalk.hpp"
+#include "../acsafe.h"
+#include "../aimstep.h"
 
 #define GetPercentVal(val, percent) (val * (percent/100.f))
-
-QAngle AntiAim::LastTickViewAngle;
 
 float AntiAim::GetMaxDelta( CCSGOAnimState *animState) 
 {
@@ -34,6 +34,10 @@ float AntiAim::GetMaxDelta( CCSGOAnimState *animState)
     }
 
     delta = *(float*)((uintptr_t)animState + 0x3A4) * unk1;
+
+	if (ACSafe::AntiVACKick) {
+		return (delta-0.5f) / 2.0f;
+	}
 
     return delta - 0.5f;
 }
@@ -279,11 +283,11 @@ static void DoManualAntiAim()
         return;
 
     if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton) && !B_pressed )
-	{
+    {
 		AntiAim::ManualAntiAim::alignBack = !AntiAim::ManualAntiAim::alignBack;
 		AntiAim::ManualAntiAim::alignLeft = AntiAim::ManualAntiAim::alignRight = false;
         B_pressed = true;
-	}	
+	}
     else if ( inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::RightButton) && !B_pressed)
 	{
 		AntiAim::ManualAntiAim::alignRight = !AntiAim::ManualAntiAim::alignRight;
@@ -296,20 +300,15 @@ static void DoManualAntiAim()
         AntiAim::ManualAntiAim::alignLeft = !AntiAim::ManualAntiAim::alignLeft;
         B_pressed = true;
 	}
-    bool buttonNotPressed = !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::LeftButton ) && !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::RightButton ) && !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton );	
-    
+    bool buttonNotPressed = !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::LeftButton ) && !inputSystem->IsButtonDown( Settings::AntiAim::ManualAntiAim::RightButton ) && !inputSystem->IsButtonDown(Settings::AntiAim::ManualAntiAim::backButton );
+
     if (buttonNotPressed && B_pressed)
         B_pressed = false;    
 }
 
 static bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon, CUserCmd* cmd)
 {
-    ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Legitbot::weapons.find(*activeweapon->GetItemDefinitionIndex()) != Settings::Legitbot::weapons.end())
-		index = *activeweapon->GetItemDefinitionIndex();
-	const LegitWeapon_t& currentWeaponSetting = Settings::Legitbot::weapons.at(index);
-    
-    if (currentWeaponSetting.aimStepEnabled && Legitbot::aimStepInProgress)
+    if (AimStep::inProgress)
         return false;
     
     if (activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
@@ -325,6 +324,7 @@ static bool canMove(C_BasePlayer* localplayer, C_BaseCombatWeapon* activeweapon,
         return false;
     if ( cmd->buttons & IN_ATTACK2 && activeweapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE )
         return false;
+
     if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
         return false;
 
@@ -417,7 +417,6 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     else{
         CreateMove::sendPacket = AntiAim::bSend = !AntiAim::bSend;            
     }
-        
 
     QAngle angle = cmd->viewangles;
     QAngle oldAngle;
@@ -481,6 +480,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
+
+    CreateMove::lastTickViewAngles = angle;
 
     cmd->viewangles = angle;
 

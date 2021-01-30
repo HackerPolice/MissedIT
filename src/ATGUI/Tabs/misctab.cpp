@@ -423,25 +423,7 @@ static void OthersSection(){
 	ImGui::CheckboxFill(XORSTR("Attempt NoFall"), &Settings::NoFall::enabled);
 	ImGui::CheckboxFill(XORSTR("Ragdoll Gravity"), &Settings::RagdollGravity::enabled);
 	ImGui::CheckboxFill(XORSTR("Show Spectator list"), &Settings::ShowSpectators::enabled);
-	ImGui::CheckboxFill(XORSTR("Show Player list"), &PlayerList::showWindow);			
-	
-	
-	
-	
-			
-
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
-	if (ImGui::BeginPopupModal(XORSTR("Error###UNTRUSTED_FEATURE")))
-	{
-		ImGui::Text(XORSTR("You cannot use this feature on a VALVE server."));
-		ImGui::CheckboxFill(XORSTR("This is not a VALVE server"), &ValveDSCheck::forceUT);
-
-		if (ImGui::Button(XORSTR("OK")))
-			ImGui::CloseCurrentPopup();
-
-		ImGui::EndPopup();
-	}
-	ImGui::PopStyleVar();
+	ImGui::CheckboxFill(XORSTR("Show Player list"), &PlayerList::showWindow);
 }
 
 void Misc::RenderTab()

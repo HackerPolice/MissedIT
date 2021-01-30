@@ -220,6 +220,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	        RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")] = i.second.autoPistolEnabled;
 	        RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")] = i.second.autoShootEnabled;
             RageweaponSetting[XORSTR("OnShoot")][XORSTR("Enabled")] = i.second.OnShot;
+		    RageweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")] = i.second.aimStepEnabled;
+	        RageweaponSetting[XORSTR("AimStep")][XORSTR("min")] = i.second.aimStepMin;
+	        RageweaponSetting[XORSTR("AimStep")][XORSTR("max")] = i.second.aimStepMax;
             RageweaponSetting[XORSTR("OnShotOnKey")][XORSTR("Enabled")] = i.second.OnShotOnKey;
 	        RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")] = i.second.autoScopeEnabled;
 	        RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")] = i.second.HitChance;
@@ -872,6 +875,7 @@ void Settings::LoadConfig(std::string path)
 	        .autoPistolEnabled = RageweaponSetting[XORSTR("AutoPistol")][XORSTR("Enabled")].asBool(),
 	        .autoShootEnabled = RageweaponSetting[XORSTR("AutoShoot")][XORSTR("Enabled")].asBool(),
 	        .autoScopeEnabled = RageweaponSetting[XORSTR("AutoScope")][XORSTR("Enabled")].asBool(),
+	        .aimStepEnabled = RageweaponSetting[XORSTR("AimStep")][XORSTR("Enabled")].asBool(),
 	        .autoSlow = RageweaponSetting[XORSTR("AutoSlow")][XORSTR("Enabled")].asBool(),
 	        .scopeControlEnabled = RageweaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")].asBool(),
 		    .DoubleFire = RageweaponSetting[XORSTR("Prediction")][XORSTR("Enabled")].asBool(),
@@ -880,6 +884,8 @@ void Settings::LoadConfig(std::string path)
             .OnShotOnKey = RageweaponSetting[XORSTR("OnShotOnKey")][XORSTR("Enabled")].asBool(),
             .MinDamage = RageweaponSetting[XORSTR("MinDamage")].asFloat(),
             .DamageOverride = RageweaponSetting[XORSTR("DamageOverride")].asFloat(),
+            .aimStepMin = RageweaponSetting[XORSTR("AimStep")][XORSTR("min")].asFloat(),
+            .aimStepMax = RageweaponSetting[XORSTR("AimStep")][XORSTR("max")].asFloat(),
         };
         
         weapon.HitChance = RageweaponSetting[XORSTR("HitChance")][XORSTR("Value")].asInt(),
