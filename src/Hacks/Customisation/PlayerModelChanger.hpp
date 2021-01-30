@@ -3,6 +3,7 @@
 #include "../SDK/definitions.h"
 #include "../SDK/IGameEvent.h"
 
-namespace PlayerModelChanger{
-    void FrameStageNotifyModels(ClientFrameStage_t stage);
+namespace PlayerModelChanger
+{
+	void FrameStageNotifyModels(ClientFrameStage_t stage);
 };

@@ -1,14 +1,16 @@
 # imgui_freetype
 
-This is an attempt to replace stb_truetype (the default imgui's font rasterizer) with FreeType. 
-Currently not optimal and probably has some limitations or bugs.
-By [Vuhdo](https://github.com/Vuhdo) (Aleksei Skriabin). Improvements by @mikesart. Maintained by @ocornut.
+This is an attempt to replace stb_truetype (the default imgui's font rasterizer) with FreeType. Currently not optimal
+and probably has some limitations or bugs. By [Vuhdo](https://github.com/Vuhdo) (Aleksei Skriabin). Improvements by
+@mikesart. Maintained by @ocornut.
 
 **Usage**
+
 1. Get latest FreeType binaries or build yourself.
 2. Add imgui_freetype.h/cpp alongside your imgui sources.
 3. Include imgui_freetype.h after imgui.h.
-4. Call ImGuiFreeType::BuildFontAtlas() *BEFORE* calling ImFontAtlas::GetTexDataAsRGBA32() or ImFontAtlas::Build() (so normal Build() won't be called):
+4. Call ImGuiFreeType::BuildFontAtlas() *BEFORE* calling ImFontAtlas::GetTexDataAsRGBA32() or ImFontAtlas::Build() (so
+   normal Build() won't be called):
 
 ```cpp
 // See ImGuiFreeType::RasterizationFlags
@@ -18,12 +20,13 @@ io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 ```
 
 **Gamma Correct Blending**
-FreeType assumes blending in linear space rather than gamma space.
-See FreeType note for [FT_Render_Glyph](https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Render_Glyph).
-For correct results you need to be using sRGB and convert to linear space in the pixel shader output.
-The default imgui styles will be impacted by this change (alpha values will need tweaking).
+FreeType assumes blending in linear space rather than gamma space. See FreeType note
+for [FT_Render_Glyph](https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Render_Glyph). For
+correct results you need to be using sRGB and convert to linear space in the pixel shader output. The default imgui
+styles will be impacted by this change (alpha values will need tweaking).
 
 **Test code Usage**
+
 ```cpp
 #include "misc/freetype/imgui_freetype.h"
 #include "misc/freetype/imgui_freetype.cpp"
@@ -52,6 +55,7 @@ while (true)
 ```
 
 **Test code**
+
 ```cpp
 #include "misc/freetype/imgui_freetype.h"
 #include "misc/freetype/imgui_freetype.cpp"
@@ -121,6 +125,7 @@ struct FreeTypeTest
 ```
 
 **Known issues**
+
 - Output texture has excessive resolution (lots of vertical waste).
 - FreeType's memory allocator is not overridden.
 - `cfg.OversampleH`, `OversampleV` are ignored (but perhaps not so necessary with this rasterizer).

@@ -9,10 +9,14 @@
 namespace Triggerbot
 {
 	void RenderTab();
-	void RenderAimware(ImVec2 &pos,ImDrawList * draw, int sideTabIndex);
+
+	void RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex);
 
 	void KeyBind();
+
 	void Delay();
+
 	void AutoKnife();
+
 	void Filters();
 }

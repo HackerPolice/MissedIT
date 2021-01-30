@@ -4,17 +4,14 @@
 #include "../../SDK/definitions.h"
 #include "../../settings.h"
 #include "../../Utils/xorstring.h"
-#include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
-#include "../../Hacks/AimBot/ragebot.hpp"
 #include "../../Utils/ColorPickerButton.h"
-#include "../Hacks/acsafe.h"
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
-static const char* HitChanceType[2] = {
-	"Normal",
-	"Force Accuracy",
+static const char *HitChanceType[2] = {
+		"Normal",
+		"Force Accuracy",
 };
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
@@ -48,8 +45,9 @@ static char filterWeapons[32];
 void UI::ReloadRageWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end())
+	if (Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end()) {
 		index = currentWeapon;
+	}
 
 	silent = Settings::Ragebot::weapons.at(index).silent;
 	friendly = Settings::Ragebot::weapons.at(index).friendly;
@@ -70,8 +68,7 @@ void UI::ReloadRageWeaponSettings()
 	AimStepMin = Settings::Ragebot::weapons.at(index).aimStepMin;
 	AimStepMax = Settings::Ragebot::weapons.at(index).aimStepMax;
 
-	for (int BONE = 0; BONE < 6; BONE++)
-	{
+	for (int BONE = 0; BONE < 6; BONE++) {
 		desireBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];
 		desiredMultiBones[BONE] = Settings::Ragebot::weapons.at(index).desiredMultiBones[BONE];
 	}
@@ -79,8 +76,10 @@ void UI::ReloadRageWeaponSettings()
 
 void UI::UpdateRageWeaponSettings()
 {
-	if (Settings::Ragebot::weapons.find(currentWeapon) == Settings::Ragebot::weapons.end() && Settings::Ragebot::enabled)
+	if (Settings::Ragebot::weapons.find(currentWeapon) == Settings::Ragebot::weapons.end() &&
+	    Settings::Ragebot::enabled) {
 		Settings::Ragebot::weapons[currentWeapon] = RageWeapon_t();
+	}
 
 	RageWeapon_t settings = {
 			.silent = silent,
@@ -102,17 +101,15 @@ void UI::UpdateRageWeaponSettings()
 	settings.HitChance = HitChance;
 	settings.hitchanceType = hitchanceType;
 
-	for (int BONE = 0; BONE < 6; BONE++){
+	for (int BONE = 0; BONE < 6; BONE++) {
 		settings.desireBones[BONE] = desireBones[BONE];
 		settings.desiredMultiBones[BONE] = desiredMultiBones[BONE];
 	}
-		
 
 	Settings::Ragebot::weapons.at(currentWeapon) = settings;
 
 	if (Settings::Ragebot::weapons.at(currentWeapon) == Settings::Ragebot::weapons.at(ItemDefinitionIndex::INVALID) &&
-		currentWeapon != ItemDefinitionIndex::INVALID)
-	{
+	    currentWeapon != ItemDefinitionIndex::INVALID) {
 		Settings::Ragebot::weapons.erase(currentWeapon);
 		UI::ReloadRageWeaponSettings();
 		return;
@@ -123,13 +120,14 @@ static void Aimbot()
 {
 	// all the auto shoot related features are in this section
 
-	if (ImGui::CheckboxFill(XORSTR("Auto Shoot"), &autoShootEnabled))
+	if (ImGui::CheckboxFill(XORSTR("Auto Shoot"), &autoShootEnabled)) {
 		UI::UpdateRageWeaponSettings();
-	if (ImGui::CheckboxFill(XORSTR("AutoSlow"), &autoSlow))
+	}
+	if (ImGui::CheckboxFill(XORSTR("AutoSlow"), &autoSlow)) {
 		UI::UpdateRageWeaponSettings();
-	
-	switch (currentWeapon)
-	{
+	}
+
+	switch (currentWeapon) {
 		case ItemDefinitionIndex::WEAPON_DEAGLE:
 		case ItemDefinitionIndex::WEAPON_ELITE:
 		case ItemDefinitionIndex::WEAPON_FIVESEVEN:
@@ -142,12 +140,12 @@ static void Aimbot()
 		case ItemDefinitionIndex::WEAPON_REVOLVER:
 			break;
 		default:
-			if (ImGui::CheckboxFill(XORSTR("Auto Scope"), &autoScopeEnabled))
+			if (ImGui::CheckboxFill(XORSTR("Auto Scope"), &autoScopeEnabled)) {
 				UI::UpdateRageWeaponSettings();
+			}
 			break;
 	}
-	switch (currentWeapon)
-	{
+	switch (currentWeapon) {
 		case ItemDefinitionIndex::INVALID:
 		case ItemDefinitionIndex::WEAPON_DEAGLE:
 		case ItemDefinitionIndex::WEAPON_ELITE:
@@ -159,22 +157,25 @@ static void Aimbot()
 		case ItemDefinitionIndex::WEAPON_P250:
 		case ItemDefinitionIndex::WEAPON_CZ75A:
 		case ItemDefinitionIndex::WEAPON_REVOLVER:
-			if (ImGui::CheckboxFill(XORSTR("Auto Pistol"), &autoPistolEnabled))
+			if (ImGui::CheckboxFill(XORSTR("Auto Pistol"), &autoPistolEnabled)) {
 				UI::UpdateRageWeaponSettings();
+			}
 			break;
 		default:
 			break;
 	}
-	
+
 	ImGui::PushItemWidth(-1);
 	if (HitChance == 0) {
-		if( ImGui::SliderInt(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("HitChance Off")) )
+		if (ImGui::SliderInt(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("HitChance Off"))) {
 			UI::UpdateRageWeaponSettings();
-	}
-	else {
-		if( ImGui::SliderInt(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("Hitchance %d")) )
+		}
+	} else {
+		if (ImGui::SliderInt(XORSTR("##HITCHANCE"), &HitChance, 0, 100, XORSTR("Hitchance %d"))) {
 			UI::UpdateRageWeaponSettings();
-		if ( ImGui::Combo(XORSTR("##HitChanceType"), (int*)&hitchanceType, HitChanceType, IM_ARRAYSIZE(HitChanceType)) ){
+		}
+		if (ImGui::Combo(XORSTR("##HitChanceType"), (int *) &hitchanceType, HitChanceType,
+		                 IM_ARRAYSIZE(HitChanceType))) {
 			UI::UpdateRageWeaponSettings();
 		}
 	}
@@ -182,155 +183,186 @@ static void Aimbot()
 	ImGui::PopItemWidth();
 }
 
-static void OtherSettings(){
+static void OtherSettings()
+{
 	// Others Settings for Aimbot basically those that are not directly related to aimbot
-	if (ImGui::CheckboxFill(XORSTR("Silent Aim"), &silent))
+	if (ImGui::CheckboxFill(XORSTR("Silent Aim"), &silent)) {
 		UI::UpdateRageWeaponSettings();
-	if ( ImGui::CheckboxFill(XORSTR("Auto Crouch"), &AutoCrouch) )
+	}
+	if (ImGui::CheckboxFill(XORSTR("Auto Crouch"), &AutoCrouch)) {
 		UI::UpdateRageWeaponSettings();
-	
+	}
+
 	ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled);
 	ImGui::Columns();
 	{
-		if ( ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled) )
-		{
+		if (ImGui::CheckboxFill(XORSTR("LagComp"), &Settings::LagComp::enabled)) {
 			hitchanceType = HitchanceType::Normal;
 			UI::UpdateRageWeaponSettings(); // because if we need force accuracy our aimbot will not shoot
 		}
-		ToolTip::Show(XORSTR("LagComp is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"), ImGui::IsItemHovered());
+		ToolTip::Show(
+				XORSTR("LagComp is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"),
+				ImGui::IsItemHovered());
 	}
 	ImGui::Columns();
 	{
-		if ( ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled) )
-		{
+		if (ImGui::CheckboxFill(XORSTR("BackTrack"), &Settings::BackTrack::enabled)) {
 			hitchanceType = HitchanceType::Normal;
 			UI::UpdateRageWeaponSettings(); // because if we need force accuracy our aimbot will not shoot
 		}
-		ToolTip::Show(XORSTR("Backtrack is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"), ImGui::IsItemHovered());
+		ToolTip::Show(
+				XORSTR("Backtrack is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"),
+				ImGui::IsItemHovered());
 	}
-	
+
 	ImGui::CheckboxFill(XORSTR("Resolver"), &Settings::Resolver::resolveAll);
 }
 
-static void DamageSettings(){
+static void DamageSettings()
+{
 
 	ImGui::PushItemWidth(-1);
 
 	if (MinDamage == 0) {
-		if (ImGui::SliderFloat(XORSTR("##VISIBLEDMG"), &MinDamage, 0, 150, XORSTR("Auto Damage")))
+		if (ImGui::SliderFloat(XORSTR("##VISIBLEDMG"), &MinDamage, 0, 150, XORSTR("Auto Damage"))) {
 			UI::UpdateRageWeaponSettings();
-	}
-	else{
-		if (ImGui::SliderFloat(XORSTR("##VISIBLEDMG"), &MinDamage, 0, 150, XORSTR("Min Damage: %.0f")))
+		}
+	} else {
+		if (ImGui::SliderFloat(XORSTR("##VISIBLEDMG"), &MinDamage, 0, 150, XORSTR("Min Damage: %.0f"))) {
 			UI::UpdateRageWeaponSettings();
+		}
 	}
-		
 
 	if (DamageOverride == 0) {
-		if (ImGui::SliderFloat(XORSTR("##DamageOverride"), &DamageOverride, 0, 150, XORSTR("DamageOverride OFf")))
+		if (ImGui::SliderFloat(XORSTR("##DamageOverride"), &DamageOverride, 0, 150, XORSTR("DamageOverride OFf"))) {
 			UI::UpdateRageWeaponSettings();
-	}	
-	else{
-		if (ImGui::SliderFloat(XORSTR("##DamageOverride"), &DamageOverride, 0, 150, XORSTR("Override Damage: %.0f")))
+		}
+	} else {
+		if (ImGui::SliderFloat(XORSTR("##DamageOverride"), &DamageOverride, 0, 150, XORSTR("Override Damage: %.0f"))) {
 			UI::UpdateRageWeaponSettings();
+		}
 	}
 
 	UI::KeyBindButton(&Settings::Ragebot::DamageOverrideBtn);
 
-	ImGui::PopItemWidth();	
-
-}
-
-static void HitBone(){
-
-	ImGui::PushItemWidth(-1);
-
-	if ( ImGui::Selectable(XORSTR("HEAD"), &desireBones[(int)DesireBones::BONE_HEAD]) )
-		UI::UpdateRageWeaponSettings();
-	if (ImGui::Selectable(XORSTR("UPPER CHEST"), &desireBones[(int)DesireBones::UPPER_CHEST]))
-		UI::UpdateRageWeaponSettings();
-	if (ImGui::Selectable(XORSTR("MIDDLE CHEST"), &desireBones[(int)DesireBones::MIDDLE_CHEST]))
-		UI::UpdateRageWeaponSettings();
-	if (ImGui::Selectable(XORSTR("LOWER CHEST"), &desireBones[(int)DesireBones::LOWER_CHEST]))
-		UI::UpdateRageWeaponSettings();
-	if (ImGui::Selectable(XORSTR("HIP"), &desireBones[(int)DesireBones::BONE_HIP]))
-		UI::UpdateRageWeaponSettings();
-	if (ImGui::Selectable(XORSTR("LOWER BODY"), &desireBones[(int)DesireBones::LOWER_BODY]))
-		UI::UpdateRageWeaponSettings();
-	
 	ImGui::PopItemWidth();
+
 }
 
-static void MultiBone(){
+static void HitBone()
+{
 
 	ImGui::PushItemWidth(-1);
-	
-		if ( ImGui::Selectable(XORSTR("HEAD M"), &desiredMultiBones[(int)DesireBones::BONE_HEAD], ImGuiSelectableFlags_DontClosePopups) )
-			UI::UpdateRageWeaponSettings();
-		if (ImGui::Selectable(XORSTR("UPPER CHEST M"), &desiredMultiBones[(int)DesireBones::UPPER_CHEST], ImGuiSelectableFlags_DontClosePopups))
-			UI::UpdateRageWeaponSettings();
-		if (ImGui::Selectable(XORSTR("MIDDLE CHEST M"), &desiredMultiBones[(int)DesireBones::MIDDLE_CHEST], ImGuiSelectableFlags_DontClosePopups))
-			UI::UpdateRageWeaponSettings();
-		if (ImGui::Selectable(XORSTR("LOWER CHEST M"), &desiredMultiBones[(int)DesireBones::LOWER_CHEST], ImGuiSelectableFlags_DontClosePopups))
-			UI::UpdateRageWeaponSettings();
-		if (ImGui::Selectable(XORSTR("HIP M"), &desiredMultiBones[(int)DesireBones::BONE_HIP], ImGuiSelectableFlags_DontClosePopups))
-			UI::UpdateRageWeaponSettings();
-		if (ImGui::Selectable(XORSTR("LOWER BODY M"), &desiredMultiBones[(int)DesireBones::LOWER_BODY], ImGuiSelectableFlags_DontClosePopups))
-			UI::UpdateRageWeaponSettings();
+
+	if (ImGui::Selectable(XORSTR("HEAD"), &desireBones[(int) DesireBones::BONE_HEAD])) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("UPPER CHEST"), &desireBones[(int) DesireBones::UPPER_CHEST])) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("MIDDLE CHEST"), &desireBones[(int) DesireBones::MIDDLE_CHEST])) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("LOWER CHEST"), &desireBones[(int) DesireBones::LOWER_CHEST])) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("HIP"), &desireBones[(int) DesireBones::BONE_HIP])) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("LOWER BODY"), &desireBones[(int) DesireBones::LOWER_BODY])) {
+		UI::UpdateRageWeaponSettings();
+	}
 
 	ImGui::PopItemWidth();
 }
 
-static void OnshotSettings(){
-	if (ImGui::CheckboxFill(XORSTR("On Shot"), &OnShot))
+static void MultiBone()
+{
+
+	ImGui::PushItemWidth(-1);
+
+	if (ImGui::Selectable(XORSTR("HEAD M"), &desiredMultiBones[(int) DesireBones::BONE_HEAD],
+	                      ImGuiSelectableFlags_DontClosePopups)) {
 		UI::UpdateRageWeaponSettings();
-	if (ImGui::CheckboxFill(XORSTR("On Shot On Key"), &OnSHotOnKey))
+	}
+	if (ImGui::Selectable(XORSTR("UPPER CHEST M"), &desiredMultiBones[(int) DesireBones::UPPER_CHEST],
+	                      ImGuiSelectableFlags_DontClosePopups)) {
 		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("MIDDLE CHEST M"), &desiredMultiBones[(int) DesireBones::MIDDLE_CHEST],
+	                      ImGuiSelectableFlags_DontClosePopups)) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("LOWER CHEST M"), &desiredMultiBones[(int) DesireBones::LOWER_CHEST],
+	                      ImGuiSelectableFlags_DontClosePopups)) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("HIP M"), &desiredMultiBones[(int) DesireBones::BONE_HIP],
+	                      ImGuiSelectableFlags_DontClosePopups)) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::Selectable(XORSTR("LOWER BODY M"), &desiredMultiBones[(int) DesireBones::LOWER_BODY],
+	                      ImGuiSelectableFlags_DontClosePopups)) {
+		UI::UpdateRageWeaponSettings();
+	}
+
+	ImGui::PopItemWidth();
+}
+
+static void OnshotSettings()
+{
+	if (ImGui::CheckboxFill(XORSTR("On Shot"), &OnShot)) {
+		UI::UpdateRageWeaponSettings();
+	}
+	if (ImGui::CheckboxFill(XORSTR("On Shot On Key"), &OnSHotOnKey)) {
+		UI::UpdateRageWeaponSettings();
+	}
 	UI::KeyBindButton(&Settings::Ragebot::OnShotBtn);
 }
 
-void Ragebot::Guns(){
-	 // straight pested from nimbus
-	const char *tabs[] = 
-	{
-		"All",
-		"Pistol",
-		"Shotgun",
-		"SMG",
-		"Rifle",
-		"Sniper"
-	};
+void Ragebot::Guns()
+{
+	// straight pested from nimbus
+	const char *tabs[] =
+			{
+					"All",
+					"Pistol",
+					"Shotgun",
+					"SMG",
+					"Rifle",
+					"Sniper"
+			};
 
-	for (int i = 0; i < IM_ARRAYSIZE(tabs); i++)
-	{
+	for (int i = 0; i < IM_ARRAYSIZE(tabs); i++) {
 		int distance = i == weaponTypes ? 0 : i > weaponTypes ? i - weaponTypes : weaponTypes - i;
 
 		ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
-			Settings::UI::mainColor.Color().Value.x - (distance * 0.035f),
-			Settings::UI::mainColor.Color().Value.y - (distance * 0.035f),
-			Settings::UI::mainColor.Color().Value.z - (distance * 0.035f),
-			Settings::UI::mainColor.Color().Value.w);
+				Settings::UI::mainColor.Color().Value.x - (distance * 0.035f),
+				Settings::UI::mainColor.Color().Value.y - (distance * 0.035f),
+				Settings::UI::mainColor.Color().Value.z - (distance * 0.035f),
+				Settings::UI::mainColor.Color().Value.w);
 
-		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs) - 9, 0))){
-			if ( i == 0)
+		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs) - 9, 0))) {
+			if (i == 0) {
 				weaponTypes = -1;
+			}
 		}
-			
 
 		ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::accentColor.Color();
 
-		if (i < IM_ARRAYSIZE(tabs) - 1)
+		if (i < IM_ARRAYSIZE(tabs) - 1) {
 			ImGui::SameLine();
+		}
 	}
 }
 
 static void AimStep()
 {
-	if ( ImGui::CheckboxFill(XORSTR("##AimStep"), &AimStepEnabled) ) {
+	if (ImGui::CheckboxFill(XORSTR("##AimStep"), &AimStepEnabled)) {
 		UI::UpdateRageWeaponSettings();
 	}
 
-	if(AimStepEnabled) {
+	if (AimStepEnabled) {
 		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &AimStepMin, 28.0f, 180.0f, XORSTR("MIN : %0.0f"))) {
 			UI::UpdateRageWeaponSettings();
 		}
@@ -343,8 +375,7 @@ static void AimStep()
 
 void Ragebot::RenderTab()
 {
-	if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Ragebot::enabled))
-	{	
+	if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Ragebot::enabled)) {
 		Settings::Legitbot::enabled = false;
 		UI::UpdateRageWeaponSettings();
 	}
@@ -360,25 +391,28 @@ void Ragebot::RenderTab()
 		}
 		ImGui::PopItemWidth();
 		ImGui::ListBoxHeader(XORSTR("##GUNS"), ImVec2(-1, -1));
-		for (auto it : ItemDefinitionIndexMap)
-		{
+		for (auto it : ItemDefinitionIndexMap) {
 			bool isDefault = (int) it.first < 0;
-			if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str())))
+			if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)),
+			                                  Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str()))) {
 				continue;
+			}
 
-			if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) || Util::Items::IsUtility(it.first))
+			if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) || Util::Items::IsUtility(it.first)) {
 				continue;
+			}
 
 			const bool item_selected = ((int) it.first == (int) currentWeapon);
 			ImGui::PushID((int) it.first);
 			std::string formattedName;
 			char changeIndicator = ' ';
 			bool isChanged = Settings::Ragebot::weapons.find(it.first) != Settings::Ragebot::weapons.end();
-			if (!isDefault && isChanged)
+			if (!isDefault && isChanged) {
 				changeIndicator = '*';
-			formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str() : Util::Items::GetItemDisplayName(it.first));
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-			{
+			}
+			formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str()
+			                                             : Util::Items::GetItemDisplayName(it.first));
+			if (ImGui::Selectable(formattedName.c_str(), item_selected)) {
 				currentWeapon = it.first;
 				UI::ReloadRageWeaponSettings();
 			}
@@ -423,7 +457,7 @@ void Ragebot::RenderTab()
 				HitBone();
 			}
 			ImGui::EndGroupPanel();
-			
+
 			ImGui::BeginGroupPanel(XORSTR("MultiBone"));
 			{
 				MultiBone();
@@ -433,7 +467,8 @@ void Ragebot::RenderTab()
 			ImGui::BeginGroupPanel(XORSTR("AimStep"));
 			{
 				AimStep();
-			}ImGui::EndGroupPanel();
+			}
+			ImGui::EndGroupPanel();
 
 			ImGui::BeginGroupPanel(XORSTR("Damage"));
 			{
@@ -441,12 +476,11 @@ void Ragebot::RenderTab()
 			}
 			ImGui::EndGroupPanel();
 
-
-			ImGui::Spacing(); ImGui::Spacing();
-			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end())
-			{
-				if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0)))
-				{
+			ImGui::Spacing();
+			ImGui::Spacing();
+			if (currentWeapon > ItemDefinitionIndex::INVALID &&
+			    Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end()) {
+				if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0))) {
 					Settings::Ragebot::weapons.erase(currentWeapon);
 					UI::ReloadRageWeaponSettings();
 				}
@@ -457,23 +491,25 @@ void Ragebot::RenderTab()
 	ImGui::EndColumns();
 }
 
-void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
+void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
+{
 
-	draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 960 - 15, pos.y + 95), ImColor(0, 0, 0, 150), 10);
-    ImGui::SetCursorPos(ImVec2(185, 70));
-    ImGui::BeginGroup();
-    {
-        if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Ragebot::enabled))
-		{	
+	draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 960 - 15, pos.y + 95), ImColor(0, 0, 0, 150),
+	                    10);
+	ImGui::SetCursorPos(ImVec2(185, 70));
+	ImGui::BeginGroup();
+	{
+		if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Ragebot::enabled)) {
 			Settings::Legitbot::enabled = false;
 			UI::UpdateWeaponSettings();
 		}
-    }
-    ImGui::EndGroup();
+	}
+	ImGui::EndGroup();
 	ToolTip::Show(XORSTR("Enable Legit Bot"), ImGui::IsItemHovered());
 
-	if ( !Settings::Ragebot::enabled )
+	if (!Settings::Ragebot::enabled) {
 		goto DoNotRender;
+	}
 
 	ImGui::SetCursorPos(ImVec2(180, 100));
 	ImGui::BeginGroup();
@@ -487,32 +523,36 @@ void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
 			}
 			ImGui::PopItemWidth();
 			ImGui::ListBoxHeader(XORSTR("##GUNS"), ImVec2(-1, 490));
-			for (auto it : ItemDefinitionIndexMap)
-			{
+			for (auto it : ItemDefinitionIndexMap) {
 				bool isDefault = (int) it.first < 0;
-				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str())))
+				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)),
+				                                  Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str()))) {
 					continue;
+				}
 
-				if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) || Util::Items::IsUtility(it.first))
+				if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) ||
+				    Util::Items::IsUtility(it.first)) {
 					continue;
+				}
 
 				const bool item_selected = ((int) it.first == (int) currentWeapon);
 				ImGui::PushID((int) it.first);
 				std::string formattedName;
 				char changeIndicator = ' ';
 				bool isChanged = Settings::Ragebot::weapons.find(it.first) != Settings::Ragebot::weapons.end();
-				if (!isDefault && isChanged)
+				if (!isDefault && isChanged) {
 					changeIndicator = '*';
-				formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str() : Util::Items::GetItemDisplayName(it.first));
-				if (ImGui::Selectable(formattedName.c_str(), item_selected))
-				{
+				}
+				formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str()
+				                                             : Util::Items::GetItemDisplayName(it.first));
+				if (ImGui::Selectable(formattedName.c_str(), item_selected)) {
 					currentWeapon = it.first;
 					UI::ReloadRageWeaponSettings();
 				}
 				ImGui::PopID();
 			}
 			ImGui::ListBoxFooter();
-		
+
 		}
 		ImGui::NextColumn();
 		{
@@ -523,60 +563,70 @@ void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex){
 				ImGui::BeginGroupPanel(XORSTR("AimBot"));
 				{
 					Aimbot();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("OnShot"));
 				{
 					OnshotSettings();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("Others"));
 				{
 					OtherSettings();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
-			}ImGui::EndChild();
-			
-		}ImGui::NextColumn();
+			}
+			ImGui::EndChild();
+
+		}
+		ImGui::NextColumn();
 		{
 			ImGui::BeginChild(XORSTR("COL2"), ImVec2(0, 0), false);
 			{
 				ImGui::BeginGroupPanel(XORSTR("HitBox"));
 				{
 					HitBone();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("MultiBone"));
 				{
 					MultiBone();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("AimStep"));
 				{
 					AimStep();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
 				ImGui::BeginGroupPanel(XORSTR("Damage"));
 				{
 					DamageSettings();
-				}ImGui::EndGroupPanel();
+				}
+				ImGui::EndGroupPanel();
 
 				ImGui::Spacing();
-				if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end())
-				{
-					if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0)))
-					{
+				if (currentWeapon > ItemDefinitionIndex::INVALID &&
+				    Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end()) {
+					if (ImGui::Button(XORSTR("Clear Weapon Settings"), ImVec2(-1, 0))) {
 						Settings::Ragebot::weapons.erase(currentWeapon);
 						UI::ReloadRageWeaponSettings();
 					}
 				}
-			}ImGui::EndChild();
+			}
+			ImGui::EndChild();
 
-		}ImGui::EndColumns();
+		}
+		ImGui::EndColumns();
 
-	}ImGui::EndGroup();
+	}
+	ImGui::EndGroup();
 
-	DoNotRender:
-	;
+	DoNotRender:;
 }
 

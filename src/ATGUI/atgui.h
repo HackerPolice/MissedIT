@@ -8,26 +8,41 @@ namespace UI
 	extern bool isVisible;
 
 	void SetVisible(bool visible);
+
 	bool DrawImWatermark();
+
 	void DrawMenuSelector();
+
 	void SetupLagacyColor();
+
 	void SetupAimwareColor();
+
 	void SetupWindows();
-	bool ColorPicker(float* col, bool alphabar);
+
+	bool ColorPicker(float *col, bool alphabar);
+
 	bool ColorPicker3(float col[3]);
+
 	bool ColorPicker4(float col[4]);
-	void KeyBindButton(ButtonCode_t* key);
+
+	void KeyBindButton(ButtonCode_t *key);
+
 	void UpdateWeaponSettings();
+
 	void ReloadWeaponSettings();
+
 	void UpdateRageWeaponSettings();
+
 	void ReloadRageWeaponSettings();
+
 	void SwapWindow();
+
 	void angleIndicator();
 }
 
-
-inline void SetTooltip(const char* text)
+inline void SetTooltip(const char *text)
 {
-	if (ImGui::IsItemHovered())
+	if (ImGui::IsItemHovered()) {
 		ImGui::SetTooltip("%s", text);
+	}
 }

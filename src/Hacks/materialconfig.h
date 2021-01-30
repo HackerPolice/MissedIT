@@ -4,7 +4,7 @@
 
 namespace MaterialConfig
 {
-    extern MaterialSystem_Config_t backupConfig;
+	extern MaterialSystem_Config_t backupConfig;
 
-    void OverrideConfig( MaterialSystem_Config_t* gameConfig, bool forceUpdate );
+	void OverrideConfig(MaterialSystem_Config_t *gameConfig, bool forceUpdate);
 }

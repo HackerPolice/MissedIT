@@ -36,8 +36,12 @@ namespace Records
 	inline int SelectedRecords = INT32_MAX;
 
 	float GetLerpTime();
+
 	bool IsTickValid(float time);
+
 	void RemoveInvalidTicks();
+
 	void RegisterTicks();
+
 	void RemoveBackTrackTicks(const int &maxTick);
 };

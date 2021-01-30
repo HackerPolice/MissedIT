@@ -5,5 +5,5 @@
 namespace AutoDefuse
 {
 	//Hooks
-	void CreateMove(CUserCmd* cmd);
+	void CreateMove(CUserCmd *cmd);
 };

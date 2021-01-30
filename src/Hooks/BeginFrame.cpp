@@ -10,9 +10,9 @@
 #include "../Hacks/radar.h"
 #include "../Hacks/disablepostprocessing.h"
 
-typedef void (*BeginFrameFn) (void*, float);
+typedef void (*BeginFrameFn)(void *, float);
 
-void Hooks::BeginFrame(void* thisptr, float frameTime)
+void Hooks::BeginFrame(void *thisptr, float frameTime)
 {
 	ClanTagChanger::BeginFrame(frameTime);
 	NameChanger::BeginFrame(frameTime);
@@ -21,8 +21,9 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 	Radar::BeginFrame();
 	DisablePostProcessing::BeginFrame();
 
-	if (!engine->IsInGame())
+	if (!engine->IsInGame()) {
 		CreateMove::sendPacket = true;
+	}
 
 	Skins::Localize();
 

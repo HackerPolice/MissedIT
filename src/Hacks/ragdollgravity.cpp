@@ -1,7 +1,6 @@
 #include "ragdollgravity.h"
 
-
-void RagdollGravity::CreateMove(ICvar* cvar)
+void RagdollGravity::CreateMove(ICvar *cvar)
 {
-    cvar->FindVar("cl_ragdoll_gravity")->SetValue(Settings::RagdollGravity::enabled ? -100 : 100);
+	cvar->FindVar("cl_ragdoll_gravity")->SetValue(Settings::RagdollGravity::enabled ? -100 : 100);
 }

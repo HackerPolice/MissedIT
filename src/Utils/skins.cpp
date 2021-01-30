@@ -3,11 +3,13 @@
 void Skins::Localize()
 {
 	static bool isLocalized = false;
-	if (isLocalized)
+	if (isLocalized) {
 		return;
+	}
 
-	if (itemSkins.size() == 0)
+	if (itemSkins.size() == 0) {
 		return;
+	}
 
 	isLocalized = true;
 }

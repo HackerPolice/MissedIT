@@ -21,7 +21,10 @@ enum PaintMode_t
 class IEngineVGui
 {
 public:
-	virtual ~IEngineVGui(void) {}
+	virtual ~IEngineVGui(void)
+	{}
+
 	virtual VPANEL GetPanel(VGuiPanel_t type) = 0;
+
 	virtual bool IsGameUIVisible() = 0;
 };

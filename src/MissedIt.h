@@ -21,5 +21,5 @@
 
 namespace MissedIT
 {
-    void Destroy();    
+	void Destroy();
 } // namespace MissedIT

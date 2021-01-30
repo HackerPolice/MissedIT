@@ -2,34 +2,39 @@
 
 static QAngle lastAngle = QAngle(0);
 
-void AimStep::Run(QAngle& angle, CUserCmd* cmd, const RageWeapon_t* currentSettings)
+void AimStep::Run(QAngle &angle, CUserCmd *cmd, const RageWeapon_t *currentSettings)
 {
-	if (!currentSettings->aimStepEnabled)
+	if (!currentSettings->aimStepEnabled) {
 		return;
+	}
 
-	if(!currentSettings->autoShootEnabled)
+	if (!currentSettings->autoShootEnabled) {
 		return;
+	}
 
 	AimStep::Run(angle, cmd, currentSettings->aimStepMin, currentSettings->aimStepMax);
 }
 
-void AimStep::Run(QAngle& angle, CUserCmd* cmd, const LegitWeapon_t* currentSettings)
+void AimStep::Run(QAngle &angle, CUserCmd *cmd, const LegitWeapon_t *currentSettings)
 {
-	if (!currentSettings->aimStepEnabled)
+	if (!currentSettings->aimStepEnabled) {
 		return;
+	}
 
-	if (!currentSettings->autoAimEnabled)
+	if (!currentSettings->autoAimEnabled) {
 		return;
+	}
 
-	if (currentSettings->smoothEnabled)
+	if (currentSettings->smoothEnabled) {
 		return;
+	}
 
 	AimStep::Run(angle, cmd, currentSettings->aimStepMin, currentSettings->aimStepMax);
 }
 
-void AimStep::Run(QAngle& angle, CUserCmd* cmd, float min, float max)
+void AimStep::Run(QAngle &angle, CUserCmd *cmd, float min, float max)
 {
-	if(!inProgress) {
+	if (!inProgress) {
 		lastAngle = cmd->viewangles;
 	}
 
@@ -38,7 +43,7 @@ void AimStep::Run(QAngle& angle, CUserCmd* cmd, float min, float max)
 	float randX = Math::float_rand(min, std::min(max, fov));
 	float randY = Math::float_rand(min, std::min(max, fov));
 
-	if(!(inProgress = (fov > randX || fov > randY))) {
+	if (!(inProgress = (fov > randX || fov > randY))) {
 		return;
 	}
 
@@ -54,7 +59,7 @@ void AimStep::Run(QAngle& angle, CUserCmd* cmd, float min, float max)
 		lastAngle.y -= randY;
 	}
 
-	if(deltaAngle.x < 0) {
+	if (deltaAngle.x < 0) {
 		lastAngle.x += randX;
 	} else {
 		lastAngle.x -= randX;

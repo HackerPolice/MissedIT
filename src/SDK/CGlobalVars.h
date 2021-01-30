@@ -17,10 +17,10 @@ public:
 	float interpolation_amount;
 	int simTicksThisFrame;
 	int network_protocol;
-	void* pSaveData;
+	void *pSaveData;
 	bool m_bClient;
 	bool m_bRemoteClient;
-	C_BasePlayer* localplayer;
+	C_BasePlayer *localplayer;
 private:
 	int nTimestampNetworkingBase;
 	int nTimestampRandomizeWindow;

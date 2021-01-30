@@ -6,7 +6,8 @@ namespace PredictionSystem
 {
 	//Hooks
 	/* CreateMove */
-	void StartPrediction(CUserCmd* cmd);
+	void StartPrediction(CUserCmd *cmd);
+
 	void EndPrediction();
 
 	float GetCurTime(CUserCmd *cmd);

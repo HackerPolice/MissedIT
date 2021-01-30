@@ -12,12 +12,18 @@
 namespace Visuals
 {
 	void RenderTab();
-	void RenderAimware(ImVec2 &pos, ImDrawList * draw, int sideTabIndex);
+
+	void RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex);
 
 	void Visibility();
+
 	void Items();
+
 	void PlayerDetails();
+
 	void DangerZone();
+
 	void Supportive();
+
 	void Others();
 }

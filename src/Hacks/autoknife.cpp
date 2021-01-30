@@ -5,18 +5,19 @@
 #include "../Utils/entity.h"
 #include "../interfaces.h"
 
-bool AutoKnife::IsPlayerBehind(C_BasePlayer* localplayer, C_BasePlayer* player)
+bool AutoKnife::IsPlayerBehind(C_BasePlayer *localplayer, C_BasePlayer *player)
 {
 	Vector toTarget = (localplayer->GetVecOrigin() - player->GetVecOrigin()).Normalize();
 	Vector playerViewAngles;
 	Math::AngleVectors(*player->GetEyeAngles(), playerViewAngles);
-	if (toTarget.Dot(playerViewAngles) > -0.5f)
+	if (toTarget.Dot(playerViewAngles) > -0.5f) {
 		return false;
-	else
+	} else {
 		return true;
+	}
 }
 
-int AutoKnife::GetKnifeDamageDone(C_BasePlayer* localplayer, C_BasePlayer* player)
+int AutoKnife::GetKnifeDamageDone(C_BasePlayer *localplayer, C_BasePlayer *player)
 {
 	//damage: unarmored/armored
 	//leftclick: 39/33
@@ -25,23 +26,22 @@ int AutoKnife::GetKnifeDamageDone(C_BasePlayer* localplayer, C_BasePlayer* playe
 	//backstab rightclick: 180/153
 	bool backstab = IsPlayerBehind(localplayer, player);
 	int armor = player->GetArmor();
-	if (!backstab)
-	{
-		if (armor>0)
+	if (!backstab) {
+		if (armor > 0) {
 			return 33; // 21
-		else
-			return 39; // 25
-	}
-	else
-	{
-		if (armor>0)
+		} else {
+			return 39;
+		} // 25
+	} else {
+		if (armor > 0) {
 			return 76; // 76
-		else
-			return 90; // 90
+		} else {
+			return 90;
+		} // 90
 	}
 }
 
-int AutoKnife::GetKnife2DamageDone(C_BasePlayer* localplayer, C_BasePlayer* player)
+int AutoKnife::GetKnife2DamageDone(C_BasePlayer *localplayer, C_BasePlayer *player)
 {
 	//damage: unarmored/armored
 	//leftclick: 39/33
@@ -50,44 +50,50 @@ int AutoKnife::GetKnife2DamageDone(C_BasePlayer* localplayer, C_BasePlayer* play
 	//backstab rightclick: 180/153
 	bool backstab = IsPlayerBehind(localplayer, player);
 	int armor = player->GetArmor();
-	if (!backstab)
-	{
-		if (armor>0)
+	if (!backstab) {
+		if (armor > 0) {
 			return 55;
-		else
+		} else {
 			return 65;
-	}
-	else
-	{
+		}
+	} else {
 		return 100;
 	}
 }
 
 void AutoKnife::CreateMove(CUserCmd *cmd)
 {
-	if (!engine->IsInGame())
+	if (!engine->IsInGame()) {
 		return;
+	}
 
-	if (!Settings::AutoKnife::enabled && !Settings::Ragebot::enabled)
+	if (!Settings::AutoKnife::enabled && !Settings::Ragebot::enabled) {
 		return;
+	}
 
-	if (!inputSystem->IsButtonDown(Settings::Triggerbot::OnKey::key) && Settings::AutoKnife::onKey)
+	if (!inputSystem->IsButtonDown(Settings::Triggerbot::OnKey::key) && Settings::AutoKnife::onKey) {
 		return;
+	}
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->IsAlive())
+	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->IsAlive()) {
 		return;
+	}
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon)
+	C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
+			localplayer->GetActiveWeapon());
+	if (!activeWeapon) {
 		return;
+	}
 
 	ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
-	if (!Util::Items::IsKnife(itemDefinitionIndex) && itemDefinitionIndex != ItemDefinitionIndex::WEAPON_TASER)
+	if (!Util::Items::IsKnife(itemDefinitionIndex) && itemDefinitionIndex != ItemDefinitionIndex::WEAPON_TASER) {
 		return;
+	}
 
-	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_TASER && activeWeapon->GetAmmo() == 0)
+	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_TASER && activeWeapon->GetAmmo() == 0) {
 		return;
+	}
 
 	Vector traceStart, traceEnd;
 	trace_t tr;
@@ -100,56 +106,60 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 
 	traceStart = localplayer->GetEyePosition();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
-	
+
 	Ray_t ray;
 	ray.Init(traceStart, traceEnd);
 	CTraceFilter traceFilter;
 	traceFilter.pSkip = localplayer;
 	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
-	C_BasePlayer* player = (C_BasePlayer*) tr.m_pEntityHit;
-	if (!player)
+	C_BasePlayer *player = (C_BasePlayer *) tr.m_pEntityHit;
+	if (!player) {
 		return;
+	}
 
-	if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer)
+	if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer) {
 		return;
+	}
 
 	if (player == localplayer
-		|| player->GetDormant()
-		|| !player->IsAlive()
-		|| player->GetImmune())
+	    || player->GetDormant()
+	    || !player->IsAlive()
+	    || player->GetImmune()) {
 		return;
+	}
 
-	if (!Entity::IsTeamMate(player, localplayer) && !Settings::AutoKnife::Filters::enemies)
+	if (!Entity::IsTeamMate(player, localplayer) && !Settings::AutoKnife::Filters::enemies) {
 		return;
+	}
 
-	if (Entity::IsTeamMate(player, localplayer) && !Settings::AutoKnife::Filters::allies)
+	if (Entity::IsTeamMate(player, localplayer) && !Settings::AutoKnife::Filters::allies) {
 		return;
+	}
 
 	float playerDistance = localplayer->GetVecOrigin().DistTo(player->GetVecOrigin());
-	if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
-	{
-		if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_TASER)
-		{
-			if (playerDistance <= 184.f)
+	if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime) {
+		if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_TASER) {
+			if (playerDistance <= 184.f) {
 				cmd->buttons |= IN_ATTACK;
-		}
-		else
-		{
-			if (playerDistance <= 65.f && GetKnife2DamageDone(localplayer, player) >= player->GetHealth())
+			}
+		} else {
+			if (playerDistance <= 65.f && GetKnife2DamageDone(localplayer, player) >= player->GetHealth()) {
 				cmd->buttons |= IN_ATTACK2;
-			else if (IsPlayerBehind(localplayer, player) && playerDistance <= 65.f)
+			} else if (IsPlayerBehind(localplayer, player) && playerDistance <= 65.f) {
 				cmd->buttons |= IN_ATTACK2;
-			else if (playerDistance <= 78.f)
-			{
-				if (IsPlayerBehind(localplayer, player))
+			} else if (playerDistance <= 78.f) {
+				if (IsPlayerBehind(localplayer, player)) {
 					return;
+				}
 
 				if (playerDistance <= 65.f &&
-					(2*(GetKnifeDamageDone(localplayer, player)) + GetKnife2DamageDone(localplayer, player) - 13) < player->GetHealth())
+				    (2 * (GetKnifeDamageDone(localplayer, player)) + GetKnife2DamageDone(localplayer, player) - 13) <
+				    player->GetHealth()) {
 					cmd->buttons |= IN_ATTACK2;
-				else
+				} else {
 					cmd->buttons |= IN_ATTACK;
+				}
 			}
 		}
 	}

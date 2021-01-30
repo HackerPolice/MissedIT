@@ -5,9 +5,9 @@
 
 namespace ColorButton
 {
-	void RenderWindow(const char* popupname, const int& ColorIndex, bool show);
+	void RenderWindow(const char *popupname, const int &ColorIndex, bool show);
 
-    extern void ColorPicker();
+	extern void ColorPicker();
 
 }
 
