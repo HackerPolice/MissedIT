@@ -100,9 +100,7 @@ The text printed out during injection is not important.
 If the injection was successful you will see a message at the bottom saying `Successfully injected!`, however, if the
 message says `Injection failed`, then you've most likely done something wrong.
 
-Now, go back into CS:GO, if you are in the main menu of the game you should see a banner in the top left like so:
-
-![this](Pictures/mainmenu-ss.png)
+Now, go back into CS:GO.
 
 *Note:* if you are getting crashes ( that are unrelated to game updates ) Try disabling shader precaching in your Steam
 Client -> Steam -> Settings -> Shader Pre-Caching.
@@ -170,7 +168,7 @@ To add a config, copy the folder containing it to `~/.config/MissedIT/CSGO`
 
 ## Screenshots
 
-### We Have Two Theme Available
+### We Have Two Themes Available
 
 #### 1 Legacy Theme
 
