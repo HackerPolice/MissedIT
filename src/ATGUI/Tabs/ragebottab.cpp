@@ -211,7 +211,7 @@ static void OtherSettings()
 			UI::UpdateRageWeaponSettings(); // because if we need force accuracy our aimbot will not shoot
 		}
 		ToolTip::Show(
-				XORSTR("Backtrack is synced with ragebot now but this feature is not fully tested so it can cause crash some times :)"),
+				XORSTR("Backtracking lets you shoot where players used to be (May cause crashes)"),
 				ImGui::IsItemHovered());
 	}
 

@@ -114,7 +114,7 @@ void Triggerbot::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 		if (ImGui::CheckboxFill(XORSTR("Enabled"), &Settings::Triggerbot::enabled)) {}
 	}
 	ImGui::EndGroup();
-	ToolTip::Show(XORSTR("Enable Trigger Bot Bot"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Enable triggerbot"), ImGui::IsItemHovered());
 
 	if (!Settings::Triggerbot::enabled) {
 		goto DoNotRender;

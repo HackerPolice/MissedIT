@@ -21,11 +21,11 @@ void HvH::AntiAim()
 	ImGui::CheckboxFill(XORSTR("##ENABLEFAKEANGLE"), &Settings::AntiAim::EnableFakAngle);
 	ImGui::SameLine();
 	ImGui::Text(XORSTR("Enable Fake Angle"));
-	ToolTip::Show(XORSTR("This Option Allow You to create a fake player in the server to hide your real bonematrix"),
+	ToolTip::Show(XORSTR("Desynchronizes where you can be hit and where you are displayed for other clients"),
 	              ImGui::IsItemHovered());
 
 	ImGui::SliderFloat(XORSTR("##offset"), &Settings::AntiAim::offset, 0, 360, XORSTR(" Real Offset : %0.0f"));
-	ToolTip::Show(XORSTR("Adjust Your Player angle in Y axis Usefull in HVH"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Adjust your player angle in the Y axis, Useful in HVH"), ImGui::IsItemHovered());
 
 	ImGui::Columns();
 	{
@@ -43,7 +43,7 @@ void HvH::Jitter()
 		ImGui::Columns();
 		{
 			ImGui::CheckboxFill(XORSTR("Sync With Lag"), &Settings::AntiAim::Jitter::SyncWithLag);
-			ToolTip::Show(XORSTR("If you turn it off Jitter will work as a anti aim You can invert with Invert Key"),
+			ToolTip::Show(XORSTR("If you turn it off jitter will work as a anti-aim You can invert with invert key"),
 			              ImGui::IsItemHovered());
 		}
 
@@ -51,7 +51,7 @@ void HvH::Jitter()
 		{
 			if (Settings::AntiAim::Jitter::Value == 0) {
 				ImGui::SliderInt(XORSTR("##Jitter"), &Settings::AntiAim::Jitter::Value, 0, 180,
-				                 XORSTR(" Jitter Off Increase to Turn On"));
+				                 XORSTR(" Jitter off Increase to turn on"));
 			} else {
 				ImGui::SliderInt(XORSTR("##Jitter"), &Settings::AntiAim::Jitter::Value, 0, 180, XORSTR(" Angle : %d"));
 				ToolTip::Show(XORSTR("Boop Boop Shaking head enjoy but only fake will shake"), ImGui::IsItemHovered());
@@ -68,7 +68,7 @@ void HvH::RageFeatures()
 		ImGui::CheckboxFill(XORSTR("##pitchDown"), &Settings::AntiAim::PitchDown);
 		ImGui::SameLine();
 		ImGui::Text(XORSTR("PitchDown"));
-		ToolTip::Show(XORSTR("Make Your Player Look Down"), ImGui::IsItemHovered());
+		ToolTip::Show(XORSTR("Make your player look down"), ImGui::IsItemHovered());
 	}
 	ImGui::Columns();
 	{
@@ -76,7 +76,7 @@ void HvH::RageFeatures()
 		ImGui::SameLine();
 		ImGui::Text(XORSTR("Fake Jitter"));
 		ToolTip::Show(
-				XORSTR("It Will Jitter Fake and can break some Cheat resolvers but make sure you turn on jitter too"),
+				XORSTR("Jitters the fake angle, Good in HvH"),
 				ImGui::IsItemHovered());
 	}
 	ImGui::Columns();
@@ -84,14 +84,14 @@ void HvH::RageFeatures()
 		ImGui::CheckboxFill(XORSTR("##AtTheTarget"), &Settings::AntiAim::atTheTarget);
 		ImGui::SameLine();
 		ImGui::Text(XORSTR("At The Target"));
-		ToolTip::Show(XORSTR("Automatically Angle Your player Towords your Enemy"), ImGui::IsItemHovered());
+		ToolTip::Show(XORSTR("Automatically angle your player towords your enemy"), ImGui::IsItemHovered());
 	}
 	ImGui::Columns();
 	{
 		ImGui::CheckboxFill(XORSTR("##AutoDirection"), &Settings::AntiAim::autoDirection);
 		ImGui::SameLine();
 		ImGui::Text(XORSTR("Auto Direction"));
-		ToolTip::Show(XORSTR("AutoMatically Adjust Your Head According to your Enemy"), ImGui::IsItemHovered());
+		ToolTip::Show(XORSTR("Automatically adjust your head according to your enemy"), ImGui::IsItemHovered());
 	}
 
 	ImGui::Columns(); // Invert On Shoot
@@ -99,7 +99,7 @@ void HvH::RageFeatures()
 		ImGui::CheckboxFill(XORSTR("##InvertOnShoot"), &Settings::AntiAim::InvertOnShoot);
 		ImGui::SameLine();
 		ImGui::Text(XORSTR("Invert On Shoot"));
-		ToolTip::Show(XORSTR("Will Invert Your AntiAim After every shoot"), ImGui::IsItemHovered());
+		ToolTip::Show(XORSTR("Will invert your anti-aim after every shot"), ImGui::IsItemHovered());
 	}
 
 	ImGui::Columns();
@@ -146,7 +146,7 @@ void HvH::Others()
 	ImGui::Columns();
 	{
 		ImGui::CheckboxFill(XORSTR("ShowReal"), &Settings::AntiAim::ShowReal);
-		ToolTip::Show(XORSTR("A arrow will show the side of the real"), ImGui::IsItemHovered());
+		ToolTip::Show(XORSTR("An arrow will show the side of the real"), ImGui::IsItemHovered());
 	}
 	ImGui::PushItemWidth(-1);
 
@@ -156,7 +156,7 @@ void HvH::Others()
 
 	ImGui::CheckboxFill(XORSTR("FakeWalk"), &Settings::AntiAim::FakeWalk::enabled);
 	ImGui::SameLine();
-	ImGui::SliderFloat(XORSTR("##FakeWalkSPeed"), &Settings::AntiAim::FakeWalk::Speed, 0, 100, XORSTR("Amount: %0.f"));
+	ImGui::SliderFloat(XORSTR("##FakeWalkSpeed"), &Settings::AntiAim::FakeWalk::Speed, 0, 100, XORSTR("Amount: %0.f"));
 	if (Settings::AntiAim::FakeWalk::enabled) {
 		UI::KeyBindButton(&Settings::AntiAim::FakeWalk::Key);
 	}
@@ -184,38 +184,38 @@ void HvH::FakeLag()
 	              ImGui::IsItemHovered());
 
 	ImGui::CheckboxFill(XORSTR("OnShot FakeLag"), &Settings::FakeLag::OnShot::Enable);
-	ToolTip::Show(XORSTR("Will Lag Upto SpecificTicks On SHot"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Lags onshot to prevent being hit"), ImGui::IsItemHovered());
 	ImGui::SameLine();
 	ImGui::SliderInt(XORSTR("##FAKELAGAMOUNTOnshot"), &Settings::FakeLag::OnShot::Value, 0, 16, XORSTR("Amount: %d"));
-	ToolTip::Show(XORSTR("Will Lag Upto SpecificTicks On Shot"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("How long to fakelag to hide onshot"), ImGui::IsItemHovered());
 
 	ImGui::CheckboxFill(XORSTR("AfterShot FakeLag"), &Settings::FakeLag::AfterShot::Enable);
-	ToolTip::Show(XORSTR("Will Lag Upto SpecificTicks After You shot better in picking"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Fakelags after the shot"), ImGui::IsItemHovered());
 	ImGui::SameLine();
 	ImGui::SliderInt(XORSTR("##FAKELAGAMOUNTAfterShot"), &Settings::FakeLag::AfterShot::Value, 0, 16,
 	                 XORSTR("Amount: %d"));
-	ToolTip::Show(XORSTR("Will Lag Upto SpecificTicks After You shot better in picking"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("How long to fakelag after the shot"), ImGui::IsItemHovered());
 
 	ImGui::CheckboxFill(XORSTR("InAir FakeLag"), &Settings::FakeLag::InAir::Enable);
-	ToolTip::Show(XORSTR("Lag When You Are In Air"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Lags while you are mid air"), ImGui::IsItemHovered());
 	ImGui::SameLine();
 	ImGui::SliderInt(XORSTR("##FAKELAGAMOUNTINAIR"), &Settings::FakeLag::InAir::Value, 0, 16, XORSTR("Amount: %d"));
-	ToolTip::Show(XORSTR("Lag When You Are In Air"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("How long to fakelag while mid air"), ImGui::IsItemHovered());
 	ImGui::PopItemWidth();
 }
 
 void HvH::LBYBreak()
 {
 	ImGui::CheckboxFill(XORSTR("Enable"), &Settings::AntiAim::lbyBreak::Enabled);
-	ToolTip::Show(XORSTR("Enable Lby Break"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Enable LBY break"), ImGui::IsItemHovered());
 
 	ImGui::CheckboxFill(XORSTR("Hide Break"), &Settings::AntiAim::lbyBreak::notSend);
-	ToolTip::Show(XORSTR("Do the send data when you are breaking lby"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Prevents giving away that you are LBY breaking"), ImGui::IsItemHovered());
 
 	ImGui::PushItemWidth(-1);
 	{
 		ImGui::SliderInt(XORSTR("##LbyAngle"), &Settings::AntiAim::lbyBreak::angle, 0, 180, XORSTR("Amount: %d"));
-		ToolTip::Show(XORSTR("Angle to break the LBY you can invert with invert key"), ImGui::IsItemHovered());
+		ToolTip::Show(XORSTR("Angle to break the LBY, You can invert with invert key"), ImGui::IsItemHovered());
 	}
 	ImGui::PopItemWidth();
 }

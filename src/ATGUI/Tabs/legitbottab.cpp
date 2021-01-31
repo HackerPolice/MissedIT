@@ -191,7 +191,7 @@ static void Aimbot()
 	}
 	ImGui::SameLine();
 	ImGui::Text("Priority Bone");
-	ToolTip::Show(XORSTR("When you enable it aimbot will always look for the desired bone first"),
+	ToolTip::Show(XORSTR("Make aimbot prioritize specific bone over the others"),
 	              ImGui::IsItemHovered());
 	if (PriorityBone) {
 		ImGui::PushItemWidth(-1);
@@ -528,7 +528,7 @@ void Legitbot::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 		}
 	}
 	ImGui::EndGroup();
-	ToolTip::Show(XORSTR("Enable LegitBot Bot"), ImGui::IsItemHovered());
+	ToolTip::Show(XORSTR("Enable legitbot"), ImGui::IsItemHovered());
 
 	if (!Settings::Legitbot::enabled) {
 		goto DoNotRender;
