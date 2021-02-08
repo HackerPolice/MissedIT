@@ -1,8 +1,0 @@
-![LegitBot](LegitBot.png)
-![RageBot](RageBot.png)
-![TriggerBot](Triggerbot.png)
-![AntiAim](AntiAim.png)
-![Visuals](Visuals.png)
-![SkinAndModels](SkinAndModels.png)
-![Misc](Misc.png)
-![Config](Config.png)
