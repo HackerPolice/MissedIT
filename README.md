@@ -48,6 +48,8 @@ sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-de
 
 ## How To use MissedIT
 
+===================||===================
+
 ### Step 1 : Download MissedIT
 
 ```bash
@@ -60,38 +62,24 @@ git clone https://github.com/HackerPolice/MissedIT.git
 cd MissedIT
 ```
 
-### Step 3 : Compile with build script
-
-*You can build easily with the included build script. This is mainly one time process*
+### Step 3 : Compile and load
 
 ```bash
-./build
+./MissedIT -b -l or ./MissedIT --build --load
 ```
 
-### Step 4 : Load Missed Using Load Script
+### Step 4 : unLoad Missed
 
 ```bash
-./load
+./MissedIT -ul or ./MissedIT --unload
 ```
 
-## Injecting using the load script
-
-First of all, make sure **CS:GO is not open**, and you are **not in any official valve server**. However, it is not
-recommended to inject while CS:GO is loading into a map.
-
-Navigate to the directory where MissedIT was built if you have not ready.
+### To Know More Commands
 
 ```bash
-cd MissedIT
+./MissedIT -h or ./MissedIT --help
 ```
-
-Now, you can inject the hack with the `load` script
-
-```bash
-./load
-```
-
-**If MissedIT did not load properly Then open the load Script and go to line No. 58 and increase the number**
+===================||===================
 
 You might be prompted to enter in your password, this is because the injection script requires root access.
 
@@ -117,24 +105,20 @@ the screen.
 
 ## Unloading the hack
 
-If you wish to unload the hack from the game, you can do so by entering the command:
-
 ```bash
-./uload
+./MissedIT -ul or ./MissedIT --unload
 ```
 
 ## Update the hack
 
-To check for upate enter Bellow command
-
 ```bash
-./update
+./MissedIT -u or ./MissedIT --update
 ```
 
 If The update is availabel but the cheat is not updateing then try bellow command
 
 ```bash
-./update-force
+./MissedIT -uf or ./MissedIT --update-force
 ``` 
 
 ## Configs
