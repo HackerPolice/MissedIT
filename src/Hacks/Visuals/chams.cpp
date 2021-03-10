@@ -80,10 +80,7 @@ DrawPlayer(void *thisptr, void *context, void *state, const ModelRenderInfo_t &p
 			break;
 		default :
 			return;
-	}
-
-	visible_material->AlphaModulate(1.f);
-	hidden_material->AlphaModulate(1.f);
+	}	
 
 	if (entity == localplayer) {
 		Color visColor = Color::FromImColor(Settings::ESP::Chams::localplayerColor.Color(entity));
@@ -115,9 +112,13 @@ DrawPlayer(void *thisptr, void *context, void *state, const ModelRenderInfo_t &p
 		hidden_material->AlphaModulate(Settings::ESP::Chams::enemyColor.Color(entity).Value.w);
 	}
 
+	
 	if (entity->GetImmune()) {
 		visible_material->AlphaModulate(0.5f);
 		hidden_material->AlphaModulate(0.5f);
+	}else {
+		visible_material->AlphaModulate(1.f);
+		hidden_material->AlphaModulate(1.f);
 	}
 
 	visible_material->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, chamsType == ChamsType::WIREFRAME);
@@ -143,9 +144,6 @@ DrawFake(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pIn
 		return;
 	}
 	if (!Settings::AntiAim::EnableFakAngle) {
-		return;
-	}
-	if (Settings::ESP::FilterLocalPlayer::Chams::type == ChamsType::NONE) {
 		return;
 	}
 	if (!Settings::ThirdPerson::toggled) {
@@ -227,12 +225,15 @@ DrawFake(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pIn
 		Fake_meterial->AlphaModulate(0.5f);
 	}
 	if (CreateMove::sendPacket) {
-		memcpy(Chams::BodyBoneMatrix, fakeBoneMatrix, sizeof(matrix3x4_t) * 128);
+		static size_t _size = sizeof(matrix3x4_t) * 128;
+		memcpy(Chams::BodyBoneMatrix, fakeBoneMatrix, _size);
 	}
 
 	//entity->SetupBones
 	Fake_meterial->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME,
 	                                  Settings::ESP::FilterLocalPlayer::Chams::type == ChamsType::WIREFRAME);
+	Fake_meterial->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW,
+	                                  Settings::ESP::FilterLocalPlayer::Chams::type == ChamsType::NONE);
 
 	modelRender->ForcedMaterialOverride(Fake_meterial);
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, Chams::BodyBoneMatrix);
