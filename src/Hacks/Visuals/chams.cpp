@@ -132,8 +132,6 @@ DrawPlayer(void *thisptr, void *context, void *state, const ModelRenderInfo_t &p
 		modelRender->ForcedMaterialOverride(nullptr);
 	} else {
 		modelRender->ForcedMaterialOverride(visible_material);
-		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		modelRender->ForcedMaterialOverride(nullptr);
 	}
 
 }
@@ -442,14 +440,10 @@ void Chams::DrawModelExecute(void *thisptr, void *context, void *state, const Mo
 		DrawBackTrack(thisptr, context, state, pInfo);
 		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	}
-	if (modelName.find(XORSTR("arms")) != std::string::npos) {
+	else if (modelName.find(XORSTR("arms")) != std::string::npos) {
 		DrawArms(pInfo);
-		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		modelRender->ForcedMaterialOverride(nullptr);
 	}
-	if (modelName.find(XORSTR("weapon")) != std::string::npos) {
+	else if (modelName.find(XORSTR("weapon")) != std::string::npos) {
 		DrawWeapon(pInfo);
-		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		modelRender->ForcedMaterialOverride(nullptr);
 	}
 }
