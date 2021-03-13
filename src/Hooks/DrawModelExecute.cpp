@@ -11,7 +11,7 @@ typedef void (*DrawModelExecuteFn)(void *, void *, void *, const ModelRenderInfo
 void Hooks::DrawModelExecute(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo,
                              matrix3x4_t *pCustomBoneToWorld)
 {
-	if (Settings::ESP::enabled && (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())) {
+	if (Settings::ESP::enabled && (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot()))
 		Chams::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
