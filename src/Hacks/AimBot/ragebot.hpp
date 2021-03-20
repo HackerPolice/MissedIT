@@ -49,9 +49,6 @@ namespace Ragebot
 	                       const std::unordered_map<int, int> *modelType, matrix3x4_t bonematrix[]);
 
 	void BestHeadPoint(C_BasePlayer *player, const int &BoneIndex, int &Damage, Vector &Spot);
-
-	void BestMultiPoint(C_BasePlayer *player, const int &BoneIndex, int &Damage, Vector &Spot);
-
 	void GetBestSpotAndDamage(C_BasePlayer *player, Vector &Spot, int &Damage);
 
 	bool

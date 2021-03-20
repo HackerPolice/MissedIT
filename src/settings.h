@@ -46,7 +46,6 @@ enum class DsyncType : int
 	type1,
 	type2,
 };
-
 enum class DesireBones : int
 {
 	BONE_HEAD = 0,
@@ -62,20 +61,17 @@ enum class DrawingBackend : int
 	IMGUI,
 	NUMBER_OF_TYPES,
 };
-
 enum class SmoothType : int
 {
 	SLOW_END,
 	CONSTANT,
 	FAST_END,
 };
-
 enum class TracerType : int
 {
 	BOTTOM,
 	CURSOR,
 };
-
 enum class ClanTagType : int
 {
 	STATIC,
@@ -83,7 +79,6 @@ enum class ClanTagType : int
 	WORDS,
 	LETTERS,
 };
-
 enum class AutostrafeType : int
 {
 	AS_FORWARDS,
@@ -92,7 +87,6 @@ enum class AutostrafeType : int
 	AS_RIGHTSIDEWAYS,
 	AS_RAGE,
 };
-
 enum class ChamsType : int
 {
 	WHITEADDTIVE,
@@ -104,7 +98,6 @@ enum class ChamsType : int
 	GLOWF,
 	NONE,
 };
-
 enum class Filter : int
 {
 	Enemies,
@@ -113,7 +106,6 @@ enum class Filter : int
 	Fish,
 	Chicken,
 };
-
 enum class BoxType : int
 {
 	FLAT_2D,
@@ -121,12 +113,10 @@ enum class BoxType : int
 	BOX_3D,
 	HITBOXES,
 };
-
 enum class SpriteType : int
 {
 	SPRITE_TUX,
 };
-
 enum class Sound : int
 {
 
@@ -145,7 +135,6 @@ enum class Sound : int
 	ORCHESTRAL,
 
 };
-
 enum class BarType : int
 {
 	VERTICAL,
@@ -154,25 +143,21 @@ enum class BarType : int
 	HORIZONTAL_UP,
 	INTERWEBZ,
 };
-
 enum class BarColorType : int
 {
 	STATIC_COLOR,
 	HEALTH_BASED,
 };
-
 enum class TeamColorType : int
 {
 	ABSOLUTE,
 	RELATIVE,
 };
-
 enum class SmokeType : int
 {
 	WIREFRAME,
 	NONE,
 };
-
 enum class AimTargetType : int
 {
 	FOV,
@@ -180,21 +165,18 @@ enum class AimTargetType : int
 	REAL_DISTANCE,
 	HP,
 };
-
 enum class SpammerType : int
 {
 	SPAMMER_NONE,
 	SPAMMER_NORMAL,
 	SPAMMER_POSITIONS,
 };
-
 enum class AntiAimRealType_Y : int
 {
 	NONE,
 	Static,
 	Jitter,
 };
-
 enum class AntiAimFakeType_y : int
 {
 	NONE,
@@ -202,13 +184,11 @@ enum class AntiAimFakeType_y : int
 	Jitter,
 	Randome,
 };
-
 enum class SkinAndModel : int
 {
 	Skins,
 	Model,
 };
-
 enum class HitchanceType : int
 {
 	Normal = 0,
@@ -294,25 +274,23 @@ struct LegitWeapon_t
 		       this->autoWall == another.autoWall;
 	}
 } const defaultSettings{};
-
 struct RageWeapon_t
 {
 	bool silent = false,
-			friendly = false,
-			closestBone = false,
-			autoPistolEnabled = false,
-			autoShootEnabled = false,
-			autoScopeEnabled = false,
-			aimStepEnabled = true,
-			autoSlow,
-			scopeControlEnabled = false,
-			DoubleFire = false,
-			AutoCrouch = false,
-			OnShot = false,
-			OnShotOnKey = false;
+		 friendly = false,
+		 closestBone = false,
+		 autoPistolEnabled = false,
+		 autoShootEnabled = false,
+		 autoScopeEnabled = false,
+		 aimStepEnabled = false,
+		 autoSlow = false,
+		 scopeControlEnabled = false,
+		 DoubleFire = false,
+		 AutoCrouch = false,
+		 OnShot = false,
+		 OnShotOnKey = false;
 	float MinDamage = 50.f,
 			DamageOverride = 100.f,
-			MinDamageOnshot = 100.f,
 			aimStepMin = 28.0f,
 			aimStepMax = 29.0f;
 	int HitChance = 50;
@@ -418,7 +396,7 @@ namespace Settings
 		inline ColorVar accentColor = ImColor(0, 171, 178, 255);
 		inline bool imGuiAliasedLines = false;
 		inline bool imGuiAliasedFill = true;
-		inline UiType uitype = UiType::LagacyMenu;
+		inline UiType uitype = UiType::AimwareV5;
 
 		/* Window Position/Size Defaults */
 		namespace Windows

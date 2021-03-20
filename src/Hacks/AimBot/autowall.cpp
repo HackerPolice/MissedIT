@@ -222,7 +222,6 @@ bool AutoWall::SimulateFireBullet(C_BaseCombatWeapon *pWeapon, bool teamCheck, A
 
 int AutoWall::GetDamage(const Vector &point, bool teamCheck)
 {
-	Vector dst = point;
 	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->IsAlive()) {
 		return -1;
@@ -232,7 +231,7 @@ int AutoWall::GetDamage(const Vector &point, bool teamCheck)
 	data.src = localplayer->GetEyePosition();
 	data.filter.pSkip = localplayer;
 
-	QAngle angles = Math::CalcAngle(data.src, dst);
+	QAngle angles = Math::CalcAngle(data.src, point);
 	Math::AngleVectors(angles, data.direction);
 
 	Vector tmp = data.direction;

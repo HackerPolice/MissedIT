@@ -70,47 +70,7 @@ void Ragebot::BestHeadPoint(C_BasePlayer *player, const int &BoneIndex, int &Dam
 	}
 }
 
-void Ragebot::BestMultiPoint(C_BasePlayer *player, const int &BoneIndex, int &Damage, Vector &Spot)
-{
-	model_t *pModel = player->GetModel();
-	if (!pModel) {
-		return;
-	}
-	studiohdr_t *hdr = modelInfo->GetStudioModel(pModel);
-	if (!hdr) {
-		return;
-	}
-	mstudiobbox_t *bbox = hdr->pHitbox(BoneIndex, 0);
-	if (!bbox) {
-		return;
-	}
-
-	Vector mins, maxs;
-	Math::VectorTransform(bbox->bbmin, Ragebot::BoneMatrix[bbox->bone], mins);
-	Math::VectorTransform(bbox->bbmax, Ragebot::BoneMatrix[bbox->bone], maxs);
-	// 0 - center 1 - left, 2 - right, 3 - back
-	Vector center = (mins + maxs) * 0.5f;
-	Vector points[4] = {center, center, center, center};
-
-	points[1].x += bbox->radius * 0.95f; // morph each point.
-	points[2].x -= bbox->radius * 0.95f;
-	points[3].y -= bbox->radius * 0.95f;
-
-	for (int i = 0; i < 4; i++) {
-		int bestDamage = AutoWall::GetDamage(points[i], true);
-		if (bestDamage >= player->GetHealth()) {
-			Damage = bestDamage;
-			Spot = points[i];
-			return;
-		} else if (bestDamage > Damage) {
-			Damage = bestDamage;
-			Spot = points[i];
-		}
-	}
-}
-
-bool Ragebot::canShoot(C_BaseCombatWeapon *activeWeapon, C_BasePlayer *enemy, QAngle angle,
-                       const RageWeapon_t &currentSettings)
+bool Ragebot::canShoot(C_BaseCombatWeapon *activeWeapon, C_BasePlayer *enemy, QAngle angle, const RageWeapon_t &currentSettings)
 {
 	if (currentSettings.HitChance == 0) {
 		return false;
@@ -227,8 +187,7 @@ void Ragebot::AutoShoot(C_BasePlayer *enemy, CUserCmd *cmd, QAngle angle, RageWe
 	Aimbot::AutoSlow(Ragebot::localplayer, cmd, currentSettings->autoSlow);
 }
 
-void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage, const int playerhealth, int i,
-                                const std::unordered_map<int, int> *modelType, matrix3x4_t bonematrix[])
+void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage, const int playerhealth, int i, const std::unordered_map<int, int> *modelType, matrix3x4_t bonematrix[])
 {
 	static auto HitboxHead([&](int &BoneID) {
 		Spot = player->GetBonePosition(BoneID, bonematrix);
@@ -238,7 +197,6 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 
 		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
-		BestMultiPoint(player, BoneID, Damage, Spot);
 
 		if (Damage >= playerhealth) {
 			return;
@@ -271,7 +229,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 	static auto MiddleSpine([&](int &BoneID) {
 		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
-		BestMultiPoint(player, BoneID, Damage, Spot);
+
 		// BestMultiPointDamage(player, BoneID, Damage, Spot);
 		if (Damage >= playerhealth) {
 			return;
@@ -306,7 +264,6 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 
 		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
-		BestMultiPoint(player, BoneID, Damage, Spot);
 		// BestMultiPointDamage(player, BoneID, Damage, Spot);
 		if (Damage >= playerhealth) {
 			return;
@@ -338,7 +295,6 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 	static auto HipHitbox([&](int &BoneID) {
 		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
-		BestMultiPoint(player, BoneID, Damage, Spot);
 
 		if (Damage >= playerhealth) {
 			return;
@@ -372,7 +328,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 
 		Spot = player->GetBonePosition(BoneID, bonematrix);
 		Damage = AutoWall::GetDamage(Spot, true);
-		BestMultiPoint(player, BoneID, Damage, Spot);
+		
 		if (Damage >= playerhealth) {
 			return;
 		}
@@ -415,37 +371,37 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 				HitboxHead(
 						boneID); // lambda expression because again creating a new method is going to make the source code mess :p
 			} else { DefaultHitbox(boneID); }
-			break;
+			return;
 
 		case DesireBones::UPPER_CHEST:
 			boneID = (*modelType).at(BONE_UPPER_SPINAL_COLUMN);
 			if (Ragebot::currentWeaponSetting->desiredMultiBones[i]) { UpperSpine(boneID); }
 			else { DefaultHitbox(boneID); }
-			break;
+			return;
 
 		case DesireBones::MIDDLE_CHEST:
 			boneID = (*modelType).at(BONE_MIDDLE_SPINAL_COLUMN);
 			if (Ragebot::currentWeaponSetting->desiredMultiBones[i]) { MiddleSpine(boneID); }
 			else { DefaultHitbox(boneID); }
-			break;
+			return;
 
 		case DesireBones::LOWER_CHEST:
 			boneID = (*modelType).at(BONE_LOWER_SPINAL_COLUMN);
 			if (Ragebot::currentWeaponSetting->desiredMultiBones[i]) { LowerSpine(boneID); }
 			else { DefaultHitbox(boneID); }
-			break;
+			return;
 
 		case DesireBones::BONE_HIP:
 			boneID = (*modelType).at(BONE_HIP);
 			if (Ragebot::currentWeaponSetting->desiredMultiBones[i]) { HipHitbox(boneID); }
 			else { DefaultHitbox(boneID); }
-			break;
+			return;
 
 		case DesireBones::LOWER_BODY:
 			boneID = BONE_PELVIS;
 			if (Ragebot::currentWeaponSetting->desiredMultiBones[i]) { PelvisHitbox(boneID); }
 			else { DefaultHitbox(boneID); }
-			break;
+			return;
 	}
 }
 
@@ -533,7 +489,8 @@ void Ragebot::GetBestEnemy()
 		Ragebot::enemy = tick->bestenemy.entity;
 		AutoWall::targetAimbot = tick->bestenemy.entity->GetIndex();
 
-	} else {
+	} 
+	else {
 
 		NormalScanning:
 		C_BasePlayer *player = nullptr;

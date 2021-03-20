@@ -45,9 +45,8 @@ static char filterWeapons[32];
 void UI::ReloadRageWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end()) {
+	if (Settings::Ragebot::weapons.find(currentWeapon) != Settings::Ragebot::weapons.end())
 		index = currentWeapon;
-	}
 
 	silent = Settings::Ragebot::weapons.at(index).silent;
 	friendly = Settings::Ragebot::weapons.at(index).friendly;
@@ -64,11 +63,9 @@ void UI::ReloadRageWeaponSettings()
 	hitchanceType = Settings::Ragebot::weapons.at(index).hitchanceType;
 	OnShot = Settings::Ragebot::weapons.at(index).OnShot;
 	OnSHotOnKey = Settings::Ragebot::weapons.at(index).OnShotOnKey;
-	AimStepEnabled = Settings::Ragebot::weapons.at(index).aimStepEnabled;
-	AimStepMin = Settings::Ragebot::weapons.at(index).aimStepMin;
-	AimStepMax = Settings::Ragebot::weapons.at(index).aimStepMax;
 
-	for (int BONE = 0; BONE < 6; BONE++) {
+	for (int BONE = 0; BONE < 6; BONE++)
+	{
 		desireBones[BONE] = Settings::Ragebot::weapons.at(index).desireBones[BONE];
 		desiredMultiBones[BONE] = Settings::Ragebot::weapons.at(index).desiredMultiBones[BONE];
 	}
@@ -76,10 +73,8 @@ void UI::ReloadRageWeaponSettings()
 
 void UI::UpdateRageWeaponSettings()
 {
-	if (Settings::Ragebot::weapons.find(currentWeapon) == Settings::Ragebot::weapons.end() &&
-	    Settings::Ragebot::enabled) {
+	if (Settings::Ragebot::weapons.find(currentWeapon) == Settings::Ragebot::weapons.end())
 		Settings::Ragebot::weapons[currentWeapon] = RageWeapon_t();
-	}
 
 	RageWeapon_t settings = {
 			.silent = silent,
@@ -88,6 +83,7 @@ void UI::UpdateRageWeaponSettings()
 			.autoPistolEnabled = autoPistolEnabled,
 			.autoShootEnabled = autoShootEnabled,
 			.autoScopeEnabled = autoScopeEnabled,
+			.aimStepEnabled = AimStepEnabled,
 			.autoSlow = autoSlow,
 			.scopeControlEnabled = scopeControlEnabled,
 			.DoubleFire = doubleFire,
@@ -101,15 +97,17 @@ void UI::UpdateRageWeaponSettings()
 	settings.HitChance = HitChance;
 	settings.hitchanceType = hitchanceType;
 
-	for (int BONE = 0; BONE < 6; BONE++) {
+	for (int BONE = 0; BONE < 6; BONE++){
 		settings.desireBones[BONE] = desireBones[BONE];
 		settings.desiredMultiBones[BONE] = desiredMultiBones[BONE];
 	}
+		
 
 	Settings::Ragebot::weapons.at(currentWeapon) = settings;
 
 	if (Settings::Ragebot::weapons.at(currentWeapon) == Settings::Ragebot::weapons.at(ItemDefinitionIndex::INVALID) &&
-	    currentWeapon != ItemDefinitionIndex::INVALID) {
+		currentWeapon != ItemDefinitionIndex::INVALID)
+	{
 		Settings::Ragebot::weapons.erase(currentWeapon);
 		UI::ReloadRageWeaponSettings();
 		return;

@@ -1,5 +1,7 @@
 #include "aimbot.hpp"
 
+float speed = 0;
+
 QAngle Aimbot::ApplyErrorToAngle(QAngle *angles, float margin)
 {
 	QAngle error;
@@ -50,8 +52,6 @@ void Aimbot::AutoCrouch(CUserCmd *cmd, C_BaseCombatWeapon *activeWeapon, const b
 void Aimbot::AutoSlow(C_BasePlayer *localplayer, CUserCmd *cmd, const bool &autoSlow)
 {
 	if (!autoSlow) { return; }
-
-	static float speed = 0;
 
 	float length = localplayer->GetVelocity().Length();
 
