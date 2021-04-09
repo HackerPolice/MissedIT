@@ -142,7 +142,7 @@ void __attribute__((destructor)) Shutdown()
 	if (Settings::SkyBox::enabled) {
 		SetNamedSkyBox(cvar->FindVar("sv_skyname")->strValue);
 	}
-	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
+	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(true);
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();

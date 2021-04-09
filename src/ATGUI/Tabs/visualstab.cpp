@@ -114,6 +114,8 @@ static void FilterLocalPlayer()
 	ImGui::SameLine();
 	ImGui::Combo(XORSTR("##BOXTYPELOCAL"), (int *) &Settings::ESP::FilterLocalPlayer::Boxes::type, BoxTypes,
 	             IM_ARRAYSIZE(BoxTypes));
+	// ImGui::SameLine();
+	// ImGui::ColorButton(XORSTR("##BOXCOLORLOACL"), Settings::ESP::ctColor.ColorVec4);
 
 	ImGui::CheckboxFill(XORSTR("##FakeChams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
 	ImGui::SameLine();
@@ -654,7 +656,7 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 				{
 					ImGui::BeginGroupPanel(XORSTR("Enemy"));
 					{
-						FilterEnemies();
+						FilterAlice();
 					}
 					ImGui::EndGroupPanel();
 
@@ -686,7 +688,7 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 
 					ImGui::BeginGroupPanel(XORSTR("Alise"));
 					{
-						FilterAlice();
+						FilterEnemies();
 					}
 					ImGui::EndGroupPanel();
 
@@ -699,7 +701,8 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 		}
 		ImGui::EndGroup();
 
-	} else if (sideTabIndex == Radar) {
+	} 
+	else if (sideTabIndex == Radar) {
 		ImGui::BeginGroup();
 		{
 			ImGui::Columns();
@@ -717,7 +720,8 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 			}
 		}
 		ImGui::EndGroup();
-	} else if (sideTabIndex == Hitmarker) {
+	} 
+	else if (sideTabIndex == Hitmarker) {
 		ImGui::BeginGroup();
 		{
 			ImGui::Columns();
@@ -735,7 +739,8 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 			}
 		}
 		ImGui::EndGroup();
-	} else {
+	} 
+	else {
 
 		ImGui::BeginGroup();
 		{

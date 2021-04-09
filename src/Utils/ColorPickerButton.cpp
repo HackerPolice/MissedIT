@@ -20,8 +20,8 @@ using namespace ColorButton;
 
 // void ColorButton::RenderWindow(const char* popupname, const int& ColorIndex,const bool show)
 // {
-//     // if ( ImGui::ColorButton(XORSTR("##ColorPicker"), colors[ColorIndex].ColorVec4, ImGuiColorEditFlags_RGB, ImVec2(20,20)) )
-//     // 	ColorButton::showWindow = !ColorButton::showWindow;
+//     if ( ImGui::ColorButton(XORSTR("##" + popupname), colors[ColorIndex].ColorVec4, ImGuiColorEditFlags_RGB, ImVec2(20,20)) )
+//     	ColorButton::showWindow = !ColorButton::showWindow;
 // 	if (show)
 //    	 	ImGui::OpenPopup(popupname);
 
@@ -55,6 +55,4 @@ using namespace ColorButton;
 //     	}
 // 		ImGui::EndPopup();
 // 	}
-
-// ShowColorWindow(ColorIndex);
 // }

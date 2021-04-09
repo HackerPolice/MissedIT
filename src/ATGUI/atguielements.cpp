@@ -350,7 +350,7 @@ void UI::SetupAimwareColor()
 	style->ScrollbarRounding = 12.f;
 
 	ImVec4 *colors = ImGui::GetStyle().Colors;
-	colors[ImGuiCol_ChildBg] = ImColor(24, 29, 59, 0);
+	colors[ImGuiCol_ChildBg] = ImColor(24, 29, 59, 10);
 	colors[ImGuiCol_Border] = ImVec4(0.07f, 0.07f, 0.11f, 0.50f);
 	colors[ImGuiCol_FrameBg] = ImColor(25, 25, 33, 255); // Check Box
 	colors[ImGuiCol_FrameBgActive] = ImColor(25, 25, 33, 255);

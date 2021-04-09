@@ -6127,7 +6127,6 @@ void ImGui::EndChildFrame()
 }
 
 static ImVector<ImRect> s_GroupPanelLabelStack;
-static char Chilename[] = "child1";
 
 void ImGui::BeginGroupPanel(const char *name, const ImVec2 &size)
 {
@@ -6295,7 +6294,7 @@ void ImGui::EndGroupPanel()
 		//     frameRect.Min, frameRect.Max,
 		//     ImColor(ImGui::GetStyleColorVec4(ImGuiCol_Border)),
 		//     halfFrame.x);
-		ImGui::GetWindowDrawList()->AddRectFilled(frameRect.Min, frameRect.Max, ImColor(0, 0, 0, 150), halfFrame.x);
+		ImGui::GetWindowDrawList()->AddRectFilled(frameRect.Min, frameRect.Max, ImColor(0, 0, 0, 25), halfFrame.x);
 
 		ImGui::PopClipRect();
 	}
@@ -16084,7 +16083,7 @@ bool ImGui::Sub(const char *label, bool selected)
 	}
 
 	bool hovered, held;
-	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, NULL);
+	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held);
 
 	if (hovered || held) {
 		ImGui::SetMouseCursor(7);

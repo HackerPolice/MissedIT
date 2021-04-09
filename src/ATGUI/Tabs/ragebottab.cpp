@@ -359,6 +359,8 @@ static void AimStep()
 	if (ImGui::CheckboxFill(XORSTR("##AimStep"), &AimStepEnabled)) {
 		UI::UpdateRageWeaponSettings();
 	}
+	ImGui::SameLine();
+	ImGui::Text(XORSTR("Enable"));
 
 	if (AimStepEnabled) {
 		if (ImGui::SliderFloat(XORSTR("##STEPMIN"), &AimStepMin, 28.0f, 180.0f, XORSTR("MIN : %0.0f"))) {
@@ -492,7 +494,7 @@ void Ragebot::RenderTab()
 void Ragebot::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 {
 
-	draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 960 - 15, pos.y + 95), ImColor(0, 0, 0, 150),
+	draw->AddRectFilled(ImVec2(pos.x + 180, pos.y + 65), ImVec2(pos.x + 960 - 15, pos.y + 95), ImColor(0, 0, 0, 25),
 	                    10);
 	ImGui::SetCursorPos(ImVec2(185, 70));
 	ImGui::BeginGroup();
