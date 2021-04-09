@@ -150,8 +150,7 @@ static void SwapWindow(SDL_Window *window)
 	} else {
 		UI::SetupAimwareColor();
 	}
-	// if (!UI::isVisible)
-	// {
+
 	ImGui::NewFrame();
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 	ImGui::SetNextWindowSize(ImVec2(w, h), ImGuiCond_Always);

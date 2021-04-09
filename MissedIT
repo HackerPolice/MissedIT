@@ -104,6 +104,7 @@ function load(){
 
   filename=$(cat .build_id)
 
+  export PATH="./GDB:$PATH" // using Custom GDB
   # Credit: Aixxe @ aixxe.net
   if grep -q "$filename" /proc/"$csgo_pid"/maps; then
     echo_orange "Already injected, aborting..."

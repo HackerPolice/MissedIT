@@ -126,12 +126,12 @@ void MainThread()
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
 {
-	MainThread();
-	// std::thread mainThread(MainThread);
+	// MainThread();
+	std::thread mainThread(MainThread);
 	// // The root of all suffering is attachment
 	// // Therefore our little buddy must detach from this realm.
 	// // Farewell my thread, may we join again some day..
-	// mainThread.detach();
+	mainThread.detach();
 
 	return 0;
 }
