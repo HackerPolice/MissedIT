@@ -304,7 +304,7 @@ function __main__(){
   esac
 }
 
-#dor loop not working
+#For loop not working
 while [[ $# -gt 0 ]]
 do
   __main__ $1

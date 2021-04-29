@@ -193,7 +193,7 @@ static void AimBotTab()
 void AimwareWindow::Render()
 {
 	ImGui::SetNextWindowBgAlpha(0.0f);
-	if (ImGui::Begin(XORSTR("##MissedIt-AimWare-Menu"), &Main::showWindow,
+	if (ImGui::Begin(XORSTR("##MissedIt-AimWare-Menu"), &UI::isVisible,
 	                 ImGuiWindowFlags_NoCollapse /*| ImGuiWindowFlags_NoMove*/ | ImGuiWindowFlags_NoScrollbar |
 	                 ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiConfigFlags_NoMouseCursorChange)) {
 		BgDecorations();

@@ -1,12 +1,35 @@
 #include "triggerbot.hpp"
 #include "autowall.h"
+#include "../TickManipulation/records.hpp"
+
+static bool IsInFov(const Vector *spot, float Fov)
+{
+	if (!globalVars || !globalVars->localplayer || !globalVars->localplayer->IsAlive())
+		return false;
+
+	Vector pVecTarget = globalVars->localplayer->GetEyePosition(); 
+	QAngle oldAngle;
+
+	engine->GetViewAngles(oldAngle);
+
+	if ( Math::GetFov(oldAngle, Math::CalcAngle(pVecTarget, *spot)) > Fov) {
+		return false;
+	}
+
+	return true;
+}
+
+static void TriggerbotWithTickManipulation(int index, CUserCmd* cmd){
+	if (IsInFov(&Records::Ticks.at(index).bestenemy.BestSpot, 1))
+		cmd->buttons |= IN_ATTACK;
+}
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::Triggerbot::enabled) {
 		return;
 	}
-
+		
 	if (!inputSystem->IsButtonDown(Settings::Triggerbot::OnKey::key) && Settings::Triggerbot::OnKey::enable) {
 		return;
 	}
@@ -35,6 +58,29 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		localMax = Settings::Triggerbot::RandomDelay::highBound;
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}
+
+	// if (Settings::BackTrack::enabled){
+	// 	try
+	// 	{
+	// 		TriggerbotWithTickManipulation(Records::Ticks.size()-1, cmd);
+	// 	}
+	// 	catch(const std::exception& e)
+	// 	{
+	// 		cvar->ConsoleDPrintf(XORSTR("%s, \n"), e.what());
+	// 	}
+	// 	return;
+	// }
+	// else if (Settings::LagComp::enabled){
+	// 	try
+	// 	{
+	// 		TriggerbotWithTickManipulation(0, cmd);
+	// 	}
+	// 	catch(const std::exception& e)
+	// 	{
+	// 		cvar->ConsoleDPrintf(XORSTR("%s, \n"), e.what());
+	// 	}
+	// 	return;
+	// }
 
 	Vector traceStart, traceEnd;
 	trace_t tr;

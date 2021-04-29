@@ -15,8 +15,7 @@ Vector colro = Vector(0.5, 0, 1);
 
 typedef void (*DrawModelExecuteFn)(void *, void *, void *, const ModelRenderInfo_t &, matrix3x4_t *);
 
-static void
-DrawPlayer(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+static void DrawPlayer(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
 	using namespace Settings::ESP;
 
@@ -137,8 +136,7 @@ DrawPlayer(void *thisptr, void *context, void *state, const ModelRenderInfo_t &p
 
 }
 
-static void
-DrawFake(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+static void DrawFake(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
 	if (!Settings::ESP::FilterLocalPlayer::Chams::enabled) {
 		return;
@@ -334,17 +332,17 @@ static void DrawArms(const ModelRenderInfo_t &pInfo)
 
 static void DrawBackTrack(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo)
 {
-
-	if (!Settings::BackTrack::enabled && !Settings::LagComp::enabled) {
-		return;
-	}
+	
+	Records::TickInfo *tick;
+	if (Settings::BackTrack::enabled)
+		tick = &Records::Ticks.at(Records::Ticks.size()-1);
+	else if (Settings::LagComp::enabled)
+		tick = &Records::Ticks.at(0);
+	else return;
 
 	C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	if (!localplayer) {
-		return;
-	}
-	if (Records::SelectedRecords >= (int) Records::Ticks.size()) {
 		return;
 	}
 
@@ -358,9 +356,8 @@ static void DrawBackTrack(void *thisptr, void *context, void *state, const Model
 
 	static matrix3x4_t BacktrackBoneMatrix[128];
 	static bool found = false;
-	Records::TickInfo tick = Records::Ticks.at(Records::SelectedRecords);
 
-	for (auto &Record : tick.records) {
+	for (auto &Record : tick->records) {
 		if (entity == Record.entity) {
 			memcpy(BacktrackBoneMatrix, Record.bone_matrix, sizeof(matrix3x4_t) * 128);
 			found = true;
@@ -392,8 +389,7 @@ static void DrawBackTrack(void *thisptr, void *context, void *state, const Model
 
 }
 
-void Chams::DrawModelExecute(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo,
-                             matrix3x4_t *pCustomBoneToWorld)
+void Chams::DrawModelExecute(void *thisptr, void *context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
 	if (!engine->IsInGame()) {
 		return;
@@ -437,9 +433,18 @@ void Chams::DrawModelExecute(void *thisptr, void *context, void *state, const Mo
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
 	if (modelName.find(XORSTR("models/player")) != std::string::npos) {
-		DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
-		DrawBackTrack(thisptr, context, state, pInfo);
-		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		try
+		{
+			DrawFake(thisptr, context, state, pInfo, pCustomBoneToWorld);
+			DrawBackTrack(thisptr, context, state, pInfo);
+			DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		}
+		catch(const std::exception& e)
+		{
+			cvar->ConsoleDPrintf(XORSTR("%s \n"), e.what());
+		}
+		
+		
 	}
 	else if (modelName.find(XORSTR("arms")) != std::string::npos) {
 		DrawArms(pInfo);

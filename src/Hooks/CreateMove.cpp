@@ -23,7 +23,6 @@
 #include "../Hacks/tracereffect.h"
 #include "../Hacks/nofall.h"
 #include "../Hacks/ragdollgravity.h"
-#include "../Hacks/TickManipulation/backtrack.hpp"
 #include "../Hacks/AntiAim/fakeduck.h"
 #include "../Hacks/AntiAim/fakewalk.hpp"
 #include "../Hacks/AntiAim/slowwalk.hpp"
@@ -31,6 +30,7 @@
 #include "../Hacks/Visuals/DesyncChams.hpp"
 #include "../Hacks/AntiAim/animfix.h"
 #include "../Hacks/acsafe.h"
+#include "../Hacks/TickManipulation/records.hpp"
 
 QAngle CreateMove::lastTickViewAngles = QAngle(0);
 
@@ -75,18 +75,17 @@ bool Hooks::CreateMove(void *thisptr, float flInputSampleTime, CUserCmd *cmd)
 			if (Settings::AntiAim::FakeDuck::enabled) { FakeDuck::CreateMove(cmd); }
 
 			// Diff backtrack features
-			if (Settings::BackTrack::enabled) { BackTrack::CreateMove(cmd); }
-			if (Settings::LagComp::enabled) { LagComp::CreateMove(cmd); }
+			if (Settings::BackTrack::enabled || Settings::LagComp::enabled) { Records::CreateMove(); }
 
 			// Aimbots
 			if (Settings::Ragebot::enabled) { Ragebot::CreateMove(cmd); }
 			if (Settings::Legitbot::enabled) { Legitbot::CreateMove(cmd); }
+			if (Settings::Triggerbot::enabled) { Triggerbot::CreateMove(cmd); }
 			if (Settings::AntiAim::Enabled) { AntiAim::CreateMove(cmd); }
 
 			FakeLag2::CreateMove(cmd);
 
 			DsyncChams::CreateMove(cmd);
-			Triggerbot::CreateMove(cmd);
 			AutoKnife::CreateMove(cmd);
 
 			// RapidFire::CreateMove(cmd);

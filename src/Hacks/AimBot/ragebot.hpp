@@ -2,7 +2,6 @@
 
 #include "../HeaderFiles.h"
 #include "autowall.h"
-#include "../TickManipulation/lagcomp.hpp"
 #include "../../Utils/draw.h"
 
 namespace Ragebot
@@ -58,7 +57,7 @@ namespace Ragebot
 
 	C_BasePlayer *GetClosestEnemy(C_BasePlayer *localplayer);
 
-	void GetBestEnemy();
+	void GetBestEnemy(CUserCmd* cmd);
 
 	void CheckHit();
 

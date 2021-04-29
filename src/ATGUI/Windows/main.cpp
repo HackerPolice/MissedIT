@@ -114,7 +114,7 @@ static void LagacyMenu()
 
 void Main::RenderWindow()
 {
-	if (!Main::showWindow) {
+	if (!UI::isVisible) {
 		Settings::UI::Windows::Main::open = false;
 		return;
 	}
@@ -134,12 +134,13 @@ void Main::RenderWindow()
 		                         ImGuiCond_Once);
 	}
 
+	cvar->ConsoleColorPrintf(ColorRGBA(125,135,100,255), XORSTR("Showing"));
 	if (Settings::UI::uitype == UiType::AimwareV5) {
 
 		AimwareWindow::Render();
 	} else {
 
-		if (ImGui::Begin(XORSTR("MissedIt"), &Main::showWindow,
+		if (ImGui::Begin(XORSTR("MissedIt"), &UI::isVisible,
 		                 ImGuiWindowFlags_NoCollapse /*| ImGuiWindowFlags_NoMove*/ |
 		                 ImGuiWindowFlags_NoScrollbar /*| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar */ |
 		                 ImGuiConfigFlags_NoMouseCursorChange)) {

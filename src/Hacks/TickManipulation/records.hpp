@@ -44,4 +44,6 @@ namespace Records
 	void RegisterTicks();
 
 	void RemoveBackTrackTicks(const int &maxTick);
+
+	void CreateMove();
 };

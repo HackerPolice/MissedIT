@@ -96,6 +96,7 @@ void UI::DrawMenuSelector()
 
 void UI::SetupWindows()
 {
+	
 	ImVec2 size = ImGui::GetWindowSize();
 	if (UI::isVisible) {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2((size.x - 960) / 2, (size.x - 645) / 2));

@@ -9,6 +9,7 @@
 #include "../esp.h"
 #include "aimbot.hpp"
 #include "../aimstep.h"
+#include "../TickManipulation/records.hpp"
 
 QAngle RCSLastPunch;
 
@@ -405,7 +406,7 @@ void Ragebot::GetDamageAndSpots(C_BasePlayer *player, Vector &Spot, int &Damage,
 	}
 }
 
-void Ragebot::GetBestEnemy()
+void Ragebot::GetBestEnemy(CUserCmd* cmd)
 {
 	if (!Ragebot::localplayer || !Ragebot::localplayer->IsAlive()) {
 		return;
@@ -471,24 +472,35 @@ void Ragebot::GetBestEnemy()
 		return false;
 	});
 
-	if (Settings::BackTrack::enabled || Settings::LagComp::enabled) {
-
-		if (Records::SelectedRecords >= (int) Records::Ticks.size()) {
-			goto NormalScanning;
+	if (Settings::BackTrack::enabled) {
+		bool hasTarget = false;
+		Records::TickInfo *tick = &Records::Ticks.at(Records::Ticks.size()-1);
+		
+		if (tick->bestenemy.entity && tick->bestenemy.entity->IsAlive()){
+			cmd->tick_count = tick->tickCount;
+			Ragebot::BestDamage = 1;//tick.bestenemy.BestDamage;
+			Ragebot::BestSpot = tick->bestenemy.BestSpot;
+			Ragebot::enemy = tick->bestenemy.entity;
+			AutoWall::targetAimbot = tick->bestenemy.entity->GetIndex();
+			hasTarget = true;	
 		}
 
-		Records::TickInfo *tick = &Records::Ticks.at(Records::SelectedRecords);
-
-		if (!tick->bestenemy.entity
-		    || !tick->bestenemy.entity->IsAlive()) {
-			goto NormalScanning;
+		if (!hasTarget) goto NormalScanning;
+	} 
+	else if (Settings::BackTrack::enabled) {
+		bool hasTarget = false;
+		Records::TickInfo *tick = &Records::Ticks.at(0);
+		
+		if (tick->bestenemy.entity && tick->bestenemy.entity->IsAlive()){
+			cmd->tick_count = tick->tickCount;
+			Ragebot::BestDamage = 1;//tick.bestenemy.BestDamage;
+			Ragebot::BestSpot = tick->bestenemy.BestSpot;
+			Ragebot::enemy = tick->bestenemy.entity;
+			AutoWall::targetAimbot = tick->bestenemy.entity->GetIndex();
+			hasTarget = true;	
 		}
 
-		Ragebot::BestDamage = tick->bestenemy.BestDamage;
-		Ragebot::BestSpot = tick->bestenemy.BestSpot;
-		Ragebot::enemy = tick->bestenemy.entity;
-		AutoWall::targetAimbot = tick->bestenemy.entity->GetIndex();
-
+		if (!hasTarget) goto NormalScanning;
 	} 
 	else {
 
@@ -627,7 +639,14 @@ void Ragebot::CreateMove(CUserCmd *cmd)
 	ShootEnemyIndex = 0;
 	enemy = nullptr;
 
-	GetBestEnemy();
+	try
+	{
+		GetBestEnemy(cmd);
+	}
+	catch(const std::exception& e)
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(125,125,125,255), XORSTR("%s\n"), e.what());
+	}
 
 	if (enemy && Ragebot::BestDamage > 0) {
 		Settings::Debug::AutoAim::target = Ragebot::BestSpot;

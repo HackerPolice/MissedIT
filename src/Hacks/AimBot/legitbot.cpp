@@ -19,7 +19,7 @@ static bool IsInFov(const Vector *spot, float Fov)
 {
 	Vector pVecTarget = Legitbot::localplayer->GetEyePosition();
 
-	if (fabs(Math::GetFov(oldAngle, Math::CalcAngle(pVecTarget, *spot))) > Fov) {
+	if ( Math::GetFov(oldAngle, Math::CalcAngle(pVecTarget, *spot)) > Fov) {
 		return false;
 	}
 
@@ -137,8 +137,7 @@ static void AutoShoot(C_BaseCombatWeapon *activeWeapon, CUserCmd *cmd, LegitWeap
 	Aimbot::AutoSlow(Legitbot::localplayer, cmd, currentSettings->autoSlow);
 }
 
-static void GetClosestSpot(C_BasePlayer *enemy, Vector &BestSpot, const std::unordered_map<int, int> *modelType,
-                           const LegitWeapon_t *currentSettings)
+static void GetClosestSpot(C_BasePlayer *enemy, Vector &BestSpot, const std::unordered_map<int, int> *modelType,const LegitWeapon_t *currentSettings)
 {
 	float bestFov = currentSettings->LegitautoAimFov;
 
@@ -179,8 +178,7 @@ static void GetClosestSpot(C_BasePlayer *enemy, Vector &BestSpot, const std::uno
 	}
 }
 
-static C_BasePlayer *GetClosestPlayerAndSpot(CUserCmd *cmd, bool visibleCheck, Vector &bestSpot, float &bestDamage,
-                                             const LegitWeapon_t *currentSettings)
+static C_BasePlayer *GetClosestPlayerAndSpot(CUserCmd *cmd, bool visibleCheck, Vector &bestSpot, float &bestDamage,const LegitWeapon_t *currentSettings)
 {
 	if (!currentSettings->autoAimEnabled) { return nullptr; }
 	if (Legitbot::localplayer->IsFlashed()) { return nullptr; }
@@ -206,10 +204,10 @@ static C_BasePlayer *GetClosestPlayerAndSpot(CUserCmd *cmd, bool visibleCheck, V
 	}
 
 	CheckForClosestSPot:
-	GetClosestSpot(player, bone3d, modelType, currentSettings);
+		GetClosestSpot(player, bone3d, modelType, currentSettings);
 
 	ReadyToShoot:
-	bestSpot = bone3d;
+		bestSpot = bone3d;
 
 	if (LineGoesThroughSmoke(Legitbot::localplayer->GetEyePosition(), bone3d, true)) {
 		return nullptr;
