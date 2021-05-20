@@ -279,13 +279,7 @@ void Models::RenderTab()
 	ImGui::Separator();
 
 	ImGui::EndColumns();
-
-	ImGui::BeginGroupPanel(XORSTR("Player Model Changer"));
-	{
-		ImGui::Combo(XORSTR("##SelectPlayerModel"), (int *) &Settings::Skinchanger::Models::playerModel, modelNames,
-		             IM_ARRAYSIZE(modelNames));
-	}
-	ImGui::EndGroupPanel();
+	
 }
 
 void Models::PlayerModelChanger()

@@ -1,4 +1,5 @@
 #include "fakelag2.hpp"
+#include "../AimBot/autowall.h"
 
 /**
  * @brief Allow to manupulate fakelab after the player movement done so be creative with it

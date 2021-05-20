@@ -112,7 +112,7 @@ static void SwapWindow(SDL_Window *window)
 	Paint::windowWidth = w;
 	Paint::windowHeight = h;
 	io.DisplaySize = ImVec2((float) w, (float) h);
-	//io.DisplayFramebufferScale = ImVec2( 1, 1 );
+	io.DisplayFramebufferScale = ImVec2( 1, 1 );
 
 	ImGui_ImplOpenGL3_NewFrame();
 

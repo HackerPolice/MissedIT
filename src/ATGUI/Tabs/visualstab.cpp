@@ -57,26 +57,42 @@ static const char *SkyBoxes[] = {
 static void FilterEnemies()
 {
 	ImGui::PushItemWidth(-1);
-	ImGui::CheckboxFill(XORSTR("##BoxEnemy"), &Settings::ESP::FilterEnemy::Boxes::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Box"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##BOXTYPEEnemy"), (int *) &Settings::ESP::FilterEnemy::Boxes::type, BoxTypes,
-	             IM_ARRAYSIZE(BoxTypes));
 
-	ImGui::CheckboxFill(XORSTR("##ChamsEnenemy"), &Settings::ESP::FilterEnemy::Chams::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Chams"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##CHAMSTYPEEnenemy"), (int *) &Settings::ESP::FilterEnemy::Chams::type, chamsTypes,
-	             IM_ARRAYSIZE(chamsTypes));
+	// Box
+	{
+		ImGui::CheckboxFill(XORSTR("##BoxEnemy"), &Settings::ESP::FilterEnemy::Boxes::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Box"));
+		ImGui::SameLine();
+		ImGui::ColorEdit4("##EnemyBoxColor", (float*)&Settings::ESP::enemyColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##BOXTYPEEnemy"), (int *) &Settings::ESP::FilterEnemy::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+		
+	}
 
-	ImGui::CheckboxFill(XORSTR("##HealthBarEnenemy"), &Settings::ESP::FilterEnemy::HelthBar::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Helth Bar"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##BARTYPEEnenemy"), (int *) &Settings::ESP::FilterEnemy::HelthBar::type, BarTypes,
-	             IM_ARRAYSIZE(BarTypes));
+	//Chams
+	{
+		ImGui::CheckboxFill(XORSTR("##ChamsEnemy"), &Settings::ESP::FilterEnemy::Chams::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Chams"));
+		if (Settings::ESP::FilterEnemy::Chams::type < ChamsType::PEARL)
+		{
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##EnemyChamsColor", (float*)&Settings::ESP::Chams::enemyColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_PickerHueWheel);
+		}
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##CHAMSTypeEnemy"), (int *) &Settings::ESP::FilterEnemy::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+	}
+	
+	// health bar
+	{
+		ImGui::CheckboxFill(XORSTR("##HealthBarEnemy"), &Settings::ESP::FilterEnemy::HelthBar::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Helth Bar"));
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##BARTYPEEnenemy"), (int *) &Settings::ESP::FilterEnemy::HelthBar::type, BarTypes, IM_ARRAYSIZE(BarTypes));
+	}
+	
 
 	ImGui::CheckboxFill(XORSTR("##TracersEnenemy"), &Settings::ESP::FilterEnemy::Tracers::enabled);
 	ImGui::SameLine();
@@ -108,35 +124,49 @@ static void FilterLocalPlayer()
 {
 	ImGui::PushItemWidth(-1);
 
-	ImGui::CheckboxFill(XORSTR("##BoxLocal"), &Settings::ESP::FilterLocalPlayer::Boxes::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Box"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##BOXTYPELOCAL"), (int *) &Settings::ESP::FilterLocalPlayer::Boxes::type, BoxTypes,
-	             IM_ARRAYSIZE(BoxTypes));
-	// ImGui::SameLine();
-	// ImGui::ColorButton(XORSTR("##BOXCOLORLOACL"), Settings::ESP::ctColor.ColorVec4);
+	// Box
+	{	
+		ImGui::CheckboxFill(XORSTR("##BoxLocal"), &Settings::ESP::FilterLocalPlayer::Boxes::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Box"));
+		ImGui::SameLine();
+		ImGui::ColorEdit4("##LocalPlayerBoxColor", (float*)&Settings::ESP::localplayerColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##BOXTYPELOCAL"), (int *) &Settings::ESP::FilterLocalPlayer::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+	}	
 
-	ImGui::CheckboxFill(XORSTR("##FakeChams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Fake Chams"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##FakeCHAMSTYPE"), (int *) &Settings::ESP::FilterLocalPlayer::Chams::type, chamsTypes,
-	             IM_ARRAYSIZE(chamsTypes));
+	// Chams
+	{
+		// Fake Chams
+		{
+			ImGui::CheckboxFill(XORSTR("##FakeChams"), &Settings::ESP::FilterLocalPlayer::Chams::enabled);
+			ImGui::SameLine();
+			ImGui::Text(XORSTR("Fake Chams"));
+			ImGui::SameLine();
+			ImGui::Combo(XORSTR("##FakeCHAMSTYPE"), (int *) &Settings::ESP::FilterLocalPlayer::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+		}
 
-	ImGui::CheckboxFill(XORSTR("##RealChams"), &Settings::ESP::FilterLocalPlayer::RealChams::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Real Chams"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##RealCHAMSTYPE"), (int *) &Settings::ESP::FilterLocalPlayer::RealChams::type, chamsTypes,
-	             IM_ARRAYSIZE(chamsTypes));
+		// real chams
+		{
+			ImGui::CheckboxFill(XORSTR("##RealChams"), &Settings::ESP::FilterLocalPlayer::RealChams::enabled);
+			ImGui::SameLine();
+			ImGui::Text(XORSTR("Real Chams"));
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##LocalPlayerRealChamsColor", (float*)&Settings::ESP::Chams::localplayerColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_PickerHueWheel);
+			ImGui::SameLine();
+			ImGui::Combo(XORSTR("##RealCHAMSTYPE"), (int *) &Settings::ESP::FilterLocalPlayer::RealChams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+		}
+	}
 
-	ImGui::CheckboxFill(XORSTR("##HealthLocal"), &Settings::ESP::FilterLocalPlayer::HelthBar::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Helth Bar"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##BARTYPELocal"), (int *) &Settings::ESP::FilterLocalPlayer::HelthBar::type, BarTypes,
-	             IM_ARRAYSIZE(BarTypes));
+	// Health bar
+	{
+		ImGui::CheckboxFill(XORSTR("##HealthLocal"), &Settings::ESP::FilterLocalPlayer::HelthBar::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Helth Bar"));
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##BARTYPELocal"), (int *) &Settings::ESP::FilterLocalPlayer::HelthBar::type, BarTypes, IM_ARRAYSIZE(BarTypes));
+	}
+	
 
 	ImGui::CheckboxFill(XORSTR("##TracersLocal"), &Settings::ESP::FilterLocalPlayer::Tracers::enabled);
 	ImGui::SameLine();
@@ -163,26 +193,38 @@ static void FilterLocalPlayer()
 static void FilterAlice()
 {
 	ImGui::PushItemWidth(-1);
-	ImGui::CheckboxFill(XORSTR("##BoxAlise"), &Settings::ESP::FilterAlice::Boxes::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Box"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##BOXTYPEAlise"), (int *) &Settings::ESP::FilterAlice::Boxes::type, BoxTypes,
-	             IM_ARRAYSIZE(BoxTypes));
 
-	ImGui::CheckboxFill(XORSTR("##ChamsAlise"), &Settings::ESP::FilterAlice::Chams::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Chams"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##CHAMSTYPEAlise"), (int *) &Settings::ESP::FilterAlice::Chams::type, chamsTypes,
-	             IM_ARRAYSIZE(chamsTypes));
-
-	ImGui::CheckboxFill(XORSTR("##HealthAlise"), &Settings::ESP::FilterAlice::HelthBar::enabled);
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Health Bar"));
-	ImGui::SameLine();
-	ImGui::Combo(XORSTR("##BARTYPEAlise"), (int *) &Settings::ESP::FilterAlice::HelthBar::type, BarTypes,
-	             IM_ARRAYSIZE(BarTypes));
+	// Box
+	{
+		ImGui::CheckboxFill(XORSTR("##BoxAlise"), &Settings::ESP::FilterAlice::Boxes::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Box"));
+		ImGui::SameLine();
+		ImGui::ColorEdit4("##AliceBoxColor", (float*)&Settings::ESP::allyColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##BOXTYPEAlise"), (int *) &Settings::ESP::FilterAlice::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+	}
+	
+	// Chams Color
+	{
+		ImGui::CheckboxFill(XORSTR("##ChamsAlise"), &Settings::ESP::FilterAlice::Chams::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Chams"));
+		ImGui::SameLine();
+		ImGui::ColorEdit4("##AliseChamsBoxColor", (float*)&Settings::ESP::Chams::allyColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##CHAMSTYPEAlise"), (int *) &Settings::ESP::FilterAlice::Chams::type, chamsTypes, IM_ARRAYSIZE(chamsTypes));
+	}
+	
+	// Health Bar
+	{
+		ImGui::CheckboxFill(XORSTR("##HealthAlise"), &Settings::ESP::FilterAlice::HelthBar::enabled);
+		ImGui::SameLine();
+		ImGui::Text(XORSTR("Health Bar"));
+		ImGui::SameLine();
+		ImGui::Combo(XORSTR("##BARTYPEAlise"), (int *) &Settings::ESP::FilterAlice::HelthBar::type, BarTypes, IM_ARRAYSIZE(BarTypes));
+	}
+	
 
 	ImGui::CheckboxFill(XORSTR("##TracersAlise"), &Settings::ESP::FilterAlice::Tracers::enabled);
 	ImGui::SameLine();
@@ -654,7 +696,7 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 			{
 				ImGui::BeginChild(XORSTR("##PlayerVisuals2"), ImVec2(0, 0), false);
 				{
-					ImGui::BeginGroupPanel(XORSTR("Enemy"));
+					ImGui::BeginGroupPanel(XORSTR("Alise"));
 					{
 						FilterAlice();
 					}
@@ -686,7 +728,7 @@ void Visuals::RenderAimware(ImVec2 &pos, ImDrawList *draw, int sideTabIndex)
 					}
 					ImGui::EndGroupPanel();
 
-					ImGui::BeginGroupPanel(XORSTR("Alise"));
+					ImGui::BeginGroupPanel(XORSTR("Enemy"));
 					{
 						FilterEnemies();
 					}
