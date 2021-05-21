@@ -351,13 +351,12 @@ void UI::SetupAimwareColor()
 
 	ImVec4 *colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_ChildBg] = ImColor(24, 29, 59, 10);
-	colors[ImGuiCol_Border] = ImVec4(0.07f, 0.07f, 0.11f, 0.50f);
 	colors[ImGuiCol_FrameBg] = ImColor(25, 25, 33, 255); // Check Box
 	colors[ImGuiCol_FrameBgActive] = ImColor(25, 25, 33, 255);
 	colors[ImGuiCol_FrameBgHovered] = ImColor(25, 25, 33, 255);
 	colors[ImGuiCol_Header] = ImColor(25, 25, 152, 255);
 	colors[ImGuiCol_HeaderActive] = ImColor(28, 28, 36, 255);
-	colors[ImGuiCol_HeaderHovered] = ImColor(30, 30, 38, 255);
+	colors[ImGuiCol_HeaderHovered] = ImColor(25, 25, 152, 255);
 	colors[ImGuiCol_PopupBg] = ImColor(35, 35, 45, 255);
 	colors[ImGuiCol_Button] = ImColor(160, 30, 30, 255);
 	colors[ImGuiCol_ButtonHovered] = ImColor(190, 45, 35, 255);

@@ -251,29 +251,30 @@ static void Semirage(){
 			break;
 	}
 
-	if (ImGui::CheckboxFill(XORSTR("##HitChance"), &hitchanceEnabled))
+	if (ImGui::Selectable(XORSTR("HitChance"), &hitchanceEnabled))
 		UI::UpdateWeaponSettings();
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Hitchance"));
+	// ImGui::SameLine();
+	// ImGui::Text(XORSTR("Hitchance"));
+
 	if (hitchanceEnabled){
-		ImGui::SameLine();
+		// ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
 		if ( ImGui::SliderFloat(XORSTR("##HitchanceValue"), &hitchance, 0, 100, XORSTR("%0.f%%")))
 			UI::UpdateWeaponSettings();
 		ImGui::PopItemWidth();
 	}
 
-	if (ImGui::CheckboxFill(XORSTR("##MINDAMAGEENEBLED"), &mindamage))
+	if (ImGui::Selectable(XORSTR("Minimum Damage"), &mindamage))
 		UI::UpdateWeaponSettings();
-	ImGui::SameLine();
-	ImGui::Text(XORSTR("Minimum Damage"));
+	// ImGui::SameLine();
+	// ImGui::Text(XORSTR("Minimum Damage"));
 	if (mindamage){
-		ImGui::SameLine();
+		// ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
 		if (ImGui::SliderFloat(XORSTR("##MINDAMAGE"), &mindamagevalue, 0, 100, XORSTR("%.0f")))
 			UI::UpdateWeaponSettings();
 		ImGui::PopItemWidth();
-	}	
+	}
 }
 
 static void Others(){

@@ -6249,7 +6249,7 @@ void ImGui::EndGroupPanel()
 
 	ImGui::EndGroup();
 
-	//ImGui::GetWindowDrawList()->AddRectFilled(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(0, 255, 0, 64), 4.0f);
+	// ImGui::GetWindowDrawList()->AddRectFilled(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(0, 255, 0, 64), 4.0f);
 
 	ImGui::EndGroup();
 
@@ -6261,7 +6261,7 @@ void ImGui::EndGroupPanel()
 
 	auto itemMin = ImGui::GetItemRectMin();
 	auto itemMax = ImGui::GetItemRectMax();
-	//ImGui::GetWindowDrawList()->AddRectFilled(itemMin, itemMax, IM_COL32(255, 0, 0, 64), 4.0f);
+	// ImGui::GetWindowDrawList()->AddRectFilled(itemMin, itemMax, IM_COL32(255, 0, 0, 64), 4.0f);
 
 	auto labelRect = s_GroupPanelLabelStack.back();
 	s_GroupPanelLabelStack.pop_back();
@@ -6290,11 +6290,12 @@ void ImGui::EndGroupPanel()
 				break;
 		}
 
-		// ImGui::GetWindowDrawList()->AddRect(
-		//     frameRect.Min, frameRect.Max,
-		//     ImColor(ImGui::GetStyleColorVec4(ImGuiCol_Border)),
-		//     halfFrame.x);
-		ImGui::GetWindowDrawList()->AddRectFilled(frameRect.Min, frameRect.Max, ImColor(0, 0, 0, 25), halfFrame.x);
+		// border
+		ImGui::GetWindowDrawList()->AddRect(
+		    frameRect.Min, frameRect.Max,
+		    ImColor(ImVec4(192,192,192,0.3)),
+		    halfFrame.x);
+		// ImGui::GetWindowDrawList()->AddRectFilled(frameRect.Min, frameRect.Max, ImColor(0, 0, 0, 25), halfFrame.x);
 
 		ImGui::PopClipRect();
 	}
@@ -6310,7 +6311,7 @@ void ImGui::EndGroupPanel()
 #endif
 	ImGui::GetCurrentWindow()->Size.x += frameHeight;
 
-	// ImGui::Dummy(ImVec2(1.0f, 0.0f));
+	ImGui::Dummy(ImVec2(1.0f, 0.0f));
 	ImGui::Spacing();
 
 	ImGui::EndGroup();

@@ -223,7 +223,7 @@ function kill_process(){
   sudo killall -9 csgo_linux64
   sudo killall -9 csgo.sh
   sudo killall -9 gdb
-  # sudo killall -9 steam
+  sudo killall -9 steam
 }
 
 function update(){
@@ -251,7 +251,7 @@ function update_force(){
   fi
 }
 
-function help(){
+function print_help(){
   echo "[-b or --build] > to build the MissedIT"
   echo "[-l or --load] > to load the MissedIT"
   echo "[-ul or --unload] > to unload the MissedIT"
@@ -296,7 +296,7 @@ function __main__(){
       kill_process
       ;;
       -h|--help)
-      help
+      print_help
       ;;
       *)
         echo_red "Unknown Command $option || use -h or --help to show the list of commands"
