@@ -6,11 +6,23 @@
     </head>
     
     <body>
-        <!-- Navigation Bar TO Navigate -->
+        <!-- Navigation Bar -->
         <div class="nav-bar-horizontal">
-            <a href="#home" class="nav-item animation-move-right animation-move-back">Home</a>
+            <a href="#home" class="animation-move-right animation-move-back">Home</a>
+            
+            <div class="dropdown-menu">
+                <button class="animation-move-right animation-move-back">
+                    <a>Instructions</a>
+                </button>
+
+                <div class="dropdown-submenu">
+                    <a href="" class="animation-move-right animation-move-back">Sample 1</a>
+                    <a href="" class="animation-move-right animation-move-back">Sample 2</a>
+                    <a href="" class="animation-move-right animation-move-back">Sample 3</a>
+                </div>
+            </div>
+
             <a href="#about" class="nav-item animation-move-right animation-move-back">About</a>
-            <a href="./testing/test.html" class="nav-item animation-move-right animation-move-back">test</a>
         </div>
 
         <!-- Section for all the details -->
@@ -24,12 +36,24 @@
                 <div class="animation-delay-3s fade-up-animation">
                     <a id="product-tagline">Power of <b>OpenSource</b></a>
                 </div>
+
+                <div class="go-next-arrow">
+                    <a href="#about"><img src="./images/arrow.png" type="bottom"></a>
+                </div>
             </section>
+            <!-- End -->
+
+            <!-- Instructions -->
+            <section id="instructions">
+                Get Lost
+            </section>
+            <!-- End -->
 
             <!-- Aboute Section -->
             <section id="about">
                 Get Lost
             </section>
+            <!-- End -->
         </div>
         
     </body>

@@ -35,13 +35,15 @@ body {
 
     height: 100vh;
     min-width: 8rem;
+    /* width: 140px; */
 
     padding: 3rem 1rem;
 
     position: fixed;
 }
 
-.nav-bar-horizontal a{
+.nav-bar-horizontal a
+{
     margin: 0.3em;
     
     text-decoration: none;
@@ -49,6 +51,49 @@ body {
 
     font-size: 1.5em;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.nav-bar-horizontal a:hover
+{
+    cursor: pointer;
+}
+
+.dropdown-menu{
+    width: 100%;
+    height: max-content;
+    position: relative
+}
+
+.dropdown-menu button
+{
+    font-size: 1.1em;
+    background: transparent;
+    border: transparent;
+}
+
+.dropdown-menu button:focus+.dropdown-submenu{
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-menu button:focus+.dropdown-submenu a
+{
+    animation: 
+    submenu-out-animation 0.5s ease-in-out forwards;
+    /* font-size: 1.5em; */
+}
+
+.dropdown-submenu
+{
+    display: flex;
+    flex-direction: column;
+    animation:
+    submenu-displayNone-animation 0.5s ease-in-out forwards;
+}
+
+.dropdown-submenu a{
+    animation: 
+    submenu-in-animation 0.5s ease-in-out forwards;
 }
 
 .sections{
@@ -66,8 +111,9 @@ section{
     justify-content: center;
     align-items: center;
     height: 100vh; 
-    border: 2px solid yellow;
+    /* border: 2px solid yellow; */
 }
+
 
 .typing-animation a#product-name{
     font-size: 4em;
@@ -110,6 +156,18 @@ section{
     cursor-blink-animation 500ms steps(9) infinite;
 }
 
+.go-next-arrow
+{   
+    bottom: 0;
+    position: absolute;
+    animation: 
+    jumping-animation 1.5s ease-in-out infinite;
+}
+
+.go-next-arrow img{
+    height: 3.8em;
+}
+
 .fade-up-animation {
     color: transparent;
     animation: 
@@ -125,11 +183,14 @@ section{
 .animation-delay-3s{
     animation-delay: 3s;
 }
+
 /* Animation */
 
 .animation-move-right:hover {
-    /* font-size: 1.2em; */
-    transform: translateX(10px);
+    /* font-size: 1.8em; */
+    /* transform: translate3d(10px, 0px, perspective(300px) 10px); */
+    transform:  perspective(300px) translateZ(50px);
+    /* transform: translateX(10px); */
     transition: all 0.3s ease;
 }
 
@@ -157,5 +218,54 @@ section{
     to{
         color: black;
         transform: translateY(0px);
+    }
+}
+
+@keyframes jumping-animation {
+    0%{
+        transform: translateY(0px);
+    } 25%{
+        transform: translateY(-10px);
+    }
+    50%{
+        transform: translateY(0px);
+    } 75%{
+        transform: translateY(-10px);
+    }100%{
+        transform: translateY(0px);
+    }
+    
+}
+
+@keyframes submenu-out-animation {
+    from{
+        /* display: none; */
+        font-size: 0em;
+    }
+    to{
+        font-size: 1.5em;
+    }
+}
+
+@keyframes submenu-in-animation {
+    /* from{        
+        font-size: 1.5em;
+    } */
+    to{
+        font-size: 0em;
+    }
+}
+
+@keyframes submenu-displayNone-animation {
+    0%{
+        display: flex;
+        flex-direction: column;
+    }
+    99%{
+        display: flex;
+        flex-direction: column;
+    }
+    100%{
+        display: none;
     }
 }
