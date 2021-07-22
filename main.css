@@ -1,0 +1,162 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    scroll-behavior: smooth;
+    /* scroll-snap-type: y mandatory; */
+}
+
+html{
+    overflow: hidden;
+}
+.row
+{
+    display: flex;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    /* flex-direction: column; */
+    max-width: 100%;
+    min-height: 100vh;
+    /* background: yellow; */
+}
+
+.nav-bar-horizontal
+{
+    /* display: none; */
+    display: flex;
+    flex-direction: column;
+
+    background: rgb(48, 48, 48);
+
+    height: 100vh;
+    max-width: 6rem;
+
+    padding: 3rem 1rem;
+
+    position: fixed;
+}
+
+.nav-bar-horizontal a{
+    margin: 0.3em;
+    
+    text-decoration: none;
+    color: white;
+
+    font-size: 1em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.sections{
+    margin-left: 5.26rem;
+    /* display: grid;*/
+    right: 0;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;    
+}
+
+.typing-animation a#product-name{
+    font-size: 4em;
+    font-family:'Courier New', Courier, monospace;
+    letter-spacing: 0.05em;
+    position: relative;
+}
+
+.typing-animation a#product-name::before
+{
+    content: '';
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+}
+
+.typing-animation a#product-name::after
+{
+    content: '';
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    left: 0;
+    position: absolute;
+}
+.typing-animation a#product-name::before
+{
+    background: white;
+    animation: 
+    typing-animation 3s steps(9) forwards;
+}
+
+.typing-animation #product-name::after
+{
+    border: 2px solid black;
+    animation: 
+    typing-animation 3s steps(9) forwards,
+    cursor-blink-animation 500ms steps(9) infinite;
+}
+
+.fade-up-animation {
+    color: transparent;
+    animation: 
+    animation-fade-up 2s ease-in-out forwards;
+}
+
+.fade-up-animation a#product-tagline
+{
+    font-size: 1em;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.animation-delay-3s{
+    animation-delay: 3s;
+}
+/* Animation */
+
+.animation-move-right:hover {
+    /* font-size: 1.2em; */
+    transform: translateX(4px);
+    transition: all 0.3s ease;
+}
+
+.animation-move-back{
+    transition: all 0.3s ease;
+}
+
+@keyframes typing-animation {
+    to{
+        left: 100%;
+        /* background: transparent; */
+    }
+}
+
+@keyframes cursor-blink-animation {
+    to{
+        border-color: transparent;
+    }
+}
+
+@keyframes animation-fade-up {
+    from {
+        transform: translateY(30px);
+    }
+    to{
+        color: black;
+        transform: translateY(0px);
+    }
+}
