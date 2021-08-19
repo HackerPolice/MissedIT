@@ -9,10 +9,19 @@ bool Hooks::WriteUsercmdDeltaToBuffer(void *thisptr, int slot, bf_write *buf, in
 	static auto funcAdd = clientVMT->GetOriginalMethod<WriteUserCmdDeltaFn>(24);
 	funcAdd(thisptr, slot, buf, from, to, isnewcommand);
 
+    if( from != -1 )
+		return true;
 
-	// cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("slot : %d, buf address : %d, from : %d, to : %d, \n"),slot, buf, from, to);
+	from = -1;
+
+    int* NewCmds = ( int* )( ( uintptr_t )buf - 0x2C );
+	int* BackupCmds = ( int* )( ( uintptr_t )buf - 0x30 );
+
+	// cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("Address : %p, slot : %d, buf address : %p, from : %d, to : %d, \n"),thisptr,slot, buf, from, to);
 
 	// cvar->ConsoleColorPrintf(ColorRGBA(255,0,0,255), XORSTR("in delta 2\n"));
+
+    
 
 
 	return true;

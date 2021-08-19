@@ -1,0 +1,652 @@
+[
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/Colors.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/Colors.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/Colors.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/antiaimtab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/antiaimtab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/antiaimtab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/legitbottab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/legitbottab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/legitbottab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/misctab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/misctab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/misctab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/modelstab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/modelstab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/modelstab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/other.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/other.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/other.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/ragebottab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/ragebottab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/ragebottab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/skinsandmodel.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/skinsandmodel.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/skinsandmodel.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/skinstab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/skinstab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/skinstab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/triggerbottab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/triggerbottab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/triggerbottab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Tabs/visualstab.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/visualstab.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Tabs/visualstab.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/AimwareWindow/AimwareWindow.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/AimwareWindow/AimwareWindow.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/AimwareWindow/AimwareWindow.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/colors.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/colors.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/colors.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/configs.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/configs.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/configs.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/main.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/main.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/main.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/playerlist.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/playerlist.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/playerlist.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/showspectators.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/showspectators.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/showspectators.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/Windows/skinmodelchanger.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/skinmodelchanger.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/Windows/skinmodelchanger.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/atgui.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/atgui.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/atgui.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/atguielements.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/atguielements.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/atguielements.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ATGUI/tooltip.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/tooltip.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ATGUI/tooltip.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/EventListener.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/EventListener.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/EventListener.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AimBot/aimbot.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/aimbot.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/aimbot.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AimBot/autowall.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/autowall.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/autowall.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AimBot/legitbot.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/legitbot.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/legitbot.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AimBot/ragebot.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/ragebot.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/ragebot.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AimBot/resolver.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/resolver.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/resolver.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AimBot/triggerbot.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/triggerbot.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AimBot/triggerbot.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/animfix.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/animfix.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/animfix.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/antiaim.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/antiaim.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/antiaim.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/fakeLag2.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakeLag2.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakeLag2.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/fakeduck.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakeduck.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakeduck.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/fakelag.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakelag.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakelag.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/fakewalk.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakewalk.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/fakewalk.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/AntiAim/slowwalk.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/slowwalk.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/AntiAim/slowwalk.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/Customisation/PlayerModelChanger.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/Customisation/PlayerModelChanger.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/Customisation/PlayerModelChanger.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/TickManipulation/records.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/TickManipulation/records.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/TickManipulation/records.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/Visuals/DesyncChams.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/Visuals/DesyncChams.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/Visuals/DesyncChams.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/Visuals/chams.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/Visuals/chams.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/Visuals/chams.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/WalkBot/walkbot.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/WalkBot/walkbot.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/WalkBot/walkbot.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/acsafe.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/acsafe.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/acsafe.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/aimstep.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/aimstep.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/aimstep.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/angleindicator.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/angleindicator.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/angleindicator.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/asuswalls.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/asuswalls.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/asuswalls.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/autoaccept.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autoaccept.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autoaccept.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/autoblock.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autoblock.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autoblock.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/autodefuse.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autodefuse.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autodefuse.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/autoknife.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autoknife.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autoknife.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/autostrafe.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autostrafe.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/autostrafe.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/bhop.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/bhop.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/bhop.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/clantagchanger.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/clantagchanger.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/clantagchanger.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/customglow.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/customglow.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/customglow.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/disablepostprocessing.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/disablepostprocessing.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/disablepostprocessing.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/dlights.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/dlights.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/dlights.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/edgejump.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/edgejump.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/edgejump.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/esp.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/esp.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/esp.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/eventlog.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/eventlog.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/eventlog.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/fovchanger.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/fovchanger.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/fovchanger.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/grenadehelper.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/grenadehelper.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/grenadehelper.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/grenadeprediction.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/grenadeprediction.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/grenadeprediction.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/hitmarkers.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/hitmarkers.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/hitmarkers.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/jumpthrow.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/jumpthrow.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/jumpthrow.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/materialconfig.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/materialconfig.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/materialconfig.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/namechanger.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/namechanger.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/namechanger.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/namestealer.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/namestealer.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/namestealer.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/noduckcooldown.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/noduckcooldown.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/noduckcooldown.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/nofall.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/nofall.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/nofall.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/noflash.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/noflash.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/noflash.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/nosmoke.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/nosmoke.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/nosmoke.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/predictionsystem.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/predictionsystem.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/predictionsystem.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/radar.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/radar.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/radar.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/ragdollgravity.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/ragdollgravity.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/ragdollgravity.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/recoilcrosshair.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/recoilcrosshair.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/recoilcrosshair.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/serverinfo.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/serverinfo.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/serverinfo.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/showranks.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/showranks.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/showranks.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/showspectators.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/showspectators.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/showspectators.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/skinchanger.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/skinchanger.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/skinchanger.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/skybox.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/skybox.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/skybox.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/snipercrosshair.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/snipercrosshair.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/snipercrosshair.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/spammer.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/spammer.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/spammer.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/thirdperson.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/thirdperson.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/thirdperson.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/tracereffect.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/tracereffect.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/tracereffect.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hacks/view.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/view.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hacks/view.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/BeginFrame.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/BeginFrame.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/BeginFrame.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/CreateMove.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/CreateMove.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/CreateMove.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/DrawModelExecute.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/DrawModelExecute.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/DrawModelExecute.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/EmitSound.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/EmitSound.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/EmitSound.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/FireEventClientSide.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/FireEventClientSide.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/FireEventClientSide.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/FrameStageNotify.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/FrameStageNotify.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/FrameStageNotify.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/GetViewModelFOV.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/GetViewModelFOV.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/GetViewModelFOV.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/LevelInitPostEntity.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/LevelInitPostEntity.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/LevelInitPostEntity.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/OnScreenSizeChanged.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/OnScreenSizeChanged.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/OnScreenSizeChanged.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/OverrideConfig.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/OverrideConfig.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/OverrideConfig.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/OverrideView.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/OverrideView.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/OverrideView.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/Paint.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/Paint.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/Paint.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/PaintTraverse.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/PaintTraverse.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/PaintTraverse.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/PumpWindowsMessageLoop.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/PumpWindowsMessageLoop.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/PumpWindowsMessageLoop.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/RenderSmokePostViewmodel.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/RenderSmokePostViewmodel.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/RenderSmokePostViewmodel.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/RenderView.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/RenderView.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/RenderView.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/SetKeyCodeState.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/SetKeyCodeState.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/SetKeyCodeState.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/SetMouseCodeState.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/SetMouseCodeState.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/SetMouseCodeState.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/ShouldDrawCrosshair.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/ShouldDrawCrosshair.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/ShouldDrawCrosshair.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Hooks/WriteUserCmdDelta.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/WriteUserCmdDelta.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Hooks/WriteUserCmdDelta.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ImGUI/imgui.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/imgui.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/imgui.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ImGUI/imgui_demo.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/imgui_demo.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/imgui_demo.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ImGUI/imgui_draw.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/imgui_draw.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/imgui_draw.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/MissedIT.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/MissedIT.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/MissedIT.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/ColorPickerButton.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/ColorPickerButton.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/ColorPickerButton.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/MemoryProtection.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/MemoryProtection.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/MemoryProtection.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/bonemaps.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/bonemaps.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/bonemaps.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/draw.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/draw.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/draw.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/entity.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/entity.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/entity.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/math.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/math.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/math.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/netvarmanager.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/netvarmanager.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/netvarmanager.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/patternfinder.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/patternfinder.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/patternfinder.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/skins.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/skins.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/skins.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/util.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/util.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/util.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/util_items.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/util_items.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/util_items.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/Utils/util_sdk.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/Utils/util_sdk.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/Utils/util_sdk.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/config.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/config.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/config.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/fonts.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/fonts.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/fonts.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/hooker.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/hooker.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/hooker.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/interfaces.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/interfaces.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/interfaces.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/json/jsoncpp.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/json/jsoncpp.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/json/jsoncpp.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/offsets.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/offsets.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/offsets.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/sdlhook.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/sdlhook.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/sdlhook.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/settings.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/settings.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/settings.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/shortcuts.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/shortcuts.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/shortcuts.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/c++ -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w  -O3 -Wall -ldl -fpic --no-gnu-unique -O3 -DNDEBUG -s -fvisibility=hidden -fvisibility-inlines-hidden -fPIC -std=gnu++17 -o CMakeFiles/MissedIT.dir/src/ImGUI/examples/imgui_impl_opengles3.cpp.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/imgui_impl_opengles3.cpp",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/imgui_impl_opengles3.cpp"
+},
+{
+  "directory": "/mnt/sdb1/projects/Csgo/MissedIT/build",
+  "command": "/bin/x86_64-pc-linux-gnu-gcc-11.1.0 -DMissedIT_EXPORTS -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs -I/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w -O3 -DNDEBUG -fPIC -o CMakeFiles/MissedIT.dir/src/ImGUI/examples/libs/gl3w/GL/gl3w.c.o -c /mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w/GL/gl3w.c",
+  "file": "/mnt/sdb1/projects/Csgo/MissedIT/src/ImGUI/examples/libs/gl3w/GL/gl3w.c"
+}
+]

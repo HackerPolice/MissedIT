@@ -60,7 +60,7 @@ extern LoadFromBufferFn LoadFromBuffer;
 extern GetLocalClientFn GetLocalClient;
 
 extern SetNamedSkyBoxFn SetNamedSkyBox;
-// extern WriteUserCmdFn WriteUserCmd;
+extern WriteUserCmdFn WriteUserCmd;
 
 extern int *nPredictionRandomSeed;
 extern CMoveData *g_MoveData;

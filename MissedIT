@@ -25,8 +25,8 @@ function launch_csgo() {
   done
 
   echo " "
-  echo_green "Wait for 25 sec"
-  sleep 25 # wait for 25 secs
+  echo_green "Wait for 35 sec"
+  sleep 35 # wait for 35 secs
 }
 
 function build(){
@@ -105,6 +105,7 @@ function load(){
   filename=$(cat .build_id)
 
   export PATH="./GDB:$PATH" # using Custom GDB
+
   # Credit: Aixxe @ aixxe.net
   if grep -q "$filename" /proc/"$csgo_pid"/maps; then
     echo_orange "Already injected, aborting..."
@@ -237,6 +238,44 @@ function update(){
   fi
 }
 
+function debug(){
+
+  csgo_pid=$(pidof csgo_linux64)
+  if [ -z "$csgo_pid" ]; then
+    echo_red "CS:GO needs to be open before you can inject..."
+    exit 1
+  fi
+
+  # pBypass for crash dumps being sent
+  # You may also want to consider using -nobreakpad in your launch options.
+  sudo rm -rf /tmp/dumps # Remove if it exists
+  sudo mkdir --mode=000 /tmp/dumps # Make it as root with no permissions
+
+  cmake -DCMAKE_BUILD_TYPE="DEBUG"
+  cmake .
+  make -j"$(grep -c "^processor" /proc/cpuinfo)"
+  mv libMissedIT.so "$(cat .build_id)"
+
+  filename=$(cat .build_id)
+
+  # https://www.kernel.org/doc/Documentation/security/Yama.txt
+  echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temporary until reboot.
+
+  # Adjust the Sleep time below for your system if needed. 
+  # This sends 2 interrupts to CS:GO after gdb attachs so gdb will drop into a shell.
+  sleep 3 && kill -2 "$csgo_pid" && sleep 1 && kill -2 "$csgo_pid" &
+
+  # dlopen method Credits: Aixxe @ aixxe.net
+  if grep -q "$filename" /proc/"$csgo_pid"/maps; then
+    (echo -e "continue\\n"; cat) | sudo gdb -p "$csgo_pid"
+  else
+    echo "Injecting build $filename"
+    sudo cp "$filename" /"$filename"
+    (echo -e "set confirm off\\nset \$dlopen = (void*(*)(char*, int)) dlopen\\ncall \$dlopen(\"/$filename\", 1)\\n"; cat) | sudo gdb -p "$csgo_pid"
+    sudo rm /"$filename"
+  fi
+}
+
 function update_force(){
   if [ -d ".git" ]; then
     read -p "This will delete local code changes. Are you sure? (y/n)" -n 1 -r
@@ -255,6 +294,7 @@ function print_help(){
   echo "[-b or --build] > to build the MissedIT"
   echo "[-l or --load] > to load the MissedIT"
   echo "[-ul or --unload] > to unload the MissedIT"
+  echo "[-d or --debug] > to unload the MissedIT"
   echo "[-c or --clean] > to clean the mess"
   echo "[-u or --update] > to update the MissedIT"
   echo "[-uf or --update-force] > to forcefuly update the MissedIT and reverte the local changes"
@@ -278,7 +318,11 @@ function __main__(){
       -ul|--unload)
         echo_orange "un loading..."
         unload
-        ;;
+      ;;
+      -d|--debug)
+        echo_orange "un loading..."
+        unload
+      ;;
       -c|--clean)
         echo_orange "Cleaning the mess :)"
         clean

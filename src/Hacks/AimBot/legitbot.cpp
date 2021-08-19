@@ -191,29 +191,14 @@ static C_BasePlayer *GetClosestPlayerAndSpot(CUserCmd *cmd, bool visibleCheck, V
 	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
 
 	Vector bone3d;
-
-	if (currentSettings->predEnabled) {
-		int BoneId = (*modelType).at(currentSettings->bone);
-		bone3d = player->GetBonePosition(BoneId, Legitbot::BoneMatrix);
-
-		if (IsInFov(&bone3d, currentSettings->LegitautoAimFov)) {
-			goto ReadyToShoot;
-		} else {
-			goto CheckForClosestSPot;
-		}
-	}
-
-	CheckForClosestSPot:
-		GetClosestSpot(player, bone3d, modelType, currentSettings);
-
-	ReadyToShoot:
-		bestSpot = bone3d;
+		
+	GetClosestSpot(player, bestSpot, modelType, currentSettings);
 
 	if (LineGoesThroughSmoke(Legitbot::localplayer->GetEyePosition(), bone3d, true)) {
 		return nullptr;
 	}
 
-	if (AutoWall::GetDamage(bone3d, true) <= 0) {
+	if (AutoWall::GetDamage(bone3d, true) < 1) {
 		return nullptr;
 	}
 	if (!currentSettings->autoWall && !Entity::IsSpotVisibleThroughEnemies(player, bone3d)) {
