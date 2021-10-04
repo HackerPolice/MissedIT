@@ -786,33 +786,35 @@ public:
 	float GetWeaponArmorRatio()
 	{
 		return *(float *) ((uintptr_t)
-		this + 0x170);
+		this + 0x174);
 	}
 
 	float GetPenetration()
 	{
 		return *(float *) ((uintptr_t)
-		this + 0x178);
+		this + 0x17C);
 	}
 
 	float GetRange()
 	{
 		return *(float *) ((uintptr_t)
-		this + 0x184);
+		this + 0x188);
 	}
 
 	float GetRangeModifier()
 	{
 		return *(float *) ((uintptr_t)
-		this + 0x188);
+		this + 0x18C);
 	}
 
 	float GetMaxPlayerSpeed()
 	{
 		return *(float *) ((uintptr_t)
-		this + 0x1B0);
+		this + 0x1B8);
 	}
 
+	// i haven't updated the offset of this since 22 september 2021 (shark operation or whatever)
+	// should be 0x8 to 0x10 higher
 	int GetZoomLevels()
 	{ // Doesn't work correctly on some weapons.
 		return *(int *) ((uintptr_t)
@@ -822,13 +824,13 @@ public:
 	char *GetTracerEffect()
 	{
 		return *(char **) ((uintptr_t)
-		this + 0x280);
+		this + 0x290);
 	}
 
 	int *GetTracerFrequency()
 	{
 		return (int *) ((uintptr_t)
-		this + 0x288);
+		this + 0x298);
 	}
 };
 
@@ -880,31 +882,31 @@ public:
 	void DrawCrosshair()
 	{ // returns a 1
 		typedef void (*oDrawCrosshair)(void *);
-		return getvfunc<oDrawCrosshair>(this, 471)(this);
+		return getvfunc<oDrawCrosshair>(this, 472)(this);
 	}
 
 	CCSWeaponInfo *GetCSWpnData()
 	{ // "script file not found" (client_client) Because LWSS change it yo
 		typedef CCSWeaponInfo *(*oGetCSWpnData)(void *);
-		return getvfunc<oGetCSWpnData>(this, 528)(this);
+		return getvfunc<oGetCSWpnData>(this, 529)(this);
 	}
 
 	float GetSpread()
 	{
 		typedef float (*oGetSpread)(void *);
-		return getvfunc<oGetSpread>(this, 520)(this);
+		return getvfunc<oGetSpread>(this, 521)(this);
 	}
 
 	float GetInaccuracy()
 	{
 		typedef float (*oGetInaccuracy)(void *);
-		return getvfunc<oGetInaccuracy>(this, 550)(this);
+		return getvfunc<oGetInaccuracy>(this, 551)(this);
 	}
 
 	void UpdateAccuracyPenalty()
 	{
 		typedef void (*oUpdateAccuracyPenalty)(void *);
-		return getvfunc<oUpdateAccuracyPenalty>(this, 551)(this);
+		return getvfunc<oUpdateAccuracyPenalty>(this, 552)(this);
 	}
 };
 
