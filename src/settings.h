@@ -1267,6 +1267,11 @@ namespace Settings
 		inline bool enabled = false;
 	}
 
+    namespace Skateboarding
+    {
+        inline bool enabled = false;
+    }
+
 	namespace ClanTagChanger
 	{
 		inline char value[30] = "MissedIT";
