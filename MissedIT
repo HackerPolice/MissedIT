@@ -29,6 +29,7 @@ function launch_csgo() {
   sleep 35 # wait for 35 secs
 }
 
+# shellcheck disable=SC2120
 function build(){
   cmake . || exit 1
 
@@ -209,6 +210,7 @@ function clean(){
   rm ./Makefile
   rm ./.build_id_hex
 
+  # shellcheck disable=SC1068
   filename = $(cat .build_id)
   rm "$filename"
 

@@ -448,6 +448,7 @@ static void OthersSection()
 	ImGui::CheckboxFill(XORSTR("Attempt NoFall"), &Settings::NoFall::enabled);
 	ImGui::CheckboxFill(XORSTR("Ragdoll Gravity"), &Settings::RagdollGravity::enabled);
 	ImGui::CheckboxFill(XORSTR("Show Spectator list"), &Settings::ShowSpectators::enabled);
+	ImGui::CheckboxFill(XORSTR("Skateboarding"), &Settings::Skateboarding::enabled);
 	ImGui::CheckboxFill(XORSTR("Show Player list"), &PlayerList::showWindow);
 }
 

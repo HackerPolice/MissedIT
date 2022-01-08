@@ -4,6 +4,7 @@
 #include "../settings.h"
 
 #include "../Hacks/bhop.h"
+#include "../Hacks/skateboarding.h"
 #include "../Hacks/noduckcooldown.h"
 #include "../Hacks/autostrafe.h"
 #include "../Hacks/showranks.h"
@@ -93,6 +94,7 @@ bool Hooks::CreateMove(void *thisptr, float flInputSampleTime, CUserCmd *cmd)
 			ESP::CreateMove(cmd);
 			TracerEffect::CreateMove(cmd);
 			RagdollGravity::CreateMove(cvar);
+            Skateboarding::CreateMove(cmd);
 
 			ACSafe::CreateMove(cmd);
 		}
