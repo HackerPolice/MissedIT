@@ -80,7 +80,8 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 				input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance *
 				                                                              ((tr.fraction < 1.0f) ? tr.fraction
 				                                                                                    : 1.0f));
-
+				
+				input->m_fCameraInThirdPerson = true;
 			}
 		} else {
 			input->m_fCameraInThirdPerson = false;

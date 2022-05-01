@@ -15,7 +15,7 @@ typedef void (*OverrideViewFn)(void *, CViewSetup *);
 
 void Hooks::OverrideView(void *thisptr, CViewSetup *pSetup)
 {
-	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot()) {
+	if (!engine->IsTakingScreenshot()) {
 		GrenadePrediction::OverrideView(pSetup);
 		FOVChanger::OverrideView(pSetup);
 		ThirdPerson::OverrideView(pSetup);
