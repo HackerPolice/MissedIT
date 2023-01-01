@@ -6,6 +6,7 @@
 #include "definitions.h"
 #include "CCSGOAnimState.h"
 #include "CUtlVector.h"
+#include <array>
 
 #define MAX_SHOOT_SOUNDS 16
 #define MAX_WEAPON_STRING 80
